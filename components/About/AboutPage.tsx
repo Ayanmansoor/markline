@@ -1,4 +1,5 @@
 'use client'
+export const dynamic = 'force-dynamic';
 import React from 'react'
 import { useQuery } from 'react-query';
 import { getAllProducts } from '@/Supabase/SupabaseApi';
@@ -10,6 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { ProductsProps } from '@/types/interfaces';
 
 
 const faqData = [
@@ -47,19 +49,22 @@ const faqData = [
   }
 ];
 
+interface aboutProducts {
+  allproducts: ProductsProps[]
+}
 
-function AboutUsPage() {
+function AboutUsPage({ allproducts }: aboutProducts) {
 
-  const {
-    data: allproducts = [],
-    isLoading: isLoadingProducts,
-    isError: isErrorProducts,
-  } = useQuery<any>({
-    queryKey: ["products"],
-    queryFn: getAllProducts,
-    staleTime: 1000 * 60 * 2, // Keep fresh for 2 minutes
-    retry: 2,
-  });
+  // const {
+  //   data: allproducts = [],
+  //   isLoading: isLoadingProducts,
+  //   isError: isErrorProducts,
+  // } = useQuery<any>({
+  //   queryKey: ["products"],
+  //   queryFn: getAllProducts,
+  //   staleTime: 1000 * 60 * 2,
+  //   retry: 2,
+  // });
 
 
   return (
@@ -79,7 +84,7 @@ function AboutUsPage() {
       </section>
       <section className='w-full relative h-auto flex-col  flex items-start gap-2 '>
         <video width="320" className='w-full relative min-h-[250px] max-h-fit pb-10 ' height="240" autoPlay muted loop>
-          <source src="about-video.mp4" type="video/mp4"  className='w-full relative object-cover'/>
+          <source src="about-video.mp4" type="video/mp4" className='w-full relative object-cover' />
         </video>
         <p className='w-full relative  text-base md:text-lg container px-3 md:px-10 lg:px-20 h-auto py-2 font-medium text-gray-600'>
           <strong className='text-primary text-sm sm:text-base md:text-lg'>History of Markline </strong>
@@ -92,9 +97,9 @@ function AboutUsPage() {
       {
         allproducts?.length > 0 && (
 
-          <CategoriesSection title={"Our Products "}  url="">
+          <CategoriesSection title={"Our Products "} url="">
 
-            <CarouselProduct  product={allproducts?.slice(0, 10)} url={'products'} />
+            <CarouselProduct product={allproducts?.slice(0, 10)} url={'products'} />
 
           </CategoriesSection >
         )
@@ -141,5 +146,7 @@ function AboutUsPage() {
 
   )
 }
+
+
 
 export default AboutUsPage

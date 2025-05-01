@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import HomePage from "@/components/Pages/Home.page";
 import { mergeMetadata } from "./layout";

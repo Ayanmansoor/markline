@@ -186,11 +186,17 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 function CartProvider({ children }: providertype) {
 
-    const [cart, setCart] = useState<CartItem[]>(() => {
-        const savedCart = localStorage.getItem('cart');
-        return savedCart ? JSON.parse(savedCart) : [];
-    });
+    const [cart, setCart] = useState<CartItem[]>([]);
 
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const savedCart = localStorage.getItem('cart');
+            if (savedCart) {
+                setCart(JSON.parse(savedCart));
+            }
+        }
+    }, []);
+    
     useEffect(() => {
         if (cart.length > 0) {
             localStorage.setItem('cart', JSON.stringify(cart));

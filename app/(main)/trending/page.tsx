@@ -1,3 +1,4 @@
+
 import React from 'react'
 import TrendingPage from '@/components/Pages/Trending.page'
 import { mergeMetadata } from '@/app/layout';

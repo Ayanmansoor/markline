@@ -6,11 +6,15 @@ const WishlistContext = createContext({
 
 });
 
-function WishlistProvider({ children }:{children:React.ReactNode}) {
-  const [wishlist, setWishlist] = useState(() => {
+function WishlistProvider({ children }: { children: React.ReactNode }) {
+  const [wishlist, setWishlist] = useState<any[]>([]);
+
+  useEffect(() => {
     const savedWishlist = localStorage.getItem("wishlist");
-    return savedWishlist ? JSON.parse(savedWishlist) : [];
-  });
+    if (savedWishlist) {
+      setWishlist(JSON.parse(savedWishlist));
+    }
+  }, []);
 
   useEffect(() => {
     if (wishlist.length > 0) {
@@ -20,7 +24,7 @@ function WishlistProvider({ children }:{children:React.ReactNode}) {
     }
   }, [wishlist]);
 
-  const addToWishlist = (product:ProductsProps) => {
+  const addToWishlist = (product: ProductsProps) => {
     setWishlist((prevWishlist: any[]) => {
       // Prevent adding duplicates
       if (!prevWishlist.some((item) => item.id === product.id)) {
@@ -30,14 +34,14 @@ function WishlistProvider({ children }:{children:React.ReactNode}) {
     });
   };
 
-  const removeFromWishlist = (productId:ProductsProps) => {
-    setWishlist((prevWishlist:any) =>
-      prevWishlist.filter((item:any) => item.id !== productId)
+  const removeFromWishlist = (productId: ProductsProps) => {
+    setWishlist((prevWishlist: any) =>
+      prevWishlist.filter((item: any) => item.id !== productId)
     );
   };
 
-  const isProductInWishlist = (productId:any) => {
-    return wishlist.some((item:any) => item.id === productId);
+  const isProductInWishlist = (productId: any) => {
+    return wishlist.some((item: any) => item.id === productId);
   };
 
   return (
@@ -46,7 +50,7 @@ function WishlistProvider({ children }:{children:React.ReactNode}) {
         wishlist,
         addToWishlist,
         removeFromWishlist,
-        isProductInWishlist, 
+        isProductInWishlist,
       }}
     >
       {children}

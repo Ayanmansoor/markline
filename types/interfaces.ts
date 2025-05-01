@@ -224,7 +224,7 @@ export interface GridProductProps {
 }
 export interface CarouselProductProps {
   url: string;
-  product: ProductsDataProps[];
+  product: ProductsProps[];
 }
 
 export interface ColorViewProps {
