@@ -61,7 +61,7 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
 
                 {
                     seconddata && secondsection &&
-                    <Link href={`products/${seconddata?.slug}`} className=' relative border  border-[#ebeeef] overflow-hidden bg-pink-200' >
+                    <Link href={`products/${seconddata?.slug}`} className=' relative border  border-[#ebeeef] overflow-hidden ' >
                         <Swiper
                             pagination={{
                                 dynamicBullets: true,
@@ -84,7 +84,7 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
 
                 {
                     thirddata && thirddata &&
-                    <Link href={`products/${thirddata?.slug}`} className=' relative border  border-[#ebeeef] overflow-hidden bg-pink-200' >
+                    <Link href={`products/${thirddata?.slug}`} className=' relative border  border-[#ebeeef] overflow-hidden ' >
                         <Swiper
                             pagination={{
                                 dynamicBullets: true,
@@ -108,7 +108,7 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
 
                 {
                     fourthdata && fourthsection &&
-                    <Link href={`products/${fourthsection?.slug}`} className=' hidden lg:block relative border  border-[#ebeeef] overflow-hidden bg-pink-200' >
+                    <Link href={`products/${fourthsection?.slug}`} className=' hidden lg:block relative border  border-[#ebeeef] overflow-hidden ' >
                         <Swiper
                             pagination={{
                                 dynamicBullets: true,
@@ -131,7 +131,7 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
 
                 {
                     fivthdata && fivthsection &&
-                    <Link href={`products/${fivthsection?.slug}`} className=' hidden lg:block relative border  border-[#ebeeef] overflow-hidden bg-pink-200' >
+                    <Link href={`products/${fivthsection?.slug}`} className=' hidden lg:block relative border  border-[#ebeeef] overflow-hidden ' >
                         <Swiper
                             pagination={{
                                 dynamicBullets: true,

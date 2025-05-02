@@ -44,11 +44,11 @@ function Footer() {
 
             </h2>
             <ul className='flex items-start flex-col  text-base justify-start gap-2'>
-              <Link href={'/collections/MEN'} >Men</Link>
-              <Link href={'/collections/WOMEN'} >Women</Link>
-              <Link href={'/collections/KIDS'} >Kids</Link>
-              <Link href={'/collections/trending'} >Gen Z</Link>
-              <Link href={'/collections/discount-deals'} >Discount Deals</Link>
+              <Link href={'/gender/MEN'} >Men</Link>
+              <Link href={'/gender/WOMEN'} >Women</Link>
+              <Link href={'/gender/KIDS'} >Kids</Link>
+              <Link href={'/gender/trending'} >Gen Z</Link>
+              {/* <Link href={'/discount-deals'} >Discount Deals</Link> */}
             </ul>
           </div>
 
@@ -77,7 +77,7 @@ function Footer() {
             <h2 className='text-p20 font-medium mb-4  mt-3 w-fit pr-5'>
               Aaddress
             </h2>
-            <p className='text-base font-normal  text-white '>Lorem ipsum dolor sit amet.</p>
+            <p className='text-base font-normal  text-white '>.</p>
           </div>
 
         </div>
@@ -119,11 +119,10 @@ function Footer() {
                 <hr className='mt-1' />
 
                 <ul className='flex items-start flex-col mt-2  text-base justify-start gap-2  text-primary'>
-                  <Link href="/collections/MEN" className='text-primary' >Man</Link>
-                  <Link href="/collections/WOMEN" className='text-primary' >Women</Link>
-                  <Link href='/collections/KIDS' className='text-primary' >kids</Link>
-                  <Link href="/collections/trending" className='text-primary' >Trending</Link>
-                  <Link href="/collections/new-arrivals" className='text-primary' >Trending</Link>
+                  <Link href="/gender/MEN" className='text-primary' >Man</Link>
+                  <Link href="/gender/WOMEN" className='text-primary' >Women</Link>
+                  <Link href='/gender/KIDS' className='text-primary' >kids</Link>
+                  {/* <Link href="/gender/trending" className='text-primary' >Trending</Link> */}
 
                 </ul>
               </div>

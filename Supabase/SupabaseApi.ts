@@ -239,12 +239,27 @@ async function getcollection(slug: string) {
   const { data: collection, error } = await mysupabase
     .from("collection")
     .select("*")
-    .eq("slug", slug).single();
+    .eq("slug", slug)
+    .single();
 
   if (error) {
     return new Error(error.message);
   }
   return collection;
+}
+async function getCollectionBaseOnGender(gender: string) {
+  if (!gender) {
+    return null;
+  }
+  const { data: genderCollections, error } = await mysupabase
+    .from("collection")
+    .select("*")
+    .eq("gender", gender);
+
+  if (error) {
+    return new Error(error.message);
+  }
+  return genderCollections;
 }
 
 export {
@@ -261,5 +276,6 @@ export {
   getAllBlogs,
   getblog,
   getHighlighteProducts,
-  getcollection
+  getcollection,
+  getCollectionBaseOnGender,
 };

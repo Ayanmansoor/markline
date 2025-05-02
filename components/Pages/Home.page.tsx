@@ -84,8 +84,8 @@ function HomePage() {
       <Hero bannerImages={HomeBanner} />
 
 
-      <section className='w-full relative bg-secondary '>
-        <h2 className='text-h1 font-medium     px-2  md:px-10   xl:px-20  mx-auto pt-10 bg-secondary uppercase'>Find the Perfect Fit – For Him, Her & Kids </h2>
+      <section className='w-full relative bg-secondary  '>
+        <h2 className='text-h1 font-medium container     px-2  md:px-10   xl:px-20  mx-auto pt-10 bg-secondary uppercase'>Find the Perfect Fit – For Him, Her & Kids </h2>
       </section>
 
       <MainCollections />
@@ -98,11 +98,11 @@ function HomePage() {
           </CategoriesSection>
           :
           <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container px-5 md:px-10 xl:px-20 ">
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-        </div>
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+          </div>
       }
 
       {

@@ -79,7 +79,7 @@ function CartSheet({ children }: {
                     <section className='w-full relative h-auto gap-2 grid grid-cols-1 extrasmall:grid-cols-2 md:flex flex-col max-h-[50vh] overflow-y-auto py-2' id="style-3">
                         {
                             cart.map((item, index) => (
-                                <div className='w-full border p-2 rounded-lg relative h-auto flex flex-col   md:grid  md:grid-cols-[1.3fr_1fr_1fr_1fr]  items-start md:items-center justify-between gap-1' key={index}>
+                                <div className='w-full border p-2 rounded-lg relative h-auto flex flex-col   md:grid  md:grid-cols-[1.2fr_2fr_auto_auto]  items-start md:items-center justify-between gap-1' key={index}>
 
 
                                     <Swiper
@@ -91,8 +91,8 @@ function CartSheet({ children }: {
                                     >
                                         {
                                             item.image_urls?.map((image: any) => JSON.parse(image))?.map((image: any, index: number) => (
-                                                <SwiperSlide className=' w-full  md:w-[70px] max-h-[100px] extrasmall:h-[100px] md:h-[70px] relative ' key={index}>
-                                                    <img src={image.image_url} alt={image?.name} className='max-w-full relative max-h-full  aspect-square  object-contain rounded-md border' />
+                                                <SwiperSlide className=' w-full  md:w-[70px] max-h-[150px] extrasmall:max-h-[100px] md:max-h-[70px] relative ' key={index}>
+                                                    <img src={image.image_url} alt={image?.name} className='w-full relative max-h-full  aspect-square  object-contain rounded-md border' />
                                                 </SwiperSlide>
                                             ))
                                         }
@@ -100,7 +100,7 @@ function CartSheet({ children }: {
 
                                     </Swiper>
 
-                                    <button className='w-fit absolute -top-1 right-0 bg-black text-white  h-auto p-[2px] cursor-pointer rounded-full ' onClick={() => deleteFromCart(item.productId)}><IoIosClose /></button>
+                                    <button className='w-fit absolute -top-1 right-0 bg-black text-white  h-auto p-[2px] z-10 cursor-pointer rounded-full ' onClick={() => deleteFromCart(item.productId)}><IoIosClose /></button>
                                     <span className='flex flex-col items-start  '>
                                         <p className=' text-[10px]  font-normal text-gray-400 '></p>
                                         <h2 className=' text-sm text-start lg:text-sm font-medium text-foreground line-clamp-2 '>
@@ -160,10 +160,10 @@ function CartSheet({ children }: {
                                     <p className='text-lg font-medium text-primary w-full'>₹ {Math.floor(totalPrice)}</p>
                                 </div>
                                 <div className='w-full relative h-auto flex items-start justify-between'>
-                                    <button className='w-fit relative h-auto flex items-center border border-primary px-5 py-1 hover:bg-primary hover:text-white  font-medium text-primary' onClick={() => clearCart()} >Clear Orders</button>
+                                    <button className='w-fit relative h-auto flex items-center border text-sm md:text-base border-primary px-5 py-2 text-nowrap hover:bg-primary hover:text-white  font-medium text-primary' onClick={() => clearCart()} >Clear Orders</button>
                                     <CartSheetOderDailog>
-                                        <button className='w-fit relative h-auto flex items-center border border-primary px-5 py-1 hover:bg-primary hover:text-white  font-medium text-primary'>Place Order</button>
-                                    </CartSheetOderDailog>
+                                        <button className='w-fit relative h-auto flex items-center  text-sm md:text-base border border-primary px-5 py-2 text-nowrap hover:bg-primary hover:text-white  font-medium text-primary'>Place Order</button>
+                                    </CartSheetOderDailog> 
                                 </div>
 
                             </section>

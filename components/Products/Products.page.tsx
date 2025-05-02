@@ -14,7 +14,7 @@ import { ProductsProps } from '@/types/interfaces';
 
 
 function Productspage() {
-    const [productRangevalue, setPRoductRange] = useState(2400)
+    const [productRangevalue, setPRoductRange] = useState(5000)
     const [filterProducts, setFilterProducts] = useState<ProductsProps[]>()
     const {
         data: allproducts = [],
@@ -63,7 +63,7 @@ function Productspage() {
             <CarouselProduct data={{ categoryName: "all" }} /> */}
 
 
-            <section className="w-full min-h-[300px] relative grid grid-cols-1 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.6fr_auto] px-2  md:px-10   xl:px-20 ">
+            <section className="w-full min-h-[300px] relative grid grid-cols-1 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.6fr_3fr] px-2  md:px-10   xl:px-20 ">
                 {
                     isErrorCollections ?
                         <div className='text-center text-sm font-medium'>

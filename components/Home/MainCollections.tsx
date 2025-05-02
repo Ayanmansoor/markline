@@ -19,18 +19,18 @@ function Filter() {
             >
 
                 <SwiperSlide className='max-w-fit relative h-auto px-1 md:px-2'>
-                    <Link href="/collections/MEN">
+                    <Link href="/gender/MEN">
                         <img src="/forhim.png" height={500} width={500} className='w-full border relative max-h-[250px]  md:max-h-[300px] lg:max-h-[350px] object-cover' alt="category image" />
                     </Link>
                 </SwiperSlide>
 
                 <SwiperSlide className='max-w-fit relative h-auto  px-1 md:px-2'>
-                    <Link href="/collections/WOMEN">
+                    <Link href="/gender/WOMEN">
                         <img src="/forher.png" height={500} width={500} className='w-full border relative  max-h-[250px] md:max-h-[300px] lg:max-h-[350px] object-cover' alt="category image" />
                     </Link>
                 </SwiperSlide>
                 <SwiperSlide className='max-w-fit relative h-auto  px-1 md:px-2'>
-                    <Link href={'/collections/KIDS'}>
+                    <Link href={'/gender/KIDS'}>
                         <img src="/forKids.png" height={500} width={500} className='w-full border relative  max-h-[250px]  md:max-h-[300px] lg:max-h-[350px] object-cover' alt="category image" />
                     </Link>
                 </SwiperSlide>

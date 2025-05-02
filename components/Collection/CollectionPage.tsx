@@ -18,7 +18,7 @@ import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
 function CategoryL2page() {
     const { slug } = useParams()
     const [productShow, setProductShow] = useState(20)
-    const [productRangevalue, setPRoductRange] = useState(2000)
+    const [productRangevalue, setPRoductRange] = useState(5000)
     const [filterProducts, setFilterProducts] = useState<ProductsProps[]>()
     const nslug = Array.isArray(slug) ? slug[0] : slug;
 
@@ -30,7 +30,7 @@ function CategoryL2page() {
         staleTime: 10 * 60 * 1000, // 2 minutes caching
     });
 
-   
+
 
     const {
         data: allcollection = [],
@@ -53,9 +53,9 @@ function CategoryL2page() {
         retry: 2,
     });
 
-   
 
-    
+
+
     // const { data: collectiondata , isLoading:collectionLoading, isError:collectionError } = useQuery<any>({
     //     queryKey: ["collection", slug],
     //     enabled: !!slug,
@@ -74,7 +74,7 @@ function CategoryL2page() {
             return product?.price <= productRangevalue
         })
         setFilterProducts(filterproduct)
-    },[products,productRangevalue])
+    }, [products, productRangevalue])
 
     function showMoreProducts() {
         if (products?.length >= 20) {
@@ -97,7 +97,7 @@ function CategoryL2page() {
 
 
             {/* <Discount categoryName={"shoes"} /> */}
-            <section className="w-full relative grid grid-cols-1 mt-5 md:mt-10 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.6fr_auto] px-0  md:px-10   xl:px-20 ">
+            <section className="w-full relative grid grid-cols-1 mt-5 md:mt-10 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.6fr_3fr] px-0  md:px-10   xl:px-20 ">
                 <span className=' hidden h-fit sticky top-20 lg:block'>
                     <ProductFilter collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
                 </span>
