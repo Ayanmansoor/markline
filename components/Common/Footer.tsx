@@ -15,7 +15,7 @@ function Footer() {
     <footer className='  w-full relative  h-auto text-primary-foreground bg-black   overflow-hidden'>
 
 
-      <section className='w-full relative h-[70vh] md:flex hidden  flex-col gap-1 container text-white py-10 pb-56 px-5 md:px-10   xl:px-20'>
+      <section className='w-full relative h-[450px] md:flex hidden  flex-col gap-1 container text-white py-10 pb-56 px-5 md:px-10   xl:px-20'>
         <div className=' w-full h-full grid   z-20 grid-cols-4 gap-5  '>
 
           <div className='relative h-auto  '>

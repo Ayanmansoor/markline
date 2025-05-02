@@ -94,7 +94,7 @@ function HomePage() {
 
         currentproducts?.length > 0 ?
           <CategoriesSection title={"Styles Made for You"} url="collections">
-            <Collectionsection collections={collections} url={'collection'} />
+            <Collectionsection collections={collections} url={'collections'} />
           </CategoriesSection>
           :
           <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container px-5 md:px-10 xl:px-20 ">
