@@ -57,23 +57,27 @@ function AddToCardPopver({ children, currentProduct, colors, sizes }: AddToCardP
     }, [currentProduct.id, getCartProduct])
 
     useEffect(() => {
-        const parseColor: Colors[] = currentProduct?.colors?.map((item: Colors) => JSON.parse(item))
-        const parseSize: Sizes[] = currentProduct?.sizes?.map((size: Sizes) => JSON.parse(size))
+        if (!currentProduct?.colors || !currentProduct?.sizes) return;
 
-        console.log(parseColor, parseSize, "color data")
+        const parsedColors: Colors[] = currentProduct.colors.map((item: any) =>
+            typeof item === "string" ? JSON.parse(item) : item
+        );
+        const parsedSizes: Sizes[] = currentProduct.sizes.map((size: any) =>
+            typeof size === "string" ? JSON.parse(size) : size
+        );
 
-        setProductcart((prev) => (
-            {
-                ...prev, colors: {
-                    color: parseColor[0]
+        if (parsedColors.length > 0 && parsedSizes.length > 0) {
+            setProductcart((prev) => ({
+                ...prev,
+                colors: {
+                    color: parsedColors[0],
                 },
                 sizes: {
-                    size: parseSize[0]
-                }
-            }
-        ))
-
-    }, [currentProduct])
+                    size: parsedSizes[0],
+                },
+            }));
+        }
+    }, [currentProduct]);
 
 
 

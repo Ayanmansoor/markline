@@ -10,7 +10,7 @@ import ColorView from '../Common/ColorView';
 import BuyDailog from './BuyDailog';
 import AddToCardPopver from '../Common/AddToCardPopver';
 import { useCart } from '@/Contexts/Cart.context';
-import { Colors as colorProps, ProductsDataProps, Sizes as sizeProps } from '@/types/interfaces';
+import { Colors as colorProps, Colors, ProductsDataProps, Sizes as sizeProps, Sizes } from '@/types/interfaces';
 
 interface productsCart {
     colors: {
@@ -59,7 +59,7 @@ function ProductAbout({ product }: ProductsDataProps) {
                 }
             })
         )
-    }, [product.id,getCartProduct])
+    }, [product.id, getCartProduct])
 
 
     function handleStateChange(e: any) {
@@ -87,24 +87,29 @@ function ProductAbout({ product }: ProductsDataProps) {
     const [colors, setColors] = useState<any>([])
     const [size, setSizes] = useState<any>([])
     useEffect(() => {
-        const parseColor = product?.colors?.map((item: any) => JSON.parse(item))
-        const parseSize = product?.sizes?.map((size: any) => JSON.parse(size))
-        setColors(parseColor)
-        setSizes(parseSize)
-        if (parseColor && parseSize) {
-            setProductcart((prev) => (
-                {
-                    ...prev, colors: {
-                        color: parseColor[0]
-                    },
-                    sizes: {
-                        size: parseSize[0]
-                    }
-                }
-            ))
-        }
+        if (!product?.colors || !product?.sizes) return;
 
-    }, [product])
+        const parsedColors: Colors[] = product.colors.map((item: any) =>
+            typeof item === "string" ? JSON.parse(item) : item
+        );
+        const parsedSizes: Sizes[] = product.sizes.map((size: any) =>
+            typeof size === "string" ? JSON.parse(size) : size
+        );
+        setColors(parsedColors)
+        setSizes(parsedSizes)
+        if (parsedColors.length > 0 && parsedSizes.length > 0) {
+            setProductcart((prev) => ({
+                ...prev,
+                colors: {
+                    color: parsedColors[0],
+                },
+                sizes: {
+                    size: parsedSizes[0],
+                },
+            }));
+        }
+    }, [product]);
+
 
     return (
         <>
@@ -169,7 +174,7 @@ function ProductAbout({ product }: ProductsDataProps) {
                             <p className='text-p18 font-semibold flex items-center justify-between w-full'>Sizes</p>
                             <div className='w-full gap-2 relative h-auto  grid grid-cols-6 '>
                                 {
-                                    size?.map((item: any ,index) => (
+                                    size?.map((item: any, index) => (
                                         <p key={index} className={`py-2 text-center border  font-normal cursor-pointer hover:text-white hover:bg-black hover:font-medium ${item.size === productcart?.sizes?.size?.size ? " bg-primary border-transparent text-white" : " text-primary border-primary bg-transparent"}  `} onClick={() => setProductcart((prev) => ({
                                             ...prev,
                                             sizes: {
