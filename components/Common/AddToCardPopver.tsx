@@ -5,7 +5,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import { AddToCardPopverProps } from '@/types/interfaces';
+import { AddToCardPopverProps, Colors, Sizes } from '@/types/interfaces';
 import { Colors as colorProps, Sizes as sizeProps } from '@/types/interfaces';
 import { useCart } from '@/Contexts/Cart.context';
 
@@ -54,24 +54,24 @@ function AddToCardPopver({ children, currentProduct, colors, sizes }: AddToCardP
                 }
             })
         )
-    }, [currentProduct.id,getCartProduct])
+    }, [currentProduct.id, getCartProduct])
 
     useEffect(() => {
-        const parseColor = currentProduct?.colors?.map((item: any) => JSON.parse(item))
-        const parseSize = currentProduct?.sizes?.map((size: any) => JSON.parse(size))
+        const parseColor: Colors[] = currentProduct?.colors?.map((item: Colors) => JSON.parse(item))
+        const parseSize: Sizes[] = currentProduct?.sizes?.map((size: Sizes) => JSON.parse(size))
 
-        if (parseColor && parseSize) {
-            setProductcart((prev) => (
-                {
-                    ...prev, colors: {
-                        color: parseColor[0]
-                    },
-                    sizes: {
-                        size: parseSize[0]
-                    }
+        console.log(parseColor, parseSize, "color data")
+
+        setProductcart((prev) => (
+            {
+                ...prev, colors: {
+                    color: parseColor[0]
+                },
+                sizes: {
+                    size: parseSize[0]
                 }
-            ))
-        }
+            }
+        ))
 
     }, [currentProduct])
 

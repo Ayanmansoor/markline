@@ -79,7 +79,7 @@ function NewArrival() {
 
             {
                 products &&
-                <CategoriesSection title={"Latest at Markline"} url="newarrivals" >
+                <CategoriesSection title={"Latest at Markline"} url="new-arrivals" >
                     <SecondHero categoryName={"Shoes"} data={products} />
                 </CategoriesSection>
             }

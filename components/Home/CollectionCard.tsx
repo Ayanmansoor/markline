@@ -5,7 +5,6 @@ import { newCollectionCardProps, ProductsDataProps } from '@/types/interfaces'
 function CollectionCard({collections,url}:newCollectionCardProps) {
 
 
-    console.log(collections,"collection Card")
     
     const images = collections.image_urls?.map((obj:any, index: number) => JSON.parse(obj));
 

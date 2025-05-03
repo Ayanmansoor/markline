@@ -149,7 +149,7 @@ function HomePage() {
       {
         newArrivals?.length > 0 &&
         <CategoriesSection title={"Latest at Markline"} url="new-arrivals" >
-          <SecondHero categoryName={"Shoes"} data={newArrivals} />
+          <SecondHero categoryName={"Shoes"} data={newArrivals}  />
         </CategoriesSection>
       }
 

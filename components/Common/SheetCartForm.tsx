@@ -25,6 +25,9 @@ const addressFromSchema = z.object({
     full_address: z.string().min(5, "Address must be at least 5 characters"),
 })
 
+
+type orderForm = z.infer<typeof addressFromSchema>;
+
 import { acceptorderProps, CartItem, SheetCartFormProps } from '@/types/interfaces'
 
 function SheetCartForm({ setConfirm, setOrderID }: SheetCartFormProps) {
@@ -34,28 +37,30 @@ function SheetCartForm({ setConfirm, setOrderID }: SheetCartFormProps) {
 
     const { register, watch, handleSubmit, reset, formState: {
         errors
-    }, setValue, setFocus, getValues, getFieldState } = useForm(
+    }, setValue, setFocus, getValues, getFieldState } = useForm<orderForm>(
         {
             resolver: zodResolver(addressFromSchema)
         }
     )
-    async function onSubmit(data: { email: any; name: any }) {
+    async function onSubmit(data: orderForm) {
         try {
             if (!executeRecaptcha) {
-                return ;
+                return;
             }
 
             const recaptchaToken = await executeRecaptcha()
 
             const orders = cart?.map((product: CartItem, index: any) => {
+
+
                 const final_price = Math.floor(product?.price - (product?.price * (product?.discounts?.discount_persent / 100)));
                 const discountPrice = product?.price * (product?.discounts?.discount_persent / 100);
 
                 return {
                     ...data,
-                    final_price,
+                    final_price: final_price ? final_price : product.price,
                     quentity: product?.quantity,
-                    discount_amount: discountPrice,
+                    discount_amount: discountPrice ? discountPrice : 0,
                     product_key: product?.productId,
                     recaptchaToken
                 }
@@ -63,9 +68,9 @@ function SheetCartForm({ setConfirm, setOrderID }: SheetCartFormProps) {
 
             const orderids: any[] = [];
             let allProductSaved = true;
-            // console.log(orders, "data going to save")
 
             orders.forEach(async (order: any, index) => {
+                console.log(order, 'order data')
                 const response: any = await acceptOrderForm(order);
                 if (response?.isOrder) {
                     orderids.push(response?.data[index].id)
@@ -96,8 +101,8 @@ function SheetCartForm({ setConfirm, setOrderID }: SheetCartFormProps) {
                 // }).catch((error) => {
                 //     console.log(error, "sjdfljldfjlj")
                 // })
-                reset()
-                clearCart()
+                // reset()
+                // clearCart()
             } else {
                 // console.error();
             }

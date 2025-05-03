@@ -38,7 +38,7 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
                 {
                     firstdata && firstsection &&
 
-                    <Link href={`products/${firstdata?.slug}`} className='col-start-1  col-end-3 row-start-1 border border-[#ebeeef] row-end-3 relative   overflow-hidden'>
+                    <Link href={`/products/${firstdata?.slug}`} className='col-start-1  col-end-3 row-start-1 border border-[#ebeeef] row-end-3 relative   overflow-hidden'>
                         <Swiper
                             pagination={{
                                 dynamicBullets: true,
@@ -61,7 +61,7 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
 
                 {
                     seconddata && secondsection &&
-                    <Link href={`products/${seconddata?.slug}`} className=' relative border  border-[#ebeeef] overflow-hidden ' >
+                    <Link href={`/products/${seconddata?.slug}`} className=' relative border  border-[#ebeeef] overflow-hidden ' >
                         <Swiper
                             pagination={{
                                 dynamicBullets: true,
@@ -84,7 +84,7 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
 
                 {
                     thirddata && thirddata &&
-                    <Link href={`products/${thirddata?.slug}`} className=' relative border  border-[#ebeeef] overflow-hidden ' >
+                    <Link href={`/products/${thirddata?.slug}`} className=' relative border  border-[#ebeeef] overflow-hidden ' >
                         <Swiper
                             pagination={{
                                 dynamicBullets: true,
@@ -108,7 +108,7 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
 
                 {
                     fourthdata && fourthsection &&
-                    <Link href={`products/${fourthsection?.slug}`} className=' hidden lg:block relative border  border-[#ebeeef] overflow-hidden ' >
+                    <Link href={`/products/${fourthsection?.slug}`} className=' hidden lg:block relative border  border-[#ebeeef] overflow-hidden ' >
                         <Swiper
                             pagination={{
                                 dynamicBullets: true,
@@ -131,7 +131,7 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
 
                 {
                     fivthdata && fivthsection &&
-                    <Link href={`products/${fivthsection?.slug}`} className=' hidden lg:block relative border  border-[#ebeeef] overflow-hidden ' >
+                    <Link href={`/products/${fivthsection?.slug}`} className=' hidden lg:block relative border  border-[#ebeeef] overflow-hidden ' >
                         <Swiper
                             pagination={{
                                 dynamicBullets: true,
@@ -166,14 +166,14 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
                         data&&data?.map((item: any, index: number) => (
 
                             <SwiperSlide className='max-w-fit h-auto relative  ' key={index}>
-                                <section className=' max-w-[200px] md:max-w-[270px]  border  relative max-h-fit md:max-h-[450px] group flex flex-col  '>
+                                <Link href={`products/${item.slug}`} className=' max-w-[200px] md:max-w-[270px]  border  relative max-h-fit md:max-h-[450px] group flex flex-col  '>
                                     <img src={`${JSON.parse(item?.image_url[0]).image_url}`} alt={`${JSON.parse(item?.image_url[0]).name}`} height={400} width={400} className='h-[200px] relative w-[200px] md:w-[270px] object-cover ' />
                                     <div className='w-full relative h-auto bg-white flex flex-col gap-1 py-3 px-2'>
                                         <h2 className='text-base font-semibold font-primary line-clamp-2  '>{item?.name}</h2>
                                         <p className='text-sm text-primary font-medium line-clamp-1 ' >{item.description}</p>
-                                        <Link href={`product/${item.slug}`} className='w-fit relative h-auto px-5 py-1 text-white mt-1 bg-primary border-white'>Buy Now</Link>
+                                        <p  className='w-fit relative h-auto px-5 py-1 text-white mt-1 bg-primary border-white'>Buy Now</p>
                                     </div>
-                                </section>
+                                </Link>
                             </SwiperSlide>
                         ))
                     }
