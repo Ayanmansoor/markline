@@ -1,19 +1,31 @@
 import axios from "axios";
+interface OrderFormData {
+  final_price: number;
+  quantity: number;
+  discount_amount: number;
+  product_key: number;
+  email: string;
+  name: string;
+  phone?: string;
+  pin_code?: string;
+  state_name?: string;
+  city?: string;
+  full_address?: string;
+  recaptchaToken?: string;
+}
+interface FormResult {
+  message: string;
+  code: number;
+  isOrder: boolean;
+  data?: any;
+}
+interface OrderResponse {
+  message: string;
+  order: any;
+  email: string;
+}
 
-async function acceptOrderForm(formData: {
-  final_price: any;
-  quentity: any;
-  discount_amount: any;
-  product_key: any;
-  email: any;
-  name: any;
-  phone?: any;
-  pin_code?: any;
-  state_name?: any;
-  city?: any;
-  full_address?: any;
-  recaptchaToken?: any;
-}) {
+async function acceptOrderForm(formData: OrderFormData): Promise<FormResult> {
   try {
     const {
       name,
@@ -24,13 +36,14 @@ async function acceptOrderForm(formData: {
       city,
       full_address,
       final_price,
-      quentity,
+      quantity,
       discount_amount,
       product_key,
       recaptchaToken,
     } = formData;
 
-    const reponse: any = await axios.post(
+
+    const response = await axios.post<OrderResponse>(
       "https://qmtfmhylybgxvvihpaxw.supabase.co/functions/v1/confirm-order",
       {
         name,
@@ -41,7 +54,7 @@ async function acceptOrderForm(formData: {
         city,
         full_address,
         final_price,
-        quentity,
+        quantity,
         discount_amount,
         product_key,
         recaptchaToken,
@@ -49,20 +62,27 @@ async function acceptOrderForm(formData: {
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_ANON_KEY}`,
+          "Content-Type": "application/json",
         },
       }
     );
 
     return {
-      message: reponse?.message,
+      message: response.data.message,
       code: 200,
       isOrder: true,
-      data: reponse?.order,
+      data: response.data.order,
     };
   } catch (error: any) {
-    console.log("error", error);
-    return new Error(error?.message || "Something went wrong.");
+    console.error("Order submission failed:", error?.response?.data || error.message);
+    return {
+      message: error?.response?.data?.error || "Something went wrong.",
+      code: error?.response?.status || 500,
+      isOrder: false,
+    };
   }
 }
+
+
 
 export { acceptOrderForm };

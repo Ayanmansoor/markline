@@ -38,7 +38,7 @@ function BlogPage() {
                 <h2 className=' text-p35 md:text-p40 font-semibold text-primary'>
                     {blog?.title}
                 </h2>
-                <img src={blog?.image || ""} alt={blog?.title} height={400} width={500} className=' max-h-[250px] md:max-h-[300px] lg:max-h-[500px]  h-auto w-full object-cover reative ' />
+                <img src={blog?.image || ""} alt={blog?.title} height={400} width={500} className=' max-h-[250px] md:max-h-[300px] lg:max-h-[500px]  h-auto w-full object-cover reative ' loading='lazy' />
             </section>
             <div className='w-full relative h-auto container px-5 md:px-20 lg:px-40 pb-20' dangerouslySetInnerHTML={{
                 __html: blog?.content

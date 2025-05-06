@@ -77,7 +77,7 @@ function ProductMain({ product }: ProductsDataProps) {
                     {
                         Image?.map((item, index) => (
                             <SwiperSlide key={index} className='max-w-fit  relative max-h-fit md:max-h-[100px]  border  overflow-hidden'>
-                                <img src={`${item?.image_url}` || ""} alt={item.name} height={500} width={500} className='    max-w-[100px] md:max-w-full  max-h-[100px] lg:max-h-[100px] relative object-cover ' />
+                                <img src={`${item?.image_url}` || ""} alt={item.name} height={500} width={500} className='    max-w-[100px] md:max-w-full  max-h-[100px] lg:max-h-[100px] relative object-cover '  loading='lazy' />
                             </SwiperSlide>
                         ))
                     }
@@ -93,7 +93,7 @@ function ProductMain({ product }: ProductsDataProps) {
                     {
                         Image?.map((item, index) => (
                             <SwiperSlide key={index} className='max-w-full   relative  max-h-fit border '>
-                                <img src={`${item?.image_url}` || ""} alt={`${item.name}`} height={500} width={500} className='w-full relative grid max-h-[300px] md:max-h-[400px] lg:max-h-[600px]  object-cover sm:object-contain  sm:object-bottom ' />
+                                <img src={`${item?.image_url}` || ""} alt={`${item.name}`} height={500} width={500} className='w-full relative grid max-h-[300px] md:max-h-[400px] lg:max-h-[600px]  object-cover sm:object-contain  sm:object-bottom '  loading='lazy' />
                             </SwiperSlide>
                         ))
                     }

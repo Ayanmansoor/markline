@@ -8,7 +8,7 @@ function MegamanuCard({product}:ProductsDataProps) {
     return (
         <Link href={`/products/${product?.slug}`} className=' max-w-fit relative h-auto flex flex-col  items-center gap-1 p-2 bg-gray-50 rounded-md '>
             {
-                <img src={productImage[1]?.image_url} alt={product.name} height={400} width={500} className='h-[100px] w-[300px] rounded-md border' />
+                <img src={productImage[1]?.image_url} alt={product.name} height={400} width={500} className='h-[100px] w-[300px] rounded-md border' loading='lazy'/>
 
             }
 

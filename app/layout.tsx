@@ -8,6 +8,7 @@ import Provider from "./Provider";
 import Footer from "@/components/Common/Footer";
 import { WishlistProvider } from "@/Contexts/wishlist";
 
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -62,12 +63,12 @@ export const metadata: Metadata = {
 
 export function mergeMetadata(pageMetadata: Metadata): Metadata {
   return {
-    ...metadata, 
-    ...pageMetadata, 
+    ...metadata,
+    ...pageMetadata,
     openGraph: {
       ...metadata.openGraph,
       ...pageMetadata.openGraph,
-      images: metadata.openGraph?.images, 
+      images: metadata.openGraph?.images,
     },
     twitter: {
       ...metadata.twitter,
@@ -90,9 +91,9 @@ export default function RootLayout({
         <Provider>
           <WishlistProvider>
             <CartProvider>
-              <Navbar />
-              {children}
-              <Footer />
+                <Navbar />
+                {children}
+                <Footer />
             </CartProvider>
           </WishlistProvider>
         </Provider>

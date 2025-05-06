@@ -9,6 +9,7 @@ import Discount from '../Discounts/Discount'
 import { getCollectionBaseOnGender, getAllBanner, getProductBaseOnCollection, } from '@/Supabase/SupabaseApi'
 import { useParams } from 'next/navigation'
 import { useQuery } from 'react-query'
+import { CldImage } from 'next-cloudinary';
 
 
 function GenderPage() {
@@ -39,13 +40,21 @@ function GenderPage() {
         queryFn: () => getCollectionBaseOnGender(nslug),
         staleTime: 10 * 60 * 1000,
     });
-    console.log(genderCollection,'gender colection')
+    console.log(genderCollection, 'gender colection')
 
 
 
     return (
         <>
             <Hero bannerImages={HomeBanner} css={" h-[40vh] sm:h-[60vh]"} />
+{/* 
+            <CldImage
+                src="samples/ecommerce/leather-bag-gray" 
+                width={600}
+                height={600}
+                alt="Premium Shoe"
+                crop="fill"
+            /> */}
 
             {
 

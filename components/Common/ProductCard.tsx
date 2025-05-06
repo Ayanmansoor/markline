@@ -56,7 +56,7 @@ function ProductCard({ product, url }: ProductsDataProps) {
           {
             productImage?.map((image, index: number) => (
               <SwiperSlide className='w-full realtive h-full relative border' key={index}>
-                <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className='w-full   transition-all duration-500 ease-in-out h-[180px] sm:h-[200px] md:h-[250px]  object-cover' height={200} width={300} />
+                <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className='w-full   transition-all duration-500 ease-in-out h-[180px] sm:h-[200px] md:h-[250px]  object-cover' height={200} width={300} loading='lazy' />
               </SwiperSlide>
             ))
           }

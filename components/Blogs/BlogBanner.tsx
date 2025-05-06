@@ -8,7 +8,7 @@ interface BlogBannerprops{
 function BlogBanner({imageUrl,title}:BlogBannerprops) {
   return (
     <section className='w-full relative  h-auto min-h-[200px] flex items-center justify-center  lg:h-[400px] bg-primary'>
-        <img src={imageUrl} alt={title} className='w-full relative h-full min-h-[200px] object-cover' />
+        <img src={imageUrl} alt={title} className='w-full relative h-full min-h-[200px] object-cover' height={400} width={400} loading='lazy' />
         <h1 className=' text-3xl md:text-5xl font-medium text-white absolute  '>{title}</h1>
     </section>
 

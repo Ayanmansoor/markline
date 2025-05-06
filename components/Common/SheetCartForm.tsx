@@ -101,8 +101,8 @@ function SheetCartForm({ setConfirm, setOrderID }: SheetCartFormProps) {
                 // }).catch((error) => {
                 //     console.log(error, "sjdfljldfjlj")
                 // })
-                // reset()
-                // clearCart()
+                reset()
+                clearCart()
             } else {
                 // console.error();
             }

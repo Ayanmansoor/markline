@@ -15,7 +15,7 @@ import { OrderId } from '@/types/interfaces'
 
 
 
-function CartSheetOderDailog({ children }: { children: React.ReactNode }) {
+function    CartSheetOderDailog({ children }: { children: React.ReactNode }) {
     const [currentTab, setcurrentTab] = useState('orders')
 
     const [orderId, setOrderID] = useState<OrderId>({

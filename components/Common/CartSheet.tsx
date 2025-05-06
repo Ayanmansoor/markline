@@ -92,7 +92,7 @@ function CartSheet({ children }: {
                                         {
                                             item.image_urls?.map((image: any) => JSON.parse(image))?.map((image: any, index: number) => (
                                                 <SwiperSlide className=' w-full  md:w-[70px] max-h-[150px] extrasmall:max-h-[100px] md:max-h-[70px] relative ' key={index}>
-                                                    <img src={image.image_url} alt={image?.name} className='w-full relative max-h-full  aspect-square  object-contain rounded-md border' />
+                                                    <img src={image.image_url} alt={image?.name} className='w-full relative max-h-full  aspect-square  object-contain rounded-md border'   loading='lazy' height={400} width={300}/>
                                                 </SwiperSlide>
                                             ))
                                         }
