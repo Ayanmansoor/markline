@@ -1,12 +1,15 @@
 import React, { useEffect, useRef } from 'react'
 import { OrderId } from '@/types/interfaces';
 import TriggerConfiti from '@/lib/Triggerconfiti'
-
+import { useCart } from '@/Contexts/Cart.context';
 
 function PaymentOption({ orderID, email, username }: OrderId) {
   const container = useRef<HTMLDivElement>(null)
+  const { clearCart } = useCart()
 
   const sendMessage = () => {
+    clearCart()
+
     const phoneNumber = "9702456322";
     const message = encodeURIComponent(`Hello! I have successfully placed an order.Order ID: ${orderID}  Name: ${username}  Email: ${email} Please confirm the order status and share further details. Thank you!`);
     const url = `https://wa.me/${phoneNumber}?text=${message}`;
@@ -15,7 +18,7 @@ function PaymentOption({ orderID, email, username }: OrderId) {
   }
   useEffect(() => {
     TriggerConfiti(container)
-  },[orderID,email ])
+  }, [orderID, email])
 
   return (
 

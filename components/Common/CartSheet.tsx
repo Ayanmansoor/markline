@@ -71,75 +71,80 @@ function CartSheet({ children }: {
     return (
         <Sheet>
             <SheetTrigger className='w-fit h-fit relative '>{children}</SheetTrigger>
-            <SheetContent className="py-5  px-2 max-w-[400px] md:min-w-[400px] h-[100vh]  overflow-y-auto" id="style-3">
+            <SheetContent className="py-5  px-2 max-w-[550px] md:min-w-[550px] h-[100vh]  overflow-y-auto" id="style-3">
                 <SheetHeader>
                     <SheetTitle className="font-medium text-2xl border-b pb-2">Carts</SheetTitle>
 
 
                     <section className='w-full relative h-auto gap-2 grid grid-cols-1 extrasmall:grid-cols-2 md:flex flex-col max-h-[50vh] overflow-y-auto py-2' id="style-3">
                         {
-                            cart.map((item, index) => (
-                                <div className='w-full border p-2 rounded-lg relative h-auto flex flex-col   md:grid  md:grid-cols-[1.2fr_2fr_auto_auto]  items-start md:items-center justify-between gap-1' key={index}>
+                            cart.length > 0 ?
+
+                                cart.map((item, index) => (
+                                    <div className='w-full border p-2 rounded-lg relative h-auto flex flex-col   md:grid  md:grid-cols-[1.2fr_2fr_auto_auto]  items-start md:items-center justify-between gap-1' key={index}>
 
 
-                                    <Swiper
-                                        pagination={{
-                                            dynamicBullets: true,
-                                        }}
-                                        modules={[Pagination]}
-                                        className="mySwiper w-full relative h-full "
-                                    >
-                                        {
-                                            item.image_urls?.map((image: any) => JSON.parse(image))?.map((image: any, index: number) => (
-                                                <SwiperSlide className=' w-full  md:w-[70px] max-h-[150px] extrasmall:max-h-[100px] md:max-h-[70px] relative ' key={index}>
-                                                    <img src={image.image_url} alt={image?.name} className='w-full relative max-h-full  aspect-square  object-contain rounded-md border'   loading='lazy' height={400} width={300}/>
-                                                </SwiperSlide>
-                                            ))
-                                        }
+                                        <Swiper
+                                            pagination={{
+                                                dynamicBullets: true,
+                                            }}
+                                            modules={[Pagination]}
+                                            className="mySwiper w-full relative h-full "
+                                        >
+                                            {
+                                                item.image_urls?.map((image: any) => JSON.parse(image))?.map((image: any, index: number) => (
+                                                    <SwiperSlide className=' w-full  md:w-[100px] max-h-[150px] extrasmall:max-h-[100px] md:max-h-[100px] relative ' key={index}>
+                                                        <img src={image.image_url} alt={image?.name} className='w-full relative max-h-full  aspect-square  object-contain rounded-md border' loading='lazy' height={400} width={300} />
+                                                    </SwiperSlide>
+                                                ))
+                                            }
 
 
-                                    </Swiper>
+                                        </Swiper>
 
-                                    <button className='w-fit absolute -top-1 right-0 bg-black text-white  h-auto p-[2px] z-10 cursor-pointer rounded-full ' onClick={() => deleteFromCart(item.productId)}><IoIosClose /></button>
-                                    <span className='flex flex-col items-start  '>
-                                        <p className=' text-[10px]  font-normal text-gray-400 '></p>
-                                        <h2 className=' text-sm text-start lg:text-sm font-medium text-foreground line-clamp-2 '>
-                                            {item.name}
-                                        </h2>
-                                        <div className='w-full reltive h-auto flex items-center gap-1'>
-                                            <p className='text-foreground text-xs font-medium  sm:flex-row flex-col items-start sm:items-center gap-1'>
-                                                <strong className='text-foreground text-[10px]'>Size : </strong>
-                                                {item?.size?.size} {item?.size?.unit}
-                                            </p>
-                                            <p className='text-foreground text-xs font-medium  sm:flex-row flex-col items-start sm:items-center gap-1 capitalize'>
-                                                <strong className='text-foreground text-[10px]'>Color : </strong>
-                                                {item?.color?.name}
-                                            </p>
+                                        <button className='w-fit absolute -top-1 right-0 bg-black text-white  h-auto p-[2px] z-10 cursor-pointer rounded-full ' onClick={() => deleteFromCart(item.productId, item.color.name, item.size.size)}><IoIosClose /></button>
+                                        <span className='flex flex-col items-start  '>
+                                            <p className=' text-[10px]  font-normal text-gray-400 '></p>
+                                            <h2 className=' text-sm text-start lg:text-sm font-medium text-foreground line-clamp-2 '>
+                                                {item.name}
+                                            </h2>
+                                            <div className='w-full reltive h-auto flex items-center gap-1'>
+                                                <p className='text-foreground text-xs font-medium  sm:flex-row flex-col items-start sm:items-center gap-1'>
+                                                    <strong className='text-foreground text-[10px]'>Size : </strong>
+                                                    {item?.size?.size} {item?.size?.unit}
+                                                </p>
+                                                <p className='text-foreground text-xs font-medium  sm:flex-row flex-col items-start sm:items-center gap-1 capitalize'>
+                                                    <strong className='text-foreground text-[10px]'>Color : </strong>
+                                                    {item?.color?.name}
+                                                </p>
+                                            </div>
+                                        </span>
+                                        <div className='flex items-center  justify-between gap-1 rounded-full border border-gray-400 py-[2px] px-1 sm:w-fit w-full '>
+                                            <button className='w-fit h-fit relative rounded-full p-[2px]  bg-gray-200' onClick={() => increaseQuentity({ productId: item.productId, quantity: item.quantity, size: item.size, color: item.color })}>
+                                                <BsPlus className='text-[12x]' />
+                                            </button>
+                                            <p className='text-[12px] font-normal text-foreground px-[2px]'>{item?.quantity}</p>
+                                            <button className='w-fit h-fit relative rounded-full p-[2px] bg-gray-200' onClick={() => decreaseQuentity({ productId: item.productId, quantity: item.quantity, color: item.color, size: item.size })} >
+                                                <HiMiniMinusSmall className='text-[15px] ' />
+                                            </button>
                                         </div>
-                                    </span>
-                                    <div className='flex items-center  justify-between gap-1 rounded-full border border-gray-400 py-[2px] px-1 sm:w-fit w-full '>
-                                        <button className='w-fit h-fit relative rounded-full p-[2px]  bg-gray-200' onClick={() => increaseQuentity({ productId: item.productId, quantity: item.quantity, size: item.size, color: item.color })}>
-                                            <BsPlus className='text-[12x]' />
-                                        </button>
-                                        <p className='text-[12px] font-normal text-foreground px-[2px]'>{item?.quantity}</p>
-                                        <button className='w-fit h-fit relative rounded-full p-[2px] bg-gray-200' onClick={() => decreaseQuentity({ productId: item.productId, quantity: item.quantity, color: item.color, size: item.size })} >
-                                            <HiMiniMinusSmall className='text-[15px] ' />
-                                        </button>
+                                        <span className='w-full item-start relative h-auto flex flex-col  px-2' >
+                                            <h2 className='text-lg text-start font-medium text-foreground'>₹ {
+                                                item?.price * item?.quantity
+                                            }</h2>
+                                            {
+                                                item?.discounts?.discount_persent &&
+                                                < p className='text-red-400 line-through text-sm flex items-center gap-1'>{item?.discounts?.discount_persent}%</p>
+                                            }
+                                        </span>
                                     </div>
-                                    <span className='w-full item-start relative h-auto flex flex-col  px-2' >
-                                        <h2 className='text-lg text-start font-medium text-foreground'>₹ {
-                                            item?.price * item?.quantity
-                                        }</h2>
-                                        {
-                                            item?.discounts?.discount_persent &&
-                                            < p className='text-red-400 line-through text-sm flex items-center gap-1'>{item?.discounts?.discount_persent}%</p>
-                                        }
-                                    </span>
+                                ))
+
+                                :
+                                <div className='text-p20 font-medium py-10 px-5 bg-gray-100 flex items-center justify-center   text-primary'>
+                                    Your Cart Is Empty  :)
                                 </div>
-                            ))
                         }
-
-
                     </section>
 
                     <SheetFooter className='absolute bottom-3 w-full left-0 '>
@@ -163,7 +168,7 @@ function CartSheet({ children }: {
                                     <button className='w-fit relative h-auto flex items-center border text-sm md:text-base border-primary px-5 py-2 text-nowrap hover:bg-primary hover:text-white  font-medium text-primary' onClick={() => clearCart()} >Clear Orders</button>
                                     <CartSheetOderDailog>
                                         <button className='w-fit relative h-auto flex items-center  text-sm md:text-base border border-primary px-5 py-2 text-nowrap hover:bg-primary hover:text-white  font-medium text-primary'>Place Order</button>
-                                    </CartSheetOderDailog> 
+                                    </CartSheetOderDailog>
                                 </div>
 
                             </section>

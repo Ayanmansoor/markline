@@ -23,10 +23,10 @@ function ProductPage() {
   const { data: product, isLoading, isError, error } = useQuery({
     queryKey: ["product", productslug],
     queryFn: () => getProductData(productslug),
-    enabled: !!productslug, 
-    staleTime: 1000 * 60 * 10, 
-    retry: 3, 
-    refetchOnWindowFocus: true, 
+    enabled: !!productslug,
+    staleTime: 1000 * 60 * 10,
+    retry: 3,
+    refetchOnWindowFocus: true,
   });
 
   const {

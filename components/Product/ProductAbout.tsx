@@ -43,23 +43,23 @@ function ProductAbout({ product }: ProductsDataProps) {
         }
     })
 
-    useEffect(() => {
-        // clearCart()
-        const data = getCartProduct(product.id)
-        setProductcart(
-            (prev: any) => ({
-                ...prev,
-                colors: {
-                    ...prev?.colors,
-                    color: data?.color
-                },
-                sizes: {
-                    ...prev?.sizes,
-                    size: data?.size
-                }
-            })
-        )
-    }, [product.id, getCartProduct])
+    // useEffect(() => {
+    //     // clearCart()
+    //     const data = getCartProduct(product.id)
+    //     setProductcart(
+    //         (prev: any) => ({
+    //             ...prev,
+    //             colors: {
+    //                 ...prev?.colors,
+    //                 color: data?.color
+    //             },
+    //             sizes: {
+    //                 ...prev?.sizes,
+    //                 size: data?.size
+    //             }
+    //         })
+    //     )
+    // }, [product.id, getCartProduct])
 
 
     function handleStateChange(e: any) {

@@ -5,7 +5,7 @@ import z from 'zod'
 import axios from 'axios'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
-import { acceptOrderForm } from '@/Supabase/acceptOrderForm'
+import {  submitOrders } from '@/Supabase/acceptOrderForm'
 
 
 
@@ -44,74 +44,46 @@ function SheetCartForm({ setConfirm, setOrderID }: SheetCartFormProps) {
     )
     async function onSubmit(data: orderForm) {
         try {
-            if (!executeRecaptcha) {
-                return;
-            }
-
-            const recaptchaToken = await executeRecaptcha()
-
-            const orders = cart?.map((product: CartItem, index: any) => {
-
-
+            if (!executeRecaptcha) return;
+    
+            const recaptchaToken = await executeRecaptcha();
+    
+            const orders = cart?.map((product: CartItem) => {
                 const final_price = Math.floor(product?.price - (product?.price * (product?.discounts?.discount_persent / 100)));
                 const discountPrice = product?.price * (product?.discounts?.discount_persent / 100);
-
+    
                 return {
                     ...data,
-                    final_price: final_price ? final_price : product.price,
-                    quentity: product?.quantity,
-                    discount_amount: discountPrice ? discountPrice : 0,
+                    final_price: final_price || product.price,
+                    quantity: product?.quantity,
+                    discount_amount: discountPrice || 0,
                     product_key: product?.productId,
                     recaptchaToken
-                }
-            })
-
-            const orderids: any[] = [];
-            let allProductSaved = true;
-
-            orders.forEach(async (order: any, index) => {
-                console.log(order, 'order data')
-                const response: any = await acceptOrderForm(order);
-                if (response?.isOrder) {
-                    orderids.push(response?.data[index].id)
-                } else {
-                    allProductSaved = false;
-                    console.error("all products is not save.")
-
-                }
+                };
             });
-
-
-            if (allProductSaved) {
+    
+            const response = await submitOrders(orders); 
+    
+            if (response?.isOrder && response?.data?.length === orders.length) {
+                const orderids = response.data.map((item: any) => item.id);
+    
+                console.log("All products saved:", orderids);
+    
                 setOrderID({
                     orderID: orderids,
                     email: data.email,
                     username: data.name
-                })
-                setConfirm("success")
-                // emailjs.send(
-                //     serviceid, templateid,
-                //     {
-                //         to_email: data?.email,
-                //         subject: "Ayan Email",
-                //         message: "This is fot tessing this email"
-                //     }
-                // ).then((response) => {
-                //     console.log(response)
-                // }).catch((error) => {
-                //     console.log(error, "sjdfljldfjlj")
-                // })
-                reset()
-                clearCart()
+                });
+    
+                setConfirm("success");
             } else {
-                // console.error();
+                console.error("Some or all products were not saved.");
             }
+    
         } catch (error: any) {
             console.error("Unexpected error:", error.message);
         }
     }
-
-
     return (
         <form action='' onSubmit={handleSubmit(onSubmit)} className='w-full relative h-auto grid grid-cols-2 items-start justify-start gap-y-2 gap-x-5 '>
             <div className='w-full relative h-auto flex flex-col gap-1'>

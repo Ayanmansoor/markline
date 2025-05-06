@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import axios from 'axios'
-import { acceptOrderForm } from '@/Supabase/acceptOrderForm'
+import { submitOrders } from '@/Supabase/acceptOrderForm'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 // import emailjs from "emailjs-com"
@@ -50,51 +50,53 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
 
     async function onSubmit(data: any) {
         try {
-
             if (!executeRecaptcha) {
                 console.log("reCAPTCHA not yet available");
                 return;
             }
 
-            const recaptchaToken = await executeRecaptcha('submit_form');
+            const recaptchaToken = await executeRecaptcha("submit_form");
 
+            const final_price = Math.floor(
+                product?.price - (product?.price * (product?.discounts?.discount_persent || 0) / 100)
+            );
+            const discountPrice = product.price * ((product?.discounts?.discount_persent || 0) / 100);
 
-            const final_price = Math.floor(product?.price - (product?.price * (product?.discounts?.discount_persent / 100)));
-            const discountPrice = product.price * (product?.discounts?.discount_persent / 100);
-
-            const response: any = await acceptOrderForm({
-                ...data,
-                final_price,
-                quantity: product.quantity,
-                discount_amount: discountPrice,
-                product_key: product.id,
-                recaptchaToken
+            const orders = [
+                {
+                    ...data,
+                    final_price,
+                    quantity: product.quantity,
+                    discount_amount: discountPrice,
+                    product_key: product.id,
+                    recaptchaToken
+                }
+            ];
+            const responses = await submitOrders(orders);
+            const orderIDs: string[] = [];
+            responses.data?.forEach((ordersaved: any) => {
+                if (ordersaved) {
+                    const id = ordersaved?.id
+                    if (id) {
+                        orderIDs.push(id);
+                    }
+                } else {
+                    console.error("Order failed:", responses?.message);
+                }
             });
 
-            if (response?.isOrder) {
+            if (orderIDs.length > 0) {
                 setOrderID({
-                    orderID: response?.data[0]?.id,
-                    email: response?.data[0]?.email,
-                    username: response?.data[0]?.name
-                })
-                setConfirm("password")
+                    orderID: orderIDs[0],
+                    email: data.email,
+                    username: data.name
+                });
 
-                // emailjs.send(
-                //     serviceid, templateid,
-                //     {
-                //         to_email: data?.email,
-                //         subject: "Ayan Email",
-                //         message: "This is fot tessing this email"
-                //     }
-                // ).then((response) => {
-                //     console.log(response)
-                // }).catch((error) => {
-                //     console.log(error, "sjdfljldfjlj")
-                // })
-                reset()
-                
+                setConfirm("password");
+                reset();
+                // clearCart(); 
             } else {
-                // console.error(response.message); // Error message
+                console.error("No valid order ID returned.");
             }
         } catch (error: any) {
             console.error("Unexpected error:", error.message);

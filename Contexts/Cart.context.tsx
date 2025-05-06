@@ -173,7 +173,7 @@ interface hereCartitem {
 interface CartContextType {
     cart: CartItem[];
     addToCart: (product: hereCartitem) => void;
-    deleteFromCart: (productId: number) => void;
+    deleteFromCart: (productId: number, color: string, size: string) => void;
     clearCart: () => void;
     isInCart: (productId: number, color: Colors, size: Sizes) => boolean;
     updateQuantity: ({ productId, quantity, color, size }: updateQuantityProps) => void;
@@ -196,7 +196,7 @@ function CartProvider({ children }: providertype) {
             }
         }
     }, []);
-    
+
     useEffect(() => {
         if (cart.length > 0) {
             localStorage.setItem('cart', JSON.stringify(cart));
@@ -216,12 +216,12 @@ function CartProvider({ children }: providertype) {
         })
     }
 
-    function deleteFromCart(productId: number) {
-        console.log("deleted")
+    function deleteFromCart(productId: number, color: string, size: string) {
+        console.log("deleted", productId, color, size)
         setCart((prevData) => {
-            return prevData.filter((product) => (
-                product.productId !== productId
-            ));
+            return prevData.filter((product) => {
+                return (product.productId !== productId || product.color.name !== color || product.size.size !== size)
+            });
         })
     }
 

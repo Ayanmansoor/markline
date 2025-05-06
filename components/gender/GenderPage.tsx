@@ -47,9 +47,9 @@ function GenderPage() {
     return (
         <>
             <Hero bannerImages={HomeBanner} css={" h-[40vh] sm:h-[60vh]"} />
-{/* 
-            <CldImage
-                src="samples/ecommerce/leather-bag-gray" 
+
+            {/* <CldImage
+                src="https://res.cloudinary.com/demhgityh/image/upload/v1746551239/black-embellished-flip-flops-for-women-2_niiqb7.jpg" 
                 width={600}
                 height={600}
                 alt="Premium Shoe"

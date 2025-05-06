@@ -38,27 +38,28 @@ function AddToCardPopver({ children, currentProduct, colors, sizes }: AddToCardP
     })
     const { addToCart, getCartProduct } = useCart();
 
-    useEffect(() => {
-        // clearCart()
-        const data = getCartProduct(currentProduct.id)
-        setProductcart(
-            (prev: any) => ({
-                ...prev,
-                colors: {
-                    ...prev?.colors,
-                    color: data?.color
-                },
-                sizes: {
-                    ...prev?.sizes,
-                    size: data?.size
-                }
-            })
-        )
-    }, [currentProduct.id, getCartProduct])
+    // useEffect(() => {
+    //     // clearCart()
+    //     const data = getCartProduct(currentProduct.id)
+    //     setProductcart(
+    //         (prev: any) => ({
+    //             ...prev,
+    //             colors: {
+    //                 ...prev?.colors,
+    //                 color: data?.color
+    //             },
+    //             sizes: {
+    //                 ...prev?.sizes,
+    //                 size: data?.size
+    //             }
+    //         })
+    //     )
+
+    // }, [currentProduct.id, getCartProduct])
 
     useEffect(() => {
+
         if (!currentProduct?.colors || !currentProduct?.sizes) return;
-
         const parsedColors: Colors[] = currentProduct.colors.map((item: any) =>
             typeof item === "string" ? JSON.parse(item) : item
         );
@@ -77,6 +78,7 @@ function AddToCardPopver({ children, currentProduct, colors, sizes }: AddToCardP
                 },
             }));
         }
+
     }, [currentProduct]);
 
 
