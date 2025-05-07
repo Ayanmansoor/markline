@@ -120,12 +120,13 @@ function CartSheet({ children }: {
                                             </div>
                                         </span>
                                         <div className='flex items-center  justify-between gap-1 rounded-full border border-gray-400 py-[2px] px-1 sm:w-fit w-full '>
-                                            <button className='w-fit h-fit relative rounded-full p-[2px]  bg-gray-200' onClick={() => increaseQuentity({ productId: item.productId, quantity: item.quantity, size: item.size, color: item.color })}>
-                                                <BsPlus className='text-[12x]' />
-                                            </button>
-                                            <p className='text-[12px] font-normal text-foreground px-[2px]'>{item?.quantity}</p>
                                             <button className='w-fit h-fit relative rounded-full p-[2px] bg-gray-200' onClick={() => decreaseQuentity({ productId: item.productId, quantity: item.quantity, color: item.color, size: item.size })} >
                                                 <HiMiniMinusSmall className='text-[15px] ' />
+                                            </button>
+                                            <p className='text-[12px] font-normal text-foreground px-[2px]'>{item?.quantity}</p>
+
+                                            <button className='w-fit h-fit relative rounded-full p-[2px]  bg-gray-200' onClick={() => increaseQuentity({ productId: item.productId, quantity: item.quantity, size: item.size, color: item.color })}>
+                                                <BsPlus className='text-[12x]' />
                                             </button>
                                         </div>
                                         <span className='w-full item-start relative h-auto flex flex-col  px-2' >

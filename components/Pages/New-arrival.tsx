@@ -25,7 +25,7 @@ function NewArrival() {
     return (
         <>
 
-            <section className='w-full relative h-auto flex items-start bg-black p-6 container md:px-10   xl:px-20 '>
+            <section className='w-full relative h-auto flex items-start bg-black  '>
                 <video src="/" className='w-full relative h-[250px] md:h-[350px] lg:h-[500px] '></video>
             </section>
 

@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react'
+import Link from 'next/link'
 
 import { useQuery } from 'react-query'
 import { getAllCollections, getAllNewArrivalProducts, getAllProducts } from '@/Supabase/SupabaseApi'
@@ -35,8 +36,8 @@ function CollcetionPage() {
   const { data: newArrivals, isLoading, isError } = useQuery<any>({
     queryKey: ["newarrivals"],
     queryFn: getAllNewArrivalProducts,
-    staleTime: 10 * 60 * 1000, 
-    cacheTime: 15 * 60 * 1000, 
+    staleTime: 10 * 60 * 1000,
+    cacheTime: 15 * 60 * 1000,
   });
 
 
@@ -102,7 +103,100 @@ function CollcetionPage() {
           <SecondHero categoryName={"Shoes"} data={newArrivals} />
         </CategoriesSection>
       }
+      <section className='w-full relative flex flex-col gap-5 container px-20 py-10'>
+        <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
 
+        {/* Gender-Based Links */}
+        <div className='w-full relative h-auto flex flex-col gap-4'>
+          <p className='text-base font-medium text-primary'>Shop Shoes By Gender</p>
+          <div className='w-full flex flex-wrap items-center gap-2'>
+            <Link href='/collections/MEN' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Men Shoes</Link>
+            <Link href='/collections/WOMEN' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Shoes</Link>
+            <Link href='/collections/KIDS' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Kids Shoes</Link>
+            <Link href='/collections/GIRLS' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Girls Shoes</Link>
+          </div>
+        </div>
+
+        {/* Shoe Type Links */}
+        <div className='w-full relative h-auto flex flex-col gap-4'>
+          <p className='text-base font-medium text-primary'>Shop By Shoe Type</p>
+          <div className='w-full flex flex-wrap items-center gap-2'>
+            <Link href='/collections/wedding-specials' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Wedding Specials</Link>
+            <Link href='/collections/sandals' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Sandals</Link>
+            <Link href='/collections/flats' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Flats</Link>
+            <Link href='/collections/thongs' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Thongs</Link>
+            <Link href='/collections/ballerinas' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Ballerinas</Link>
+            <Link href='/collections/mules' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Mules</Link>
+          </div>
+        </div>
+
+        {/* Women-Specific Types */}
+        <div className='w-full relative h-auto flex flex-col gap-4'>
+          <p className='text-base font-medium text-primary'>Shop By Women Shoe Type</p>
+          <div className='w-full flex flex-wrap items-center gap-2'>
+            <Link href='/collections/wedding-specials' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Wedding Specials</Link>
+            <Link href='/collections/sandals' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Sandals</Link>
+            <Link href='/collections/flats' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Flats</Link>
+            <Link href='/collections/thongs' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Thongs</Link>
+            <Link href='/collections/ballerinas' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Ballerinas</Link>
+            <Link href='/collections/mules' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Mules</Link>
+          </div>
+        </div>
+
+        {/* Informational Sections */}
+        <div className='container py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto h-[400px]'>
+          <section>
+            <h2 className='text-xl sm:text-2xl font-semibold mb-4'>Explore Footwear for Everyone</h2>
+            <p className='text-gray-700'>
+              From playful kicks for kids to fashion-forward styles for GenZ, timeless classics for men, and elegant essentials for women,
+              our diverse collection ensures that everyone finds their perfect fit. We combine comfort, quality, and the latest trends
+              to create a seamless experience for every step of life.
+            </p>
+          </section>
+
+          <section>
+            <h2 className='text-xl sm:text-2xl font-semibold mb-4'>Types of Footwear by Gender</h2>
+            <ul className='list-disc list-inside text-gray-700 space-y-2'>
+              <li><strong>For Men:</strong> Versatile lace-ups, loafers, ethnic mojaris, and street-ready sneakers for every occasion.</li>
+              <li><strong>For Women:</strong> Elegant heels, trendy flats, ethnic Kolhapuris, and comfy slip-ons—where style meets comfort.</li>
+              <li><strong>For Kids:</strong> Fun, flexible, and durable shoes like velcro sneakers and sporty sandals built for adventure.</li>
+              <li><strong>For GenZ:</strong> Bold, expressive picks—chunky sneakers, graphic slip-ons, and trend-driven sandals.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className='text-xl sm:text-2xl font-semibold mb-4'>How to Choose the Right Shoes</h2>
+            <ul className='list-disc list-inside text-gray-700 space-y-2'>
+              <li><strong>Age & Style:</strong> Opt for designs that fit the age group—playful for kids, expressive for GenZ, versatile for adults.</li>
+              <li><strong>Occasion:</strong> Match your footwear to your lifestyle—casual, formal, or festive.</li>
+              <li><strong>Fit & Comfort:</strong> Use sizing guides and reviews. Look for arch support and padded soles.</li>
+              <li><strong>Material:</strong> Leather for durability, mesh for breathability, synthetics for lightweight comfort.</li>
+              <li><strong>Wear Frequency:</strong> Durable shoes for daily wear; lightweight styles for occasional flair.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className='text-xl sm:text-2xl font-semibold mb-4'>Footwear Trends for All</h2>
+            <ul className='list-disc list-inside text-gray-700 space-y-2'>
+              <li><strong>Bold Soles:</strong> Platforms and thick soles dominate the streets and runways.</li>
+              <li><strong>Pastel Tones & Neutrals:</strong> Understated hues that work across outfits and age groups.</li>
+              <li><strong>Retro Revivals:</strong> Mary Janes, moccasins, and high-tops making a bold comeback.</li>
+              <li><strong>Tech Comfort:</strong> Cushioned insoles and lightweight builds for all-day support.</li>
+              <li><strong>Ethnic Fusion:</strong> Classic Indian silhouettes blended with modern designs.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className='text-xl sm:text-2xl font-semibold mb-4'>Why Quality Footwear Matters</h2>
+            <ul className='list-disc list-inside text-gray-700 space-y-2'>
+              <li><strong>Comfort:</strong> Well-made shoes reduce fatigue and make walking a breeze.</li>
+              <li><strong>Durability:</strong> Quality craftsmanship means less frequent replacements.</li>
+              <li><strong>Foot Health:</strong> Good fit and cushioning prevent heel pain and blisters.</li>
+              <li><strong>Confidence:</strong> When your shoes feel good, you walk with confidence and style.</li>
+            </ul>
+          </section>
+        </div>
+      </section>
 
       {/* <CategoriesSection title={"Products"} >
         <CarouselProduct data={{ categoryName: "all" }} />
