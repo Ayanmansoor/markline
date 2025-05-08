@@ -61,8 +61,7 @@ function Footer() {
             <ul className='flex items-start flex-col text-base  justify-start gap-3'>
               <Link href={"https://www.instagram.com/marklinefashion/"} target='_blank' rel='noreferrer noindex' className='flex items-center gap-1'><CiInstagram className='text-[20px] hover:text-red-300' /> Instagram</Link>
               <Link href={""} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><CiFacebook className='text-[20px] hover:text-red-300' /> Facebook</Link>
-              <Link href={""} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><RxTwitterLogo className='text-[20px] hover:text-red-300' /> Twitter</Link>
-              <Link href={''} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><RiTelegramLine className='text-[20px] hover:text-red-300' /> Telegram</Link>
+              <Link href={"https://x.com/MarklineFashion"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><RxTwitterLogo className='text-[20px] hover:text-red-300' /> Twitter</Link>
             </ul>
           </div>
 
