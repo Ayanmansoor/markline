@@ -34,14 +34,10 @@ function LeatestCollection({ url }: { url: string }) {
                     modules={[Pagination, EffectFade, Autoplay]}
                     className="mySwiper w-full relative h-full "
                 >
-                    <SwiperSlide className='w-full relative h-full border bg-gray-300 '>
-                        <img src="/login-model (5).jpeg" alt="product image" height={300} width={300} className='w-full relative h-full object-cover object-bottom' loading='lazy' />
-                    </SwiperSlide>
-                    <SwiperSlide className='w-full relative h-full border bg-gray-300 '>
-                        <img src="/login-model (3).jpeg" alt="product image" height={300} width={300} className='w-full relative h-full object-cover'  loading='lazy' />
-                    </SwiperSlide>
-                    <SwiperSlide className='w-full relative h-full border bg-gray-300 '>
-                        <img src="/login-model (2).jpeg" alt="product image" height={300} width={300} className='w-full relative h-full object-cover'  loading='lazy' />
+                    <SwiperSlide className='w-full relative h-full border '>
+                        <Link href='/collections/mule' className='w-full h-full relative'>
+                            <video src="/advertise-one.mp4" className='w-full relative h-full object-cover object-bottom' autoPlay loop muted ></video>
+                        </Link>
                     </SwiperSlide>
                 </Swiper>
                 <Swiper
@@ -58,15 +54,10 @@ function LeatestCollection({ url }: { url: string }) {
                     modules={[Pagination, EffectFade, Autoplay]}
                     className="mySwiper w-full relative h-full "
                 >
-                    <SwiperSlide className='w-full relative h-full border bg-gray-300 '>
-                        <img src="/login-model (5).jpeg" alt="product image" height={300} width={300} className='w-full relative h-full object-cover object-bottom'  loading='lazy' />
+                    <SwiperSlide className='w-full relative h-full border  '>
+                        {/* <img src="/login-model (5).jpeg" alt="product image" height={300} width={300} className='w-full relative h-full object-cover object-bottom'  loading='lazy' /> */}
                     </SwiperSlide>
-                    <SwiperSlide className='w-full relative h-full border bg-gray-300 '>
-                        <img src="/login-model (3).jpeg" alt="product image" height={300} width={300} className='w-full relative h-full object-cover'   loading='lazy'/>
-                    </SwiperSlide>
-                    <SwiperSlide className='w-full relative h-full border bg-gray-300 '>
-                        <img src="/login-model (2).jpeg" alt="product image" height={300} width={300} className='w-full relative h-full object-cover'  loading='lazy' />
-                    </SwiperSlide>
+
                 </Swiper>
                 <Swiper
                     pagination={{
@@ -82,15 +73,10 @@ function LeatestCollection({ url }: { url: string }) {
                     modules={[Pagination, EffectFade, Autoplay]}
                     className="mySwiper w-full relative h-full "
                 >
-                    <SwiperSlide className='w-full relative h-full border bg-gray-300 '>
-                        <img src="/login-model (5).jpeg" alt="product image" height={300} width={300} className='w-full relative h-full object-cover object-bottom'  loading='lazy' />
+                    <SwiperSlide className='w-full relative h-full border  '>
+                        {/* <img src="/login-model (5).jpeg" alt="product image" height={300} width={300} className='w-full relative h-full object-cover object-bottom'  loading='lazy' /> */}
                     </SwiperSlide>
-                    <SwiperSlide className='w-full relative h-full border bg-gray-300 '>
-                        <img src="/login-model (3).jpeg" alt="product image" height={300} width={300} className='w-full relative h-full object-cover'   loading='lazy'/>
-                    </SwiperSlide>
-                    <SwiperSlide className='w-full relative h-full border bg-gray-300 '>
-                        <img src="/login-model (2).jpeg" alt="product image" height={300} width={300} className='w-full relative h-full object-cover'  loading='lazy' />
-                    </SwiperSlide>
+
                 </Swiper>
             </section>
         </section>
