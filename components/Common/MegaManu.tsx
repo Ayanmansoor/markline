@@ -29,7 +29,10 @@ function MegaManu({ children }: { children: React.ReactNode }) {
         queryKey: ["megamanuslugdata", slug],
         enabled: !!slug,
         queryFn: () => getProductBaseOnCollection(slug),
-        staleTime: 2 * 60 * 1000,
+        staleTime: Infinity,        
+        refetchOnMount: false,      // don't refetch when remounting
+        refetchOnWindowFocus: false, // don't refetch when window gains focus
+        refetchOnReconnect: false, 
     });
 
 

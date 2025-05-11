@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     description: "Luxury fashion brand offering high-end footwear, bags, and accessories designed to elevate your style with sophistication and flair.",
     images: [
       {
-        url: "https://marklinefashion.com/opengraph-image.png",
+        url: "/opengraph-image.png",
         width: 4800,
         height: 2520,
         alt: "Markline Fashion - Luxury Footwear & Accessories",

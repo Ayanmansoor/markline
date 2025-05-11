@@ -21,7 +21,10 @@ function GenderPage() {
         queryKey: ["collectiondatabaseonslug", slug],
         enabled: !!slug,
         queryFn: () => getProductBaseOnCollection(nslug),
-        staleTime: 10 * 60 * 1000, // 2 minutes caching
+        staleTime: Infinity,        
+        refetchOnMount: false,      // don't refetch when remounting
+        refetchOnWindowFocus: false, // don't refetch when window gains focus
+        refetchOnReconnect: false, 
     });
     const {
         data: HomeBanner = [],
@@ -30,15 +33,20 @@ function GenderPage() {
     } = useQuery<any>({
         queryKey: ["collectionbanner"],
         queryFn: getAllBanner,
-        staleTime: 1000 * 60 * 10,
-        retry: 2,
+        staleTime: Infinity,        
+        refetchOnMount: false,      // don't refetch when remounting
+        refetchOnWindowFocus: false, // don't refetch when window gains focus
+        refetchOnReconnect: false, 
     });
 
     const { data: genderCollection, isLoading: isGenderLoading, isError: isGenderDataerror } = useQuery<any>({
         queryKey: ["gendercollection", slug],
         enabled: !!slug,
         queryFn: () => getCollectionBaseOnGender(nslug),
-        staleTime: 10 * 60 * 1000,
+        staleTime: Infinity,        
+        refetchOnMount: false,      // don't refetch when remounting
+        refetchOnWindowFocus: false, // don't refetch when window gains focus
+        refetchOnReconnect: false, 
     });
     console.log(genderCollection, 'gender colection')
 

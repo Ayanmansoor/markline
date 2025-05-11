@@ -28,9 +28,11 @@ function CategoryL2page() {
         queryKey: ["collectiondatabaseonslug", slug],
         enabled: !!slug,
         queryFn: () => getProductBaseOnCollection(nslug),
-        staleTime: 10 * 60 * 1000, // 2 minutes caching
-    });
-
+        staleTime: Infinity,        // never becomes stale
+        refetchOnMount: false,      // don't refetch when remounting
+        refetchOnWindowFocus: false, // don't refetch when window gains focus
+        refetchOnReconnect: false,   // don't refetch on reconnect
+      });
 
 
     const {
@@ -40,8 +42,10 @@ function CategoryL2page() {
     } = useQuery<any>({
         queryKey: ["collections"],
         queryFn: getAllCollections,
-        staleTime: 1000 * 60 * 10,
-        retry: 2,
+        staleTime: Infinity,        
+        refetchOnMount: false,      // don't refetch when remounting
+        refetchOnWindowFocus: false, // don't refetch when window gains focus
+        refetchOnReconnect: false, 
     });
     const {
         data: HomeBanner = [],
@@ -50,8 +54,10 @@ function CategoryL2page() {
     } = useQuery<any>({
         queryKey: ["collectionbanner"],
         queryFn: getAllBanner,
-        staleTime: 1000 * 60 * 10,
-        retry: 2,
+        staleTime: Infinity,        
+        refetchOnMount: false,      // don't refetch when remounting
+        refetchOnWindowFocus: false, // don't refetch when window gains focus
+        refetchOnReconnect: false, 
     });
 
 

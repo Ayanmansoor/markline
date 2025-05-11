@@ -22,8 +22,10 @@ function BlogPage() {
         queryKey: ["blog", slug],
         queryFn: () => getblog(blogslug),
         enabled: !!slug,
-        staleTime: 1000 * 60 * 2,
-        retry: 2,
+        staleTime: Infinity,        
+        refetchOnMount: false,      // don't refetch when remounting
+        refetchOnWindowFocus: false, // don't refetch when window gains focus
+        refetchOnReconnect: false, 
     });
 
     if(isError){

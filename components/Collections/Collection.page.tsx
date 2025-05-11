@@ -21,23 +21,29 @@ function CollcetionPage() {
   const { data: products, isLoading: productloading, isError: producterror } = useQuery<any>({
     queryKey: ["products"],
     queryFn: getAllProducts,
-    staleTime: 5 * 60 * 1000, // Data remains fresh for 10 minutes
-    cacheTime: 10 * 60 * 1000, // Data stays in cache for 15 minutes
+    staleTime: Infinity,        
+    refetchOnMount: false,      // don't refetch when remounting
+    refetchOnWindowFocus: false, // don't refetch when window gains focus
+    refetchOnReconnect: false, 
   });
 
   const { data: collections, isLoading: collectionloading, isError: collectionerror } = useQuery<any>({
     queryKey: ["collections"],
     queryFn: getAllCollections,
-    staleTime: 10 * 60 * 1000, // Data remains fresh for 10 minutes
-    cacheTime: 15 * 60 * 1000, // Data stays in cache for 15 minutes
+    staleTime: Infinity,        
+    refetchOnMount: false,      // don't refetch when remounting
+    refetchOnWindowFocus: false, // don't refetch when window gains focus
+    refetchOnReconnect: false, 
   });
 
 
   const { data: newArrivals, isLoading, isError } = useQuery<any>({
     queryKey: ["newarrivals"],
     queryFn: getAllNewArrivalProducts,
-    staleTime: 10 * 60 * 1000,
-    cacheTime: 15 * 60 * 1000,
+    staleTime: Infinity,        
+    refetchOnMount: false,      // don't refetch when remounting
+    refetchOnWindowFocus: false, // don't refetch when window gains focus
+    refetchOnReconnect: false, 
   });
 
 

@@ -23,8 +23,10 @@ function Productspage() {
     } = useQuery<any>({
         queryKey: ["products"],
         queryFn: getAllProducts,
-        staleTime: 1000 * 60 * 10, // Keep fresh for 2 minutes
-        retry: 1,
+        staleTime: Infinity,        
+        refetchOnMount: false,      // don't refetch when remounting
+        refetchOnWindowFocus: false, // don't refetch when window gains focus
+        refetchOnReconnect: false, 
     });
 
     const {
@@ -34,8 +36,10 @@ function Productspage() {
     } = useQuery<any>({
         queryKey: ["collections"],
         queryFn: getAllCollections,
-        staleTime: 1000 * 60 * 10,
-        retry: 2,
+        staleTime: Infinity,        
+        refetchOnMount: false,      // don't refetch when remounting
+        refetchOnWindowFocus: false, // don't refetch when window gains focus
+        refetchOnReconnect: false, 
     });
 
     useEffect(() => {

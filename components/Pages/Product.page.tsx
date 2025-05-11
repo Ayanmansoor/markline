@@ -25,9 +25,10 @@ function ProductPage() {
     queryKey: ["product", productslug],
     queryFn: () => getProductData(productslug),
     enabled: !!productslug,
-    staleTime: 1000 * 60 * 10,
-    retry: 3,
-    refetchOnWindowFocus: true,
+    staleTime: Infinity,
+    refetchOnMount: false,      // don't refetch when remounting
+    refetchOnWindowFocus: false, // don't refetch when window gains focus
+    refetchOnReconnect: false,
   });
 
   const {
@@ -39,8 +40,10 @@ function ProductPage() {
     queryKey: ["relatedProducts", product, productslug],
     queryFn: () => getRelatedProducts(product, productslug),
     enabled: !!product && !!productslug,
-    staleTime: 1000 * 60 * 2,
-    retry: 2,
+    staleTime: Infinity,
+    refetchOnMount: false,      // don't refetch when remounting
+    refetchOnWindowFocus: false, // don't refetch when window gains focus
+    refetchOnReconnect: false,
   });
 
 
