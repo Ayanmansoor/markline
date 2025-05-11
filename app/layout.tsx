@@ -48,6 +48,7 @@ export const metadata: Metadata = {
     description: "Luxury fashion brand offering high-end footwear, bags, and accessories designed to elevate your style with sophistication and flair.",
     images: [
       {
+        // new opengraph image add 
         url: "/opengraph-image.png",
         width: 4800,
         height: 2520,
