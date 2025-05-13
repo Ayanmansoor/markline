@@ -5,12 +5,14 @@ import { isError, useQuery } from 'react-query'
 import Link from 'next/link'
 import { IoFilterOutline } from "react-icons/io5";
 import MobFilterSheet from './MobFilterSheet';
-import { getAllProducts, getAllCollections } from '@/Supabase/SupabaseApi'
+import { getAllProducts, getAllCollections, getBannerBaseonSlug } from '@/Supabase/SupabaseApi'
 import ProductFilter from '../Common/ProductFilter';
 import GridRroduct from '../Home/GridRroduct';
 import Discount from '../Discounts/Discount';
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton';
 import { ProductsProps } from '@/types/interfaces';
+import CarouselProduct from '../Product/CarouselProduct';
+import L2Banner from '../Common/L2Banner';
 
 
 function Productspage() {
@@ -23,10 +25,10 @@ function Productspage() {
     } = useQuery<any>({
         queryKey: ["products"],
         queryFn: getAllProducts,
-        staleTime: Infinity,        
+        staleTime: Infinity,
         refetchOnMount: false,      // don't refetch when remounting
         refetchOnWindowFocus: false, // don't refetch when window gains focus
-        refetchOnReconnect: false, 
+        refetchOnReconnect: false,
     });
 
     const {
@@ -36,18 +38,31 @@ function Productspage() {
     } = useQuery<any>({
         queryKey: ["collections"],
         queryFn: getAllCollections,
-        staleTime: Infinity,        
+        staleTime: Infinity,
         refetchOnMount: false,      // don't refetch when remounting
         refetchOnWindowFocus: false, // don't refetch when window gains focus
-        refetchOnReconnect: false, 
+        refetchOnReconnect: false,
     });
+
+    const {
+        data: banner=[],
+        isLoading: bannerLoading,
+        isError: bannerErorr
+    } = useQuery<any>({
+        queryKey: ["dynamicBanner"],
+        queryFn: () => getBannerBaseonSlug('product'),
+        staleTime: Infinity,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+    })
 
     useEffect(() => {
         const filterproduct = allproducts?.filter((product: ProductsProps) => {
             return product?.price <= productRangevalue
         })
         setFilterProducts(filterproduct)
-    }, [productRangevalue, allproducts])
+    }, [productRangevalue ,allproducts])
 
 
 
@@ -58,14 +73,11 @@ function Productspage() {
         <>
             {/* <Hero categoryName={"category"} /> */}
             {/* <SecondHero categoryName={"category"} /> */}
-
             {/* <CarouselProduct data={{ categoryName: "all" }} />
-
-
             <GridRroduct data={{ categoryName: "category", name: "Top Deal On Fasion " }} />
+            */}
 
-            <CarouselProduct data={{ categoryName: "all" }} /> */}
-
+            <L2Banner data={banner} />
 
             <section className="w-full min-h-[300px] relative grid grid-cols-1 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.6fr_3fr] px-2  md:px-10   xl:px-20 ">
                 {
@@ -212,7 +224,7 @@ function Productspage() {
                     </section>
                 </div>
             </section>
-            
+
             <Discount />
 
 

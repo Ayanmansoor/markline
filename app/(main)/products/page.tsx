@@ -1,6 +1,7 @@
 import React from 'react'
 import Productspage from '@/components/Products/Products.page'
 import { mergeMetadata } from '@/app/layout';
+import L2Banner from '@/components/Common/L2Banner';
 export const metadata = mergeMetadata({
   title: "Shop Products | Markline Fashion",
   description:

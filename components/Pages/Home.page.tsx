@@ -93,7 +93,7 @@ function HomePage() {
       {
 
         currentproducts?.length > 0 ?
-          <CategoriesSection title={"Styles Made for You"} url="collections">
+          <CategoriesSection title={"Women's footwear collections"} url="collections">
             <Collectionsection collections={collections} url={'collections'} />
           </CategoriesSection>
           :
@@ -108,7 +108,7 @@ function HomePage() {
       {
 
         currentproducts?.length > 0 ?
-          <CategoriesSection title={"Styles Made for You"} url="products">
+          <CategoriesSection title={"Buy women's footwear online"} url="products">
             <GridRroduct data={currentproducts?.slice(0, 10)} url={'products'} />
           </CategoriesSection>
           :
@@ -128,7 +128,7 @@ function HomePage() {
 
       {
         casuals?.length > 0 &&
-        <CategoriesSection title={"Casuals Products "} url={''} >
+        <CategoriesSection title={"Everyday Essentials  Women's Casual Footwear "} url={''} >
           <ProductsHighlightes data={casuals} />
         </CategoriesSection >
       }
@@ -136,7 +136,7 @@ function HomePage() {
 
       {
         wedding?.length > 0 &&
-        <CategoriesSection title={"Collections Products "} url={''} >
+        <CategoriesSection title={"Markline  Collections Products "} url={''} >
           <ProductsHighlightes data={wedding} />
         </CategoriesSection >
 
@@ -148,7 +148,7 @@ function HomePage() {
 
       {
         newArrivals?.length > 0 &&
-        <CategoriesSection title={"Latest at Markline"} url="new-arrivals" >
+        <CategoriesSection title={"Step into the Season's Newest Trends"} url="new-arrivals" >
           <SecondHero categoryName={"Shoes"} data={newArrivals}  />
         </CategoriesSection>
       }

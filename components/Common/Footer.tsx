@@ -13,7 +13,14 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '..
 function Footer() {
   return (
     <footer className='  w-full relative  h-auto text-primary-foreground bg-black   overflow-hidden'>
+      
 
+      <section className='w-full h-auto flex flex-col gap-2'>
+        <span className='w-full relative h-auto flex flex-col gap-2'>
+          <h2 className='text-lg font-medium text-primary'></h2>
+        </span>
+
+      </section>
 
       <section className='w-full relative h-[450px] md:flex hidden  flex-col gap-1 container text-white py-10 pb-56 px-5 md:px-10   xl:px-20'>
         <div className=' w-full h-full grid   z-20 grid-cols-4 gap-5  '>

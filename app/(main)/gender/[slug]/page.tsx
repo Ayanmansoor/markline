@@ -2,66 +2,37 @@ import React from 'react'
 import CategoryL2page from '@/components/Collection/CollectionPage'
 import { getcollection } from '@/Supabase/SupabaseApi';
 import GenderPage from '@/components/gender/GenderPage';
+import { mergeMetadata } from '@/app/layout';
 
 
 
-// export async function generateMetadata({ params }) {
-//   const slug = params.slug;
 
-//   const collection = await getcollection(slug);
+export async function generateMetadata({ params }) {
+  const slug = params.slug;
 
-//   if (!collection || !collection.name) {
-//     return {
-//       title: "Collection | Markline Fashion",
-//       description: "Explore elegant collections by Markline Fashion, where tradition meets modern design.",
-//     };
-//   }
-
-//   const collectionName = collection.name || "Collection";
-//   const description =
-//     collection.description ||
-//     "Discover our curated collection of women's accessories, where elegance and craftsmanship unite.";
-
-//   const imageObject = collection.image_urls?.[0]
-//     ? JSON.parse(collection.image_urls[0])
-//     : null;
-//   const imageUrl = imageObject?.image_url || "https://yourdomain.com/default.jpg";
-
-//   return {
-//     title: `${collectionName} Collection | Markline Fashion`,
-//     description,
-//     keywords: ["Markline Fashion", collectionName, "Toe Rings", "Women's Jewelry", "Elegant Accessories"],
-//     openGraph: {
-//       title: `${collectionName} Collection`,
-//       description,
-//       type: "website",
-//       url: `https://yourdomain.com/collections/${slug}`,
-//       images: [
-//         {
-//           url: imageUrl,
-//           alt: `${collectionName} Collection`,
-//         },
-//       ],
-//     },
-//     robots: {
-//       index: true,
-//       follow: true,
-//       "max-image-preview": "large",
-//       "max-snippet": -1,
-//       "max-video-preview": -1,
-//     },
-//     twitter: {
-//       card: "summary_large_image",
-//       title: `${collectionName} Collection`,
-//       description,
-//       images: [imageUrl],
-//     },
-//     alternates: {
-//       canonical: `https://marklinefashion.com/collections/${params.slug}`,
-//     },
-//   };
-// }
-
+  return mergeMetadata({
+    title: "Footwear for Men, Women & Kids – Shop Stylish Shoes Online in India | Markline Fashion",
+    description:
+      "Explore the latest in men’s, kids’, and women’s footwear online in India. Shop trendy casuals, formals, wedding shoes & more at Markline Fashion.",
+    robots: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+    openGraph: {
+      title: "Footwear for Men, Women & Kids – Shop Stylish Shoes Online in India | Markline Fashion",
+      description:
+        "Explore the latest in men’s, kids’, and women’s footwear online in India. Shop trendy casuals, formals, wedding shoes & more at Markline Fashion.",
+      type: "website",
+      url: `https://marklinefashion.com/gender/${slug}`,
+    },
+    alternates: {
+      canonical: `https://marklinefashion.com/gender/${slug}`,
+    },
+  });
+}
 
 function GenderCollection() {
   return (

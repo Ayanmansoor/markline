@@ -28,7 +28,7 @@ interface Discount {
 export interface ProductsProps {
   quantity: any;
   brand_key: string;
-  brands:any;
+  brands: any;
   collection_key: string;
   colors: Colors[];
   created_at: string;
@@ -70,31 +70,28 @@ export interface CartProductsProps {
   stock: number;
 }
 
-
-export interface CartItem{
-  name:string,
-  productId:number,
-  price:number,
-  quantity:number,
-  color:Colors,
-  size:Sizes,
+export interface CartItem {
+  name: string;
+  productId: number;
+  price: number;
+  quantity: number;
+  color: Colors;
+  size: Sizes;
   image_urls?: Images[];
-  discounts:Discount
-  discount_key:string,
+  discounts: Discount;
+  discount_key: string;
 }
 
-export interface updateQuantityProps{
-  productId:number,
-  color:Colors,
-  size:Sizes,
-  quantity:number
+export interface updateQuantityProps {
+  productId: number;
+  color: Colors;
+  size: Sizes;
+  quantity: number;
 }
 
-
-
-export interface ProductsHighlightesProps{
-  product:ProductsProps,
-  HighlighterType:string
+export interface ProductsHighlightesProps {
+  product: ProductsProps;
+  HighlighterType: string;
 }
 
 export interface TrendingProductsProps {
@@ -144,6 +141,7 @@ export interface homeBannervalue {
   id: number;
   name: string;
   url: string;
+  slug?: string;
 }
 
 export interface orderData {
@@ -170,11 +168,11 @@ export interface BlogCardProps {
   discription: string;
 }
 
-export interface acceptorderProps{
-  message:string,
-  code:number,
-  isOrder:boolean,
-  data:any
+export interface acceptorderProps {
+  message: string;
+  code: number;
+  isOrder: boolean;
+  data: any;
 }
 
 // collection fo props
@@ -184,17 +182,16 @@ export interface CollectionsDataProps {
   url: string;
 }
 
-export interface newCollectionCardProps{
-  collections:CollectionCardProps,
-  url:string
-} 
+export interface newCollectionCardProps {
+  collections: CollectionCardProps;
+  url: string;
+}
 
 export interface ProdcutFilterProps {
   collection: CollectionCardProps[];
   children?: React.ReactNode;
-  productRangevalue:number,
-  setPRoductRange:React.Dispatch<React.SetStateAction<number>>
-
+  productRangevalue: number;
+  setPRoductRange: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface ProductsDataProps {
@@ -202,25 +199,22 @@ export interface ProductsDataProps {
   url?: string;
 }
 
-export interface BuyComponentProps  extends ProductsProps{
-    selectedColor:Colors,
-    selectedSize:Sizes,
-    quantity:number
-    
+export interface BuyComponentProps extends ProductsProps {
+  selectedColor: Colors;
+  selectedSize: Sizes;
+  quantity: number;
 }
 
-
-
-export interface AddressFromProps{
-  product:ProductsProps,
-  setConfirm:React.Dispatch<React.SetStateAction<any>>,
-  setOrderID:React.Dispatch<React.SetStateAction<any>>,
+export interface AddressFromProps {
+  product: ProductsProps;
+  setConfirm: React.Dispatch<React.SetStateAction<any>>;
+  setOrderID: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export interface GridProductProps {
   data: ProductsProps[];
   url: string;
-  css?:string
+  css?: string;
 }
 export interface CarouselProductProps {
   url: string;
@@ -247,6 +241,19 @@ export interface BuyDailogProps {
   product: BuyComponentProps;
 }
 
-export interface ProductsHighlightesDataProps{
-  data:ProductsHighlightesProps[]
+export interface ProductsHighlightesDataProps {
+  data: ProductsHighlightesProps[];
+}
+
+export interface L2Bannerprop {
+  created_at: string;
+  image_url: string;
+  id: number;
+  name: string;
+  url: string;
+  slug?: string;
+}
+
+export interface L2DataProps{
+  data:L2Bannerprop[]
 }

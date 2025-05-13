@@ -9,16 +9,18 @@ export async function generateMetadata({ params }) {
 
   const collection = await getcollection(slug);
 
-  if (!collection || !collection.name) {
+  console.log(collection)
+
+  if (!collection || !collection.seoTitle) {
     return {
       title: "Collection | Markline Fashion",
       description: "Explore elegant collections by Markline Fashion, where tradition meets modern design.",
     };
   }
 
-  const collectionName = collection.name || "Collection";
+  const collectionName = collection.seoTitle || "Collection";
   const description =
-    collection.description ||
+    collection.seoDescription ||
     "Discover our curated collection of women's accessories, where elegance and craftsmanship unite.";
 
   const imageObject = collection.image_urls?.[0]

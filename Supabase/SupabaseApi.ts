@@ -81,6 +81,16 @@ async function getAllBanner() {
   }
 }
 
+async function getBannerBaseonSlug(slug:string) {
+  const {data:banner,error}=await mysupabase.from("HomeBanner").select("*").eq("slug",slug)
+
+   if (banner) {
+    return banner;
+  } else {
+    return new Error(error.message);
+  }
+}
+
 async function getAllTrendingProducts() {
   const { data: trendings, error } = await mysupabase
     .from("trendings")
@@ -278,4 +288,5 @@ export {
   getHighlighteProducts,
   getcollection,
   getCollectionBaseOnGender,
+  getBannerBaseonSlug
 };

@@ -11,6 +11,7 @@ import { useParams } from 'next/navigation'
 import { ProductsProps } from '@/types/interfaces'
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
 import Link from 'next/link'
+import L2Banner from '../Common/L2Banner'
 
 
 
@@ -22,7 +23,6 @@ function CategoryL2page() {
     const [productRangevalue, setPRoductRange] = useState(5000)
     const [filterProducts, setFilterProducts] = useState<ProductsProps[]>()
     const nslug = Array.isArray(slug) ? slug[0] : slug;
-
 
     const { data: products, isLoading, isError } = useQuery<any>({
         queryKey: ["collectiondatabaseonslug", slug],
@@ -81,7 +81,7 @@ function CategoryL2page() {
             return product?.price <= productRangevalue
         })
         setFilterProducts(filterproduct)
-    }, [products, productRangevalue])
+    }, [productRangevalue])
 
     function showMoreProducts() {
         if (products?.length >= 20) {
@@ -91,7 +91,8 @@ function CategoryL2page() {
 
     return (
         <>
-            <Hero bannerImages={HomeBanner} css={" h-[40vh] sm:h-[60vh]"} />
+            {/* <Hero bannerImages={HomeBanner} css={" h-[40vh] sm:h-[60vh]"} /> */}
+            <L2Banner data={HomeBanner} />
 
             {/* <SecondHero categoryName={"category"} /> */}
 
@@ -111,7 +112,7 @@ function CategoryL2page() {
 
                 <div className="w-full gap-5 pb-10 relative flex flex-col px-5 md:px-10 xl:px-10">
                     <div className="w-full h-auto flex items-center bg-secondary border-b border-gray-300 py-2 justify-between ">
-                        <h1 className="text-lg font-medium text-primary">Total Products ( {products?.length} )</h1>
+                        <h1 className="text-lg font-medium text-primary capitalize">Total Products  { ` ${slug} `.split('-').join(' ') } ( {products?.length} )</h1>
                         <span className=' block  lg:hidden'>
                             <MobFilterSheet collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} >
                                 <IoFilterOutline className='text-[20px] text-foreground cursor-pointer ' />

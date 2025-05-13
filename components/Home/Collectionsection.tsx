@@ -34,11 +34,11 @@ function Collectionsection({ url, collections }: CollectionsDataProps) {
                 hide: true,
             }}
             modules={[Scrollbar]}
-            className="mySwiper w-full reltive h-auto"
+            className="mySwiper w-full reltive h-fit"
         >
             {
                 collections?.map((item: CollectionCardProps, index: number) => (
-                    <SwiperSlide className=' max-w-[23  0px]  md:max-w-[230px] h-full relative bg-secondary' key={index} >
+                    <SwiperSlide className=' max-w-[250px]  md:max-w-[250px] h-full relative bg-secondary' key={index} >
                         <CollectionCard collections={item} url={url} />
                     </SwiperSlide>
                 ))
