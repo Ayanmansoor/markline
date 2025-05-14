@@ -15,7 +15,7 @@ function TrendingCarousels({ data }: trendingProductsProps) {
   return (
     <section className='relative w-full h-auto bg-black  '>
       <div className='container  mx-auto reltive h-fit w-full flex flex-col gap-5   text-secondary pt-5 pb-10 px-2  md:px-10   xl:px-20'>
-        <h2 className='text-h1 font-medium text-white pt-5  uppercase'> best-selling women's footwear</h2>
+        <h2 className='text-h1 font-medium text-white pt-5  uppercase'> best-selling womens footwear</h2>
         <Swiper
           slidesPerView={"auto"}
           spaceBetween={10}
