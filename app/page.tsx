@@ -5,9 +5,9 @@ import { mergeMetadata } from "./layout";
 
 
 export const metadata = mergeMetadata({
-  title: "Markline Fashion | Premium Shoes, Bags & Accessories",
+  title: "Buy Women's & Kids' Footwear Online in India | Markline Fashion",
   description:
-    "Discover luxury with Markline Fashion. Shop premium shoes, bags, and accessories that blend elegance with comfort. Redefine your fashion statement today.",
+    "Explore stylish women's and kids' footwear at Markline Fashion. Shop sandals, heels, sneakers & more online. Shipping across India",
   robots: {
     index: true,
     follow: true,
@@ -16,9 +16,9 @@ export const metadata = mergeMetadata({
     "max-video-preview": -1,
   },
   openGraph: {
-    title: "Markline Fashion | Premium Shoes, Bags & Accessories",
+    title: "Buy Women's & Kids' Footwear Online in India | Markline Fashion",
     description:
-      "Explore timeless elegance with Markline Fashion. From high-end footwear to luxury bags, elevate your style with every step.",
+      "Explore stylish women's and kids' footwear at Markline Fashion. Shop sandals, heels, sneakers & more online.  Shipping across India",
     url: "https://marklinefashion.com",
   },
   alternates: {

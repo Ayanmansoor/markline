@@ -9,7 +9,6 @@ export async function generateMetadata({ params }) {
 
   const collection = await getcollection(slug);
 
-  console.log(collection)
 
   if (!collection || !collection.seoTitle) {
     return {

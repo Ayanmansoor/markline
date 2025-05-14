@@ -112,7 +112,7 @@ function CategoryL2page() {
 
                 <div className="w-full gap-5 pb-10 relative flex flex-col px-5 md:px-10 xl:px-10">
                     <div className="w-full h-auto flex items-center bg-secondary border-b border-gray-300 py-2 justify-between ">
-                        <h1 className="text-lg font-medium text-primary capitalize">Total Products  { ` ${slug} `.split('-').join(' ') } ( {products?.length} )</h1>
+                        <h1 className="text-lg font-medium text-primary capitalize">Buy   { ` ${slug} `.split('-').join(' ') } Online ( {products?.length} ) </h1>
                         <span className=' block  lg:hidden'>
                             <MobFilterSheet collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} >
                                 <IoFilterOutline className='text-[20px] text-foreground cursor-pointer ' />
@@ -156,7 +156,7 @@ function CategoryL2page() {
                 <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
 
                 <div className='w-full relative h-auto flex flex-col gap-4'>
-                    <p className='text-base font-medium text-primary'>Shop Shoes By Gender</p>
+                    <p className='text-base font-medium text-primary'>Shop Footwear By Gender Online</p>
                     <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
                         <Link href={'/collections/MEN'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Men Shoes</Link>
                         <Link href={'/collections/WOMEN'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Women Shoes</Link>
@@ -165,7 +165,7 @@ function CategoryL2page() {
                     </div>
                 </div>
                 <div className='w-full relative h-auto flex flex-col gap-4'>
-                    <p className='text-base font-medium text-primary'>Shop By Shoe Type</p>
+                    <p className='text-base font-medium text-primary'>Shop By Shoe Type Online</p>
                     <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
                         <Link href='/collections/wedding-specials' className='text-sm font-medium text-orange-600 border-r border-l text-primary  px-3 border-primary'>Wedding Specials</Link>
                         <Link href={"/collections/sandals"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Sandals</Link>
