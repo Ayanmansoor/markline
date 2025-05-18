@@ -21,6 +21,7 @@ function CategoryL2page() {
     const { slug } = useParams()
     const [productShow, setProductShow] = useState(20)
     const [productRangevalue, setPRoductRange] = useState(5000)
+    const [description, setDescription] = useState<string>("")
     const [filterProducts, setFilterProducts] = useState<ProductsProps[]>()
     const nslug = Array.isArray(slug) ? slug[0] : slug;
 
@@ -32,8 +33,9 @@ function CategoryL2page() {
         refetchOnMount: false,      // don't refetch when remounting
         refetchOnWindowFocus: false, // don't refetch when window gains focus
         refetchOnReconnect: false,   // don't refetch on reconnect
-      });
+    });
 
+    console.log(products, "collection product data")
 
     const {
         data: allcollection = [],
@@ -42,10 +44,10 @@ function CategoryL2page() {
     } = useQuery<any>({
         queryKey: ["collections"],
         queryFn: getAllCollections,
-        staleTime: Infinity,        
+        staleTime: Infinity,
         refetchOnMount: false,      // don't refetch when remounting
         refetchOnWindowFocus: false, // don't refetch when window gains focus
-        refetchOnReconnect: false, 
+        refetchOnReconnect: false,
     });
     const {
         data: HomeBanner = [],
@@ -54,10 +56,10 @@ function CategoryL2page() {
     } = useQuery<any>({
         queryKey: ["collectionbanner"],
         queryFn: getAllBanner,
-        staleTime: Infinity,        
+        staleTime: Infinity,
         refetchOnMount: false,      // don't refetch when remounting
         refetchOnWindowFocus: false, // don't refetch when window gains focus
-        refetchOnReconnect: false, 
+        refetchOnReconnect: false,
     });
 
 
@@ -81,6 +83,7 @@ function CategoryL2page() {
             return product?.price <= productRangevalue
         })
         setFilterProducts(filterproduct)
+
     }, [productRangevalue])
 
     function showMoreProducts() {
@@ -112,7 +115,15 @@ function CategoryL2page() {
 
                 <div className="w-full gap-5 pb-10 relative flex flex-col px-5 md:px-10 xl:px-10">
                     <div className="w-full h-auto flex items-center bg-secondary border-b border-gray-300 py-2 justify-between ">
-                        <h1 className="text-lg font-medium text-primary capitalize">Buy   { ` ${slug} `.split('-').join(' ') } Online ( {products?.length} ) </h1>
+                        <div className='flex flex-col gap-1 w-fit'>
+                            <h1 className="text-lg font-medium text-primary capitalize">
+                                {` ${slug} `.split('-').join(' ')}  – Trendy & Comfortable Footwear for Every Step
+                            </h1>
+                            <p className='text-base line-clamp-3 font-medium text-primary '>
+                                Step into style with our latest range of [Collection Name] at Markline Fashion. Our {` ${slug} `.split('-').join(' ')} are crafted to provide the perfect blend of fashion and comfort, ensuring you look and feel great all day long. Whether you&apos;re heading to a casual outing or a formal event, our [Collection Name] are designed to complement every occasion.
+                            </p>
+
+                        </div>
                         <span className=' block  lg:hidden'>
                             <MobFilterSheet collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} >
                                 <IoFilterOutline className='text-[20px] text-foreground cursor-pointer ' />
@@ -152,7 +163,7 @@ function CategoryL2page() {
 
                 </div>
             </section>
-            <section className='w-full relative flex flex-col gap-5 container px-20 py-10'>
+            <section className='w-full relative flex flex-col gap-5 container px-5 md:px-10 lg:px-20   py-10'>
                 <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
 
                 <div className='w-full relative h-auto flex flex-col gap-4'>
@@ -188,7 +199,7 @@ function CategoryL2page() {
                     </div>
                 </div>
 
-                <div className="container py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto h-[400px]">
+                <div className=" py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto h-[400px]">
                     <section>
                         <h2 className="text-xl sm:text-2xl font-semibold mb-4">Explore Footwear for Everyone</h2>
                         <p className="text-gray-700">

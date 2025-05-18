@@ -45,7 +45,7 @@ function Productspage() {
     });
 
     const {
-        data: banner=[],
+        data: banner = [],
         isLoading: bannerLoading,
         isError: bannerErorr
     } = useQuery<any>({
@@ -62,7 +62,7 @@ function Productspage() {
             return product?.price <= productRangevalue
         })
         setFilterProducts(filterproduct)
-    }, [productRangevalue ,allproducts])
+    }, [productRangevalue, allproducts])
 
 
 
@@ -94,7 +94,16 @@ function Productspage() {
 
                 <div className="w-full gap-5 pb-10 relative flex flex-col px-0 md:px-10 xl:px-10">
                     <div className="w-full h-auto flex items-center bg-secondary border-b border-gray-300 py-2 justify-between ">
-                        <h1 className="text-lg font-medium text-primary w-full">Total Products ( {allproducts && allproducts?.length} )</h1>
+                        {/* <h1 className="text-lg font-medium text-primary w-full"> Total Products ( {allproducts && allproducts?.length} ) </h1> */}
+                        <div className='flex flex-col gap-1 w-fit'>
+                            <h1 className="text-2xl font-medium text-primary capitalize">
+                                Explore Our Complete Footwear Collection
+                            </h1>
+                            <p className='text-base line-clamp-3 font-medium text-primary '>
+                               Welcome to Markline Fashion&apos;s comprehensive footwear collection, where style meets comfort for every step of life. Our curated selection features a diverse array of shoes for women, kids, and men, including elegant heels, trendy sandals, durable sneakers, and more. Whether youre preparing for a special occasion or seeking everyday essentials, find the perfect pair to match your style and needs. Enjoy seamless shopping with free shipping across India.
+                            </p>
+
+                        </div>
                         <span className=' block  lg:hidden'>
                             <MobFilterSheet collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange}>
                                 <IoFilterOutline className='text-[20px] text-foreground cursor-pointer ' />

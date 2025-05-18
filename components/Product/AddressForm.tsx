@@ -87,12 +87,30 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
 
             if (orderIDs.length > 0) {
                 setOrderID({
-                    orderID: orderIDs[0],
+                    orderID: orderIDs,
                     email: data.email,
                     username: data.name
                 });
-
                 setConfirm("password");
+
+                const emailResponse = await fetch("/api/sendmail", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: data.email,
+                        name: data.name,
+                        orderId: orderIDs[0]
+                    })
+                }); 
+
+                console.log("email end")
+
+                if (!emailResponse.ok) {
+                    console.error("Failed to send confirmation emails");
+                }
+
                 reset();
                 // clearCart(); 
             } else {

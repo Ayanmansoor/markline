@@ -188,7 +188,7 @@ async function getProductBaseOnCollection(slug: string) {
           `
       *,
       brands(*),
-      collection!inner(id, slug),
+      collection!inner(id, slug,description),
       discounts(*)
     `
         )

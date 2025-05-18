@@ -82,8 +82,6 @@ function ProductAbout({ product }: ProductsDataProps) {
 
         console.log("cart saved")
     }
-
-
     const [colors, setColors] = useState<any>([])
     const [size, setSizes] = useState<any>([])
     useEffect(() => {
@@ -119,8 +117,10 @@ function ProductAbout({ product }: ProductsDataProps) {
                     <p className='text-[16px] font-normal items-center gap-1 '>{product?.gender}</p>
                     <p className='text-[16px] font-medium text-primary ' aria-label='Product For Running'></p>
                 </div>
-                <h1 className='text-p35 font-bold  ' aria-label='Addidas shoes L1' >{product?.name}</h1>
-
+                <div className='flex flex-col gap-1 w-full relative'>
+                    <h1 className='text-p35 font-bold  ' aria-label='Addidas shoes L1' >{product?.name}</h1>
+                    <p className='text-base font-medium text-primary '>Selected Color : <strong className='text-lg font-semibold'> {productcart.colors.color.name} </strong></p>
+                </div>
                 <div className='flex justify-between items-start sm:items-center w-full relative flex-col  sm:flex-row py-3'>
                     <h2 className='text-p18 font-normal flex items-center gap-2 '>
                         {
