@@ -44,9 +44,9 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
                                 "--swiper-pagination-color": "#0c0c0c",
                                 "--swiper-pagination-bullet-inactive-color": "#0c0c0c",
                                 "--swiper-pagination-bullet-inactive-opacity": "1",
-                                "--swiper-pagination-bullet-size": "6px",
+                                "--swiper-pagination-bullet-size": "7px",
                                 "--swiper-pagination-bullet-horizontal-gap": "6px"
-                            }}
+                            } as React.CSSProperties & Record<string, string>}
                             pagination={{
                                 dynamicBullets: true,
                             }}
@@ -74,9 +74,9 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
                                 "--swiper-pagination-color": "#0c0c0c",
                                 "--swiper-pagination-bullet-inactive-color": "#0c0c0c",
                                 "--swiper-pagination-bullet-inactive-opacity": "1",
-                                "--swiper-pagination-bullet-size": "6px",
+                                "--swiper-pagination-bullet-size": "7px",
                                 "--swiper-pagination-bullet-horizontal-gap": "6px"
-                            }}
+                            } as React.CSSProperties & Record<string, string>}
                             pagination={{
                                 dynamicBullets: true,
                             }}
@@ -104,9 +104,9 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
                                 "--swiper-pagination-color": "#0c0c0c",
                                 "--swiper-pagination-bullet-inactive-color": "#0c0c0c",
                                 "--swiper-pagination-bullet-inactive-opacity": "1",
-                                "--swiper-pagination-bullet-size": "6px",
+                                "--swiper-pagination-bullet-size": "7px",
                                 "--swiper-pagination-bullet-horizontal-gap": "6px"
-                            }}
+                            } as React.CSSProperties & Record<string, string>}
                             pagination={{
                                 dynamicBullets: true,
                             }}

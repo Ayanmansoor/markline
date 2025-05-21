@@ -51,7 +51,7 @@ function ProductCard({ product, url }: ProductsDataProps) {
             "--swiper-pagination-bullet-inactive-opacity": "1",
             "--swiper-pagination-bullet-size": "7px",
             "--swiper-pagination-bullet-horizontal-gap": "6px"
-          }}
+          } as React.CSSProperties & Record<string, string>}
           pagination={{
             dynamicBullets: true
           }}
