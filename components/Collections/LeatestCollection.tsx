@@ -19,73 +19,39 @@ function LeatestCollection({ url }: { url: string }) {
 
                 }
             </div>
-            <section className='w-full relative  pb-10  max-h-[800px] h-full grid grid-cols-3  '>
+            <section className='w-full relative  pb-10  max-h-[800px] h-full grid   '>
+        
+
+
                 <Swiper
                     pagination={{
-                        dynamicBullets: true,
-                        clickable: true
+                        clickable: true,
                     }}
-                    effect='fade'
-                    autoplay={{
-                        delay: 2000,
+                    breakpoints={{
+                          300: {
+                            slidesPerView: 2,
+                        },
+                        499: {
+                            slidesPerView: 2,
+                        },
+                        999: {
+                            slidesPerView: 3,
+                        }
                     }}
-                    speed={2000}
-                    loop={true}
-                    modules={[Pagination, EffectFade, Autoplay]}
-                    className="mySwiper w-full relative h-full "
+                    modules={[Pagination]}
+                    className="mySwiper w-full relative h-full"
                 >
-                    <SwiperSlide className='w-full relative h-full border '>
-                        <Link href='/collections/mule' className='w-full h-full relative'>
-                            <video src="/advertise-one.mp4" className='w-full relative h-full object-cover object-bottom' autoPlay loop muted ></video>
-                        </Link>
+                    <SwiperSlide className=' max-w-full relative h-full px-1 '>
+                        <video src="/advertise-one.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
+                    </SwiperSlide>
+                    <SwiperSlide className='max-w-full relative h-full  px-1 '>
+                        <video src="/advertise-one.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
+                    </SwiperSlide>
+                    <SwiperSlide className='max-w-full relative h-full    px-1'>
+                        <video src="/advertise-one.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
                     </SwiperSlide>
                 </Swiper>
-                <Swiper
-                    pagination={{
-                        dynamicBullets: true,
-                        clickable: true
-                    }}
-                    effect='fade'
-                    autoplay={{
-                        delay: 2000,
-                    }}
-                    speed={2000}
-                    loop={true}
-                    modules={[Pagination, EffectFade, Autoplay]}
-                    className="mySwiper w-full relative h-full "
-                >
-                    <SwiperSlide className='w-full relative h-full border  '>
-                        {/* <img src="/login-model (5).jpeg" alt="product image" height={300} width={300} className='w-full relative h-full object-cover object-bottom'  loading='lazy' /> */}
-                        <Link href={"/products"}  className='w-auto h-auto'>
 
-                        <video src="/advertise-one.mp4" className='w-full relative h-full object-cover object-bottom' autoPlay loop muted ></video>
-                        </Link>
-
-                    </SwiperSlide>
-
-                </Swiper>
-                <Swiper
-                    pagination={{
-                        dynamicBullets: true,
-                        clickable: true
-                    }}
-                    effect='fade'
-                    autoplay={{
-                        delay: 2000,
-                    }}
-                    speed={2000}
-                    loop={true}
-                    modules={[Pagination, EffectFade, Autoplay]}
-                    className="mySwiper w-full relative h-full "
-                >
-                    <SwiperSlide className='w-full relative h-full border  '>
-                        <Link href={"/products"}  className='w-auto h-auto'>
-                            {/* <img src="/login-model (5).jpeg" alt="product image" height={300} width={300} className='w-full relative h-full object-cover object-bottom'  loading='lazy' /> */}
-                            <video src="/advertise-one.mp4" className='w-full relative h-full object-cover object-bottom' autoPlay loop muted ></video>
-                        </Link>
-                    </SwiperSlide>
-
-                </Swiper>
             </section>
         </section>
     )

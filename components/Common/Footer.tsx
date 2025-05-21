@@ -12,7 +12,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '..
 
 function Footer() {
   return (
-    <footer className='  w-full relative py-10 h-[500px] text-primary-foreground bg-black   overflow-hidden'>
+    <footer className='  w-full relative lg:py-10 lg:h-[500px] text-primary-foreground bg-black   overflow-hidden'>
       
 
       <section className='w-full h-auto flex flex-col gap-2'>
