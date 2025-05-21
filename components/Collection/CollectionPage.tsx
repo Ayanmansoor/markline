@@ -108,7 +108,7 @@ function CategoryL2page() {
 
 
             {/* <Discount categoryName={"shoes"} /> */}
-            <section className="w-full relative grid grid-cols-1 mt-5 md:mt-10 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.6fr_3fr] px-0  md:px-10   xl:px-20 ">
+            <section className="w-full relative grid grid-cols-1 mt-5 md:mt-10 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.8fr_3fr] px-0  md:px-10   xl:px-20 ">
                 <span className=' hidden h-fit sticky top-20 lg:block'>
                     <ProductFilter collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
                 </span>
@@ -199,7 +199,7 @@ function CategoryL2page() {
                     </div>
                 </div>
 
-                <div className=" py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto h-[400px]">
+                <div className=" py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto h-auto">
                     <section>
                         <h2 className="text-xl sm:text-2xl font-semibold mb-4">Explore Footwear for Everyone</h2>
                         <p className="text-gray-700">

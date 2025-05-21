@@ -49,8 +49,8 @@ function ProductPage() {
 
 
   if (isLoading) {
-    return <div className='w-full relative container px-5  md:px-10   xl:px-20   '>
-
+    return <div className='w-full relative h-fit'>
+      <ProductPageSkeleton />
     </div>;
   }
 

@@ -108,7 +108,7 @@ function HomePage() {
       {
 
         currentproducts?.length > 0 ?
-          <CategoriesSection title={"Buy women's footwear online"} url="products">
+          <CategoriesSection title={"women's footwear "} url="products">
             <GridRroduct data={currentproducts?.slice(0, 10)} url={'products'} />
           </CategoriesSection>
           :
@@ -156,7 +156,7 @@ function HomePage() {
 
 
 
-      {/* <LeatestCollection url={'collection'} /> */}
+      <LeatestCollection url={'collection'} />
 
 
 

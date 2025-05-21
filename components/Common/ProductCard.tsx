@@ -19,7 +19,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Link from 'next/link';
-import { Scrollbar } from 'swiper/modules';
+import { Pagination, Scrollbar } from 'swiper/modules';
 import { ProductsDataProps, Colors, ProductsProps } from '@/types/interfaces';
 import AddToCardPopver from './AddToCardPopver';
 
@@ -40,16 +40,22 @@ function ProductCard({ product, url }: ProductsDataProps) {
 
 
 
- 
+
   return (
     <section className='max-w-[400px]  relative h-full border  border-black justify-between flex items-start border-none flex-col  group '>
       <Link href={`/${url}/${product?.slug}`} className=' h-auto relative w-full bg-[#ebeeef] group transition-all duration-500 ease-in cursor-pointer  '>
         <Swiper
-          scrollbar={{
-            hide: true,
+          style={{
+            "--swiper-pagination-color": "#0c0c0c",
+            "--swiper-pagination-bullet-inactive-color": "#0c0c0c",
+            "--swiper-pagination-bullet-inactive-opacity": "1",
+            "--swiper-pagination-bullet-size": "7px",
+            "--swiper-pagination-bullet-horizontal-gap": "6px"
           }}
-
-          modules={[Scrollbar]}
+          pagination={{
+            dynamicBullets: true
+          }}
+          modules={[Pagination]}
           className="mySwiper w-full relative h-full "
         >
 
@@ -67,8 +73,8 @@ function ProductCard({ product, url }: ProductsDataProps) {
         }
 
       </Link>
-      <Link href={`/${url}/${product?.slug}`} className='flex w-full items-center pt-2 justify-between  px-2 gap-0 border-l border-r' >
-        <h2 className=' text-xs sm:text-sm md:text-[16px] font-medium  leading-[1.2] flex items-center gap-1 uppercase text-black'>{product?.name}</h2>
+      <Link href={`/${url}/${product?.slug}`} className='flex w-full items-start pt-2 justify-between  px-2 gap-0 border-l border-r' >
+        <h2 className=' text-xs sm:text-sm md:text-[16px] font-medium  line-clamp-2 h-[50px]  flex items-center gap-1 uppercase text-black'>{product?.name}</h2>
 
       </Link>
       <section className='w-full relative h-auto border-l border-r pb-3 py-2 px-2 md:flex-row  flex-col flex  items-start lg:items-center justify-between gap-2'>

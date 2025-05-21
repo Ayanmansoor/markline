@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/scrollbar';
 import { CollectionCardProps, CollectionsDataProps } from '@/types/interfaces'
-import { Scrollbar } from 'swiper/modules';
+import { Pagination, Scrollbar } from 'swiper/modules';
 import CollectionCard from './CollectionCard';
 
 function Collectionsection({ url, collections }: CollectionsDataProps) {
@@ -30,15 +30,13 @@ function Collectionsection({ url, collections }: CollectionsDataProps) {
                 },
             }}
 
-            scrollbar={{
-                hide: true,
-            }}
-            modules={[Scrollbar]}
-            className="mySwiper w-full reltive h-fit"
+           
+
+            className="mySwiper w-full reltive h-fit "
         >
             {
                 collections?.map((item: CollectionCardProps, index: number) => (
-                    <SwiperSlide className=' max-w-[250px]  md:max-w-[250px] h-full relative bg-secondary' key={index} >
+                    <SwiperSlide className=' max-w-[250px]   md:max-w-[250px] h-full relative bg-secondary' key={index} >
                         <CollectionCard collections={item} url={url} />
                     </SwiperSlide>
                 ))

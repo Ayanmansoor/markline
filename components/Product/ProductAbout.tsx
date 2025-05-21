@@ -114,11 +114,11 @@ function ProductAbout({ product }: ProductsDataProps) {
             <div className='relative flex items-start h-auto  flex-col w-full md:w-[40%] py-5 md:pl-5  lg:pl-10 '>
 
                 <div className='flex items-center justify-between   w-full relative '>
-                    <p className='text-[16px] font-normal items-center gap-1 '>{product?.gender}</p>
+                    <p className='text-[16px] font-normal items-center gap-1  '>{product?.gender}</p>
                     <p className='text-[16px] font-medium text-primary ' aria-label='Product For Running'></p>
                 </div>
                 <div className='flex flex-col gap-1 w-full relative'>
-                    <h1 className='text-p35 font-bold  ' aria-label='Addidas shoes L1' >{product?.name}</h1>
+                    <h1 className='text-p35 font-bold   uppercase' aria-label='Addidas shoes L1' >{product?.name}</h1>
                     <p className='text-base font-medium text-primary '>Selected Color : <strong className='text-lg font-semibold'> {productcart.colors.color.name} </strong></p>
                 </div>
                 <div className='flex justify-between items-start sm:items-center w-full relative flex-col  sm:flex-row py-3'>

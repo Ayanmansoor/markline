@@ -12,7 +12,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '..
 
 function Footer() {
   return (
-    <footer className='  w-full relative  h-auto text-primary-foreground bg-black   overflow-hidden'>
+    <footer className='  w-full relative py-10 h-[500px] text-primary-foreground bg-black   overflow-hidden'>
       
 
       <section className='w-full h-auto flex flex-col gap-2'>
@@ -88,7 +88,7 @@ function Footer() {
 
         </div>
       </section>
-      <div className='w-full relative z-0 -bottom-[40px] z- h-auto  hidden  md:flex leading-[1.1] items-center op opacity-30  uppercase font-semibold text-footerfont justify-center -mt-28 bg-gradient-to-r from-transparent  to-white bg-clip-text  '>
+      <div className='w-full relative -bottom-[10px] z-0  z- h-auto  hidden  md:flex leading-[1.1] items-center  opacity-10  uppercase font-semibold text-footerfont justify-center -mt-28 text-gray-100 bg-clip-text left-0 right-0 '>
         markline fashion
       </div>
 

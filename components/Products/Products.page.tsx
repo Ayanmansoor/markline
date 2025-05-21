@@ -79,7 +79,7 @@ function Productspage() {
 
             <L2Banner data={banner} />
 
-            <section className="w-full min-h-[300px] relative grid grid-cols-1 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.6fr_3fr] px-2  md:px-10   xl:px-20 ">
+            <section className="w-full min-h-[300px] relative grid grid-cols-1 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.8fr_3fr] px-2  md:px-10   xl:px-20 ">
                 {
                     isErrorCollections ?
                         <div className='text-center text-sm font-medium'>
@@ -180,7 +180,7 @@ function Productspage() {
                 </div>
 
                 {/* Informational Sections */}
-                <div className='container py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto h-[400px]'>
+                <div className='container py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto '>
                     <section>
                         <h2 className='text-xl sm:text-2xl font-semibold mb-4'>Explore Footwear for Everyone</h2>
                         <p className='text-gray-700'>
