@@ -19,10 +19,10 @@ export const metadata = mergeMetadata({
       title: "Feedback | Markline Fashion – We Value Your Opinion",
       description:
         "Let us know how we're doing at Markline Fashion. Your feedback ensures we continue offering top-tier fashion and customer satisfaction.",
-      url: "https://marklinefashion.com/feedback",
+      url: "https://marklinefashion.vercel.app/feedback",
     },
     alternates: {
-      canonical: "https://marklinefashion.com/feedback",
+      canonical: "https://marklinefashion.vercel.app/feedback",
     },
   });
 

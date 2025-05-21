@@ -19,10 +19,10 @@ export const metadata = mergeMetadata({
     title: "New Arrivals | Markline Fashion – Latest in Luxury Footwear & Accessories",
     description:
       "Explore the newest additions to Markline Fashion’s luxury collection. Discover cutting-edge fashion crafted for elegance and comfort.",
-    url: "https://marklinefashion.com/new-arrivals",
+    url: "https://marklinefashion.vercel.app/new-arrivals",
   },
   alternates: {
-    canonical: `https://marklinefashion.com/new-arrivals`,
+    canonical: `https://marklinefashion.vercel.app/new-arrivals`,
   },
 });
 function page() {

@@ -25,7 +25,7 @@ export async function generateMetadata({ params }) {
   const imageObject = collection.image_urls?.[0]
     ? JSON.parse(collection.image_urls[0])
     : null;
-  const imageUrl = imageObject?.image_url || "https://yourdomain.com/default.jpg";
+  const imageUrl = imageObject?.image_url || "https://marklinefashion.vercel.app/default.jpg";
 
   return {
     title: `${collectionName} Collection | Markline Fashion`,
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }) {
       title: `${collectionName} Collection`,
       description,
       type: "website",
-      url: `https://yourdomain.com/collections/${slug}`,
+      url: `https://marklinefashion.vercel.app/collections/${slug}`,
       images: [
         {
           url: imageUrl,
@@ -57,7 +57,7 @@ export async function generateMetadata({ params }) {
       images: [imageUrl],
     },
     alternates: {
-      canonical: `https://marklinefashion.com/collections/${params.slug}`,
+      canonical: `https://marklinefashion.vercel.app/collections/${params.slug}`,
     },
   };
 }

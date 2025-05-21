@@ -15,10 +15,10 @@ export const metadata = mergeMetadata({
     title: "Privacy Policy | Markline Fashion",
     description:
       "At Markline Fashion, we are committed to safeguarding your privacy. Read our full privacy policy to understand your rights and our practices.",
-    url: "https://marklinefashion.com/privacy-policy",
+    url: "https://marklinefashion.vercel.app/privacy-policy",
   },
   alternates: {
-    canonical: `https://marklinefashion.com/privacy-policy`,
+    canonical: `https://marklinefashion.vercel.app/privacy-policy`,
   },
 });
 export default function PrivacyPolicy() {

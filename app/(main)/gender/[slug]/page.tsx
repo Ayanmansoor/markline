@@ -26,10 +26,10 @@ export async function generateMetadata({ params }) {
       description:
         "Explore the latest in men’s, kids’, and women’s footwear online in India. Shop trendy casuals, formals, wedding shoes & more at Markline Fashion.",
       type: "website",
-      url: `https://marklinefashion.com/gender/${slug}`,
+      url: `https://marklinefashion.vercel.app/gender/${slug}`,
     },
     alternates: {
-      canonical: `https://marklinefashion.com/gender/${slug}`,
+      canonical: `https://marklinefashion.vercel.app/gender/${slug}`,
     },
   });
 }

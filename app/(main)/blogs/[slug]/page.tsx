@@ -18,7 +18,7 @@ export async function generateMetadata({ params }) {
         blog.seoDescription ||
         blog.discription?.slice(0, 150) + "..." || "Read insightful articles on footwear and fashion by Markline.";
 
-    const imageUrl = blog.bannerImage || blog.image || "https://marklinefashion.com/default-blog.jpg";
+    const imageUrl = blog.bannerImage || blog.image || "https://marklinefashion.vercel.app/default-blog.jpg";
 
     return {
         title: `${title} | Markline Blog`,
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }) {
             title,
             description,
             type: "article",
-            url: `https://marklinefashion.com/blogs/${slug}`,
+            url: `https://marklinefashion.vercel.app/blogs/${slug}`,
             images: [
                 {
                     url: imageUrl,
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }) {
             images: [imageUrl],
         },
         alternates: {
-            canonical: `https://marklinefashion.com/blogs/${slug}`,
+            canonical: `https://marklinefashion.vercel.app/blogs/${slug}`,
         },
     };
 }

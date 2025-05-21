@@ -16,7 +16,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: productName,
       description,
-      url: `https://marklinefashion.com/products/${params.slug}`,
+      url: `https://marklinefashion.vercel.app/products/${params.slug}`,
       images: [
         {
           url: imageUrl,
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }) {
       images: [imageUrl],
     },
     alternates: {
-      canonical: `https://marklinefashion.com/products/${params.slug}`,
+      canonical: `https://marklinefashion.vercel.app/products/${params.slug}`,
     },
   };
 }

@@ -15,10 +15,10 @@ export const metadata = mergeMetadata({
       title: "Return Policy | Markline Fashion",
       description:
         "We want you to love your purchase. Review our return policy to ensure a smooth return or exchange process.",
-      url: "https://marklinefashion.com/return-policy",
+      url: "https://marklinefashion.vercel.app/return-policy",
     },
     alternates: {
-      canonical: `https://marklinefashion.com/return-policy`,
+      canonical: `https://marklinefashion.vercel.app/return-policy`,
     },
   });
   

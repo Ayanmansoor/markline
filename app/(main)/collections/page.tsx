@@ -16,10 +16,10 @@ export const metadata = mergeMetadata({
     title: "Collections | Markline Fashion – Curated Luxury Pieces & Seasonal Must-Haves",
     description:
       "Explore Markline Fashion’s exclusive collections of premium fashion essentials. From timeless classics to seasonal trends, elevate your wardrobe today.",
-    url: "https://marklinefashion.com/collections",
+    url: "https://marklinefashion.vercel.app/collections",
   },
   alternates: {
-    canonical: "https://marklinefashion.com/collections",
+    canonical: "https://marklinefashion.vercel.app/collections",
   },
 });
 

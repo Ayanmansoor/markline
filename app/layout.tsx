@@ -35,7 +35,7 @@ const noto = Noto_Sans({
 export const metadata: Metadata = {
   title: "Markline Fashion | Elegance in Every Step",
   description: "Markline Fashion brings you luxurious footwear and fashion accessories crafted for elegance, comfort, and confidence. Step into your style with our premium collections.",
-  metadataBase: new URL("https://marklinefashion.com"),
+  metadataBase: new URL("https://marklinefashion.vercel.app/"),
   twitter: {
     card: "summary_large_image",
     title: "Markline Fashion | Luxury Footwear & Accessories",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
         alt: "Markline Fashion - Luxury Footwear & Accessories",
       },
     ],
-    url: "https://marklinefashion.com",
+    url: "https://marklinefashion.vercel.app/",
     locale: "en_us",
     siteName: "Markline Fashion",
   },

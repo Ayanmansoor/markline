@@ -17,10 +17,10 @@ export const metadata = mergeMetadata({
     title: "Shipping Policy | Markline Fashion",
     description:
       "Discover how Markline Fashion ensures timely and reliable shipping. Get details on domestic and international shipping, tracking, and delivery timelines.",
-    url: "https://marklinefashion.com/shipping-policy",
+    url: "https://marklinefashion.vercel.app/shipping-policy",
   },
   alternates: {
-    canonical: `https://marklinefashion.com/shipping-policy`,
+    canonical: `https://marklinefashion.vercel.app/shipping-policy`,
   },
 });
 

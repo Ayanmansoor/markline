@@ -19,10 +19,10 @@ export const metadata = mergeMetadata({
     title: "Buy Women's & Kids' Footwear Online in India | Markline Fashion",
     description:
       "Explore stylish women's and kids' footwear at Markline Fashion. Shop sandals, heels, sneakers & more online.  Shipping across India",
-    url: "https://marklinefashion.com",
+    url: "https://marklinefashion.vercel.app",
   },
   alternates: {
-    canonical: `https://marklinefashion.com`,
+    canonical: "https://marklinefashion.vercel.app",
   },
 });
 
