@@ -13,8 +13,11 @@ function Collectionsection({ url, collections }: CollectionsDataProps) {
             slidesPerView={"auto"}
             direction={"horizontal"}
             breakpoints={{
-                300: {
+                200: {
                     slidesPerView: 1.5,
+                },
+                300: {
+                    slidesPerView: 2,
                 },
                 400: {
                     slidesPerView: 2,

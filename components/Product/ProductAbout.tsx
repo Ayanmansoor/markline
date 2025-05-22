@@ -11,6 +11,7 @@ import BuyDailog from './BuyDailog';
 import AddToCardPopver from '../Common/AddToCardPopver';
 import { useCart } from '@/Contexts/Cart.context';
 import { Colors as colorProps, Colors, ProductsDataProps, Sizes as sizeProps, Sizes } from '@/types/interfaces';
+import { FaHeart } from 'react-icons/fa6';
 
 interface productsCart {
     colors: {
@@ -136,22 +137,22 @@ function ProductAbout({ product }: ProductsDataProps) {
                         }
 
                     </h2>
-                    <p className='text-[13px] font-normal '>Includes all taxs</p>
+                    <p className='text-[16px] font-normal '>Includes all taxs</p>
                 </div>
 
                 <div className='flex items-center   relative flex-col gap-2 w-full '>
-                    <p className='text-p18 font-semibold flex items-center justify-between w-full'>Colors
-
+                    <p className='text-p18 font-semibold flex items-center justify-between w-full'>Color: {productcart.colors.color.name}
+{/* 
                         <ColorView colors={[]} images={[]} >
                             <span className='text-[16px]  font-normal  flex items-center gap-1 cursor-pointer '>More Colors  <MdKeyboardArrowDown className='text-[16px]' /></span>
-                        </ColorView>
+                        </ColorView> */}
 
                     </p>
 
                     <div className=' flex flex-wrap  items-center relative  justify-start   w-full '>
                         {
                             colors?.map((color: any, index: number) => (
-                                <span className={`p-4  rounded-full cursor-pointer  border  ${color.name === productcart?.colors?.color?.name ? "  border-primary p-1" : " border-transparent"} ${index >= 1 ? "-m-[4px]" : ""} `} style={{ background: color.hex }} key={index}
+                                <span className={`p-7   rounded-full cursor-pointer  border  ${color.name === productcart?.colors?.color?.name ? "  border-primary p-1" : " border-transparent"} ${index >= 1 ? "-m-[4px]" : ""} `} style={{ background: color.hex }} key={index}
                                     onClick={(e) => {
                                         console.log(productcart)
                                         setProductcart((prev) => ({
@@ -171,7 +172,7 @@ function ProductAbout({ product }: ProductsDataProps) {
                     {
                         size?.length > 0 &&
                         <>
-                            <p className='text-p18 font-semibold flex items-center justify-between w-full'>Sizes</p>
+                            <p className='text-p18 font-semibold flex items-center justify-between w-full'>Select Size (UK) :</p>
                             <div className='w-full gap-2 relative h-auto  grid grid-cols-6 '>
                                 {
                                     size?.map((item: any, index) => (
@@ -188,7 +189,7 @@ function ProductAbout({ product }: ProductsDataProps) {
                             </div>
                         </>
                     }
-                    <p className='text-base text-medium text-start w-full text-green-700'>{size?.length > 0 ? "In Stock" : "Out of Stock"}</p>
+                    <p className='text-base text-medium text-start w-full  text-green-700'>{size?.length > 0 ? "In Stock" : "Out of Stock"}</p>
                     <div className='flex items-center gap-1 w-full relative  h-auto '>
                         <h2 className='text-primary font-medium text-sm  '>Quentity : </h2>
 
@@ -213,20 +214,26 @@ function ProductAbout({ product }: ProductsDataProps) {
 
                 {/* Book btn  */}
 
-                <div className='w-full fixed bottom-0 px-4 flex-wrap sm:px-0 bg-white sm:bg-transparent py-2 sm:py-0  z-30 grid-cols-[1fr_auto] md:grid-cols-1 lg:grid-cols-[1fr_auto] gap-5 right-0 grid   items-center sm:relative  '>
+                <div className='w-full fixed bottom-0 px-4 flex-wrap sm:px-0 bg-white sm:bg-transparent py-2 sm:py-0  z-30 grid-cols-[1fr_auto] md:grid-cols-1 lg:grid-cols-[1fr_auto] gap-3 right-0 grid   items-center sm:relative  '>
                     <div className='w-full relative flex items-center gap-2 md:gap-1 lg:gap-2 '>
                        
                         {/* <AddToCardPopver currentProduct={product} colors={colors} sizes={size}> */}
 
-                        <button disabled={colors?.length > 0 && size?.length > 0 ? false : true} className=' w-full relative xl:px-5 py-2 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' onClick={handleStateChange} >Add to Cart</button>
+                        <button disabled={colors?.length > 0 && size?.length > 0 ? false : true} className=' w-full relative xl:px-5 py-4 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' onClick={handleStateChange} >Add to Cart</button>
                         <BuyDailog product={{ ...product, selectedColor: productcart.colors.color, selectedSize: productcart.sizes.size, quantity: productcart.quentitys.quentity }}>
-                            <button disabled={colors && size ? false : true} className=' w-full relative  xl:px-5 py-2 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' >Quick Buy</button>
+                            <button disabled={colors && size ? false : true} className=' w-full relative  xl:px-5 py-4 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' >Quick Buy</button>
                         </BuyDailog>
 
                         {/* </AddToCardPopver>       */}
                     </div>
-                    <span className='border py-1     flex items-center justify-center px-3 cursor-pointer hover:bg-red-200 h-full '>
-                        <PiHeartThin className='text-[20px] w-fit z-30 cursor-pointer  group-hover:text-white   ' />
+                    <span className='border py-1     flex items-center justify-center px-5 cursor-pointer group hover:bg-red-200 h-full '>
+                         <FaHeart className={`text-[20px] flex items-center  text-balck justify-center cursor-pointer group-hover:text-red-500   `} />
+                    </span>
+                </div>
+
+                <div className='w-full relative flex items-center justify-between gap-3'>
+                    <span className='flex flex-col gap-1'>
+
                     </span>
                 </div>
 

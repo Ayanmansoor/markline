@@ -75,7 +75,7 @@ function ProductPage() {
             :
             product ?
               <div className='w-full mx-auto h-full container px-3 relative  flex flex-col justify-between gap-2 bg-secondary md:flex-row  md:px-10   xl:px-20  '>
-                <div className='  md:max-h-auto  w-full relative p-1 md:h-full  md:w-[60%] lg:w-[55%] '>
+                <div className='  md:max-h-fit   w-full  relative lg:sticky lg:top-5 p-1 md:h-full  md:w-[60%] lg:w-[55%] '>
                   <ProductMain product={product} />
                 </div>
                 <ProductAbout product={product} />
@@ -118,10 +118,10 @@ function ProductPage() {
         <div className='w-full relative h-auto flex flex-col gap-4'>
           <p className='text-base font-medium text-primary'>Shop Shoes By Gender</p>
           <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
-            <Link href={'/collections/MEN'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Men Shoes</Link>
-            <Link href={'/collections/WOMEN'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Women Shoes</Link>
-            <Link href={'/collections/KIDS'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Kids Shoes</Link>
-            <Link href={'/collection/GIRLS'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Grils Shoes</Link>
+            <Link href={'/collections/men'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Mans Shoes</Link>
+            <Link href={'/collections/women'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Womens Shoes</Link>
+            <Link href={'/collections/kids'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Kids Shoes</Link>
+            <Link href={'/collection/girls'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Grils Shoes</Link>
           </div>
         </div>
         <div className='w-full relative h-auto flex flex-col gap-4'>
@@ -148,7 +148,7 @@ function ProductPage() {
           </div>
         </div>
 
-        <div className=" py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto h-[400px]">
+        <div className=" py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto ">
           <section>
             <h2 className="text-xl sm:text-2xl font-semibold mb-4">Explore Footwear for Everyone</h2>
             <p className="text-gray-700">

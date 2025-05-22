@@ -22,13 +22,13 @@ interface response {
 }
 
 const addressFromSchema = z.object({
-    name: z.string().min(2, "name must be greater then 2 Characters"),
+    name: z.string().min(2, "Name is not valid "),
     email: z.string().email('email must valid '),
-    phone: z.string().regex(/^\d{10}$/, "Phone must be 10 digits"),
-    pin_code: z.string().regex(/^\d{6}$/, "Pin code must be 6 digits"),
+    phone: z.string().regex(/^\d{10}$/, "Phone must be valid"),
+    pin_code: z.string().regex(/^\d{6}$/, "Pin code must be valid"),
     state_name: z.string().min(2, "State name is required"),
     city: z.string().min(2, "City name is required"),
-    full_address: z.string().min(5, "Address must be at least 5 characters"),
+    full_address: z.string().min(5, "Address must be at required"),
 })
 import { AddressFromProps } from '@/types/interfaces'
 
@@ -170,7 +170,7 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
                     {errors?.full_address &&
                         <p className='text-xs font-medium text-red-400'>{errors.full_address?.message}</p>}
                 </div>
-                <button className='w-full relative h-auto rounded-lg px-4 py-2 col-start-2  text-white  bg-primary '>Submit</button>
+                <button className='w-full relative h-auto rounded-lg px-4 py-3 hover:bg-white hover:text-primary border  border-transparent hover:border-primary col-start-2  text-white  bg-primary '>Submit</button>
 
             </form>
         </>

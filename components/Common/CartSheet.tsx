@@ -157,18 +157,22 @@ function CartSheet({ children }: {
                                     <p className='text-base w-full font-medium text-foreground '>Total </p>
                                     <p className='text-lg font-medium text-primary w-full'>₹ {beforeDiscount}</p>
                                 </span>
-                                <span className='w-full relative h-auto  flex items-center  justify-center px-3 py-1 '>
-                                    <p className=' text-sm w-full font-medium text-foreground '>Discount</p>
-                                    <p className='text-sm text-red-400 line-through font-medium text-primary w-full '>₹ {Math.floor(totalDiscount)}</p>
-                                </span>
+                                {
+                                    totalDiscount &&
+                                    <span className='w-full relative h-auto  flex items-center  justify-center px-3 py-1 '>
+                                        <p className=' text-sm w-full font-medium text-foreground '>Discount</p>
+                                        <p className='text-sm text-red-400 line-through font-medium text-primary w-full '>₹ {Math.floor(totalDiscount)}</p>
+                                    </span>
+                                }
+
                                 <div className='w-fulll border-t pt-2  relative h-auto px-3 flex items-center justify-between'>
                                     <p className='text-sm sm:text-base md:text-lg font-medium w-full text-primary'>Price To Pay</p>
                                     <p className='text-lg font-medium text-primary w-full'>₹ {Math.floor(totalPrice)}</p>
                                 </div>
                                 <div className='w-full relative h-auto flex items-start justify-between'>
-                                    <button className='w-fit relative h-auto flex items-center border text-sm md:text-base border-primary px-5 py-2 text-nowrap hover:bg-primary hover:text-white  font-medium text-primary' onClick={() => clearCart()} >Clear Orders</button>
+                                    <button className='w-fit relative h-auto flex items-center border text-sm md:text-base border-primary px-4 md:px-5 py-2 text-nowrap hover:bg-primary hover:text-white  font-medium text-primary' onClick={() => clearCart()} >Clear Orders</button>
                                     <CartSheetOderDailog>
-                                        <button className='w-fit relative h-auto flex items-center  text-sm md:text-base border border-primary px-5 py-2 text-nowrap hover:bg-primary hover:text-white  font-medium text-primary'>Place Order</button>
+                                        <button className='w-fit relative h-auto flex items-center  text-sm md:text-base border border-primary px-4 md:px-5 py-2 text-nowrap hover:bg-primary hover:text-white  font-medium text-primary'>Place Order</button>
                                     </CartSheetOderDailog>
                                 </div>
 

@@ -19,35 +19,35 @@ function Specification({ product }: ProductsDataProps) {
                 </span>
                 <div className='w-full py-5 px-5  border  relative h-auto flex flex-col '>
                     <h2 className=' text-xl lg:text-2xl mb-1 font-meidum text-primary'>{product?.brands?.name}</h2>
-                    <p className=' text-sm ms:text-base font-normal text-gray-500'>{product?.description}</p>
+                    <p className=' text-base ms:text-lg font-normal text-gray-700'>{product?.description}</p>
                 </div>
             </div>
 
 
             <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                    <AccordionTrigger className='text-base font-medium px-2'>Return Policy</AccordionTrigger>
-                    <AccordionContent className="w-full relative h-auto px-2 flex flex-col text-sm text-primary">
+                    <AccordionTrigger className='text-xl font-medium px-2'>Return Policy</AccordionTrigger>
+                    <AccordionContent className="w-full relative h-auto px-2 flex flex-col text-base text-primary">
                         At MarkLine Fashions, we strive to ensure your complete satisfaction with every purchase. Items may be returned within 15 days of delivery, provided they are unused, in original condition and packaging, including all labels and tags. However, please note that SALE items, shoes, bags, and accessories (except belts) are non-returnable, non-refundable, and non-replaceable. To initiate a return, simply log into your account, go to “My Orders,” and raise a return request. Broken items may be eligible for repairs. Refunds will be processed to the original payment method once your return is approved. At this time, we do not offer exchanges — please place a new order if needed. For full details, please read our <Link href="/privacy-policy"> Return Policy</Link> .
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-2">
-                    <AccordionTrigger className='text-base font-medium px-2'>Shiping Policy</AccordionTrigger>
-                    <AccordionContent className="w-full relative h-auto px-2  text-sm text-primary">
+                    <AccordionTrigger className='text-xl font-medium px-2'>Shiping Policy</AccordionTrigger>
+                    <AccordionContent className="w-full relative h-auto px-2   text-primary text-base">
                         At Markline Fashion, we process and dispatch orders within 1–2 business days (excluding holidays). Delivery typically takes 3–4 business days if conditions are smooth; in case of delays, we’ll notify you promptly. Shipping is free on all orders up to ₹5000, while charges may apply beyond that based on the delivery location and method. We provide tracking details once your order is shipped, so you can stay updated. Please ensure your address is accurate to avoid delivery issues. For damaged items or returns, refer to our <Link href={'/return-policy'} className='text-primary font-semibold cursor-pointer'>Return Policy</Link> Return Policy, or reach out to us at <Link className='text-primary font-semibold cursor-pointer' href={'melto:shipping@marklinefashion.com'}></Link> shipping@marklinefashion.com for assistance.
                     </AccordionContent>
                 </AccordionItem>
 
                 <AccordionItem value="item-3">
-                    <AccordionTrigger className='text-base font-medium px-2'>Size Guide</AccordionTrigger>
+                    <AccordionTrigger className='text-xl font-medium px-2'>Size Guide</AccordionTrigger>
                     <AccordionContent className="w-full relative h-auto px-2 flex items-center justify-center text-sm text-primary">
                         <img src="/size-guide.png" alt="sizes guide" className=' max-w-[300px] md:max-w-[400px] relative h-auto' height={200} width={500} loading='lazy' />
                     </AccordionContent>
                 </AccordionItem>
 
 
-                <AccordionItem value="item-3">
-                    <AccordionTrigger className='text-base font-medium px-2'> Footwear Care Instructions – Keep Your Markline Shoes Looking New</AccordionTrigger>
+                <AccordionItem value="item-4">
+                    <AccordionTrigger className='text-xl font-medium px-2'> Footwear Care Instructions – Keep Your Markline Shoes Looking New</AccordionTrigger>
                     <AccordionContent className="w-full relative h-auto px-2 flex flex-col gap-3 items-start justify-center text-sm text-primary">
 
                         <h3 className=' text-xl md:text-2xl font-semibold text-primary'>1. General Care Tips</h3>

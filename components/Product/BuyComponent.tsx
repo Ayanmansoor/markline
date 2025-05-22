@@ -35,15 +35,15 @@ function BuyComponent({ product }: ProductsDataProps | any) {
 
                 <div className='flex  flex-col sm:flex-row items-start justify-between '>
                     <span className='flex items-start flex-col  '>
-                        <h2 className='text-lg font-medium  text-black line-clamp-1'>{product.name}</h2>
-                        <span className='text-[13px]  flex items-center  gap-2 text-normal text-black'>Quantity :  <p className='text-base relative font-semibold text-black'>{product.quantity}</p> </span>
-                        <span className='text-[13px] flex items-center gap-2 text-normal text-black'>Color :  <p className='text-base relative font-semibold text-black'>{product?.selectedColor?.name}</p> </span>
+                        <h2 className='text-lg font-medium  text-black line-clamp-1 w-[80%]'>{product.name}</h2>
+                        <span className='text-base  flex items-center  gap-2 font-bold text-black text-nowrap'>Quantity :  <p className='text-base relative font-semibold text-black'>{product.quantity}</p> </span>
+                        <span className='text-base flex items-center gap-2 font-bold text-black  text-nowrap'>Color :<p className='text-base relative font-semibold text-black'>{product?.selectedColor?.name}</p> </span>
                     </span>
                     <span className='flex items-start flex-col '>
-                        <span className='text-[13px]  flex items-center  gap-2 text-normal text-black'>Size :  <p className='text-base relative font-semibold text-black'>{product.selectedSize.size}</p> </span>
+                        <span className='text-base  flex items-center  gap-2 text-bold text-black  font-bold  text-nowrap'>Size :<p className='text-base relative font-semibold text-black'>{product.selectedSize.size}</p> </span>
                         {
                             !product?.discounts?.discount_persent &&
-                            <span className='text-[15px] font-medium flex mt-5 items-center gap-1 text-black '>Price : <p className='text-base relative font-semibold text-black'>₹{product.price}</p> </span>
+                            <span className='text-[15px] font-bold flex mt-5 items-center gap-1  text-black justify-center  text-nowrap'>Price : <p className='text-base relative font-semibold text-black'>₹{product.price}</p> </span>
 
                         }
 

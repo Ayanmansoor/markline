@@ -51,7 +51,7 @@ function Footer() {
 
             </h2>
             <ul className='flex items-start flex-col  text-base justify-start gap-2'>
-              <Link href={'/gender/MEN'} >Men</Link>
+              <Link href={'/gender/MEN'} >Man</Link>
               <Link href={'/gender/WOMEN'} >Women</Link>
               <Link href={'/gender/KIDS'} >Kids</Link>
               <Link href={'/gender/trending'} >Gen Z</Link>
