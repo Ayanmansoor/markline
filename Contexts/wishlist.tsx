@@ -6,7 +6,7 @@ interface wishlishtinterfce{
   wishlist : ProductsProps[],
   addToWishlist:(product:ProductsProps)=>void,
   removeFromWishlist:(id:string,color:string,size:string)=>void,
-  isProductInWishlist:(id:number,color:string,size:string)=>boolean,
+  isProductInWishlist:(id:string,color:string,size:string)=>boolean,
 }
 
 
@@ -30,7 +30,7 @@ function WishlistProvider({ children }: { children: React.ReactNode }) {
     }
   }, [wishlist]);
 
-  const addToWishlist = (product: whishlishtProps) => {
+  const addToWishlist = (product: ProductsProps) => {
     setWishlist((prevWishlist: any[]) => {
       if (!prevWishlist.some((item) => item.id === product.id)) {
         return [...prevWishlist, product];
