@@ -52,7 +52,7 @@ function CartSheet({ children }: {
     }, [cart])
 
     function increaseQuentity({ productId, quantity, color, size }: updateQuantityProps) {
-        if (quantity >= 1) {
+        if (quantity >= 1 && quantity <=5) {
             updateQuantity({ productId, quantity: quantity + 1, color, size })
         }
     }
@@ -71,12 +71,12 @@ function CartSheet({ children }: {
     return (
         <Sheet>
             <SheetTrigger className='w-fit h-fit relative '>{children}</SheetTrigger>
-            <SheetContent className="py-5  px-2 max-w-[550px] md:min-w-[550px] h-[100vh]  overflow-y-auto" id="style-3">
+            <SheetContent className="py-5  px-2 max-w-[550px] md:min-w-[550px] h-full  overflow-y-auto" id="style-3">
                 <SheetHeader>
-                    <SheetTitle className="font-medium text-2xl border-b pb-2">Carts</SheetTitle>
+                    <SheetTitle className="font-medium text-2xl border-b pb-2 text-start">Carts</SheetTitle>
 
 
-                    <section className='w-full relative h-auto gap-2 grid grid-cols-1 extrasmall:grid-cols-2 md:flex flex-col max-h-[50vh] overflow-y-auto py-2' id="style-3">
+                    <section className='w-full relative h-fit gap-2 grid grid-cols-1 extrasmall:grid-cols-2 md:flex flex-col max-h-[50vh] overflow-y-auto py-2' id="style-3">
                         {
                             cart.length > 0 ?
 
@@ -148,7 +148,7 @@ function CartSheet({ children }: {
                         }
                     </section>
 
-                    <SheetFooter className='absolute bottom-3 w-full left-0 '>
+                    <SheetFooter className='absolute bottom-5 w-full left-0 '>
                         {
                             totalPrice > 0 &&
                             <section className='w-full relative z-30 p-3 h-fit  flex flex-col gap-2 border bg-white  '>

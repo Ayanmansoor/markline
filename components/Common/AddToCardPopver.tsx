@@ -8,6 +8,7 @@ import {
 import { AddToCardPopverProps, Colors, Sizes } from '@/types/interfaces';
 import { Colors as colorProps, Sizes as sizeProps } from '@/types/interfaces';
 import { useCart } from '@/Contexts/Cart.context';
+import { useWishlists } from '@/Contexts/wishlist';
 
 interface productsCart {
     colors: {
@@ -22,7 +23,7 @@ interface productsCart {
 }
 
 
-function AddToCardPopver({ children, currentProduct, colors, sizes }: AddToCardPopverProps) {
+function AddToCardPopver({ children, currentProduct, colors, sizes , setIsInWhicshlist }: AddToCardPopverProps) {
     const [productcart, setProductcart] = useState<productsCart>({
         colors: {
             color:
@@ -36,6 +37,7 @@ function AddToCardPopver({ children, currentProduct, colors, sizes }: AddToCardP
             quentity: 1
         }
     })
+    const {isProductInWishlist}=useWishlists()
     const { addToCart, getCartProduct } = useCart();
 
     // useEffect(() => {
@@ -77,10 +79,16 @@ function AddToCardPopver({ children, currentProduct, colors, sizes }: AddToCardP
                     size: parsedSizes[0],
                 },
             }));
+
+            // const ispresent=isProductInWishlist(currentProduct.id,parsedColors[0].name,parsedSizes[0].size)
+            // setIsInWhicshlist((prev)=>ispresent)
         }
 
-    }, [currentProduct]);
 
+    }, [currentProduct,setIsInWhicshlist]);
+
+
+    
 
 
     function handleStateChange() {

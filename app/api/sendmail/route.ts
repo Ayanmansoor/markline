@@ -6,8 +6,12 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { email, name, orderId } = body;
 
+
     if (!email || !name || !orderId) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
     }
 
     const transporter = nodemailer.createTransport({
@@ -15,8 +19,8 @@ export async function POST(req: Request) {
       port: 587,
       secure: false,
       auth: {
-        user: "ayanmansoor0919@gmail.com",
-        pass: "ayan_bk_sovorun!$!%",
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
       },
       tls: {
         rejectUnauthorized: false,
@@ -25,23 +29,38 @@ export async function POST(req: Request) {
 
     // Email to user
     await transporter.sendMail({
-      from: "ayanmansoor0919@gmail.com",
+      from: process.env.SMTP_USER,
       to: email,
       subject: "Order Confirmation",
-      html: `<p>Hi ${name},</p><p>Your order #${orderId} has been placed successfully!</p>`,
+      html: `
+      <p>Hi <strong>${name}</strong></p>
+      <p>Your order <strong>#${orderId}</strong> has been placed successfully!</p>
+      <p>We’ll be reaching out to you shortly to confirm the details and guide you through the next steps, including payment and processing.</p>
+      `,
     });
 
     // Email to admin
     await transporter.sendMail({
-      from: "ayanmansoor0919@gmail.com",
-      to: "ayanmansoor0919@gmail.com",
+      from: process.env.SMTP_USER,
+      to: process.env.ADMIN_EMAIL,
       subject: "New Order Received",
-      html: `<p>New order placed by ${name} (${email}), order ID: ${orderId}.</p>`,
+      html: `<p>Hello Admin,</p>
+            <p>A new order has been placed successfully.</p>
+            <p><strong>Customer Name:</strong> ${name}<br>
+            <strong>Order ID:</strong> #${orderId}</p>
+            <p>Please connect with the customer to confirm the order and proceed with the next steps, including payment processing.</p>
+            <p>Regards,<br>Your Website Notification System</p>`,
     });
 
-    return NextResponse.json({ message: "Emails sent successfully" }, { status: 200 });
+    return NextResponse.json(
+      { message: "Emails sent successfully" },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Email error:", error);
-    return NextResponse.json({ error: "Failed to send emails" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to send emails" },
+      { status: 500 }
+    );
   }
 }

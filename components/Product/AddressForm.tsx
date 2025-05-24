@@ -124,7 +124,7 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
 
     return (
         <>
-            <form action='' onSubmit={handleSubmit(onSubmit)} className='w-full relative h-auto grid grid-cols-2 items-start justify-start gap-y-2 gap-x-5 '>
+            <form action='' onSubmit={handleSubmit(onSubmit)} className='w-full relative h-auto grid grid-cols-2 items-start justify-start gap-y-2 gap-x-3 md:gap-x-5 '>
                 <div className='w-full relative h-auto flex flex-col gap-1'>
                     <label htmlFor="" className='text-sm font-medium text-gray-600'>Name *</label>
                     <input type="text" className='w-full relative h-auto px-3 py-2 rounded-lg border text-sm font-normal text-gray-800  ' placeholder=' Enter Your Name ' {...register("name")} />

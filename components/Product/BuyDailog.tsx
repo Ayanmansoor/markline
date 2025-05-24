@@ -39,13 +39,13 @@ function BuyDailog({ children, product }: BuyDailogProps) {
                 <DialogTrigger asChild>
                     {children}
                 </DialogTrigger>
-                <DialogContent className=" sm:max-w-[500px ]  md:max-w-[625px]">
+                <DialogContent className=" max-w-[calc(100vw-20px)]  sm:max-w-[500px ]  md:max-w-[625px]">
                     <DialogHeader>
-                        <DialogTitle className=' text-lg border-b pb-5 lg:text-2xl xl:text-4xl font-semibold'>Process Order</DialogTitle>
+                        <DialogTitle className=' text-lg border-b pb-5 lg:text-2xl xl:text-4xl font-semibold text-start'>Process Order</DialogTitle>
                     </DialogHeader>
-                    <Tabs defaultValue="account" className="w-full min-h-[200px] md:min-h-[300px]" value={currentTab} onValueChange={setcurrentTab}  >
+                    <Tabs defaultValue="account" className=" w-full min-h-[200px] md:min-h-[300px]" value={currentTab} onValueChange={setcurrentTab}  >
 
-                        <TabsContent value="account" className='w-full relative h-auto  '>
+                        <TabsContent value="account" className='w-full relative h-auto rounded-md  '>
                             <BuyComponent product={product} />
                         </TabsContent>
                         <TabsContent value="address" className='w-full relative h-auto  '>

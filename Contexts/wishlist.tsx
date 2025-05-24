@@ -1,13 +1,19 @@
 'use client'
-import { ProductsProps } from "@/types/interfaces";
+import { ProductsProps, whishlishtProps } from "@/types/interfaces";
 import React, { createContext, useState, useEffect, useContext } from "react";
 
-const WishlistContext = createContext({
+interface wishlishtinterfce{
+  wishlist : ProductsProps[],
+  addToWishlist:(product:ProductsProps)=>void,
+  removeFromWishlist:(id:string,color:string,size:string)=>void,
+  isProductInWishlist:(id:number,color:string,size:string)=>boolean,
+}
 
-});
+
+const WishlistContext = createContext<wishlishtinterfce|undefined>(undefined);
 
 function WishlistProvider({ children }: { children: React.ReactNode }) {
-  const [wishlist, setWishlist] = useState<any[]>([]);
+  const [wishlist, setWishlist] = useState<ProductsProps[]>([]);
 
   useEffect(() => {
     const savedWishlist = localStorage.getItem("wishlist");
@@ -24,23 +30,25 @@ function WishlistProvider({ children }: { children: React.ReactNode }) {
     }
   }, [wishlist]);
 
-  const addToWishlist = (product: ProductsProps) => {
+  const addToWishlist = (product: whishlishtProps) => {
     setWishlist((prevWishlist: any[]) => {
-      // Prevent adding duplicates
       if (!prevWishlist.some((item) => item.id === product.id)) {
         return [...prevWishlist, product];
       }
       return prevWishlist;
     });
+
+    
+
   };
 
-  const removeFromWishlist = (productId: ProductsProps) => {
+  const removeFromWishlist = (productId: string,color:string,size:string) => {
     setWishlist((prevWishlist: any) =>
       prevWishlist.filter((item: any) => item.id !== productId)
     );
   };
 
-  const isProductInWishlist = (productId: any) => {
+  const isProductInWishlist = (productId: string , color:string,size:string) => {
     return wishlist.some((item: any) => item.id === productId);
   };
 

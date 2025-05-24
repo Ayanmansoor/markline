@@ -121,6 +121,7 @@ export interface AddToCardPopverProps {
   currentProduct: ProductsProps;
   colors: Colors[];
   sizes: Sizes[];
+  setIsInWhicshlist?:React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface CollectionCardProps {
@@ -173,6 +174,12 @@ export interface acceptorderProps {
   code: number;
   isOrder: boolean;
   data: any;
+}
+
+export interface whishlishtProps{
+  id:number,
+  colors:Colors,
+  sizes:Sizes
 }
 
 // collection fo props

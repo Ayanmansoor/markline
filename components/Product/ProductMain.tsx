@@ -93,7 +93,7 @@ function ProductMain({ product }: ProductsDataProps) {
                     {
                         Image?.map((item, index) => (
                             <SwiperSlide key={index} className='max-w-full   relative  max-h-fit border '>
-                                <img src={`${item?.image_url}` || ""} alt={`${item.name}`} height={500} width={500} className='w-full relative grid max-h-[300px] md:max-h-[400px] lg:max-h-[600px]  object-cover sm:object-contain  sm:object-bottom '  loading='lazy' />
+                                <img src={`${item?.image_url}` || ""} alt={`${item.name}`} height={500} width={500} className='w-full relative grid max-h-[450px] md:max-h-[400px] lg:max-h-[600px]  object-cover sm:object-contain  sm:object-bottom '  loading='lazy' />
                             </SwiperSlide>
                         ))
                     }

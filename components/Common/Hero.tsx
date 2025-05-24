@@ -30,8 +30,8 @@ function  Hero({ bannerImages, css }: HeroData) {
                     {bannerImages?.map((images, index) => (
 
                         <SwiperSlide className='h-full w-full relative ' key={index}>
-                            <Link href={`${images?.url}`}>
-                                <Image src={`${images?.image_url}`} alt={images?.name} height={1500} width={1900} className='w-full h-full object-cover object-bottom relative ' />
+                            <Link href={`${images?.url}`}> 
+                                <Image src={`${images?.image_url}`} loading='eager' priority={true} alt={images?.name} height={1500} width={1900} className='w-full h-full object-cover object-bottom relative ' />
                             </Link>
                         </SwiperSlide>
 

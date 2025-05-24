@@ -27,7 +27,7 @@ function CartSheetOderDailog({ children }: { children: React.ReactNode }) {
     return (
         <Dialog>
             <DialogTrigger className='w-fit h-fit relative cursor-pointer'>{children}</DialogTrigger>
-            <DialogContent className=" sm:max-w-[500px]  md:max-w-[625px]">
+            <DialogContent className=" max-w-[calc(100vw-30px)]  sm:max-w-[500px]  md:max-w-[625px]">
                 <DialogHeader>
                 </DialogHeader>
 
