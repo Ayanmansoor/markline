@@ -82,6 +82,20 @@ export interface CartItem {
   discount_key: string;
 }
 
+
+export interface whishlishtProps {
+  name: string;
+  productId: number;
+  price: number;
+  quantity: number;
+  color: Colors[];
+  size: Sizes[];
+  image_urls?: Images[];
+  discounts: Discount;
+  discount_key: string;
+  slug:string
+}
+
 export interface updateQuantityProps {
   productId: number;
   color: Colors;
@@ -121,7 +135,7 @@ export interface AddToCardPopverProps {
   currentProduct: ProductsProps;
   colors: Colors[];
   sizes: Sizes[];
-  setIsInWhicshlist?:React.Dispatch<React.SetStateAction<boolean>>;
+  addToWhishlistCB:(color:Colors[],size:Sizes[])=>void
 }
 
 export interface CollectionCardProps {
@@ -176,11 +190,6 @@ export interface acceptorderProps {
   data: any;
 }
 
-export interface whishlishtProps{
-  id:number,
-  colors:Colors,
-  sizes:Sizes
-}
 
 // collection fo props
 
@@ -226,6 +235,10 @@ export interface GridProductProps {
 export interface CarouselProductProps {
   url: string;
   product: ProductsProps[];
+}
+
+export interface whishlishtSectionProps{
+  url:string,
 }
 
 export interface ColorViewProps {

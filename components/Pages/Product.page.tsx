@@ -7,7 +7,7 @@ import Specification from '@/components/Product/Specification'
 import React from 'react'
 import Link from 'next/link'
 import ProductPageSkeleton from '../Skeleton/ProductPageSkeleton'
-
+import WihlistCardSection from '../Product/WihlistCardSection'
 
 
 
@@ -15,8 +15,11 @@ import { useParams } from 'next/navigation'
 import { useQuery } from 'react-query'
 import { getProductData, getAllProducts, getRelatedProducts } from '@/Supabase/SupabaseApi'
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
+import { useWishlists } from '@/Contexts/wishlist'
 
 function ProductPage() {
+
+  const { wishlist } = useWishlists()
 
   const { slug } = useParams()
   const productslug = Array.isArray(slug) ? slug[0] : slug;
@@ -111,6 +114,20 @@ function ProductPage() {
               <ProductCardSkeleton />
             </div>
       }
+      {/* 
+      {
+        wishlist.length > 0 &&
+        <CategoriesSection title={"Your Wishlist Products "} url={'products'} >
+          <CarouselProduct url={'products'} product={wishlist} />
+        </CategoriesSection >
+      } */}
+    {
+      wishlist.length > 0 &&
+      <CategoriesSection title={"Your Whishlist Products "} url={'products'} >
+        <WihlistCardSection url={'products'} />
+      </CategoriesSection >
+    }
+      
 
       <section className='w-full relative flex flex-col gap-5 container px-5 md:px-10 lg:px-20  pb-10'>
         <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
@@ -118,10 +135,10 @@ function ProductPage() {
         <div className='w-full relative h-auto flex flex-col gap-4'>
           <p className='text-base font-medium text-primary'>Shop Shoes By Gender</p>
           <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
-            <Link href={'/collections/men'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Mans Shoes</Link>
-            <Link href={'/collections/women'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Womens Shoes</Link>
-            <Link href={'/collections/kids'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Kids Shoes</Link>
-            <Link href={'/collection/girls'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Grils Shoes</Link>
+            <Link href={'/gender/men'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Mans Shoes</Link>
+            <Link href={'/gender/women'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Womens Shoes</Link>
+            <Link href={'/gender/kids'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Kids Shoes</Link>
+            <Link href={'/gender/girls'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Grils Shoes</Link>
           </div>
         </div>
         <div className='w-full relative h-auto flex flex-col gap-4'>

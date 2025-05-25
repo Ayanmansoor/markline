@@ -1,19 +1,28 @@
 'use client'
-import { ProductsProps, whishlishtProps } from "@/types/interfaces";
+import { Colors, ProductsProps, Sizes, whishlishtProps } from "@/types/interfaces";
 import React, { createContext, useState, useEffect, useContext } from "react";
 
-interface wishlishtinterfce{
-  wishlist : ProductsProps[],
-  addToWishlist:(product:ProductsProps)=>void,
-  removeFromWishlist:(id:string,color:string,size:string)=>void,
-  isProductInWishlist:(id:string,color:string,size:string)=>boolean,
+
+interface IsProductIntefrce {
+  productId: string | number,
+
 }
 
 
-const WishlistContext = createContext<wishlishtinterfce|undefined>(undefined);
+
+interface wishlishtinterfce {
+  wishlist: whishlishtProps[],
+  addToWishlist: (data: whishlishtProps) => void,
+  removeFromWishlist: ({ productId}: IsProductIntefrce) => void,
+  isProductInWishlist: ({ productId }: IsProductIntefrce) => boolean,
+  clearWishlist: () => void,
+}
+
+
+const WishlistContext = createContext<wishlishtinterfce | undefined>(undefined);
 
 function WishlistProvider({ children }: { children: React.ReactNode }) {
-  const [wishlist, setWishlist] = useState<ProductsProps[]>([]);
+  const [wishlist, setWishlist] = useState<whishlishtProps[]>([]);
 
   useEffect(() => {
     const savedWishlist = localStorage.getItem("wishlist");
@@ -21,6 +30,10 @@ function WishlistProvider({ children }: { children: React.ReactNode }) {
       setWishlist(JSON.parse(savedWishlist));
     }
   }, []);
+
+  const clearWishlist = () => {
+    setWishlist([]);
+  };
 
   useEffect(() => {
     if (wishlist.length > 0) {
@@ -30,26 +43,45 @@ function WishlistProvider({ children }: { children: React.ReactNode }) {
     }
   }, [wishlist]);
 
-  const addToWishlist = (product: ProductsProps) => {
-    setWishlist((prevWishlist: any[]) => {
-      if (!prevWishlist.some((item) => item.id === product.id)) {
-        return [...prevWishlist, product];
+  const addToWishlist = (data: whishlishtProps) => {
+    setWishlist((prevWishlist) => {
+      const exists = prevWishlist.some(
+        (item) =>
+          item.productId === data.productId 
+      );
+
+      if (exists) {
+        return prevWishlist.filter(
+          (item) =>
+            !(
+              item.productId === data.productId 
+            )
+        );
+      } else {
+        return [...prevWishlist, data];
       }
-      return prevWishlist;
     });
 
-    
 
   };
 
-  const removeFromWishlist = (productId: string,color:string,size:string) => {
-    setWishlist((prevWishlist: any) =>
-      prevWishlist.filter((item: any) => item.id !== productId)
+  const removeFromWishlist = ({
+    productId,
+  }: IsProductIntefrce) => {
+    setWishlist((prevWishlist) =>
+      prevWishlist.filter(
+        (item) =>
+          !(
+            item.productId === productId 
+          )
+      )
     );
   };
 
-  const isProductInWishlist = (productId: string , color:string,size:string) => {
-    return wishlist.some((item: any) => item.id === productId);
+  const isProductInWishlist = ({ productId }: IsProductIntefrce) => {
+    return wishlist.some((item) => (item.productId === productId)
+    )
+
   };
 
   return (
@@ -59,6 +91,7 @@ function WishlistProvider({ children }: { children: React.ReactNode }) {
         addToWishlist,
         removeFromWishlist,
         isProductInWishlist,
+        clearWishlist
       }}
     >
       {children}

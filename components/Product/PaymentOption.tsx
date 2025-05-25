@@ -27,7 +27,7 @@ function PaymentOption({ orderID, email, username }: orderData) {
           <p className='text-base font-medium text-black text-center  '>We currently do not support online payment. Order confirmation via WhatsApp is required to proceed with shipping and delivery.</p>
         </div>
       <div className='relative h-auto flex  w-full items-center justify-center  px-10 gap-5'>
-        <button className='w-fit relative h-auto px-3 py-1 text-white bg-black  cursor-pointer border border-transparent hover:border-black hover:text-black hover:bg-white  ' disabled={email || orderID ? false : true} onClick={sendMessage}>WhatsApp</button>
+        <button className='w-fit relative h-auto px-6 flex items-center gap-2 py-3 text-white bg-black  cursor-pointer border border-transparent hover:border-black hover:text-black hover:bg-white  ' disabled={email || orderID ? false : true} onClick={sendMessage}>WhatsApp</button>
         {/* <button className='w-fit relative h-auto px-3 py-1 text-white bg-black cursor-pointer border border-transparent hover:border-black hover:text-black hover:bg-white  '>Buy iT</button>                 */}
       </div>
     </section></>

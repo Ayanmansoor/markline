@@ -10,8 +10,9 @@ import ColorView from '../Common/ColorView';
 import BuyDailog from './BuyDailog';
 import AddToCardPopver from '../Common/AddToCardPopver';
 import { useCart } from '@/Contexts/Cart.context';
-import { Colors as colorProps, Colors, ProductsDataProps, Sizes as sizeProps, Sizes } from '@/types/interfaces';
+import { Colors as colorProps, Colors, Images, ProductsDataProps, Sizes as sizeProps, Sizes } from '@/types/interfaces';
 import { FaHeart } from 'react-icons/fa6';
+import { useWishlists } from '@/Contexts/wishlist';
 
 interface productsCart {
     colors: {
@@ -29,6 +30,9 @@ interface productsCart {
 
 function ProductAbout({ product }: ProductsDataProps) {
     const { addToCart, getCartProduct } = useCart()
+    const [isInWhishlist, setIsInwhishlist] = useState<boolean>(false)
+
+    const { wishlist, addToWishlist, isProductInWishlist } = useWishlists()
 
     const [productcart, setProductcart] = useState<productsCart>({
         colors: {
@@ -44,27 +48,9 @@ function ProductAbout({ product }: ProductsDataProps) {
         }
     })
 
-    // useEffect(() => {
-    //     // clearCart()
-    //     const data = getCartProduct(product.id)
-    //     setProductcart(
-    //         (prev: any) => ({
-    //             ...prev,
-    //             colors: {
-    //                 ...prev?.colors,
-    //                 color: data?.color
-    //             },
-    //             sizes: {
-    //                 ...prev?.sizes,
-    //                 size: data?.size
-    //             }
-    //         })
-    //     )
-    // }, [product.id, getCartProduct])
 
 
     function handleStateChange(e: any) {
-        // const data = getCartProduct(String(currentProduct.id))\
 
 
         addToCart({
@@ -81,10 +67,11 @@ function ProductAbout({ product }: ProductsDataProps) {
             }
         })
 
-        console.log("cart saved")
     }
-    const [colors, setColors] = useState<any>([])
-    const [size, setSizes] = useState<any>([])
+
+    const [colors, setColors] = useState<Colors[]>([])
+    const [size, setSizes] = useState<Sizes[]>([])
+    const [StringifyImages, setStringifyImages] = useState<Images[]>([])
     useEffect(() => {
         if (!product?.colors || !product?.sizes) return;
 
@@ -94,6 +81,8 @@ function ProductAbout({ product }: ProductsDataProps) {
         const parsedSizes: Sizes[] = product.sizes.map((size: any) =>
             typeof size === "string" ? JSON.parse(size) : size
         );
+        const productImage: Images[] = product.image_url?.map((image: any) => JSON.parse(image)) || []
+        setStringifyImages(productImage)
         setColors(parsedColors)
         setSizes(parsedSizes)
         if (parsedColors.length > 0 && parsedSizes.length > 0) {
@@ -106,9 +95,20 @@ function ProductAbout({ product }: ProductsDataProps) {
                     size: parsedSizes[0],
                 },
             }));
+
         }
     }, [product]);
 
+    useEffect(() => {
+        const present = isProductInWishlist({ productId: product.id })
+        setIsInwhishlist(present)
+    }, [wishlist.length])
+
+
+
+    function addTowishlistproduct(selectedColor: Colors[], selectedSize: Sizes[]) {
+        addToWishlist({ name: product.name, productId: product.id, price: product.price, quantity: product.quantity, color: selectedColor, size: selectedSize, image_urls: StringifyImages, discounts: product.discounts, discount_key: product.discount_key ,slug:product.slug })
+    }
 
     return (
         <>
@@ -142,7 +142,7 @@ function ProductAbout({ product }: ProductsDataProps) {
 
                 <div className='flex items-center   relative flex-col gap-2 w-full '>
                     <p className='text-p18 font-semibold flex items-center justify-between w-full'>Color: {productcart.colors.color.name}
-{/* 
+                        {/* 
                         <ColorView colors={[]} images={[]} >
                             <span className='text-[16px]  font-normal  flex items-center gap-1 cursor-pointer '>More Colors  <MdKeyboardArrowDown className='text-[16px]' /></span>
                         </ColorView> */}
@@ -216,7 +216,7 @@ function ProductAbout({ product }: ProductsDataProps) {
 
                 <div className='w-full fixed bottom-0 px-4 flex-wrap sm:px-0 bg-white sm:bg-transparent py-2 sm:py-0  z-30 grid-cols-[1fr_auto] md:grid-cols-1 lg:grid-cols-[1fr_auto] gap-3 right-0 grid   items-center sm:relative  '>
                     <div className='w-full relative flex items-center gap-2 md:gap-1 lg:gap-2 '>
-                       
+
                         {/* <AddToCardPopver currentProduct={product} colors={colors} sizes={size}> */}
 
                         <button disabled={colors?.length > 0 && size?.length > 0 ? false : true} className=' w-full relative xl:px-5 py-4 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' onClick={handleStateChange} >Add to Cart</button>
@@ -226,8 +226,8 @@ function ProductAbout({ product }: ProductsDataProps) {
 
                         {/* </AddToCardPopver>       */}
                     </div>
-                    <span className='border py-1     flex items-center justify-center px-5 cursor-pointer group hover:bg-red-200 h-full '>
-                         <FaHeart className={`text-[20px] flex items-center  text-balck justify-center cursor-pointer group-hover:text-red-500   `} />
+                    <span className='border py-1     flex items-center justify-center px-5 cursor-pointer group hover:bg-red-200 h-full ' onClick={() => addTowishlistproduct(colors, size)}>
+                        <FaHeart className={`text-[20px] flex items-center  text-black justify-center cursor-pointer hover:text-red-500  ${isInWhishlist && "text-red-500"}  `} />
                     </span>
                 </div>
 
@@ -254,4 +254,4 @@ function ProductAbout({ product }: ProductsDataProps) {
     )
 }
 
-export default ProductAbout 
+export default ProductAbout

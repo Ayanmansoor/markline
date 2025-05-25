@@ -24,7 +24,8 @@ interface FormResult {
   data?: any;
 }
 
-async function submitOrders(orderArray: OrderFormData[]): Promise<FormResult> {
+async function 
+submitOrders(orderArray: OrderFormData[]): Promise<FormResult> {
   try {
     const response = await axios.post(
       "https://qmtfmhylybgxvvihpaxw.supabase.co/functions/v1/confirm-order",

@@ -137,7 +137,7 @@ function Footer() {
         </Accordion>
       </div>
 
-      <div className='w-full h-auto relative bg-secondary block  sm:hidden pt-5 '>
+      <div className='w-full h-auto relative bg-secondary block  sm:hidden pt-5 pb-10 sm:pb-0 '>
         <p className='text-p20 font-light text-third text-center text-primary '>Follow Us</p>
         <hr className='w-full absolute top-8 text-primary ' />
         <div className=' container mx-auto h-auto px-20 py-3 flex justify-center items-center gap-5'>

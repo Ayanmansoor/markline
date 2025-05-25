@@ -76,6 +76,7 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
             const orderIDs: string[] = [];
             responses.data?.forEach((ordersaved: any) => {
                 if (ordersaved) {
+                    // console.log("reponse product",ordersaved)
                     const id = ordersaved?.id
                     if (id) {
                         orderIDs.push(id);
@@ -101,7 +102,9 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
                     body: JSON.stringify({
                         email: data.email,
                         name: data.name,
-                        orderId: orderIDs[0]
+                        phone:data.phone,
+                        orderId: orderIDs[0],
+                        productNames:""
                     })
                 }); 
 

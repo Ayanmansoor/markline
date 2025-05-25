@@ -13,10 +13,14 @@ import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton';
 import { ProductsProps } from '@/types/interfaces';
 import CarouselProduct from '../Product/CarouselProduct';
 import L2Banner from '../Common/L2Banner';
+import CategoriesSection from '../Common/CategoriesSection';
+import WihlistCardSection from '../Product/WihlistCardSection';
+import { useWishlists } from '@/Contexts/wishlist';
 
 
 function Productspage() {
     const [productRangevalue, setPRoductRange] = useState(5000)
+    const {wishlist}=useWishlists()
     const [filterProducts, setFilterProducts] = useState<ProductsProps[]>()
     const {
         data: allproducts = [],
@@ -100,7 +104,7 @@ function Productspage() {
                                 Explore Our Complete Footwear Collection
                             </h1>
                             <p className='text-base line-clamp-3 font-medium text-primary '>
-                               Welcome to Markline Fashion&apos;s comprehensive footwear collection, where style meets comfort for every step of life. Our curated selection features a diverse array of shoes for women, kids, and men, including elegant heels, trendy sandals, durable sneakers, and more. Whether youre preparing for a special occasion or seeking everyday essentials, find the perfect pair to match your style and needs. Enjoy seamless shopping with free shipping across India.
+                                Welcome to Markline Fashion&apos;s comprehensive footwear collection, where style meets comfort for every step of life. Our curated selection features a diverse array of shoes for women, kids, and men, including elegant heels, trendy sandals, durable sneakers, and more. Whether youre preparing for a special occasion or seeking everyday essentials, find the perfect pair to match your style and needs. Enjoy seamless shopping with free shipping across India.
                             </p>
 
                         </div>
@@ -137,6 +141,14 @@ function Productspage() {
 
                 </div>
             </section>
+
+            {
+                wishlist.length > 0 &&
+                <CategoriesSection title={"Your Whishlist Products "} url={'products'} >
+                    <WihlistCardSection url={'products'} />
+                </CategoriesSection >
+            }
+
 
 
             <section className='w-full relative flex flex-col gap-5 container px-20 py-10'>

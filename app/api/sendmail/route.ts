@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { email, name, orderId } = body;
+    const { email, name,phone, orderId ,productNames } = body;
 
 
     if (!email || !name || !orderId) {
@@ -35,6 +35,7 @@ export async function POST(req: Request) {
       html: `
       <p>Hi <strong>${name}</strong></p>
       <p>Your order <strong>#${orderId}</strong> has been placed successfully!</p>
+      <p>Your order <strong>#${productNames}</strong> has been placed successfully!</p>
       <p>We’ll be reaching out to you shortly to confirm the details and guide you through the next steps, including payment and processing.</p>
       `,
     });
@@ -46,8 +47,10 @@ export async function POST(req: Request) {
       subject: "New Order Received",
       html: `<p>Hello Admin,</p>
             <p>A new order has been placed successfully.</p>
-            <p><strong>Customer Name:</strong> ${name}<br>
+            <p><strong>Customer Name:</strong> ${name} <br>
+            <p><strong>Phone number:</strong> ${phone} <br>
             <strong>Order ID:</strong> #${orderId}</p>
+            <strong>Product name:</strong> #${productNames}</p>
             <p>Please connect with the customer to confirm the order and proceed with the next steps, including payment processing.</p>
             <p>Regards,<br>Your Website Notification System</p>`,
     });

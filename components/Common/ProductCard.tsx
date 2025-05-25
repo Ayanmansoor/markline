@@ -20,43 +20,47 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Link from 'next/link';
 import { Pagination, Scrollbar } from 'swiper/modules';
-import { ProductsDataProps, Colors, ProductsProps, Sizes } from '@/types/interfaces';
+import { ProductsDataProps, Colors, ProductsProps, Sizes, Images } from '@/types/interfaces';
 import AddToCardPopver from './AddToCardPopver';
 
 import { useWishlists } from '@/Contexts/wishlist';
 
 function ProductCard({ product, url }: ProductsDataProps) {
-  const { addToWishlist, removeFromWishlist, isProductInWishlist } = useWishlists()
-  
-// state for set color and sizes
-  const [Stringifycolor,setStringifyColor]=useState<Colors[]>([])
-  const [StringifySize,setStringifySize]=useState<Sizes[]>([])
-  const [StringifyImages,setStringifyImages]=useState<any[]>()
+  const { addToWishlist, removeFromWishlist, wishlist, isProductInWishlist } = useWishlists()
 
-  const [isInWhishlist,setIsInwhishlist]=useState<boolean>(false)
+  // state for set color and sizes
+  const [Stringifycolor, setStringifyColor] = useState<Colors[]>([])
+  const [StringifySize, setStringifySize] = useState<Sizes[]>([])
+  const [StringifyImages, setStringifyImages] = useState<any[] | undefined>([])
 
- 
+  const [isInWhishlist, setIsInwhishlist] = useState<boolean>(false)
 
-  function addwishlist(product: ProductsProps) {
-    addToWishlist(product)
-  }
+
+
 
   useEffect(() => {
     const colors = product?.colors?.map((color: any) => JSON.parse(color))
     const sizes = product?.sizes?.map((size: any) => JSON.parse(size))
-    const productImage = product.image_url?.map((image: any) => JSON.parse(image))
+    const productImage: Images[] | undefined = product.image_url?.map((image: any) => JSON.parse(image))
 
     setStringifyColor(colors)
     setStringifySize(sizes)
     setStringifyImages(productImage)
 
-    //  const isAvailble = isProductInWishlist(product.id,colors[0].name,sizes[0].size)
-    // setIsInwhishlist(isAvailble)
-
   }, [product])
 
+  useEffect(() => {
+    const present = isProductInWishlist({ productId: product.id })
+    setIsInwhishlist(present)
+  }, [wishlist.length,product])
 
 
+
+  function addTowishlistproduct(selectedColor: Colors[], selectedSize: Sizes[]) {
+    if(!product.image_urls){
+      addToWishlist({ name: product.name, productId: product.id, price: product.price, quantity: product.quantity, color: selectedColor, size: selectedSize, image_urls: StringifyImages, discounts: product.discounts, discount_key: product.discount_key ,slug:product.slug })
+    }
+  }
 
 
 
@@ -79,11 +83,17 @@ function ProductCard({ product, url }: ProductsDataProps) {
         >
 
           {
-           StringifyImages?.map((image, index: number) => (
-              <SwiperSlide className='w-full realtive h-full relative border' key={index}>
-                <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className='w-full   transition-all duration-500 ease-in-out h-[180px] sm:h-[200px] md:h-[250px]  object-cover' height={200} width={300} loading='lazy' />
-              </SwiperSlide>
-            ))
+            StringifyImages ?
+              StringifyImages?.map((image, index: number) => (
+                <SwiperSlide className='w-full realtive h-full relative border' key={index}>
+                  <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className='w-full   transition-all duration-500 ease-in-out h-[180px] sm:h-[200px] md:h-[250px]  object-cover' height={200} width={300} loading='lazy' />
+                </SwiperSlide>
+              )) :
+              product.image_urls?.map((image, index) => (
+                <SwiperSlide className='w-full realtive h-full relative border' key={index}>
+                  <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className='w-full   transition-all duration-500 ease-in-out h-[180px] sm:h-[200px] md:h-[250px]  object-cover' height={200} width={300} loading='lazy' />
+                </SwiperSlide>
+              ))
           }
         </Swiper>
         {
@@ -93,7 +103,7 @@ function ProductCard({ product, url }: ProductsDataProps) {
 
       </Link>
       <Link href={`/${url}/${product?.slug}`} className='flex w-full items-start pt-2 justify-between  px-2 gap-0 border-l border-r' >
-        <h2 className=' text-xs sm:text-sm md:text-[16px] font-medium  line-clamp-2 h-[50px]  flex items-center gap-1 uppercase text-black'>{product?.name}</h2>
+        <h2 className=' text-xs sm:text-sm md:text-[16px] font-medium  line-clamp-2 h-[55px]  flex items-center gap-1 uppercase text-black'>{product?.name}</h2>
 
       </Link>
       <section className='w-full relative h-auto border-l border-r pb-3 py-2 px-2 md:flex-row  flex-col flex  items-start lg:items-center justify-between gap-2'>
@@ -116,12 +126,12 @@ function ProductCard({ product, url }: ProductsDataProps) {
 
       </section>
       <div className='w-full relative grid grid-cols-[1fr_auto] border py-2    border-t border-gray-300 items-center justify-center '>
-        <AddToCardPopver currentProduct={product} colors={Stringifycolor} sizes={StringifySize} setIsInWhicshlist={setIsInwhishlist}  >
+        <AddToCardPopver currentProduct={product} colors={Stringifycolor} sizes={StringifySize} addToWhishlistCB={addTowishlistproduct}  >
           <button className='w-full relative h-auto flex items-center justify-center text-base  font-medium text-black   border-r border-gray-300'>Add to Cart</button>
         </AddToCardPopver>
 
-        <button className='flex items-center justify-center px-2' onClick={() => addwishlist(product)}>
-          <FaHeart className={`text-[20px] flex items-center  text-black justify-center cursor-pointer hover:text-red-500  ${isInWhishlist&&"text-red-500"}  `} />
+        <button className='flex items-center justify-center px-2' onClick={() => addTowishlistproduct(Stringifycolor, StringifySize)} >
+          <FaHeart className={`text-[20px] flex items-center  text-black justify-center cursor-pointer hover:text-red-500  ${ (isInWhishlist || product.image_urls) && "text-red-500" }  `} />
         </button>
 
       </div>

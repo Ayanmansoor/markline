@@ -3,7 +3,7 @@ import ContentLoader from 'react-content-loader'
 
 function ProductPageSkeleton() {
     return (
-        <section className='w-full relative container  '>
+        <section className='w-full relative container px-3 md:px-5 xl:px-10 '>
             <ContentLoader
                 speed={2}
                 width={1080}
@@ -70,16 +70,16 @@ function ProductPageSkeleton() {
                 speed={2}
                 width={'100%'}
                 height={500}
-                viewBox="0 0 100% 700"
+                viewBox="0 0 100% 500"
                 backgroundColor="#D5D5D5"
                 foregroundColor="#ecebeb"
                 className=' block lg:hidden'
             >
-                <rect x="1" y="2" rx="0" ry="0" width="584" height="354" />
-                <rect x="2" y="364" rx="0" ry="0" width="145" height="121" />
-                <rect x="159" y="364" rx="0" ry="0" width="145" height="121" />
-                <rect x="316" y="364" rx="0" ry="0" width="145" height="121" />
-                <rect x="472" y="363" rx="0" ry="0" width="109" height="121" />
+                <rect x="1" y="2" rx="0" ry="0" width="584" height="300" />
+                <rect x="2" y="330" rx="0" ry="0" width="145" height="121" />
+                <rect x="159" y="330" rx="0" ry="0" width="145" height="121" />
+                <rect x="316" y="330" rx="0" ry="0" width="145" height="121" />
+                <rect x="472" y="330" rx="0" ry="0" width="109" height="121" />
             </ContentLoader>
         </section>
     )

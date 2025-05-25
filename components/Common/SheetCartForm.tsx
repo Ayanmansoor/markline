@@ -67,7 +67,7 @@ function SheetCartForm({ setConfirm, setOrderID }: SheetCartFormProps) {
             if (response?.isOrder && response?.data?.length === orders.length) {
                 const orderids = response.data.map((item: any) => item.id);
     
-                console.log("All products saved:", orderids);
+                // console.log("All products saved:", orderids,"product response",response.data);
     
                 setOrderID({
                     orderID: orderids,
@@ -76,6 +76,30 @@ function SheetCartForm({ setConfirm, setOrderID }: SheetCartFormProps) {
                 });
     
                 setConfirm("success");
+                
+                 const emailResponse = await fetch("/api/sendmail", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: data.email,
+                        name: data.name,
+                        phone:data.phone,
+                        orderId: orderids,
+                        productNames:""
+                    })
+                }); 
+
+                console.log("email end")
+
+                if (!emailResponse.ok) {
+                    console.error("Failed to send confirmation emails");
+                }
+
+                reset();
+                clearCart()
+
             } else {
                 console.error("Some or all products were not saved.");
             }

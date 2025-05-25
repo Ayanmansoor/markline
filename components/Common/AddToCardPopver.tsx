@@ -23,7 +23,7 @@ interface productsCart {
 }
 
 
-function AddToCardPopver({ children, currentProduct, colors, sizes , setIsInWhicshlist }: AddToCardPopverProps) {
+function AddToCardPopver({ children, currentProduct, colors, sizes, addToWhishlistCB }: AddToCardPopverProps) {
     const [productcart, setProductcart] = useState<productsCart>({
         colors: {
             color:
@@ -37,7 +37,6 @@ function AddToCardPopver({ children, currentProduct, colors, sizes , setIsInWhic
             quentity: 1
         }
     })
-    const {isProductInWishlist}=useWishlists()
     const { addToCart, getCartProduct } = useCart();
 
     // useEffect(() => {
@@ -85,10 +84,10 @@ function AddToCardPopver({ children, currentProduct, colors, sizes , setIsInWhic
         }
 
 
-    }, [currentProduct,setIsInWhicshlist]);
+    }, [currentProduct]);
 
 
-    
+
 
 
     function handleStateChange() {
@@ -121,13 +120,16 @@ function AddToCardPopver({ children, currentProduct, colors, sizes , setIsInWhic
                             {
                                 colors?.map((item, index) => (
                                     <span className={` text-center cursor-pointer border text-sm px-2 py-1  ${item.name == (productcart?.colors.color ? productcart?.colors?.color?.name : colors[0].name) ? "bg-primary text-white" : " text-primary bg-transparent"}  `} key={index} onClick={(e) => {
-                                        setProductcart((prev) => ({
-                                            ...prev,
-                                            colors: {
-                                                ...prev.colors,
-                                                color: item
+                                        setProductcart((prev) => {
+                                            // addToWhishlistCB(item,prev.sizes.size)
+                                            return {
+                                                ...prev,
+                                                colors: {
+                                                    ...prev.colors,
+                                                    color: item
+                                                }
                                             }
-                                        }));
+                                        });
                                     }}>
                                         {item.name}
                                     </span>
@@ -143,13 +145,16 @@ function AddToCardPopver({ children, currentProduct, colors, sizes , setIsInWhic
                                     <span className={` text-center cursor-pointer    border text-sm p-1  ${item.size === (productcart?.sizes?.size?.size ? productcart?.sizes?.size?.size : sizes[0].size) ? "bg-primary text-white" : " text-primary bg-transparent"}  `} key={index}
 
                                         onClick={() => {
-                                            setProductcart((prev) => ({
-                                                ...prev,
-                                                sizes: {
-                                                    ...prev.sizes,
-                                                    size: item
+                                            setProductcart((prev) => {
+                                            // addToWhishlistCB(prev.colors.color,item)
+                                                return {
+                                                    ...prev,
+                                                    sizes: {
+                                                        ...prev.sizes,
+                                                        size: item
+                                                    }
                                                 }
-                                            }))
+                                            })
                                         }}
                                     >
                                         {item.size}

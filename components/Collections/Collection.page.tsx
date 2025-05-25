@@ -9,7 +9,11 @@ import Discount from '../Discounts/Discount'
 import Collectionsection from '../Home/Collectionsection'
 import GridRroduct from '../Home/GridRroduct'
 import SecondHero from '../Common/SecondHero'
+import { useWishlists } from '@/Contexts/wishlist'
+import WihlistCardSection from '../Product/WihlistCardSection'
 function CollcetionPage() {
+
+  const { wishlist } = useWishlists()
 
   // const { data : collectionBanner, isLoading, isError } = useQuery({
   //   queryKey: ["collectionBanner"],
@@ -101,6 +105,12 @@ function CollcetionPage() {
         </div>
       }
 
+      {
+        wishlist.length > 0 &&
+        <CategoriesSection title={"Your Whishlist Products "} url={'products'} >
+          <WihlistCardSection url={'products'} />
+        </CategoriesSection >
+      }
 
 
       <Discount />
@@ -118,10 +128,10 @@ function CollcetionPage() {
         <div className='w-full relative h-auto flex flex-col gap-4'>
           <p className='text-base font-medium text-primary'>Shop Shoes By Gender</p>
           <div className='w-full flex flex-wrap items-center gap-2'>
-            <Link href='/collections/MEN' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Men Shoes</Link>
-            <Link href='/collections/WOMEN' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Shoes</Link>
-            <Link href='/collections/KIDS' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Kids Shoes</Link>
-            <Link href='/collections/GIRLS' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Girls Shoes</Link>
+            <Link href='/gender/men' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Men Shoes</Link>
+            <Link href='/gender/women' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Shoes</Link>
+            <Link href='/gender/kids' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Kids Shoes</Link>
+            <Link href='/gender/girls' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Girls Shoes</Link>
           </div>
         </div>
 
