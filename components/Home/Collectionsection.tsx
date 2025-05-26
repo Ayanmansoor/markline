@@ -26,10 +26,16 @@ function Collectionsection({ url, collections }: CollectionsDataProps) {
                     slidesPerView: 2,
                 },
                 768: {
-                    slidesPerView: 3,
+                    slidesPerView: 2,
+                },
+                900: {
+                    slidesPerView: 2,
                 },
                 1024: {
-                    slidesPerView: 'auto',
+                    slidesPerView: 2.5,
+                },
+                1124: {
+                    slidesPerView: 3,
                 },
             }}
 
@@ -39,7 +45,7 @@ function Collectionsection({ url, collections }: CollectionsDataProps) {
         >
             {
                 collections?.map((item: CollectionCardProps, index: number) => (
-                    <SwiperSlide className=' max-w-[250px]   md:max-w-[250px] h-full relative bg-secondary' key={index} >
+                    <SwiperSlide className=' w-full h-full relative bg-secondary' key={index} >
                         <CollectionCard collections={item} url={url} />
                     </SwiperSlide>
                 ))
