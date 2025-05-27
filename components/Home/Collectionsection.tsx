@@ -45,7 +45,7 @@ function Collectionsection({ url, collections }: CollectionsDataProps) {
         >
             {
                 collections?.map((item: CollectionCardProps, index: number) => (
-                    <SwiperSlide className=' w-full h-full relative bg-secondary' key={index} >
+                    <SwiperSlide className='  w-full h-full relative bg-secondary' key={index} >
                         <CollectionCard collections={item} url={url} />
                     </SwiperSlide>
                 ))

@@ -19,6 +19,23 @@ import ProductsHighlightes from '../Product/productsHighlightes'
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
 
 
+const homebanners = [
+  {
+    image_url: "/homebanner2.webp",
+    url: "/products",
+    id: 0,
+    name: "",
+    slug: ""
+  },
+  {
+    image_url: "/homebnaner.webp",
+    url: "collections",
+    id: 0,
+    name: "",
+    slug: ""
+  }
+]
+
 function HomePage() {
 
   const [currentproducts, setCurrentProducts] = useState<any>()
@@ -31,10 +48,12 @@ function HomePage() {
   const [wedding, setWedding] = useState<any>()
 
 
+
+
   async function fetchData() {
     try {
       const results: PromiseSettledResult<any>[] = await Promise.allSettled([
-        getAllBanner(),
+        // getAllBanner(),
         getAllCollections(),
         getAllProducts(),
         getAllTrendingProducts(),
@@ -48,20 +67,20 @@ function HomePage() {
       });
 
       // Extract results safely
-      const homebannervalue: any[] = results[0]?.status === "fulfilled" ? results[0].value : [];
-      const collectionsvalue: any[] = results[1]?.status === "fulfilled" ? results[1].value : [];
-      const productsvalue: any[] = results[2]?.status === "fulfilled" ? results[2].value : [];
-      const trendingsvalue: any[] = results[3]?.status === "fulfilled" ? results[3].value : [];
-      const newArrivalvalue: any[] = results[4]?.status === "fulfilled" ? results[4].value : [];
-      const newCollectionvalue: any[] = results[5]?.status === "fulfilled" ? results[5].value : [];
-      const casualsHighlightes: any[] = results[6]?.status === "fulfilled" ? results[6].value : [];
-      const weddingHighlightes: any[] = results[7]?.status === "fulfilled" ? results[7].value : [];
+      // const homebannervalue: any[] = results[0]?.status === "fulfilled" ? results[0].value : [];
+      const collectionsvalue: any[] = results[0]?.status === "fulfilled" ? results[0].value : [];
+      const productsvalue: any[] = results[1]?.status === "fulfilled" ? results[1].value : [];
+      const trendingsvalue: any[] = results[2]?.status === "fulfilled" ? results[2].value : [];
+      const newArrivalvalue: any[] = results[3]?.status === "fulfilled" ? results[3].value : [];
+      const newCollectionvalue: any[] = results[4]?.status === "fulfilled" ? results[4].value : [];
+      const casualsHighlightes: any[] = results[5]?.status === "fulfilled" ? results[5].value : [];
+      const weddingHighlightes: any[] = results[6]?.status === "fulfilled" ? results[6].value : [];
 
       // Set state safely without breaking the app if one fails
       setCurrentProducts([...productsvalue]);
       setCollections([...collectionsvalue]);
       setTrendingProducts([...trendingsvalue]);
-      sethomeBanner([...homebannervalue]);
+      // sethomeBanner([...homebannervalue]);
       setNewarrival([...newArrivalvalue]);
       setNewCollection([...newCollectionvalue]);
       setCasuals([...casualsHighlightes])
@@ -81,7 +100,7 @@ function HomePage() {
 
   return (
     <>
-      <Hero bannerImages={HomeBanner} />
+      <Hero bannerImages={homebanners} />
 
 
       <section className='w-full relative bg-secondary  '>
@@ -149,7 +168,7 @@ function HomePage() {
       {
         newArrivals?.length > 0 &&
         <CategoriesSection title={"Step into the Season's Newest Trends"} url="new-arrivals" >
-          <SecondHero categoryName={"Shoes"} data={newArrivals}  />
+          <SecondHero categoryName={"Shoes"} data={newArrivals} />
         </CategoriesSection>
       }
 

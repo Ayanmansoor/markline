@@ -151,7 +151,7 @@ export interface CollectionCardProps {
 }
 
 export interface homeBannervalue {
-  created_at: string;
+  created_at?: string;
   image_url: string;
   id: number;
   name: string;
