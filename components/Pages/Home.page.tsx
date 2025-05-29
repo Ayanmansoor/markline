@@ -8,6 +8,7 @@ import TrendingCarousels from '../Carousels/TrendingCarousels'
 import SecondHero from '../Common/SecondHero'
 import Discount from '../Discounts/Discount'
 import LeatestCollection from '../Collections/LeatestCollection'
+import Image from 'next/image'
 
 
 import axios from 'axios'
@@ -17,7 +18,7 @@ import MainCollections from '../Home/MainCollections'
 import CarouselProduct from '../Product/CarouselProduct'
 import ProductsHighlightes from '../Product/productsHighlightes'
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
-
+import Link from 'next/link'
 
 const homebanners = [
   {
@@ -144,13 +145,33 @@ function HomePage() {
         <TrendingCarousels data={trendingProducts} />
       }
 
-
       {
         casuals?.length > 0 &&
         <CategoriesSection title={"Everyday Essentials  Women's Casual Footwear "} url={''} >
           <ProductsHighlightes data={casuals} />
         </CategoriesSection >
       }
+
+      <section className='w-full relative py-5 md:py-10  container   px-5 md:px-10 lg:px-20 h-auto grid grid-cols-2 gap-1'>
+        <Link href='/collections/wedding-specials' className='w-full relative h-auto flex group overflow-hidden '>
+          <Image src="/markline-fashion.png" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
+          <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
+            <span className='w-fit relative h-auto flex flex-col'>
+              <h2 className=' text-base sm:text-xl md:text-2xl lg:text-[40px] font-medium text-white'>For Wedding</h2>
+              <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-end font-medium text-white'>Women</p>
+            </span>
+          </div>
+        </Link>
+       <Link href='/men' className='w-full relative h-auto flex group overflow-hidden '>
+          <Image src="/marklineman.jpg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
+          <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
+            <span className='w-fit relative h-auto flex flex-col'>
+              <h2 className=' text-base sm:text-xl md:text-2xl lg:text-[40px] font-medium text-white'>For Wedding</h2>
+              <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-end font-medium text-white'>Man</p>
+            </span>
+          </div>
+        </Link>
+      </section>
 
 
       {
@@ -163,7 +184,31 @@ function HomePage() {
 
 
       <Discount />
+{/* 
+      <section className='w-full relative h-auto flex '>
 
+     <section className='w-full relative py-5 md:py-10 container px-5 md:px-10 lg:px-20 h-auto grid grid-cols-2 gap-1'>
+        <Link href='/collections/wedding-specials' className='w-full relative h-auto flex group overflow-hidden '>
+          <Image src="/markline-fashion.png" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
+          <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
+            <span className='w-fit relative h-auto flex flex-col'>
+              <h2 className=' text-base sm:text-xl md:text-2xl lg:text-[40px] font-medium text-white'>For Wedding</h2>
+              <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-end font-medium text-white'>Women</p>
+            </span>
+          </div>
+        </Link>
+       <Link href='/men' className='w-full relative h-auto flex group overflow-hidden '>
+          <Image src="/marklineman.jpg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
+          <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
+            <span className='w-fit relative h-auto flex flex-col'>
+              <h2 className=' text-base sm:text-xl md:text-2xl lg:text-[40px] font-medium text-white'>For Wedding</h2>
+              <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-end font-medium text-white'>Man</p>
+            </span>
+          </div>
+        </Link>
+      </section>
+
+</section> */}
 
       {
         newArrivals?.length > 0 &&

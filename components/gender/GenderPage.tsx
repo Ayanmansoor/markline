@@ -130,7 +130,7 @@ function GenderPage() {
                     </div>
                 </div>
 
-                <div className=" py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto h-[400px]">
+                <div className=" py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto ">
                     <section>
                         <h2 className="text-xl sm:text-2xl font-semibold mb-4">Explore Footwear for Everyone</h2>
                         <p className="text-gray-700">
