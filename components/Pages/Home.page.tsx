@@ -157,7 +157,7 @@ function HomePage() {
           <Image src="/markline-fashion.png" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
           <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
             <span className='w-fit relative h-auto flex flex-col'>
-              <h2 className=' text-base sm:text-xl md:text-2xl lg:text-[40px] font-medium text-white'>For Wedding</h2>
+              <h2 className=' text-base sm:text-xl md:text-2xl lg:text-[40px] font-medium text-white'>For Bride</h2>
               <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-end font-medium text-white'>Women</p>
             </span>
           </div>
@@ -166,7 +166,7 @@ function HomePage() {
           <Image src="/marklineman.jpg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
           <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
             <span className='w-fit relative h-auto flex flex-col'>
-              <h2 className=' text-base sm:text-xl md:text-2xl lg:text-[40px] font-medium text-white'>For Wedding</h2>
+              <h2 className=' text-base sm:text-xl md:text-2xl lg:text-[40px] font-medium text-white'>For Groom</h2>
               <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-end font-medium text-white'>Man</p>
             </span>
           </div>

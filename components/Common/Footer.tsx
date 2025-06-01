@@ -36,9 +36,9 @@ function Footer() {
               <Link href={'/about-us'} >About us</Link>
               <Link href={'/blogs'} >Blogs</Link>
 
-              <Link href={'/privacy-policy'} >Privacy and Policy</Link>
+              {/* <Link href={'/privacy-policy'} >Privacy and Policy</Link>
               <Link href={'/shiping-policy'} >Shiping Policy</Link>
-              <Link href={'/return-policy'} >Return Policy</Link>
+              <Link href={'/return-policy'} >Return Policy</Link> */}
               <Link href={'/about-us'} >FAQ</Link>
 
             </ul>
@@ -47,7 +47,8 @@ function Footer() {
 
           <div className='relative h-auto  '>
             <h2 className='text-p20 font-medium mb-4 border-b w-fit pr-5 '>
-              Products
+              
+              Collections
 
             </h2>
             <ul className='flex items-start flex-col  text-base justify-start gap-2'>
@@ -88,7 +89,15 @@ function Footer() {
 
         </div>
       </section>
-      <div className='w-full relative -bottom-[10px] z-0  z- h-auto  hidden  md:flex leading-[1.1] items-center  opacity-10  uppercase font-semibold text-footerfont justify-center -mt-28 text-gray-100 bg-clip-text left-0 right-0 '>
+      
+      <section className='w-full relative h-auto flex items-center justify-center gap-5 py-2 bottom-10 z-20 '>
+            <Link href={'/privacy-policy'} className=' text-sm lg:text-base font-meidum text-white cursor-pointer underline'>Privacy & Policy</Link>
+            <Link href={'/terms-condition'} className='text-sm lg:text-base font-meidum text-white cursor-pointer underline'>Terms & Conditions</Link>
+            <Link href={'/shipping-policy'} className='text-sm lg:text-base font-meidum text-white cursor-pointer underline'>Shipping & Return</Link>
+            <Link href={'/claim-policy'} className='text-sm lg:text-base font-meidum text-white cursor-pointer underline'>Product Claim Policy </Link>
+      </section>
+
+      <div className='w-full relative bottom-5 z-0  z- h-auto  hidden  md:flex leading-[1.1] items-center  opacity-10  uppercase font-semibold text-footerfont justify-center -mt-28 text-gray-100 bg-clip-text left-0 right-0 '>
         markline fashion
       </div>
 

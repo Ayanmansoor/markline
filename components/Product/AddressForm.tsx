@@ -5,6 +5,7 @@ import z from 'zod'
 import axios from 'axios'
 import { submitOrders } from '@/Supabase/acceptOrderForm'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
+import LoadRazorpay from '@/utils/loadrazorpay'
 
 // import emailjs from "emailjs-com"
 // const envrecaptchaKey = import.meta.env.VITE_GOOGLE_SITE_KEY
@@ -12,6 +13,7 @@ import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 // const serviceid = import.meta.env.VITE_SERVICE_ID
 // const templateid = import.meta.env.VITE_TEMPLATE_ID
 // const publicId = import.meta.env.VITE_PUBLIC_KEY
+
 
 
 interface response {
@@ -32,6 +34,11 @@ const addressFromSchema = z.object({
 })
 import { AddressFromProps } from '@/types/interfaces'
 
+type FormInputs = z.infer<typeof addressFromSchema>;
+
+
+// import Razorpay from 'razorpay'
+
 function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
     const { executeRecaptcha } = useGoogleReCaptcha()
 
@@ -42,14 +49,22 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
             resolver: zodResolver(addressFromSchema)
         }
     )
+      const [isLoading, setIsLoading] = useState(false);
 
     // useEffect(() => {
     //     console.log("trigger")
     // }, [])
 
 
-    async function onSubmit(data: any) {
+    async function onSubmit(data: FormInputs) {
+
+        
+
+
         try {
+
+         
+        
             if (!executeRecaptcha) {
                 console.log("reCAPTCHA not yet available");
                 return;
@@ -173,7 +188,7 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
                     {errors?.full_address &&
                         <p className='text-xs font-medium text-red-400'>{errors.full_address?.message}</p>}
                 </div>
-                <button className='w-full relative h-auto rounded-lg px-4 py-3 hover:bg-white hover:text-primary border  border-transparent hover:border-primary col-start-2  text-white  bg-primary '>Submit</button>
+                <button className='w-full relative h-auto rounded-lg px-5 py-4 hover:bg-white hover:text-primary border  border-transparent hover:border-primary col-start-2  text-white  bg-primary '>Submit</button>
 
             </form>
         </>

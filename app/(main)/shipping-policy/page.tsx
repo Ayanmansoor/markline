@@ -30,7 +30,7 @@ export default function ShippingPolicy() {
     <div className="container mx-auto py-12 px-5 md:px-10 lg:px-20">
       <div className="space-y-8">
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold tracking-tight">Shipping Policy</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Shipping & Return Policy</h1>
           <p className="text-muted-foreground mt-2">Last Updated: {new Date().toLocaleDateString()}</p>
         </div>
 
@@ -61,13 +61,9 @@ export default function ShippingPolicy() {
                 <tr>
                   <td className="border p-2">Standard Shipping</td>
                   <td className="border p-2">4-7 business days</td>
-                  <td className="border p-2">₹99</td>
+                  <td className="border p-2 flex items-center gap-2"> <strong>₹99</strong>(Below 5000 orders)</td>
                 </tr>
-                <tr>
-                  <td className="border p-2">Express Shipping</td>
-                  <td className="border p-2">1-3 business days</td>
-                  <td className="border p-2">₹249</td>
-                </tr>
+                
                 <tr className="bg-green-50 font-medium">
                   <td className="border p-2">Free Shipping</td>
                   <td className="border p-2">4-7 business days</td>
@@ -84,7 +80,7 @@ export default function ShippingPolicy() {
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight">Order Tracking</h2>
           <p>
-            Once your order is shipped, you will receive a confirmation email with the tracking number. You can track your order using the provided link.
+            Once your order has shipped, you will receive a shipping confirmation email with tracking details. You can track your order anytime using the tracking number provided.
           </p>
         </section>
 
@@ -98,9 +94,61 @@ export default function ShippingPolicy() {
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight">Lost or Damaged Packages</h2>
           <p>
-            If your order is lost or arrives damaged, please contact us within 48 hours with your order number and supporting photos, if applicable.
+           While we aim for timely delivery, unforeseen circumstances such as weather, customs delays, or courier issues may affect shipping times. If your order is delayed or not received within the estimated time:
           </p>
+          <ul className="w-full relative flex flex-col gap-1 text-base ">
+            <li> Please wait a few extra days</li>
+            <li className=" flex items-center gap-1 ">
+                Then contact us at <Link href={'melto:support@marklinefashion.com'}>support@marklinefashion.com</Link>
+            </li>
+          </ul>
+          <p  className="text-lg font-meidum text-primary">We will work with our shipping partners to resolve the issue promptly.</p>
         </section>
+
+
+  <section className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight">Shipping Restrictions</h2>
+          <ul className="w-full relative flex flex-col gap-1 text-base ">
+            <li>We do not ship to P.O. Boxes or military addresses (APO/FPO).</li>
+            <li className=" flex items-center gap-1 ">
+                Some remote areas may have limited delivery services.
+            </li>
+           <li className=" flex items-center gap-1 ">
+               In case of restricted delivery areas, we will notify you and refund your order.
+            </li>
+          </ul>
+        </section>
+
+          <section className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight">Address Accuracy</h2>
+          <p>Please ensure that your shipping address is complete and accurate. Markline Fashion is not responsible for delays or non-delivery due to incorrect address information.</p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight">Damaged or Missing Items</h2>
+          <p className="text-lg font-medium text-primary">If your order arrives damaged or with missing items:</p>
+          <ul className="w-full relative flex flex-col gap-1 text-base ">
+            <li>Take photos of the packaging and product</li>
+            <li className=" flex items-center gap-1 ">
+                Some remote areas may have limited delivery services.
+            </li>
+           <li className=" flex items-center gap-1 ">
+              Contact us within 48 hours of delivery at <Link href={'melto:support@marklinefashion.com'}>support@marklinefashion.com</Link>
+            </li>
+          </ul>
+        </section>
+
+
+      
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight">Questions?</h2>
+          <p className="text-lg font-medium text-primary">For any questions or concerns related to shipping, please contact our customer service at:</p>
+          <ul className="w-full relative flex flex-col gap-1 text-base ">
+            <li>📧 Email: <Link href={'melto:support@marklinefashion.com'}>support@marklinefashion.com</Link></li>
+          </ul>
+        </section>
+
+
 
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight">Contact Us</h2>

@@ -51,6 +51,11 @@ function BuyDailog({ children, product }: BuyDailogProps) {
                         <TabsContent value="address" className='w-full relative h-auto  '>
                             <AddressForm product={product} setConfirm={setcurrentTab} setOrderID={setOrderID} />
                         </TabsContent>
+                        
+                        <TabsContent value="razorpay" className='w-full relative h-auto '>
+                            <PaymentOption orderID={orderId.orderID} email={orderId.email} username={orderId.username} />
+                        </TabsContent>
+
 
                         <TabsContent value="password" className='w-full relative h-auto '>
                             <PaymentOption orderID={orderId.orderID} email={orderId.email} username={orderId.username} />
@@ -58,19 +63,14 @@ function BuyDailog({ children, product }: BuyDailogProps) {
 
 
                         <TabsList className="w-full relative h-auto px-2 mt-4 flex items-center bg-transparent justify-end gap-10">
-                            {
-                                currentTab !== "password" &&
-                                <>
-                                    <TabsTrigger value="account" className='w-fit bg-black py-3 border px-10 text-white text-base relative h-auto flex items-center justify-center '>Back</TabsTrigger>
-                                    <TabsTrigger value="address" className="w-fit bg-black border text-base  text-white px-10 py-3 relative h-auto flex items-center justify-center">Next</TabsTrigger>
-                            </>
+                                    {
+                                        (currentTab !== "password" && currentTab !== "address") &&
+                                        <>
+                                            <TabsTrigger value="account" className='w-fit bg-black py-2 border px-20 text-white text-base relative h-auto flex items-center justify-center '>Back</TabsTrigger>
+                                            <TabsTrigger value="address" className="w-fit bg-black border text-base  text-white px-20 py-2 relative h-auto flex items-center justify-center">Next</TabsTrigger>
+                                        </>
 
-                            }
-
-                            {/* {
-                                currentTab == "password" &&
-                                <TabsTrigger value="password" className="w-full relative h-auto flex items-center justify-center" >Purchase</TabsTrigger>
-                            } */}
+                                    }
                         </TabsList>
 
                     </Tabs>

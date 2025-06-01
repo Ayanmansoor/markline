@@ -1,10 +1,27 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import Razorpay from "razorpay";
+
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { email, name,phone, orderId ,productNames } = body;
+    const { email, name, phone, orderId, productNames, finalamount } = body;
+
+    const options = {
+      amount: finalamount * 100, // in paise
+      currency: "INR",
+      receipt: `receipt_order_${Date.now()}`,
+    };
+
+    const order=razorpay.orders.create(
+      options
+    )
+    console.log(order,"order is save on razorpay")
 
 
     if (!email || !name || !orderId) {
