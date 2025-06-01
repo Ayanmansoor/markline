@@ -63,8 +63,7 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
 
         try {
 
-         
-        
+    
             if (!executeRecaptcha) {
                 console.log("reCAPTCHA not yet available");
                 return;
