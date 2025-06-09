@@ -7,12 +7,12 @@ import UserSheet from './UserSheet';
 import { mysupabase } from '@/Supabase/SupabaseConfig';
 
 interface userinterfce {
-  email: string,
-  phone: string,
+  email?: string,
+  phone?: string,
   user_metadata: {
-    email: string,
-    email_verified: boolean,
-    phone_verified: boolean
+    email?: string,
+    email_verified?: boolean,
+    phone_verified?: boolean
   }
 
 
@@ -21,18 +21,18 @@ interface userinterfce {
 
 
 function UserSection() {
-  const [currentuser, setUser] = useState<userinterfce>()
+  const [currentuser, setUser] = useState<userinterfce >();
 
   useEffect(() => {
     async function getSupabaseUser() {
       const {
-        data: { user },
-        error,
+          data: { user },
+          error,
       } = await mysupabase.auth.getUser();
 
-
-      setUser(user)
-
+      if (user) {
+        setUser(user);
+      }
     }
     getSupabaseUser()
   }, [])
@@ -44,7 +44,7 @@ function UserSection() {
 
       <span className='w-full relative h-auto flex items-center justify-between border-r px-5 lg:pr-10 '>
         <span className='text-3xl font-medium text-primary  bg-white rounded-full px-7 py-5 border border-primary'>
-          {currentuser?.email.at(0)?.toUpperCase()}
+          {currentuser?.email && currentuser?.email.at(0)?.toUpperCase()}
         </span>
         {/* <Image src={'/court-vision.png'} alt='userimage' height={100} width={100} className='h-[100px] w-[100px] border rounded-full object-cover ' /> */}
         <h2 className='text-xl font-semibold text-primary line-clamp-1 pl-5 lg:pl-10 '>{currentuser?.email || ""}</h2>
