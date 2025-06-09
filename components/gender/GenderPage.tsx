@@ -67,7 +67,7 @@ function GenderPage() {
             {
 
                 genderCollection?.length > 0 ?
-                    <CategoriesSection title={"Women's Collection"} url="collections">
+                    <CategoriesSection title={"Women's Collection"} url="collections" urltext='collections'> 
                         <Collectionsection collections={genderCollection} url={'collections'} />
                     </CategoriesSection>
                     :
@@ -81,8 +81,8 @@ function GenderPage() {
 
             {
                 products?.length > 0 ?
-                    <CategoriesSection title={"Shop for Women's Collection Online"} url="products">
-                        <GridRroduct data={products?.slice(0, 10)} url={'products'} />
+                    <CategoriesSection title={"Shop for Women's Collection Online"} url="products"  urltext="Men's products">
+                        <GridRroduct data={products?.slice(0, 10)} url={'product'}  css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' />
                     </CategoriesSection>
                     :
                     <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container px-5 md:px-10 xl:px-20  ">

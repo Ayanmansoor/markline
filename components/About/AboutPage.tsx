@@ -99,7 +99,7 @@ function AboutUsPage({ allproducts }: aboutProducts) {
 
           <CategoriesSection title={"Our Products "} url="">
 
-            <CarouselProduct product={allproducts?.slice(0, 10)} url={'products'} />
+            <CarouselProduct product={allproducts?.slice(0, 10)} url={'product'} />
 
           </CategoriesSection >
         )

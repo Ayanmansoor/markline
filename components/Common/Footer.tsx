@@ -52,9 +52,9 @@ function Footer() {
 
             </h2>
             <ul className='flex items-start flex-col  text-base justify-start gap-2'>
-              <Link href={'/gender/MEN'} >Man</Link>
-              <Link href={'/gender/WOMEN'} >Women</Link>
-              <Link href={'/gender/KIDS'} >Kids</Link>
+              <Link href={'/gender/men'} >Men</Link>
+              <Link href={'/gender/women'} >Women</Link>
+              <Link href={'/gender/kids'} >Kids</Link>
               <Link href={'/gender/trending'} >Gen Z</Link>
               {/* <Link href={'/discount-deals'} >Discount Deals</Link> */}
             </ul>
@@ -91,10 +91,10 @@ function Footer() {
       </section>
       
       <section className='w-full relative h-auto flex items-center justify-center gap-5 py-2 bottom-10 z-20 '>
-            <Link href={'/privacy-policy'} className=' text-sm lg:text-base font-meidum text-white cursor-pointer underline'>Privacy & Policy</Link>
-            <Link href={'/terms-condition'} className='text-sm lg:text-base font-meidum text-white cursor-pointer underline'>Terms & Conditions</Link>
-            <Link href={'/shipping-policy'} className='text-sm lg:text-base font-meidum text-white cursor-pointer underline'>Shipping & Return</Link>
-            <Link href={'/claim-policy'} className='text-sm lg:text-base font-meidum text-white cursor-pointer underline'>Product Claim Policy </Link>
+            <Link href={'/privacy-policy'} className=' text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Privacy & Policy</Link>
+            <Link href={'/terms-condition'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Terms & Conditions</Link>
+            <Link href={'/shipping-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Shipping & Return</Link>
+            <Link href={'/claim-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Product Claim Policy </Link>
       </section>
 
       <div className='w-full relative bottom-5 z-0  z- h-auto  hidden  md:flex leading-[1.1] items-center  opacity-10  uppercase font-semibold text-footerfont justify-center -mt-28 text-gray-100 bg-clip-text left-0 right-0 '>

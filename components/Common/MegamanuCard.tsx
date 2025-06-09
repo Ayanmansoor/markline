@@ -6,7 +6,7 @@ function MegamanuCard({product}:ProductsDataProps) {
 
     const productImage:any = product?.image_url?.map((image:any) => JSON.parse(image))
     return (
-        <Link href={`/products/${product?.slug}`} className=' max-w-fit relative h-auto flex flex-col  items-center gap-1 p-2 bg-gray-50 rounded-md '>
+        <Link href={`/product/${product?.slug}`} className=' max-w-fit relative h-auto flex flex-col  items-center gap-1 p-2 bg-gray-50 rounded-md '>
             {
                 <img src={productImage[1]?.image_url} alt={product.name} height={400} width={500} className='h-[100px] w-[300px] rounded-md border' loading='lazy'/>
 

@@ -94,7 +94,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                                                 :
                                                 products && products?.length > 0 ?
                                                     products?.map((item, index) => (
-                                                        <MegamanuCard product={item} url={'products'} key={index} />
+                                                        <MegamanuCard product={item} url={'product'} key={index} />
                                                     ))
                                                     :
                                                     <>

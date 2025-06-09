@@ -48,7 +48,7 @@ function LeatestCollection({ url }: { url: string }) {
                         <video src="/advertise-one.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
                     </SwiperSlide>
                     <SwiperSlide className='max-w-full relative h-full    px-1'>
-                        <video src="/advertise-one.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
+                        <video src="/men-product.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
                     </SwiperSlide>
                 </Swiper>
 

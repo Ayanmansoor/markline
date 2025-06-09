@@ -5,7 +5,7 @@ import z from 'zod'
 import axios from 'axios'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
-import {  submitOrders } from '@/Supabase/acceptOrderForm'
+import { submitOrders } from '@/Supabase/acceptOrderForm'
 
 
 
@@ -29,10 +29,10 @@ const addressFromSchema = z.object({
 type orderForm = z.infer<typeof addressFromSchema>;
 
 import { acceptorderProps, CartItem, SheetCartFormProps } from '@/types/interfaces'
+import LoadRazorpay from '@/utils/loadrazorpay'
 
 function SheetCartForm({ setConfirm, setOrderID }: SheetCartFormProps) {
     const { cart, clearCart } = useCart()
-    const [recaptchaKey, setRecaptchaKey] = useState()
     const { executeRecaptcha } = useGoogleReCaptcha()
 
     const { register, watch, handleSubmit, reset, formState: {
@@ -42,54 +42,155 @@ function SheetCartForm({ setConfirm, setOrderID }: SheetCartFormProps) {
             resolver: zodResolver(addressFromSchema)
         }
     )
+
     async function onSubmit(data: orderForm) {
+        const total_final_amount = cart.reduce((accu, product, index) => {
+            accu += product.discounts ? Math.floor(product?.price - (product?.price * (product?.discounts?.discount_persent / 100))) : product?.price;
+            return accu;
+        }, 0)
+
+        // console.log(total_final_amount, "this migth be ammount of total products")
+
+        const response = await axios.post('/api/create-order', {
+            amount: total_final_amount * 100,
+        });
+        const res = await LoadRazorpay();
+        if (!res) {
+            alert('Failed to load Razorpay SDK');
+            return;
+        }
+        const options = {
+            key: "rzp_test_OesQsrJ6x4L4pD",
+            amount: response.data.amount,
+            currency: response.data.currency,
+            name: "Markline Fashion",
+            description: "Order description",
+            order_id: response.data.id,
+            image: "/air-force.png",
+            handler: (response) => orderSubmition(response, data),
+            prefill: {
+                name: data.name,
+                email: data.email,
+                contact: data.phone,
+            },
+            theme: {
+                color: "#084E10",
+            },
+        };
+
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+    }
+
+    // async function onSubmit(data: orderForm) {
+    //     try {
+    //         if (!executeRecaptcha) return;
+
+    //         const recaptchaToken = await executeRecaptcha();
+
+    //         const orders = cart?.map((product: CartItem) => {
+    //             const final_price = Math.floor(product?.price - (product?.price * (product?.discounts?.discount_persent / 100)));
+    //             const discountPrice = product?.price * (product?.discounts?.discount_persent / 100);
+
+    //             return {
+    //                 ...data,
+    //                 final_price: final_price || product.price,
+    //                 quantity: product?.quantity,
+    //                 discount_amount: discountPrice || 0,
+    //                 product_key: product?.productId,
+    //                 recaptchaToken
+    //             };
+    //         });
+
+    //         const response = await submitOrders(orders);
+
+    //         if (response?.isOrder && response?.data?.length === orders.length) {
+    //             const orderids = response.data.map((item: any) => item.id);
+
+    //             // console.log("All products saved:", orderids,"product response",response.data);
+
+    //             setOrderID({
+    //                 orderID: orderids,
+    //                 email: data.email,
+    //                 username: data.name
+    //             });
+
+    //             setConfirm("success");
+
+    //             const emailResponse:any = await axios.post('/api/sendmail',
+    //                 {
+    //                     email: data.email,
+    //                     name: data.name,
+    //                     phone: data.phone,
+    //                     orderId: orderids,
+    //                     productNames: ""
+    //                 }
+    //             )
+
+    //             console.log("email end")
+
+    //             if (!emailResponse.ok) {
+    //                 console.error("Failed to send confirmation emails");
+    //             }
+
+    //             reset();
+    //             clearCart()
+
+    //         } else {
+    //             console.error("Some or all products were not saved.");
+    //         }
+
+    //     } catch (error: any) {
+    //         console.error("Unexpected error:", error.message);
+    //     }
+    // }
+    async function orderSubmition(razorpayresponse, fromdata: orderForm) {
         try {
             if (!executeRecaptcha) return;
-    
+
             const recaptchaToken = await executeRecaptcha();
-    
+
             const orders = cart?.map((product: CartItem) => {
                 const final_price = Math.floor(product?.price - (product?.price * (product?.discounts?.discount_persent / 100)));
                 const discountPrice = product?.price * (product?.discounts?.discount_persent / 100);
-    
+
                 return {
-                    ...data,
+                    ...fromdata,
                     final_price: final_price || product.price,
                     quantity: product?.quantity,
                     discount_amount: discountPrice || 0,
                     product_key: product?.productId,
+                    razorpay_payment_id: razorpayresponse.razorpay_payment_id,
+                    razorpay_order_id: razorpayresponse.razorpay_order_id,
+                    razorpay_signature: razorpayresponse.razorpay_signature,
                     recaptchaToken
                 };
             });
-    
-            const response = await submitOrders(orders); 
-    
+
+            const response = await submitOrders(orders);
+
             if (response?.isOrder && response?.data?.length === orders.length) {
                 const orderids = response.data.map((item: any) => item.id);
-    
+
                 // console.log("All products saved:", orderids,"product response",response.data);
-    
+
                 setOrderID({
                     orderID: orderids,
-                    email: data.email,
-                    username: data.name
+                    email: fromdata.email,
+                    username: fromdata.name
                 });
-    
+
                 setConfirm("success");
-                
-                 const emailResponse = await fetch("/api/sendmail", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        email: data.email,
-                        name: data.name,
-                        phone:data.phone,
+
+                const emailResponse: any = await axios.post('/api/sendmail',
+                    {
+                        email: fromdata.email,
+                        name: fromdata.name,
+                        phone: fromdata.phone,
                         orderId: orderids,
-                        productNames:""
-                    })
-                }); 
+                        productNames: ""
+                    }
+                )
 
                 console.log("email end")
 
@@ -103,11 +204,12 @@ function SheetCartForm({ setConfirm, setOrderID }: SheetCartFormProps) {
             } else {
                 console.error("Some or all products were not saved.");
             }
-    
+
         } catch (error: any) {
             console.error("Unexpected error:", error.message);
         }
     }
+
     return (
         <form action='' onSubmit={handleSubmit(onSubmit)} className='w-full relative h-auto grid grid-cols-2 items-start justify-start gap-y-2 gap-x-5 '>
             <div className='w-full relative h-auto flex flex-col gap-1'>

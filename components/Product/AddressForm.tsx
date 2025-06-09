@@ -49,48 +49,93 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
             resolver: zodResolver(addressFromSchema)
         }
     )
-      const [isLoading, setIsLoading] = useState(false);
-
-    // useEffect(() => {
-    //     console.log("trigger")
-    // }, [])
-
+    const [isLoading, setIsLoading] = useState(false);
 
     async function onSubmit(data: FormInputs) {
 
-        
+        const final_price = Math.floor(
+            product?.price - (product?.price * (product?.discounts?.discount_persent || 0) / 100)
+        );
+
+        const response = await axios.post('/api/create-order', {
+            amount: final_price * 100,
+        });
+
+        console.log(response, "this is reponse of create order");
 
 
+        const res = await LoadRazorpay();
+        if (!res) {
+            alert('Failed to load Razorpay SDK');
+            return;
+        }
+
+        const options = {
+            key: "rzp_test_OesQsrJ6x4L4pD",
+            amount: response.data.amount,
+            one_click_checkout: true,
+            currency: response.data.currency,
+            name: "Markline Fashion",
+            description: "Order description",
+            order_id: response.data.id,
+            image: "/air-force.png",
+            handler: (response) => orderSubmition(response, data),
+            prefill: {
+                name: data.name,
+                email: data.email,
+                contact: data.phone,
+            },
+            theme: {
+                color: "#084E10",
+            },
+        };
+
+
+
+
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+        setIsLoading(false);
+    }
+
+    async function orderSubmition(response, fromdata: FormInputs) {
         try {
-
-    
             if (!executeRecaptcha) {
-                console.log("reCAPTCHA not yet available");
+                console.log("token is not generated");
                 return;
             }
 
-            const recaptchaToken = await executeRecaptcha("submit_form");
+        
+            const recaptchaToken = await executeRecaptcha()
 
             const final_price = Math.floor(
                 product?.price - (product?.price * (product?.discounts?.discount_persent || 0) / 100)
             );
             const discountPrice = product.price * ((product?.discounts?.discount_persent || 0) / 100);
-
             const orders = [
                 {
-                    ...data,
+                    ...fromdata,
                     final_price,
                     quantity: product.quantity,
                     discount_amount: discountPrice,
                     product_key: product.id,
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_signature: response.razorpay_signature,
                     recaptchaToken
                 }
             ];
-            const responses = await submitOrders(orders);
+
+
+            const responses = await submitOrders(orders)
+
+            console.log(responses, 'response from from submition on supabase')
+
+
             const orderIDs: string[] = [];
             responses.data?.forEach((ordersaved: any) => {
                 if (ordersaved) {
-                    // console.log("reponse product",ordersaved)
+
                     const id = ordersaved?.id
                     if (id) {
                         orderIDs.push(id);
@@ -103,40 +148,150 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
             if (orderIDs.length > 0) {
                 setOrderID({
                     orderID: orderIDs,
-                    email: data.email,
-                    username: data.name
+                    email: fromdata.email,
+                    username: fromdata.name
                 });
                 setConfirm("password");
 
-                const emailResponse = await fetch("/api/sendmail", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        email: data.email,
-                        name: data.name,
-                        phone:data.phone,
-                        orderId: orderIDs[0],
-                        productNames:""
-                    })
-                }); 
 
-                console.log("email end")
+
+                const emailResponse: any = await axios.post('/api/sendmail',
+                    {
+                        email: fromdata.email,
+                        name: fromdata.name,
+                        phone: fromdata.phone,
+                        orderId: orderIDs[0],
+                        productNames: product.name,
+
+                    }
+                )
 
                 if (!emailResponse.ok) {
                     console.error("Failed to send confirmation emails");
                 }
 
                 reset();
-                // clearCart(); 
             } else {
                 console.error("No valid order ID returned.");
             }
-        } catch (error: any) {
-            console.error("Unexpected error:", error.message);
+
         }
+        catch (error) { }
     }
+
+
+    // async function onSubmit(data: FormInputs) {
+
+
+
+
+    //     try {
+
+    //         const res = await LoadRazorpay();
+    //         if (!res) {
+    //             alert('Failed to load Razorpay SDK');
+    //             return;
+    //         }
+
+    //     const options = {
+    //         key: "rzp_test_OesQsrJ6x4L4pD",
+    //         amount: 50000, // in paise
+    //         currency: "INR",
+    //         name: "markline",
+    //         description: "Order description",
+    //         image: "/air-force.png",
+    //         handler: function (response) {
+    //           console.log('Payment successful', response);
+    //         },
+    //         prefill: {
+    //             name: data.name,
+    //             email: data.email,
+    //             contact: data.phone,
+    //         },
+    //         theme: {
+    //             color: "#084E10",
+    //         },
+    //         };
+
+    //     const paymentObject = new window.Razorpay(options);
+    //     paymentObject.open();
+    //     setIsLoading(false);
+
+
+    //     if (!executeRecaptcha) {
+    //             console.log("reCAPTCHA not yet available");
+    //             paymentObject.close();
+    //             return;
+    //     }
+
+    //         const recaptchaToken = await executeRecaptcha("submit_form");
+
+    //         const final_price = Math.floor(
+    //             product?.price - (product?.price * (product?.discounts?.discount_persent || 0) / 100)
+    //         );
+    //         const discountPrice = product.price * ((product?.discounts?.discount_persent || 0) / 100);
+
+    //         const orders = [
+    //             {
+    //                 ...data,
+    //                 final_price,
+    //                 quantity: product.quantity,
+    //                 discount_amount: discountPrice,
+    //                 product_key: product.id,
+    //                 recaptchaToken
+    //             }
+    //         ];
+    //         const responses = await submitOrders(orders);
+    //         const orderIDs: string[] = [];
+    //         responses.data?.forEach((ordersaved: any) => {
+    //             if (ordersaved) {
+    //                 // console.log("reponse product",ordersaved)
+    //                 const id = ordersaved?.id
+    //                 if (id) {
+    //                     orderIDs.push(id);
+    //                 }
+    //             } else {
+    //                 console.error("Order failed:", responses?.message);
+    //             }
+    //         });
+
+    //         if (orderIDs.length > 0) {
+    //             setOrderID({
+    //                 orderID: orderIDs,
+    //                 email: data.email,
+    //                 username: data.name
+    //             });
+    //             setConfirm("password");
+
+    //             const emailResponse = await fetch("/api/sendmail", {
+    //                 method: "POST",
+    //                 headers: {
+    //                     "Content-Type": "application/json"
+    //                 },
+    //                 body: JSON.stringify({
+    //                     email: data.email,
+    //                     name: data.name,
+    //                     phone:data.phone,
+    //                     orderId: orderIDs[0],
+    //                     productNames:""
+    //                 })
+    //             }); 
+
+    //             console.log("email end")
+
+    //             if (!emailResponse.ok) {
+    //                 console.error("Failed to send confirmation emails");
+    //             }
+
+    //             reset();
+    //             // clearCart(); 
+    //         } else {
+    //             console.error("No valid order ID returned.");
+    //         }
+    //     } catch (error: any) {
+    //         console.error("Unexpected error:", error.message);
+    //     }
+    // }
 
 
     return (

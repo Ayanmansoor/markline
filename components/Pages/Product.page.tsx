@@ -77,8 +77,8 @@ function ProductPage() {
             </section>
             :
             product ?
-              <div className='w-full mx-auto h-full container px-3 relative  flex flex-col justify-between gap-2 bg-secondary md:flex-row  md:px-10   xl:px-20  '>
-                <div className='  md:max-h-fit   w-full  relative lg:sticky lg:top-5 p-1 md:h-full  md:w-[60%] lg:w-[55%] '>
+              <div className='w-full mx-auto h-full container px-3 relative  flex flex-col justify-between  bg-secondary md:flex-row  md:px-10   xl:px-20  '>
+                <div className='  md:max-h-fit   w-full  relative lg:sticky lg:top-5 p-1 md:h-full  md:w-[60%] lg:w-[60%] '>
                   <ProductMain product={product} />
                 </div>
                 <ProductAbout product={product} />
@@ -93,6 +93,7 @@ function ProductPage() {
 
       <Specification product={product} />
 
+
       {
         newloading ?
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container px-5 md:px-10 lg:px-20 ">
@@ -102,9 +103,9 @@ function ProductPage() {
             <ProductCardSkeleton />
           </div>
           :
-          relatedProducts ?
-            <CategoriesSection title={"You may also like  "} url={'products'} >
-              <CarouselProduct url={'products'} product={relatedProducts} />
+          relatedProducts.length>0 ?
+            <CategoriesSection title={"You may also like  "} url={'products/women'} urltext='products' >
+              <CarouselProduct url={'product'} product={relatedProducts} />
             </CategoriesSection >
             :
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container px-20 ">
@@ -121,13 +122,13 @@ function ProductPage() {
           <CarouselProduct url={'products'} product={wishlist} />
         </CategoriesSection >
       } */}
-    {
+    {/* {
       wishlist.length > 0 &&
       <CategoriesSection title={"Your Whishlist Products "} url={'products'} >
         <WihlistCardSection url={'products'} />
       </CategoriesSection >
     }
-      
+       */}
 
       <section className='w-full relative flex flex-col gap-5 container px-5 md:px-10 lg:px-20  pb-10'>
         <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>

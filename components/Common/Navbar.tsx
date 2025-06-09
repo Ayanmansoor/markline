@@ -7,6 +7,7 @@ import CartSheet from './CartSheet'
 import { PiShoppingCartLight } from 'react-icons/pi'
 import SideBarNew from './SideBarNew'
 import { useCart } from '@/Contexts/Cart.context'
+import NavUser from './NavUser'
 
 function Navbar() {
 
@@ -21,7 +22,7 @@ function Navbar() {
 
                 <ul className='hidden items-center gap-3 relative md:gap-5  xl:gap-5 lg:flex '>
 
-                    <Link href={"/products"} className="bg-transparent font-medium  text-black p-0 text-lg">Products</Link>
+                    <Link href={"/products/women"} className="bg-transparent font-medium  text-black p-0 text-lg">Products</Link>
 
                     <MegaManu>
                         <Link href={"/collections"} className=" font-medium ">Collections</Link>
@@ -44,6 +45,7 @@ function Navbar() {
                         </CartSheet>
 
                     </li>
+                    <NavUser/>
 
                     <SideBarNew />
 

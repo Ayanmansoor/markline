@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { PiHeartThin } from "react-icons/pi";
 import { CiDiscount1 } from "react-icons/ci";
@@ -13,6 +13,9 @@ import { useCart } from '@/Contexts/Cart.context';
 import { Colors as colorProps, Colors, Images, ProductsDataProps, Sizes as sizeProps, Sizes } from '@/types/interfaces';
 import { FaHeart } from 'react-icons/fa6';
 import { useWishlists } from '@/Contexts/wishlist';
+import Razorpay from 'razorpay';
+import axios from 'axios';
+import LoadRazorpay from '@/utils/loadrazorpay';
 
 interface productsCart {
     colors: {
@@ -31,7 +34,7 @@ interface productsCart {
 function ProductAbout({ product }: ProductsDataProps) {
     const { addToCart, getCartProduct } = useCart()
     const [isInWhishlist, setIsInwhishlist] = useState<boolean>(false)
-
+    const razorpayBtn = useRef<HTMLButtonElement>(null)
     const { wishlist, addToWishlist, isProductInWishlist } = useWishlists()
 
     const [productcart, setProductcart] = useState<productsCart>({
@@ -103,12 +106,11 @@ function ProductAbout({ product }: ProductsDataProps) {
         const present = isProductInWishlist({ productId: product.id })
         setIsInwhishlist(present)
     }, [wishlist.length])
-
-
-
     function addTowishlistproduct(selectedColor: Colors[], selectedSize: Sizes[]) {
-        addToWishlist({ name: product.name, productId: product.id, price: product.price, quantity: product.quantity, color: selectedColor, size: selectedSize, image_urls: StringifyImages, discounts: product.discounts, discount_key: product.discount_key ,slug:product.slug })
+        addToWishlist({ name: product.name, productId: product.id, price: product.price, quantity: product.quantity, color: selectedColor, size: selectedSize, image_urls: StringifyImages, discounts: product.discounts, discount_key: product.discount_key, slug: product.slug })
     }
+
+   
 
     return (
         <>
@@ -189,9 +191,9 @@ function ProductAbout({ product }: ProductsDataProps) {
                             </div>
                         </>
                     }
-                    <p className='text-base text-medium text-start w-full  text-green-700'>{size?.length > 0 ? "In Stock" : "Out of Stock"}</p>
+                    <p className='text-base text-medium text-start w-full  text-green-700'>{size?.length > 0 ? "Few Left's " : "Out of Stock"}</p>
                     <div className='flex items-center gap-1 w-full relative  h-auto '>
-                        <h2 className='text-primary font-medium text-sm  '>Quentity : </h2>
+                        <h2 className='text-primary font-medium text-sm  '>Quantity : </h2>
 
                         <select className='max-w-[600px] relative  bg-transparent  text-base  border border-gray-400 rounded-md py-1 px-4 text-[12px]' value={productcart.quentitys.quentity} onChange={(e) => setProductcart((prev: any) => (
                             {
@@ -221,9 +223,8 @@ function ProductAbout({ product }: ProductsDataProps) {
 
                         <button disabled={colors?.length > 0 && size?.length > 0 ? false : true} className=' w-full relative xl:px-5 py-4 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' onClick={handleStateChange} >Add to Cart</button>
                         <BuyDailog product={{ ...product, selectedColor: productcart.colors.color, selectedSize: productcart.sizes.size, quantity: productcart.quentitys.quentity }}>
-                            <button disabled={colors && size ? false : true} className=' w-full relative  xl:px-5 py-4 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' >Quick Buy</button>
+                            <button disabled={colors && size ? false : true} className=' w-full relative  xl:px-5 py-4 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' >Buy Now</button>
                         </BuyDailog>
-
                         {/* </AddToCardPopver>       */}
                     </div>
                     <span className='border py-1     flex items-center justify-center px-5 cursor-pointer group hover:bg-red-200 h-full ' onClick={() => addTowishlistproduct(colors, size)}>

@@ -3,7 +3,6 @@ import React, { useState, useReducer, useEffect } from 'react'
 import { PiHeartThin } from "react-icons/pi";
 import { FaHeart } from "react-icons/fa6";
 
-
 import { useRouter } from 'next/navigation';
 // import { useCart } from '@/Contexts/Cart.context';
 
@@ -86,12 +85,12 @@ function ProductCard({ product, url }: ProductsDataProps) {
             StringifyImages ?
               StringifyImages?.map((image, index: number) => (
                 <SwiperSlide className='w-full realtive h-full relative border' key={index}>
-                  <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className='w-full   transition-all duration-500 ease-in-out h-[180px] sm:h-[200px] md:h-[250px]  object-cover' height={200} width={300} loading='lazy' />
+                  <img  src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className='w-full   transition-all duration-500 ease-in-out h-[180px] sm:h-[250px] md:h-[250px] lg:h-[300px]  object-cover' height={200} width={300} loading='lazy' />
                 </SwiperSlide>
               )) :
               product.image_urls?.map((image, index) => (
                 <SwiperSlide className='w-full realtive h-full relative border' key={index}>
-                  <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className='w-full   transition-all duration-500 ease-in-out h-[180px] sm:h-[200px] md:h-[250px]  object-cover' height={200} width={300} loading='lazy' />
+                  <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className='w-full   transition-all duration-500 ease-in-out h-[180px] sm:h-[250px] md:h-[250px] lg:h-[300px]  object-cover' height={200} width={300} loading='lazy' />
                 </SwiperSlide>
               ))
           }
@@ -112,25 +111,25 @@ function ProductCard({ product, url }: ProductsDataProps) {
             product?.discounts &&
             <>
               <p className='text-base md:text-lg font-normal text-black  line-through text-nowrap '>₹ {product?.price}</p>
-              <p className=' text-lg md:text-xl  font-medium text-nowrap text-red-400'>₹{
+              <p className=' text-lg md:text-xl  font-medium text-nowrap text-red-400 '>₹{
                 Math.floor(product?.price - (product?.price * (product?.discounts?.discount_persent / 100)))}</p>
             </>
           }
           {
             !product?.discounts &&
-            <p className=' text-lg md:text-xl  font-medium text-nowrap text-red-400'>₹ {product?.price}</p>
+            <p className=' text-lg md:text-xl  font-medium text-nowrap text-primary'>₹ {product?.price}</p>
 
           }
 
         </div>
 
       </section>
-      <div className='w-full relative grid grid-cols-[1fr_auto] border py-2    border-t border-gray-300 items-center justify-center '>
+      <div className='w-full relative grid grid-cols-[1fr_auto] border     border-t border-gray-300 items-center justify-center '>
         <AddToCardPopver currentProduct={product} colors={Stringifycolor} sizes={StringifySize} addToWhishlistCB={addTowishlistproduct}  >
-          <button className='w-full relative h-auto flex items-center justify-center text-base  font-medium text-black   border-r border-gray-300'>Add to Cart</button>
+          <button className='w-full hover:bg-primary hover:text-white relative h-full py-2.5 flex items-center justify-center text-base  font-medium text-black   border-r border-gray-300'>Add to Cart</button>
         </AddToCardPopver>
 
-        <button className='flex items-center justify-center px-2' onClick={() => addTowishlistproduct(Stringifycolor, StringifySize)} >
+        <button className='flex items-center justify-center px-2.5     ' onClick={() => addTowishlistproduct(Stringifycolor, StringifySize)} >
           <FaHeart className={`text-[20px] flex items-center  text-black justify-center cursor-pointer hover:text-red-500  ${ (isInWhishlist || product.image_urls) && "text-red-500" }  `} />
         </button>
 

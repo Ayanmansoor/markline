@@ -123,6 +123,7 @@ export interface CategoriesSectionProps {
   children: React.ReactNode;
   title: string;
   url: string;
+  urltext?:string
 }
 
 export interface HeroProps {
@@ -156,7 +157,7 @@ export interface homeBannervalue {
   id: number;
   name: string;
   url: string;
-  slug?: string;
+  gender:string
 }
 
 export interface orderData {

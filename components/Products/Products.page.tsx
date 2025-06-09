@@ -16,11 +16,35 @@ import L2Banner from '../Common/L2Banner';
 import CategoriesSection from '../Common/CategoriesSection';
 import WihlistCardSection from '../Product/WihlistCardSection';
 import { useWishlists } from '@/Contexts/wishlist';
+import SecondHero from '../Common/SecondHero';
+import { useParams } from 'next/navigation';
+
+
+const data = [
+    {
+        title: "Shop Women’s Formal Shoes, Heels & Sandals  Markline Luxury Footwear",
+        discription: "Discover Markline’s women’s formal shoes collection featuring elegant heels, sophisticated sandals & stylish workwear footwear. Shop premium leather designs crafted for timeless comfort and free shipping across India.",
+        slug: "women"
+    },
+    {
+        title: "Shop Men’s Formal Shoes, Oxfords & Loafers  Markline Classic Footwear",
+        discription: "Discover Markline’s men’s formal shoe collection featuring premium leather oxfords, loafers & dress shoes. Handcrafted elegance meets comfort—free shipping across India.",
+        slug: "men"
+    },
+    {
+        title: "Buy Kids’ School Shoes & Formal Footwear  Markline Kids",
+        discription: "Explore Markline Kids’ footwear: durable school shoes, formal pairs & comfortable everyday styles. Designed for growing feet, free shipping across India.",
+        slug: "kids"
+    }
+]
+
 
 
 function Productspage() {
     const [productRangevalue, setPRoductRange] = useState(5000)
-    const {wishlist}=useWishlists()
+    const { slug } = useParams()
+    const productslug = Array.isArray(slug) ? slug[0] : slug;
+
     const [filterProducts, setFilterProducts] = useState<ProductsProps[]>()
     const {
         data: allproducts = [],
@@ -62,10 +86,19 @@ function Productspage() {
     })
 
     useEffect(() => {
-        const filterproduct = allproducts?.filter((product: ProductsProps) => {
-            return product?.price <= productRangevalue
-        })
-        setFilterProducts(filterproduct)
+        console.log(allproducts)
+        if (productslug) {
+            const filterproduct = allproducts?.filter((product: ProductsProps) => {
+                return product?.price <= productRangevalue && product.gender == productslug.toUpperCase()
+            })
+            setFilterProducts(filterproduct)
+        }
+        else {
+            const filterproduct = allproducts?.filter((product: ProductsProps) => {
+                return product?.price <= productRangevalue
+            })
+            setFilterProducts(filterproduct)
+        }
     }, [productRangevalue, allproducts])
 
 
@@ -76,7 +109,6 @@ function Productspage() {
     return (
         <>
             {/* <Hero categoryName={"category"} /> */}
-            {/* <SecondHero categoryName={"category"} /> */}
             {/* <CarouselProduct data={{ categoryName: "all" }} />
             <GridRroduct data={{ categoryName: "category", name: "Top Deal On Fasion " }} />
             */}
@@ -91,7 +123,7 @@ function Productspage() {
                         </div>
                         :
                         <span className=' hidden sticky top-20  h-fit  lg:block'>
-                            <ProductFilter collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
+                            <ProductFilter collection={productslug ? allcollection.filter((item) => item.gender == productslug.toUpperCase()) : allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
                         </span>
 
                 }
@@ -99,15 +131,29 @@ function Productspage() {
                 <div className="w-full gap-5 pb-10 relative flex flex-col px-0 md:px-10 xl:px-10">
                     <div className="w-full h-auto flex items-center bg-secondary border-b border-gray-300 py-2 justify-between ">
                         {/* <h1 className="text-lg font-medium text-primary w-full"> Total Products ( {allproducts && allproducts?.length} ) </h1> */}
-                        <div className='flex flex-col gap-1 w-fit'>
-                            <h1 className="text-2xl font-medium text-primary capitalize">
-                                Explore Our Complete Footwear Collection
-                            </h1>
-                            <p className='text-base line-clamp-3 font-medium text-primary '>
-                                Welcome to Markline Fashion&apos;s comprehensive footwear collection, where style meets comfort for every step of life. Our curated selection features a diverse array of shoes for women, kids, and men, including elegant heels, trendy sandals, durable sneakers, and more. Whether youre preparing for a special occasion or seeking everyday essentials, find the perfect pair to match your style and needs. Enjoy seamless shopping with free shipping across India.
-                            </p>
-
-                        </div>
+                        {
+                            productslug ?
+                                data.map((item, index) => (
+                                    item.slug == productslug &&
+                                    <div className='flex flex-col gap-1 w-fit' key={index}>
+                                        <h1 className="text-2xl font-medium text-primary capitalize">
+                                            {item.title}
+                                        </h1>
+                                        <p className='text-base line-clamp-3 font-medium text-primary '>
+                                            {item.discription}
+                                        </p>
+                                    </div>
+                                ))
+                                :
+                                <div className='flex flex-col gap-1 w-fit' >
+                                    <h1 className="text-2xl font-medium text-primary capitalize">
+                                        Shop Men’s, Women’s & Kids’ Formal Footwear – Markline Premium Shoes
+                                    </h1>
+                                    <p className='text-base line-clamp-3 font-medium text-primary '>
+                                        Explore Markline’s premium formal footwear for men, women & kids. Discover handcrafted oxfords, elegant heels & durable school shoes—all with free shipping across India.
+                                    </p>
+                                </div>
+                        }
                         <span className=' block  lg:hidden'>
                             <MobFilterSheet collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange}>
                                 <IoFilterOutline className='text-[20px] text-foreground cursor-pointer ' />
@@ -126,7 +172,7 @@ function Productspage() {
                             </div>
                             :
                             allproducts.length > 0 || filterProducts && filterProducts?.length > 0 ?
-                                <GridRroduct data={filterProducts ? filterProducts : allproducts} url={'products'} css='sm:grid-cols-[repeat(auto-fill,minmax(204px,auto))] ' />
+                                <GridRroduct data={filterProducts ? filterProducts : allproducts} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' />
                                 :
                                 <div className="grid grid-cols-2 md:grid-cols-3  gap-3  ">
                                     <ProductCardSkeleton />
@@ -142,16 +188,16 @@ function Productspage() {
                 </div>
             </section>
 
-            {
+            {/* {
                 wishlist.length > 0 &&
                 <CategoriesSection title={"Your Whishlist Products "} url={'products'} >
                     <WihlistCardSection url={'products'} />
                 </CategoriesSection >
-            }
+            } */}
 
 
 
-            <section className='w-full relative flex flex-col gap-5 container px-20 py-10'>
+            <section className='w-full relative flex flex-col gap-5 container px-5 md:px-10 lg:px-20 py-10'>
                 <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
 
                 {/* Gender-Based Links */}
@@ -192,7 +238,7 @@ function Productspage() {
                 </div>
 
                 {/* Informational Sections */}
-                <div className='container py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto '>
+                <div className='container py-10 flex flex-col gap-10 no-scrollbar px-0   overflow-y-auto '>
                     <section>
                         <h2 className='text-xl sm:text-2xl font-semibold mb-4'>Explore Footwear for Everyone</h2>
                         <p className='text-gray-700'>

@@ -1,9 +1,10 @@
 'use client'
 import React, { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 import { useQuery } from 'react-query'
-import { getAllCollections, getAllNewArrivalProducts, getAllProducts } from '@/Supabase/SupabaseApi'
+import { getAllCollections, getAllNewArrivalProducts, getAllProducts, getAllCollectionBanner, getCollectionBannerBaseOnGender } from '@/Supabase/SupabaseApi'
 import CategoriesSection from '../Common/CategoriesSection'
 import Discount from '../Discounts/Discount'
 import Collectionsection from '../Home/Collectionsection'
@@ -11,23 +12,26 @@ import GridRroduct from '../Home/GridRroduct'
 import SecondHero from '../Common/SecondHero'
 import { useWishlists } from '@/Contexts/wishlist'
 import WihlistCardSection from '../Product/WihlistCardSection'
+import Hero from '../Common/Hero'
 function CollcetionPage() {
 
   const { wishlist } = useWishlists()
 
-  // const { data : collectionBanner, isLoading, isError } = useQuery({
-  //   queryKey: ["collectionBanner"],
-  //   queryFn: getCollectionBanner,
-  //   staleTime: 10 * 60 * 1000, // 10 minutes (600,000 ms)
-  //   cacheTime: 15 * 60 * 1000, // 15 minutes (900,000 ms)
-  // });
+  const { data: collectionBanner = [], isLoading: bannerloading, isError: bannererror } = useQuery({
+    queryKey: ["collectionBanner"],
+    queryFn: getAllCollectionBanner,
+    staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
 
   const { data: products, isLoading: productloading, isError: producterror } = useQuery<any>({
     queryKey: ["products"],
     queryFn: getAllProducts,
     staleTime: Infinity,
-    refetchOnMount: false,      // don't refetch when remounting
-    refetchOnWindowFocus: false, // don't refetch when window gains focus
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
 
@@ -35,8 +39,8 @@ function CollcetionPage() {
     queryKey: ["collections"],
     queryFn: getAllCollections,
     staleTime: Infinity,
-    refetchOnMount: false,      // don't refetch when remounting
-    refetchOnWindowFocus: false, // don't refetch when window gains focus
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
 
@@ -45,26 +49,24 @@ function CollcetionPage() {
     queryKey: ["newarrivals"],
     queryFn: getAllNewArrivalProducts,
     staleTime: Infinity,
-    refetchOnMount: false,      // don't refetch when remounting
-    refetchOnWindowFocus: false, // don't refetch when window gains focus
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
 
 
 
 
-
   return (
     <>
-
-      {/* <Hero bannerImages={heroimage} /> */}
-      {/* <Navdiscount /> */}
-
-      {/* <SecondHero categoryName={"category"} /> */}
+      {
+        collectionBanner &&
+        <Hero bannerImages={collectionBanner} css='h-[500px]' />
+      }
 
 
       {collections?.length ? <CategoriesSection title={"Our Collection of Elegents"} url={''} >
-        <Collectionsection collections={collections} url={'collections'} />
+        <Collectionsection collections={collections.filter((item) => item.gender == 'WOMEN')} url={'collections'} />
       </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
 
       </div>}
@@ -84,14 +86,6 @@ function CollcetionPage() {
       </section>
 
 
-      {/* {
-        products?.length > 0 && (
-
-          <CategoriesSection title={"Collections Products "} url={''} >
-            <CarouselProduct  url='' product={products} />
-          </CategoriesSection >
-        )
-      } */}
 
 
 
@@ -99,11 +93,70 @@ function CollcetionPage() {
       {
 
         products?.length > 0 ? <CategoriesSection title={"Best Deals On All Products"} url={''} >
-          <GridRroduct data={products} url={'products'} />
+          <GridRroduct data={products.filter((product) => product.gender == 'WOMEN')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' />
         </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
 
         </div>
       }
+
+      <section className='w-full relative py-5 md:py-10  container   px-5 md:px-10 lg:px-20 h-auto grid grid-cols-2 md:grid-cols-3 gap-1'>
+        <Link href='/gender/men' className='w-full relative h-auto flex group overflow-hidden '>
+          <Image src="/men-collection.jpeg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
+          <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
+            <span className='w-fit relative h-auto flex flex-col items-center gap-3'>
+              <h2 className=' text-base sm:text-xl md:text-xl lg:text-[40px] font-medium text-white'>MEN'S</h2>
+              <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-center font-medium text-white'></p>
+
+            </span>
+          </div>
+        </Link>
+        <Link href='/gender/women' className='w-full relative h-auto flex group overflow-hidden '>
+          <Image src="/women-collection.jpg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
+          <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
+            <span className='w-fit relative h-auto flex flex-col items-center gap-2'>
+              <h2 className=' text-base sm:text-xl md:text-xl lg:text-[40px] font-medium text-white'>WOMEN'S</h2>
+              <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-center font-medium text-white'></p>
+            </span>
+          </div>
+        </Link>
+        <Link href='/gender/kids' className='w-full relative h-auto flex group overflow-hidden '>
+          <Image src="/kids-collection.jpg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
+          <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
+            <span className='w-fit relative h-auto flex flex-col items-center gap-2'>
+              <h2 className=' text-base sm:text-xl md:text-xl lg:text-[40px] font-medium text-white'>WOMEN'S</h2>
+              <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-center font-medium text-white'></p>
+            </span>
+          </div>
+        </Link>
+      </section>
+
+
+      {collections?.length ? <CategoriesSection title={"Our Collection of Elegents"} url={''} >
+        <Collectionsection collections={collections.filter((item) => item.gender == 'MEN')} url={'collections'} />
+      </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
+
+      </div>}
+      {
+        products?.length > 0 ? <CategoriesSection title={"Best Deals On All Products"} url={''} >
+          <GridRroduct data={products.filter((product) => product.gender == 'MEN')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' />
+        </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
+        </div>
+      }
+
+
+
+      {collections?.filter((item) => item.gender == 'KIDS')?.length ? <CategoriesSection title={"Our Collection of Elegents"} url={''} >
+        <Collectionsection collections={collections.filter((item) => item.gender == 'KIDS')} url={'collections'} />
+      </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
+
+      </div>}
+      {
+        products?.filter((product) => product.gender == 'KIDS')?.length > 0 ? <CategoriesSection title={"Best Deals On All Products"} url={''} >
+          <GridRroduct data={products.filter((product) => product.gender == 'KIDS')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' />
+        </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
+        </div>
+      }
+
 
       {
         wishlist.length > 0 &&

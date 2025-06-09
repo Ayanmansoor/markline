@@ -56,8 +56,8 @@ function NewArrival() {
                     :
                     products &&
                         products.length > 0 ?
-                        <CategoriesSection title={"New In – Fresh Picks for You"} url='products' >
-                            <CarouselProduct url={'products'} product={products} />
+                        <CategoriesSection title={"New In – Fresh Picks for You"} url='' >
+                            <CarouselProduct url={'product'} product={products} />
                         </CategoriesSection>
                         :
                         <div className="grid grid-cols-2 md:grid-cols-3  gap-3  ">
@@ -80,12 +80,6 @@ function NewArrival() {
                 </div>
             </section>
 
-            {
-                products &&
-                <CategoriesSection title={"Latest at Markline"} url="new-arrivals" >
-                    <SecondHero categoryName={"Shoes"} data={products} />
-                </CategoriesSection>
-            }
 
             <Discount />
         </>

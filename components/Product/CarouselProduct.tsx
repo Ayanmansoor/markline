@@ -50,7 +50,7 @@ function CarouselProduct({ url, product }: CarouselProductProps) {
                 >
 
                     {product?.map((product:any, index: number) => (
-                        <SwiperSlide className='w-[260px]   sm:max-w-[260px] h-full relative bg-secondary px-0 md:px-3' key={index} >
+                        <SwiperSlide className='w-[320px]   sm:max-w-[320px] h-full relative bg-secondary px-0 md:px-3' key={index} >
                             <ProductCard  url={url} product={product} />
                         </SwiperSlide>
                     ))}

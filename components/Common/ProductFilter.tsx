@@ -85,9 +85,9 @@ function ProductFilter({ collection ,productRangevalue,setPRoductRange }: Prodcu
                             </p>
                         </AccordionTrigger>
                         <AccordionContent className="w-full relative h-auto py-2 text-base  flex flex-wrap gap-2 font-medium px-4 ">
-                            <Link href={"MEN"} className='text-base font-medium text-black border border-black px-3 py-1' >MEN</Link>
-                            <Link href={"WOMEN"} className='text-base font-medium text-black border border-black px-3 py-1' >WOMEN</Link>
-                            <Link href={"KIDS"} className='text-base font-medium text-black border border-black px-3 py-1' >KIDS</Link>
+                            <Link href={"/products/men"} className='text-base font-medium text-black border border-black px-3 py-1' >MEN</Link>
+                            <Link href={"/products/women"} className='text-base font-medium text-black border border-black px-3 py-1' >WOMEN</Link>
+                            <Link href={"/products/kids"} className='text-base font-medium text-black border border-black px-3 py-1' >KIDS</Link>
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>

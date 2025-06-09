@@ -14,6 +14,19 @@ async function getAllProducts() {
   }
 }
 
+async function getAllProductsbygender(gender:string) {
+   const { data: products, error } = await mysupabase
+    .from("products")
+    .select("*,discounts(*)")
+    .eq("is_new_arrival", false)
+    .eq('gender',gender.toUpperCase())
+  if (products) {
+    return products;
+  } else {
+    return new Error(error.message);
+  } 
+}
+
 async function getAllBlogs() {
   try {
     const { data: blogs, error } = await mysupabase.from("blogs").select("*");
@@ -81,10 +94,13 @@ async function getAllBanner() {
   }
 }
 
-async function getBannerBaseonSlug(slug:string) {
-  const {data:banner,error}=await mysupabase.from("HomeBanner").select("*").eq("slug",slug)
+async function getBannerBaseonSlug(slug: string) {
+  const { data: banner, error } = await mysupabase
+    .from("HomeBanner")
+    .select("*")
+    .eq("slug", slug);
 
-   if (banner) {
+  if (banner) {
     return banner;
   } else {
     return new Error(error.message);
@@ -157,7 +173,7 @@ async function getProductData(slug: string) {
   }
 }
 
-async function getCollectionBanner() {
+async function getAllCollectionBanner() {
   try {
     const { data: collectionbanner, error } = await mysupabase
       .from("collectionBanner")
@@ -169,6 +185,25 @@ async function getCollectionBanner() {
     }
 
     return collectionbanner;
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return null;
+  }
+}
+
+async function getCollectionBannerBaseOnGender(gender: string) {
+  try {
+    const { data: genderbanner, error } = await mysupabase
+      .from("collectionBanner")
+      .select("*")
+      .eq("gender", gender)
+      .limit(3);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return genderbanner;
   } catch (error) {
     console.error("Error fetching product:", error);
     return null;
@@ -281,12 +316,14 @@ export {
   getAllNewCollections,
   getProductData,
   getRelatedProducts,
-  getCollectionBanner,
+  getAllCollectionBanner,
   getProductBaseOnCollection,
   getAllBlogs,
   getblog,
   getHighlighteProducts,
   getcollection,
   getCollectionBaseOnGender,
-  getBannerBaseonSlug
+  getBannerBaseonSlug,
+  getCollectionBannerBaseOnGender,
+  getAllProductsbygender
 };

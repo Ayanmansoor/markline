@@ -15,7 +15,7 @@ function TrendingCarousels({ data }: trendingProductsProps) {
   return (
     <section className='relative w-full h-auto bg-black  '>
       <div className='container  mx-auto reltive h-fit w-full flex flex-col gap-5   text-secondary pt-5 pb-10 px-2  md:px-10   xl:px-20'>
-        <h2 className='text-h1 font-medium text-white pt-5  uppercase'> best-selling womens footwear</h2>
+        <h2 className='text-h1 font-medium text-white pt-5  uppercase'> best-selling footwear</h2>
         <Swiper
           slidesPerView={"auto"}
           spaceBetween={10}
@@ -48,7 +48,7 @@ function TrendingCarousels({ data }: trendingProductsProps) {
           className="mySwiper w-full h-full relative py-5 "
         >
           {data?.map((item, index) => (
-            <SwiperSlide className='h-auto  w-[260px]   sm:max-w-[260px] bg-slate-50 overflow-hidden relative transition-all duration-500 text-third group' key={index}>
+            <SwiperSlide className='h-auto  w-[310px]   sm:max-w-[310px] bg-slate-50 overflow-hidden relative transition-all duration-500 text-third group' key={index}>
               <ProductCard product={item.products} url='products' />
             </SwiperSlide>
           ))}

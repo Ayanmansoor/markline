@@ -9,7 +9,7 @@ import 'swiper/css/pagination';
 
 
 // import required modules
-import { Autoplay, Pagination } from 'swiper/modules';
+import { Autoplay, Pagination ,EffectFade } from 'swiper/modules';
 import { HeroData } from '@/types/interfaces';
 
 function  Hero({ bannerImages, css }: HeroData) {
@@ -20,11 +20,13 @@ function  Hero({ bannerImages, css }: HeroData) {
         <section className={`w-full relative ${css ? css : " h-[40vh] sm:h-[90vh]"}  `}>
 
             <>
-                <Swiper pagination={true}
-                    modules={[Pagination, Autoplay]}
+                <Swiper pagination={false}
+                    modules={[Pagination, Autoplay,EffectFade]}
                     loop={true}
+                    effect={'fade'}
+
                     autoplay={{
-                        delay: 5000,
+                        delay: 7000,
                         disableOnInteraction: false,
                     }} className="mySwiper h-full w-full relative bg-secondary ">
                     {bannerImages?.map((images, index) => (
