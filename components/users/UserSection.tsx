@@ -37,6 +37,11 @@ function UserSection() {
     getSupabaseUser()
   }, [])
 
+
+
+
+  
+
   return (
 
 
