@@ -3,6 +3,7 @@ import ProductPage from '@/components/Pages/Product.page'
 
 import { getProductData } from '@/Supabase/SupabaseApi';
 import Productspage from '@/components/Products/Products.page';
+import { mergeMetadata } from '@/app/layout';
 
 // export async function generateMetadata({ params }) {
 //   const product = await getProductData(params.slug);
@@ -43,6 +44,38 @@ import Productspage from '@/components/Products/Products.page';
 //     },
 //   };
 // }
+
+
+
+
+
+
+export async function generateMetadata({ params }) {
+  const slug = params.slug;
+
+  return mergeMetadata({
+    title: "Footwear for Men, Women & Kids – Shop Stylish Shoes Online in India | Markline Fashion",
+    description:
+      "Explore the latest in men’s, kids’, and women’s footwear online in India. Shop trendy casuals, formals, wedding shoes & more at Markline Fashion.",
+    robots: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+    openGraph: {
+      title: "Footwear for Men, Women & Kids – Shop Stylish Shoes Online in India | Markline Fashion",
+      description:
+        "Explore the latest in men’s, kids’, and women’s footwear online in India. Shop trendy casuals, formals, wedding shoes & more at Markline Fashion.",
+      type: "website",
+      url: `https://marklinefashion.vercel.app/products/${slug}`,
+    },
+    alternates: {
+      canonical: `https://marklinefashion.vercel.app/products/${slug}`,
+    },
+  });
+}
 
 
 function page() {

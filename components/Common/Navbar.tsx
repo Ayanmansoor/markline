@@ -39,7 +39,7 @@ function Navbar() {
                     <li className='flex gap-1 items-center text-p18 font-medium cursor-pointer  '>
                         <CartSheet>
                             <section className='relative h-auto w-auto '>
-                                <PiShoppingCartLight className='text-[23px]' />
+                                <PiShoppingCartLight className='text-[24px]' />
                                 <p className='p-1 h-fit rounded-full text-[12px] leading-[0.6] absolute -top-2 -right-1 flex items-center justify-center  w-fit  font-normal bg-black text-white'>{cart?.length}</p>
                             </section>
                         </CartSheet>

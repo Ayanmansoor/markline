@@ -3,6 +3,7 @@ import { CiUser } from "react-icons/ci";
 import LoginModal from './LoginModal';
 import { mysupabase } from '@/Supabase/SupabaseConfig';
 import Link from 'next/link';
+import { PiUserCircleThin } from "react-icons/pi";
 function NavUser() {
     const [isUser, setUser] = useState<any>()
 
@@ -24,11 +25,11 @@ function NavUser() {
             {
                 isUser ?
                     <Link href={'/user'}>
-                        <CiUser className='text-[30px] cursor-pointer' />
+                        <PiUserCircleThin className='text-[30px] text-primary cursor-pointer' />
                     </Link>
                     :
                     <LoginModal>
-                        <CiUser className='text-[30px] cursor-pointer' />
+                        <PiUserCircleThin className='text-[30px] cursor-pointer  text-primary' />
                     </LoginModal>
             }
         </div>

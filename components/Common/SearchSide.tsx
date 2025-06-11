@@ -14,7 +14,7 @@ function SearchSide() {
         <Sheet>
             <SheetTrigger className='w-fit h-auto relative'>
                 <li className=' '>
-                    <CiSearch className='text-[23px] cursor-pointer' onClick={(es) => (console.log("will open search page "))} />
+                    <CiSearch className='text-[25px] cursor-pointer' onClick={(es) => (console.log("will open search page "))} />
                 </li>
             </SheetTrigger>
             <SheetContent   className=" min-w-[80%] lg:min-w-[50%]">

@@ -38,7 +38,7 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
                 {
                     firstdata && firstsection &&
 
-                    <Link href={`/products/${firstdata?.slug}`} className='col-start-1  col-end-3 row-start-1 border border-[#ebeeef] row-end-3 relative   overflow-hidden'>
+                    <Link href={`/product/${firstdata?.slug}`} className='col-start-1  col-end-3 row-start-1 border border-[#ebeeef] row-end-3 relative   overflow-hidden'>
                         <Swiper
                             style={{
                                 "--swiper-pagination-color": "#0c0c0c",
@@ -68,7 +68,7 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
 
                 {
                     seconddata && secondsection &&
-                    <Link href={`/products/${seconddata?.slug}`} className=' relative border  border-[#ebeeef] overflow-hidden ' >
+                    <Link href={`/product/${seconddata?.slug}`} className=' relative border  border-[#ebeeef] overflow-hidden ' >
                         <Swiper
                             style={{
                                 "--swiper-pagination-color": "#0c0c0c",
@@ -98,7 +98,7 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
 
                 {
                     thirddata && thirddata &&
-                    <Link href={`/products/${thirddata?.slug}`} className=' relative border  border-[#ebeeef] overflow-hidden ' >
+                    <Link href={`/product/${thirddata?.slug}`} className=' relative border  border-[#ebeeef] overflow-hidden ' >
                         <Swiper
                             style={{
                                 "--swiper-pagination-color": "#0c0c0c",
@@ -129,8 +129,15 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
 
                 {
                     fourthdata && fourthsection &&
-                    <Link href={`/products/${fourthsection?.slug}`} className=' hidden lg:block relative border  border-[#ebeeef] overflow-hidden ' >
+                    <Link href={`/product/${fourthsection?.slug}`} className=' hidden lg:block relative border  border-[#ebeeef] overflow-hidden ' >
                         <Swiper
+                            style={{
+                                "--swiper-pagination-color": "#0c0c0c",
+                                "--swiper-pagination-bullet-inactive-color": "#0c0c0c",
+                                "--swiper-pagination-bullet-inactive-opacity": "1",
+                                "--swiper-pagination-bullet-size": "7px",
+                                "--swiper-pagination-bullet-horizontal-gap": "6px"
+                            } as React.CSSProperties & Record<string, string>}
                             pagination={{
                                 dynamicBullets: true,
                             }}

@@ -25,9 +25,9 @@ function ProductFilter({ collection ,productRangevalue,setPRoductRange }: Prodcu
                 <Accordion type="single" collapsible className='w-full relative h-auto bg-transparent'>
                     <AccordionItem value="item-1" className="w-full relative h-auto" >
                         <AccordionTrigger className="w-full relative h-auto py-2 text-base font-medium  px-4">
-                            <p>
+                            <span>
                                 Collections
-                            </p>
+                            </span>
                         </AccordionTrigger>
                         <AccordionContent className="w-full relative h-auto py-2 text-base font-medium  px-4 flex flex-wrap gap-2 ">
                             {
@@ -39,9 +39,9 @@ function ProductFilter({ collection ,productRangevalue,setPRoductRange }: Prodcu
                     </AccordionItem>
                     <AccordionItem value="item-2" className="w-full relative h-auto">
                         <AccordionTrigger className="w-full relative h-auto py-2 text-base font-medium  px-4">
-                            <p>
+                            <span>
                                 Sizes
-                            </p>
+                            </span>
                         </AccordionTrigger>
                         <AccordionContent className="w-full relative h-auto py-2 text-base font-medium flex flex-wrap gap-2 px-4 ">
                             <span className='text-base font-medium text-black border border-black px-3 py-1'>5</span>
@@ -55,9 +55,9 @@ function ProductFilter({ collection ,productRangevalue,setPRoductRange }: Prodcu
                     </AccordionItem>
                     <AccordionItem value="item-3" className="w-full relative h-auto">
                         <AccordionTrigger className="w-full relative h-auto py-2 text-base font-medium  px-4">
-                            <p>
+                            <span>
                                 Price
-                            </p>
+                            </span>
                         </AccordionTrigger>
                         <AccordionContent className="w-full relative h-auto py-2 text-base  flex flex-wrap  font-medium px-4 ">
                             <div className='w-full relative h-auto flex items-center justify-between gap-1'>
@@ -80,9 +80,9 @@ function ProductFilter({ collection ,productRangevalue,setPRoductRange }: Prodcu
                     </AccordionItem>
                     <AccordionItem value="item-4" className="w-full relative h-auto">
                         <AccordionTrigger className="w-full relative h-auto py-2 text-base font-medium  px-4">
-                            <p>
+                            <span>
                                 Genders
-                            </p>
+                            </span>
                         </AccordionTrigger>
                         <AccordionContent className="w-full relative h-auto py-2 text-base  flex flex-wrap gap-2 font-medium px-4 ">
                             <Link href={"/products/men"} className='text-base font-medium text-black border border-black px-3 py-1' >MEN</Link>

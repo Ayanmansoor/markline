@@ -49,7 +49,7 @@ function TrendingCarousels({ data }: trendingProductsProps) {
         >
           {data?.map((item, index) => (
             <SwiperSlide className='h-auto  w-[310px]   sm:max-w-[310px] bg-slate-50 overflow-hidden relative transition-all duration-500 text-third group' key={index}>
-              <ProductCard product={item.products} url='products' />
+              <ProductCard product={item.products} url='product' />
             </SwiperSlide>
           ))}
         </Swiper>
