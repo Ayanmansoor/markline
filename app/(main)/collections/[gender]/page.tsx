@@ -6,7 +6,6 @@ import { mergeMetadata } from '@/app/layout';
 
 
 
-
 export async function generateMetadata({ params }) {
   const slug = params.slug;
 
@@ -34,12 +33,13 @@ export async function generateMetadata({ params }) {
   });
 }
 
-function GenderCollection() {
+function Collection() {
   return (
     <>
+     
       <GenderPage />
     </>
   )
 }
 
-export default GenderCollection
+export default Collection

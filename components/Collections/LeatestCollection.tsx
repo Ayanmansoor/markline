@@ -20,7 +20,7 @@ function LeatestCollection({ url }: { url: string }) {
                 }
             </div>
             <section className='w-full relative  pb-10  max-h-[800px] h-full grid   '>
-        
+
 
 
                 <Swiper
@@ -28,7 +28,7 @@ function LeatestCollection({ url }: { url: string }) {
                         clickable: true,
                     }}
                     breakpoints={{
-                          300: {
+                        300: {
                             slidesPerView: 2,
                         },
                         499: {
@@ -42,13 +42,21 @@ function LeatestCollection({ url }: { url: string }) {
                     className="mySwiper w-full relative h-full"
                 >
                     <SwiperSlide className=' max-w-full relative h-full px-1 '>
-                        <video src="/advertise-one.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
+                        <Link href={'/collection/women/mule'} className=''>
+                            <video src="/advertise-one.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
+                        </Link>
                     </SwiperSlide>
-                    <SwiperSlide className='max-w-full relative h-full  px-1 '>
-                        <video src="/advertise-one.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
-                    </SwiperSlide>
+                    
                     <SwiperSlide className='max-w-full relative h-full    px-1'>
-                        <video src="/men-product.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
+                        <Link href={'/collection/men'} className=''>
+                            <video src="/men-product.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
+                        </Link>
+                    </SwiperSlide>
+                    <SwiperSlide className='max-w-full relative h-full  px-1 hidden md:block '>
+                        <Link href={'/collection/women/mule'} className=''>
+
+                            <video src="/advertise-one.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
+                        </Link>
                     </SwiperSlide>
                 </Swiper>
 

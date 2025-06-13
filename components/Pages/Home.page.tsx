@@ -115,7 +115,7 @@ function HomePage() {
 
         currentproducts?.length > 0 ?
           <CategoriesSection title={"Women's footwear collections"} url="collections" urltext='collections'>
-            <Collectionsection collections={collections.filter((item) => item.gender == 'WOMEN')} url={'collections'} />
+            <Collectionsection collections={collections.filter((item) => item.gender == 'WOMEN')} url={'collections/women'} />
           </CategoriesSection>
           :
           <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container px-5 md:px-10 xl:px-20 ">
@@ -176,19 +176,19 @@ function HomePage() {
       }
 
       <section className='w-full relative py-5 md:py-10  container   px-5 md:px-10 lg:px-20 h-auto grid grid-cols-2 gap-1'>
-        <Link href='/collections/wedding-specials' className='w-full relative h-auto flex group overflow-hidden '>
+        <Link href='/collections/women/wedding-specials' className='w-full relative h-auto flex group overflow-hidden '>
           <Image src="/markline-fashion.png" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
           <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
-            <span className='w-fit relative h-auto flex flex-col items-center gap-3'>
+            <span className='w-fit relative h-auto flex flex-col items-center gap-1 md:gap-3'>
               <h2 className=' text-base sm:text-xl md:text-2xl lg:text-[40px] font-medium text-white'>For Bride</h2>
               <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline  font-medium text-white'>Women</p>
             </span>
           </div>
         </Link>
-        <Link href='/gender/men' className='w-full relative h-auto flex group overflow-hidden '>
+        <Link href='/collections/men/men-loafer' className='w-full relative h-auto flex group overflow-hidden '>
           <Image src="/marklineman.jpg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
           <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
-            <span className='w-fit relative h-auto flex flex-col items-center gap-2'>
+            <span className='w-fit relative h-auto flex flex-col items-center gap-1 md:gap-3'>
               <h2 className=' text-base sm:text-xl md:text-2xl lg:text-[40px] font-medium text-white'>For Groom</h2>
               <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-center font-medium text-white'>Man</p>
             </span>

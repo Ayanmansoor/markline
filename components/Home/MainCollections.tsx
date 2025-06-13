@@ -11,13 +11,13 @@ function Filter() {
     return (
         <>
             <section className=' w-full relative bg-secondary gap-2 container  h-auto   items-center hidden md:grid grid-cols-3 justify-center  px-2  md:px-10   xl:px-20 pt-3    '>
-                <Link href={'/gender/men'}>
+                <Link href={'/collections/men'}>
                     <Image src={"/forhim.png"} alt="" height={500} width={500} className='w-full hover:scale-[1.01] transition-all duration-100 relative h-auto object-contain' />
                 </Link>
-                <Link href="/gender/women">
+                <Link href="/collections/women">
                     <Image src={"/forher.png"} alt="Women" height={500} width={500} className='w-full   hover:scale-[1.01] transition-all duration-100 relative h-auto object-contain' />
                 </Link>
-                <Link href={"/gender/kids"}>
+                <Link href={"/collections/kids"}>
                     <Image src={"/forKids.png"} alt="" height={500} width={500} className='w-full relative h-auto  hover:scale-[1.01] transition-all duration-100 object-contain' />
                 </Link>
             </section>

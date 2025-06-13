@@ -9,11 +9,42 @@ import { PiInstagramLogoThin } from "react-icons/pi";
 import { RiTwitterXLine } from "react-icons/ri";
 import Link from 'next/link';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+
+import z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import axios from 'axios'
+
+const subscribeSchema = z.object({
+  email: z.string().email()
+})
+
+type subscribeSchemaInterface = z.infer<typeof subscribeSchema>;
 
 function Footer() {
+
+  const { executeRecaptcha } = useGoogleReCaptcha()
+
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({
+    resolver: zodResolver(subscribeSchema)
+  })
+
+  async function onSubmit({ email }: subscribeSchemaInterface) {
+    if (!executeRecaptcha) {
+      return null;
+    }
+    const token = executeRecaptcha()
+    const reponse = await axios.post("/api/subcribe", {
+      email: email,
+      token: token
+    })
+
+  }
+
   return (
-    <footer className='  w-full relative lg:py-10 lg:h-[500px] text-primary-foreground bg-black   overflow-hidden'>
-      
+    <footer className='  w-full relative lg:py-10 lg:h-[500px] text-primary-foreground  md:bg-black   overflow-hidden'>
+
 
       <section className='w-full h-auto flex flex-col gap-2'>
         <span className='w-full relative h-auto flex flex-col gap-2'>
@@ -35,6 +66,8 @@ function Footer() {
               <Link href={'/trending'} >Trending</Link>
               <Link href={'/about-us'} >About us</Link>
               <Link href={'/blogs'} >Blogs</Link>
+              <Link href={'/contact-us'} >Contact Us</Link>
+              <Link href={'/contact-us'} >Feedback</Link>
 
               {/* <Link href={'/privacy-policy'} >Privacy and Policy</Link>
               <Link href={'/shiping-policy'} >Shiping Policy</Link>
@@ -47,7 +80,7 @@ function Footer() {
 
           <div className='relative h-auto  '>
             <h2 className='text-p20 font-medium mb-4 border-b w-fit pr-5 '>
-              
+
               Collections
 
             </h2>
@@ -78,23 +111,20 @@ function Footer() {
             <h2 className='text-p20 font-medium mb-4 border-b w-fit pr-5'>
               Subscrib Us
             </h2>
-            <form action='' className='flex items-start flex-col text-p18  justify-start gap-3'>
-              <input type="text" className='w-full relative h-atuo py-2 cursor-pointer px-2 border-b border-white bg-transparent placeholder:text-white placeholder:text-sm text-base' placeholder='Enter Your Email' />
+            <form action='' onSubmit={handleSubmit(onSubmit)} className='flex items-start flex-col text-p18  justify-start gap-3'>
+              <input type="text" className='w-full relative h-atuo py-2 cursor-pointer px-2 border-b border-white bg-transparent placeholder:text-white placeholder:text-sm text-base' placeholder='Enter Your Email' {...register('email')} />
             </form>
-            <h2 className='text-p20 font-medium mb-4  mt-3 w-fit pr-5'>
-              Aaddress
-            </h2>
-            <p className='text-base font-normal  text-white '>.</p>
+
           </div>
 
         </div>
       </section>
-      
+
       <section className='w-full relative h-auto flex items-center justify-center gap-5 py-2 bottom-10 z-20 '>
-            <Link href={'/privacy-policy'} className=' text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Privacy & Policy</Link>
-            <Link href={'/terms-condition'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Terms & Conditions</Link>
-            <Link href={'/shipping-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Shipping & Return</Link>
-            <Link href={'/claim-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Product Claim Policy </Link>
+        <Link href={'/privacy-policy'} className=' text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Privacy & Policy</Link>
+        <Link href={'/terms-condition'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Terms & Conditions</Link>
+        <Link href={'/shipping-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Shipping & Return</Link>
+        <Link href={'/claim-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Product Claim Policy </Link>
       </section>
 
       <div className='w-full relative bottom-5 z-0  z- h-auto  hidden  md:flex leading-[1.1] items-center  opacity-10  uppercase font-semibold text-footerfont justify-center -mt-28 text-gray-100 bg-clip-text left-0 right-0 '>
@@ -126,9 +156,13 @@ function Footer() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+
+
+
+
         <Accordion type="single" collapsible className=' text-third hover:no-underline'>
           <AccordionItem value="item-1">
-            <AccordionTrigger className=' hover:no-underline  text-primary'>Products</AccordionTrigger>
+            <AccordionTrigger className=' hover:no-underline  text-primary'>Collection For</AccordionTrigger>
             <AccordionContent >
               <div className='relative h-auto  '>
                 <hr className='mt-1' />

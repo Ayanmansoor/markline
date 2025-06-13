@@ -37,7 +37,7 @@ function SideBarNew() {
                     <Link href="/collections" onClick={handleClose} className="text-xl px-2 py-1 cursor-pointer text-primary font-medium border   flex items-center justify-between gap-0 w-full">Collections
                         <RiArrowRightSLine className='text-[40px] text-primary cursor-pointer border-l  px-1 py-1' />
                     </Link>
-                    <Link href="/products" onClick={handleClose} className="text-xl cursor-pointer px-2 py-1 text-primary font-medium border   flex items-center justify-between gap-0 w-full">Products
+                    <Link href="/products/women" onClick={handleClose} className="text-xl cursor-pointer px-2 py-1 text-primary font-medium border   flex items-center justify-between gap-0 w-full">Products
                         <RiArrowRightSLine className='text-[40px] text-primary cursor-pointer border-l  px-1 py-1' />
                     </Link>
                     <Link href="/new-arrivals" onClick={handleClose} className="text-xl cursor-pointer  px-2 py-1 text-primary font-medium border   flex items-center justify-between gap-0 w-full">New Arrivals

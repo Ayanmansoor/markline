@@ -61,7 +61,7 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
             amount: final_price * 100,
         });
 
-        console.log(response, "this is reponse of create order");
+        
 
 
         const res = await LoadRazorpay();

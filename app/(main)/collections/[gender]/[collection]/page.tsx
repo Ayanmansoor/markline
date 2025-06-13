@@ -1,29 +1,31 @@
 import React from 'react'
 import CategoryL2page from '@/components/Collection/CollectionPage'
 import { getcollection } from '@/Supabase/SupabaseApi';
+import GenderPage from '@/components/gender/GenderPage';
 
 
 
 export async function generateMetadata({ params }) {
   const slug = params.slug;
 
-  const collection = await getcollection(slug);
+
+  const data  = await getcollection(params.collection);
 
 
-  if (!collection || !collection.seoTitle) {
+  if (!data || !data.seoTitle) {
     return {
       title: "Collection | Markline Fashion",
       description: "Explore elegant collections by Markline Fashion, where tradition meets modern design.",
     };
   }
 
-  const collectionName = collection.seoTitle || "Collection";
+  const collectionName = data.seoTitle || "Collection";
   const description =
-    collection.seoDescription ||
+    data.seoDescription ||
     "Discover our curated collection of women's accessories, where elegance and craftsmanship unite.";
 
-  const imageObject = collection.image_urls?.[0]
-    ? JSON.parse(collection.image_urls[0])
+  const imageObject = data.image_urls?.[0]
+    ? JSON.parse(data.image_urls[0])
     : null;
   const imageUrl = imageObject?.image_url || "https://marklinefashion.vercel.app/default.jpg";
 
@@ -35,7 +37,7 @@ export async function generateMetadata({ params }) {
       title: `${collectionName} Collection`,
       description,
       type: "website",
-      url: `https://marklinefashion.vercel.app/collections/${slug}`,
+      url: `https://marklinefashion.vercel.app/collections/${params.collection}`,
       images: [
         {
           url: imageUrl,
@@ -57,7 +59,7 @@ export async function generateMetadata({ params }) {
       images: [imageUrl],
     },
     alternates: {
-      canonical: `https://marklinefashion.vercel.app/collections/${params.slug}`,
+      canonical: `https://marklinefashion.vercel.app/collections/${params.collection}`,
     },
   };
 }
@@ -66,7 +68,7 @@ export async function generateMetadata({ params }) {
 function Collection() {
   return (
     <>
-      <CategoryL2page />
+       <CategoryL2page />
     </>
   )
 }

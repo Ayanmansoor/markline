@@ -15,16 +15,16 @@ import Link from 'next/link'
 
 function GenderPage() {
 
-    const { slug } = useParams()
-    const nslug = Array.isArray(slug) ? slug[0] : slug;
+    const { gender } = useParams()
+    const nslug = Array.isArray(gender) ? gender[0] : gender;
     const finalslug = nslug.toUpperCase()
     const { data: products, isLoading, isError } = useQuery<any>({
-        queryKey: ["collectiondatabaseonslug", slug],
-        enabled: !!slug,
+        queryKey: ["collectiondatabaseonslug", gender],
+        enabled: !!gender,
         queryFn: () => getProductBaseOnCollection(finalslug),
         staleTime: Infinity,
-        refetchOnMount: false,      // don't refetch when remounting
-        refetchOnWindowFocus: false, // don't refetch when window gains focus
+        refetchOnMount: false,      
+        refetchOnWindowFocus: false,
         refetchOnReconnect: false,
     });
     const {
@@ -35,14 +35,14 @@ function GenderPage() {
         queryKey: ["collectionbanner"],
         queryFn: getAllBanner,
         staleTime: Infinity,
-        refetchOnMount: false,      // don't refetch when remounting
-        refetchOnWindowFocus: false, // don't refetch when window gains focus
+        refetchOnMount: false,      
+        refetchOnWindowFocus: false,
         refetchOnReconnect: false,
     });
 
     const { data: genderCollection, isLoading: isGenderLoading, isError: isGenderDataerror } = useQuery<any>({
-        queryKey: ["gendercollection", slug],
-        enabled: !!slug,
+        queryKey: ["gendercollection", gender],
+        enabled: !!gender,
         queryFn: () => getCollectionBaseOnGender(finalslug),
         staleTime: Infinity,
         refetchOnMount: false,      // don't refetch when remounting
@@ -68,7 +68,7 @@ function GenderPage() {
 
                 genderCollection?.length > 0 ?
                     <CategoriesSection title={"Women's Collection"} url="collections" urltext='collections'> 
-                        <Collectionsection collections={genderCollection} url={'collections'} />
+                        <Collectionsection collections={genderCollection} url={`collections/${gender}`} />
                     </CategoriesSection>
                     :
                     <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container px-5 md:px-10 xl:px-20 ">

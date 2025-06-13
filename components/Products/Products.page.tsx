@@ -20,6 +20,20 @@ import SecondHero from '../Common/SecondHero';
 import { useParams } from 'next/navigation';
 
 
+import { FreeMode, Pagination } from 'swiper/modules';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/pagination';
+
+
+import { HiMiniAdjustmentsHorizontal } from "react-icons/hi2";
+
+
+
 const data = [
     {
         title: "Shop Women’s Formal Shoes, Heels & Sandals  Markline Luxury Footwear",
@@ -54,8 +68,8 @@ function Productspage() {
         queryKey: ["products"],
         queryFn: getAllProducts,
         staleTime: Infinity,
-        refetchOnMount: false,      // don't refetch when remounting
-        refetchOnWindowFocus: false, // don't refetch when window gains focus
+        refetchOnMount: false,      
+        refetchOnWindowFocus: false,
         refetchOnReconnect: false,
     });
 
@@ -67,8 +81,8 @@ function Productspage() {
         queryKey: ["collections"],
         queryFn: getAllCollections,
         staleTime: Infinity,
-        refetchOnMount: false,      // don't refetch when remounting
-        refetchOnWindowFocus: false, // don't refetch when window gains focus
+        refetchOnMount: false,      
+        refetchOnWindowFocus: false,
         refetchOnReconnect: false,
     });
 
@@ -129,7 +143,7 @@ function Productspage() {
                 }
 
                 <div className="w-full gap-5 pb-10 relative flex flex-col px-0 md:px-10 xl:px-10">
-                    <div className="w-full h-auto flex items-center bg-secondary border-b border-gray-300 py-2 justify-between ">
+                    <div className="w-full h-auto flex flex-col items-center bg-secondary border-b border-gray-300 py-2 justify-between ">
                         {/* <h1 className="text-lg font-medium text-primary w-full"> Total Products ( {allproducts && allproducts?.length} ) </h1> */}
                         {
                             productslug ?
@@ -154,12 +168,27 @@ function Productspage() {
                                     </p>
                                 </div>
                         }
-                        <span className=' block  lg:hidden'>
-                            <MobFilterSheet collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange}>
-                                <IoFilterOutline className='text-[20px] text-foreground cursor-pointer ' />
+                      <section className='w-full relative gap-2 items-center mt-2 h-auto flex md:hidden '>
+                        <span className='  items-center gap-2  lg:hidden '>
+                            <MobFilterSheet collection={[]} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} >
+                                <HiMiniAdjustmentsHorizontal className='text-[37px] text-foreground cursor-pointer border px-2 rounded-md ' />
                             </MobFilterSheet>
                         </span>
 
+                            <Swiper
+                                spaceBetween={3}
+                                slidesPerView={'auto'}
+                                className="mySwiper w-full  relative h-auto "
+                            >
+                                {
+                                    allcollection.map((collec) => (
+                                        <SwiperSlide className='max-w-fit  border  px-3 py-1.5   h-auto text-base font-medium rounded-sm' key={collec.slug}>
+                                            <Link href={`${collec.slug}`} className='text-sm max-w-fit  relative  font-medium text-primary'>{collec.name}</Link>
+                                        </SwiperSlide>
+                                    ))
+                                }
+                            </Swiper>
+                        </section>
                     </div>
                     {
                         isLoadingProducts ?

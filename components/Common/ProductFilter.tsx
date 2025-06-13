@@ -11,11 +11,11 @@ import Link from 'next/link'
 import { ProdcutFilterProps } from '@/types/interfaces'
 import { Slider } from '../ui/slider'
 
-function ProductFilter({ collection ,productRangevalue,setPRoductRange }: ProdcutFilterProps) {
+function ProductFilter({ collection, productRangevalue, setPRoductRange }: ProdcutFilterProps) {
 
-    function changeFilterRangeValue(newValue:any){
+    function changeFilterRangeValue(newValue: any) {
         setPRoductRange(newValue)
-        console.log(newValue,"jldjf")
+        console.log(newValue, "jldjf")
     }
 
     return (
@@ -24,18 +24,21 @@ function ProductFilter({ collection ,productRangevalue,setPRoductRange }: Prodcu
             <div className='w-full relative  flex h-fit bg-transparent flex-col items-start  lg:px-2'>
                 <Accordion type="single" collapsible className='w-full relative h-auto bg-transparent'>
                     <AccordionItem value="item-1" className="w-full relative h-auto" >
-                        <AccordionTrigger className="w-full relative h-auto py-2 text-base font-medium  px-4">
-                            <span>
-                                Collections
-                            </span>
-                        </AccordionTrigger>
-                        <AccordionContent className="w-full relative h-auto py-2 text-base font-medium  px-4 flex flex-wrap gap-2 ">
-                            {
-                                collection?.map((item, index) => (
-                                    <Link href={`/collections/${item.slug}`} className='text-base font-medium text-black border border-black px-3 py-1' key={index}>{item.name}</Link>
-                                ))
-                            }
-                        </AccordionContent>
+                        {
+                            collection.length > 0 &&
+                            (
+
+                                <><AccordionTrigger className="w-full relative h-auto py-2 text-base font-medium  px-4">
+                                    <span>
+                                        Collections
+                                    </span>
+                                </AccordionTrigger><AccordionContent className="w-full relative h-auto py-2 text-base font-medium  px-4 flex flex-wrap gap-2 ">
+                                        {collection?.map((item, index) => (
+                                            <Link href={`/collections/${item.slug}`} className='text-base font-medium text-black border border-black px-3 py-1' key={index}>{item.name}</Link>
+                                        ))}
+                                    </AccordionContent></>
+                            )
+                        }
                     </AccordionItem>
                     <AccordionItem value="item-2" className="w-full relative h-auto">
                         <AccordionTrigger className="w-full relative h-auto py-2 text-base font-medium  px-4">
@@ -69,7 +72,7 @@ function ProductFilter({ collection ,productRangevalue,setPRoductRange }: Prodcu
                                     max={5000}
                                     step={1}
                                     onValueChange={changeFilterRangeValue}
-                                    
+
                                 />
                                 <div className='w-full relative h-auto flex items-center justify-between gap-1'>
                                     <span className='text-sm px-2 rounded-full  font-medium text-primary border bg-transparent border-primary'>₹{productRangevalue}</span>

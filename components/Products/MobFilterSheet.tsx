@@ -15,12 +15,11 @@ export default function MobFilterSheet({ collection, productRangevalue, setPRodu
     return (
         <Sheet >
             <SheetTrigger className='w-auto h-auto  block  md:hidden '>{children}</SheetTrigger>
-            <SheetContent>
+            <SheetContent className='px-2'>
                 <SheetHeader>
-                    <SheetTitle className="text-lg font-medium text-foreground pb-3 border-b ">Use Filter </SheetTitle>
-                    <SheetDescription className="w-full  h-auto">
+                    <SheetTitle className="text-lg font-medium text-start text-foreground pb-3 border-b ">Use Filter </SheetTitle>
+                    <SheetDescription className="w-full  h-auto px-0">
                         <ProductFilter collection={collection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
-
                     </SheetDescription>
                 </SheetHeader>
             </SheetContent>

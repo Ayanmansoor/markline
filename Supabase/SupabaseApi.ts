@@ -71,6 +71,19 @@ async function getAllCollections() {
   }
 }
 
+
+async function getAllCollectionsBaseOnGender(gender:string) {
+  const { data: collections, error } = await mysupabase
+    .from("collection")
+    .select("*")
+    .eq('gender',gender.toUpperCase());
+  if (collections) {
+    return collections;
+  } else {
+    return new Error(error.message);
+  }
+}
+
 async function getHighlighteProducts(slug: string) {
   const { data: highlighter, error } = await mysupabase
     .from("productsHighlighter")
@@ -307,6 +320,13 @@ async function getCollectionBaseOnGender(gender: string) {
   return genderCollections;
 }
 
+
+// post request
+
+
+
+
+
 export {
   getAllProducts,
   getAllCollections,
@@ -325,5 +345,6 @@ export {
   getCollectionBaseOnGender,
   getBannerBaseonSlug,
   getCollectionBannerBaseOnGender,
-  getAllProductsbygender
+  getAllProductsbygender,
+  getAllCollectionsBaseOnGender
 };
