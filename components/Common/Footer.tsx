@@ -148,8 +148,10 @@ function Footer() {
                   <Link href={'/products'} className='text-primary'  >Proudcts</Link>
                   <Link href={'/tranding'} className='text-primary' >Trnding</Link>
                   <Link href={'/about-us'} className='text-primary' >About us</Link>
-                  <Link href={'/privacy-policy'} className='text-primary' >Privacy and Policy</Link>
-                  <Link href={'/shiping-policy'} className='text-primary'  >Shiping Policy</Link>
+                  <Link href={'/privacy-policy'} className=' text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Privacy & Policy</Link>
+                  <Link href={'/terms-condition'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Terms & Conditions</Link>
+                  <Link href={'/shipping-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Shipping & Return</Link>
+                  <Link href={'/claim-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Product Claim Policy </Link>
                   <Link href={'/about-us'} className='text-primary' >FAQ</Link>
                 </ul>
               </div>
