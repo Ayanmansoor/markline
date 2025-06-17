@@ -8,7 +8,7 @@ function ProductPageSkeleton() {
                 speed={2}
                 width={1080}
                 height={800}
-                viewBox="0 0 1080 800"
+                viewBox="0 0 1080 900"
                 backgroundColor="#D5D5D5"
                 foregroundColor="#ecebeb"
                 className='  xl:block hidden'

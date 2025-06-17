@@ -240,6 +240,11 @@ function ProductAbout({ product }: ProductsDataProps) {
 
                 {/* BENIFITS */}
                 <ul className='w-full relative h-auto flex items-start gap-2 flex-col py-4 '>
+
+                    <li className=' text-white bg-primary px-3 py-1 w-full  flex items-start text-base font-medium'>
+                       Free delevery applicable  above 4,000 Rs Shoping.
+                    </li>
+
                     <li className='flex items-center w-full relative gap-1 text-xs sm:text-sm'><CiDiscount1 className='text-[20px]' />
                         Save 5% on all Online Payments under ₹10,000/-
                     </li>

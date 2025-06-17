@@ -50,6 +50,7 @@ function ProductPage() {
   });
 
 
+  // console.log(product,"product data")
 
   if (isLoading) {
     return <div className='w-full relative h-fit'>
@@ -68,11 +69,11 @@ function ProductPage() {
   return (
     <>
 
-      <section className=' relative bg-secondary h-auto  pb-4 mt-1 '>
+      <section className=' relative bg-secondary h-[700px]  pb-4 mt-1 '>
 
         {
           isLoading ?
-            <section className='container px-5 md:px-10 h-[50vh] lg:px-20'>
+            <section className='container px-5 md:px-10 h-auto lg:px-20'>
               <ProductPageSkeleton />
             </section>
             :
@@ -84,7 +85,7 @@ function ProductPage() {
                 <ProductAbout product={product} />
               </div>
               :
-              <section className='container px-5 h-[50vh] md:px-10 lg:px-20'>
+              <section className='container px-5 h-[700px] md:px-10 lg:px-20'>
                 <ProductPageSkeleton />
               </section>
         }

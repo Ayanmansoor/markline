@@ -54,24 +54,33 @@ function Footer() {
       </section>
 
       <section className='w-full relative h-[450px] md:flex hidden  flex-col gap-1 container text-white py-10 pb-56 px-5 md:px-10   xl:px-20'>
-        <div className=' w-full h-full grid   z-20 grid-cols-4 gap-5  '>
-
-          <div className='relative h-auto  '>
+        <div className=' w-full h-full grid   z-20 grid-cols-4 lg:grid-cols-5 gap-5  '>
+          
+           <div className='relative h-auto  '>
             <h2 className='text-p20 font-medium mb-4 border-b pr-5  w-fit '>
-              Pages
+             Pages
             </h2>
             <ul className='flex items-start flex-col text-base justify-start gap-2'>
               <Link href={'/new-arrivals'} >New Arrived</Link>
-              <Link href={'/products'} >Proudcts</Link>
+              <Link href={'/products/women'} >Proudcts</Link>
               <Link href={'/trending'} >Trending</Link>
+              <Link href={'/collections'} >Collections</Link>
+              <Link href={'/products/men'} >Proudcts Men&apos;s</Link>
+              <Link href={'/products/women'} >Proudcts Women&apos;s</Link>
+
+            
+            </ul>
+          </div>
+
+          <div className='relative h-auto  '>
+            <h2 className='text-p20 font-medium mb-4 border-b pr-5  w-fit '>
+               About Company
+            </h2>
+            <ul className='flex items-start flex-col text-base justify-start gap-2'>
               <Link href={'/about-us'} >About us</Link>
               <Link href={'/blogs'} >Blogs</Link>
               <Link href={'/contact-us'} >Contact Us</Link>
-              <Link href={'/contact-us'} >Feedback</Link>
-
-              {/* <Link href={'/privacy-policy'} >Privacy and Policy</Link>
-              <Link href={'/shiping-policy'} >Shiping Policy</Link>
-              <Link href={'/return-policy'} >Return Policy</Link> */}
+              <Link href={'/feedback'} >Feedback</Link>
               <Link href={'/about-us'} >FAQ</Link>
 
             </ul>
@@ -85,10 +94,10 @@ function Footer() {
 
             </h2>
             <ul className='flex items-start flex-col  text-base justify-start gap-2'>
-              <Link href={'/gender/men'} >Men</Link>
-              <Link href={'/gender/women'} >Women</Link>
-              <Link href={'/gender/kids'} >Kids</Link>
-              <Link href={'/gender/trending'} >Gen Z</Link>
+              <Link href={'/collection/men'} >Men</Link>
+              <Link href={'/collection/women'} >Women</Link>
+              <Link href={'/collection/kids'} >Kids</Link>
+              <Link href={'/trending'} >Gen Z</Link>
               {/* <Link href={'/discount-deals'} >Discount Deals</Link> */}
             </ul>
           </div>
@@ -133,8 +142,9 @@ function Footer() {
 
 
 
-      <div className='container px-5   mx-auto h-auto relative  md:px-10  py-10 bg-secondary block sm:hidden   xl:px-20 '>
-        <Accordion type="single" collapsible className=' text-third hover:no-underline'>
+      <div className='container px-5   mx-auto h-auto relative  md:px-10  py-10 bg-secondary block sm:hidden   xl:px-20 '>\
+
+         <Accordion type="single" collapsible className=' text-third hover:no-underline'>
           <AccordionItem value="item-1" className="hover:no-underline">
             <AccordionTrigger className='hover:no-underline  text-primary'>Pages</AccordionTrigger>
             <AccordionContent >
@@ -146,12 +156,31 @@ function Footer() {
                   <Link href={'/'} className='text-primary'  >Home</Link>
                   <Link href={'/new-arrivals'} className='text-primary'  >New Arrived</Link>
                   <Link href={'/products'} className='text-primary'  >Proudcts</Link>
-                  <Link href={'/tranding'} className='text-primary' >Trnding</Link>
-                  <Link href={'/about-us'} className='text-primary' >About us</Link>
-                  <Link href={'/privacy-policy'} className=' text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Privacy & Policy</Link>
-                  <Link href={'/terms-condition'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Terms & Conditions</Link>
-                  <Link href={'/shipping-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Shipping & Return</Link>
-                  <Link href={'/claim-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Product Claim Policy </Link>
+                  <Link href={'/tranding'} className='text-primary' >Trending</Link>
+                  <Link href={'/collections/women'} className='text-primary' >Women&apos;s Collections</Link>
+                  <Link href={'/collections/men'} className='text-primary' >Men&apos;s Collections</Link>
+          
+                </ul>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+
+
+        <Accordion type="single" collapsible className=' text-third hover:no-underline'>
+          <AccordionItem value="item-1" className="hover:no-underline">
+            <AccordionTrigger className='hover:no-underline  text-primary'>About Company</AccordionTrigger>
+            <AccordionContent >
+              <div className='relative h-auto  '>
+
+                <hr className='mt-1  text-primary' />
+
+                <ul className='flex items-start mt-2 flex-col text-base justify-start gap-2 text-primary'>
+                         <Link href={'/about-us'} className='text-primary' >About us</Link>
+                  <Link href={'/privacy-policy'} className=' text-base lg:text-lg font-meidum text-primary cursor-pointer '>Privacy & Policy</Link>
+                  <Link href={'/terms-condition'} className='text-base lg:text-lg font-meidum text-primary cursor-pointer '>Terms & Conditions</Link>
+                  <Link href={'/shipping-policy'} className='text-base lg:text-lg font-meidum text-primary cursor-pointer '>Shipping & Return</Link>
+                  <Link href={'/claim-policy'} className='text-base lg:text-lg font-meidum text-primary cursor-pointer '>Product Claim Policy </Link>
                   <Link href={'/about-us'} className='text-primary' >FAQ</Link>
                 </ul>
               </div>

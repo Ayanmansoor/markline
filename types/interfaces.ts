@@ -47,6 +47,7 @@ export interface ProductsProps {
   sizes: Sizes[];
   slug: string;
   stock: number;
+  materials_used:string;
 }
 
 export interface CartProductsProps {

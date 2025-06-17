@@ -25,6 +25,9 @@ function Specification({ product }: ProductsDataProps) {
 
 
             <Accordion type="single" collapsible>
+
+               
+
                 <AccordionItem value="item-1">
                     <AccordionTrigger className='text-xl font-medium px-2'>Return Policy</AccordionTrigger>
                     <AccordionContent className="w-full relative h-auto px-2 flex flex-col text-base text-primary">
@@ -34,7 +37,7 @@ function Specification({ product }: ProductsDataProps) {
                 <AccordionItem value="item-2">
                     <AccordionTrigger className='text-xl font-medium px-2'>Shiping Policy</AccordionTrigger>
                     <AccordionContent className="w-full relative h-auto px-2   text-primary text-base">
-                        At Markline Fashion, we process and dispatch orders within 1–2 business days (excluding holidays). Delivery typically takes 3–4 business days if conditions are smooth; in case of delays, we’ll notify you promptly. Shipping is free on all orders up to ₹5000, while charges may apply beyond that based on the delivery location and method. We provide tracking details once your order is shipped, so you can stay updated. Please ensure your address is accurate to avoid delivery issues. For damaged items or returns, refer to our <Link href={'/return-policy'} className='text-primary font-semibold cursor-pointer'>Return Policy</Link> Return Policy, or reach out to us at <Link className='text-primary font-semibold cursor-pointer' href={'melto:shipping@marklinefashion.com'}></Link> shipping@marklinefashion.com for assistance.
+                        At Markline Fashion, we process and dispatch orders within 1–2 business days (excluding holidays). Delivery typically takes 3–4 business days if conditions are smooth; in case of delays, we’ll notify you promptly. Shipping is free on all orders up to ₹4,000, while charges may apply beyond that based on the delivery location and method. We provide tracking details once your order is shipped, so you can stay updated. Please ensure your address is accurate to avoid delivery issues. For damaged items or returns, refer to our <Link href={'/return-policy'} className='text-primary font-semibold cursor-pointer'>Return Policy</Link> Return Policy, or reach out to us at <Link className='text-primary font-semibold cursor-pointer' href={'melto:shipping@marklinefashion.com'}></Link> shipping@marklinefashion.com for assistance.
                     </AccordionContent>
                 </AccordionItem>
 
@@ -99,7 +102,7 @@ function Specification({ product }: ProductsDataProps) {
                             <li>Use foot powder or breathable socks for freshness.</li>
                         </ul>
 
-                        <h3 className=' text-xl md:text-2xl font-semibold text-primary'>🧴 Additional Tips</h3>
+                        <h3 className=' text-xl md:text-2xl font-semibold text-primary'>Additional Tips</h3>
                         <ul className='text-base md:text-lg font-medium text-primary'>
                             <li>Never machine wash unless product care tag allows.</li>
                             <li>Check soles and replace footwear as needed.</li>
@@ -109,6 +112,18 @@ function Specification({ product }: ProductsDataProps) {
                         <p><strong>Why Footwear Care Matters:</strong> Proper care extends shoe life, maintains style, and ensures foot health. Whether it’s women’s sandals, heels, kids’ sneakers, or men’s loafers – take care of your steps with Markline Fashion.</p>
                     </AccordionContent>
                 </AccordionItem>
+
+
+                {
+                    product?.materials_used &&
+                  <AccordionItem value="item-5">
+                    <AccordionTrigger className='text-xl font-medium px-2 capitalize'>Materials we Used</AccordionTrigger>
+                    <AccordionContent className="w-full relative h-auto px-2 flex flex-col text-base text-primary">
+                     <div dangerouslySetInnerHTML={{ __html: product?.materials_used }} />
+                    </AccordionContent>
+                </AccordionItem>
+                }
+
             </Accordion>
 
 
