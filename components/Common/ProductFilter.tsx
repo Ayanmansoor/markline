@@ -11,11 +11,10 @@ import Link from 'next/link'
 import { ProdcutFilterProps } from '@/types/interfaces'
 import { Slider } from '../ui/slider'
 
-function ProductFilter({ collection, productRangevalue, setPRoductRange }: ProdcutFilterProps) {
+function ProductFilter({ collection, productRangevalue, setPRoductRange ,gender }: ProdcutFilterProps) {
 
     function changeFilterRangeValue(newValue: any) {
         setPRoductRange(newValue)
-        console.log(newValue, "jldjf")
     }
 
     return (
@@ -34,7 +33,7 @@ function ProductFilter({ collection, productRangevalue, setPRoductRange }: Prodc
                                     </span>
                                 </AccordionTrigger><AccordionContent className="w-full relative h-auto py-2 text-base font-medium  px-4 flex flex-wrap gap-2 ">
                                         {collection?.map((item, index) => (
-                                            <Link href={`/collections/${item.slug}`} className='text-base font-medium text-black border border-black px-3 py-1' key={index}>{item.name}</Link>
+                                            <Link href={`/collections/${gender}/${item.slug}`} className='text-base font-medium text-black border border-black px-3 py-1' key={index}>{item.name}</Link>
                                         ))}
                                     </AccordionContent></>
                             )

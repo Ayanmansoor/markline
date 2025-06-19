@@ -18,6 +18,11 @@ const nextConfig = {
         hostname: "raw.githubusercontent.com",
         pathname: "/Ayan7949/image/refs/heads/main/images/**",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/demhgityh/image/upload/**",
+      },
     ],
   },
 };

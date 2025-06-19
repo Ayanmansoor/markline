@@ -60,13 +60,13 @@ function SheetCartForm({ setConfirm, setOrderID }: SheetCartFormProps) {
             return;
         }
         const options = {
-            key: "rzp_test_OesQsrJ6x4L4pD",
+            key:  process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
             amount: response.data.amount,
             currency: response.data.currency,
             name: "Markline Fashion",
             description: "Order description",
             order_id: response.data.id,
-            image: "/air-force.png",
+            image: "https://res.cloudinary.com/demhgityh/image/upload/v1750353291/markline-checkout-logo_ukrvoi.png",
             handler: (response) => orderSubmition(response, data),
             prefill: {
                 name: data.name,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Dialog,
     DialogContent,
@@ -28,14 +28,20 @@ function BuyDailog({ children, product }: BuyDailogProps) {
         username: ""
     })
 
+  const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    if (currentTab === "password") {
+      setOpen(false); 
+    }
+  }, [currentTab]);
 
 
 
 
     return (
         <>
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
                     {children}
                 </DialogTrigger>
@@ -52,14 +58,9 @@ function BuyDailog({ children, product }: BuyDailogProps) {
                             <AddressForm product={product} setConfirm={setcurrentTab} setOrderID={setOrderID} />
                         </TabsContent>
                         
-                        <TabsContent value="razorpay" className='w-full relative h-auto '>
+                        {/* <TabsContent value="razorpay" className='w-full relative h-auto '>
                             <PaymentOption orderID={orderId.orderID} email={orderId.email} username={orderId.username} />
-                        </TabsContent>
-
-
-                        <TabsContent value="password" className='w-full relative h-auto '>
-                            <PaymentOption orderID={orderId.orderID} email={orderId.email} username={orderId.username} />
-                        </TabsContent>
+                        </TabsContent> */}
 
 
                         <TabsList className="w-full relative h-auto px-2 mt-4 flex items-center bg-transparent justify-end gap-2 lg:gap-10">

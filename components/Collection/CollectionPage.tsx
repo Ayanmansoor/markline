@@ -125,7 +125,7 @@ function CategoryL2page() {
 
             <section className="w-full relative grid grid-cols-1 mt-5 md:mt-10 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.8fr_3fr] px-0  md:px-10   xl:px-20 ">
                 <span className=' hidden h-fit sticky top-20 lg:block'>
-                    <ProductFilter collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
+                    <ProductFilter gender={gslug} collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
                 </span>
 
                 <div className="w-full gap-5 pb-10 relative flex flex-col px-5 md:px-10 xl:px-10">
@@ -135,7 +135,7 @@ function CategoryL2page() {
                                 {` ${collection} `.split('-').join(' ')}  – Trendy & Comfortable Footwear for Every Step
                             </h1>
                             <p className=' text-sm md:text-base line-clamp-3 font-medium text-primary '>
-                                Step into style with our latest range of [Collection Name] at Markline Fashion. Our {` ${collection} `.split('-').join(' ')} are crafted to provide the perfect blend of fashion and comfort, ensuring you look and feel great all day long. Whether you&apos;re heading to a casual outing or a formal event, our [Collection Name] are designed to complement every occasion.
+                                Step into style with our latest range of {` ${collection} `.split('-').join(' ')}  at Markline Fashion. Our {` ${collection} `.split('-').join(' ')} are crafted to provide the perfect blend of fashion and comfort, ensuring you look and feel great all day long. Whether you&apos;re heading to a casual outing or a formal event, our {` ${collection} `.split('-').join(' ')}  are designed to complement every occasion.
                             </p>
 
                         </div>

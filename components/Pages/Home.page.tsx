@@ -30,8 +30,8 @@ const homebanners = [
     gender: ""
   },
   {
-    image_url: "/homebnaner.webp",
-    url: "/collections",
+    image_url: "/home-banner-for-collection.webp",
+    url: "/collections/women",
     id: 0,
     name: "",
     gender: ""

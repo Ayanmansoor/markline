@@ -100,7 +100,6 @@ function Productspage() {
     })
 
     useEffect(() => {
-        console.log(allproducts)
         if (productslug) {
             const filterproduct = allproducts?.filter((product: ProductsProps) => {
                 return product?.price <= productRangevalue && product.gender == productslug.toUpperCase()
@@ -137,7 +136,7 @@ function Productspage() {
                         </div>
                         :
                         <span className=' hidden sticky top-20  h-fit  lg:block'>
-                            <ProductFilter collection={productslug ? allcollection.filter((item) => item.gender == productslug.toUpperCase()) : allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
+                            <ProductFilter gender={productslug} collection={productslug ? allcollection.filter((item) => item.gender == productslug.toUpperCase()) : allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
                         </span>
 
                 }

@@ -7,6 +7,7 @@ import { submitOrders } from '@/Supabase/acceptOrderForm'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import LoadRazorpay from '@/utils/loadrazorpay'
 
+
 // import emailjs from "emailjs-com"
 // const envrecaptchaKey = import.meta.env.VITE_GOOGLE_SITE_KEY
 
@@ -52,7 +53,6 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
     const [isLoading, setIsLoading] = useState(false);
 
     async function onSubmit(data: FormInputs) {
-
         const final_price = Math.floor(
             product?.price - (product?.price * (product?.discounts?.discount_persent || 0) / 100)
         );
@@ -71,14 +71,14 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
         }
 
         const options = {
-            key: "rzp_test_OesQsrJ6x4L4pD",
+            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
             amount: response.data.amount,
             one_click_checkout: true,
             currency: response.data.currency,
             name: "Markline Fashion",
             description: "Order description",
             order_id: response.data.id,
-            image: "/air-force.png",
+            image: "https://res.cloudinary.com/demhgityh/image/upload/v1750353291/markline-checkout-logo_ukrvoi.png",
             handler: (response) => orderSubmition(response, data),
             prefill: {
                 name: data.name,
@@ -95,6 +95,8 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
 
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
+        setConfirm("password");
+
         setIsLoading(false);
     }
 
@@ -129,7 +131,7 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
 
             const responses = await submitOrders(orders)
 
-            console.log(responses, 'response from from submition on supabase')
+            // console.log(responses, 'response from from submition on supabase')
 
 
             const orderIDs: string[] = [];
@@ -151,7 +153,6 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
                     email: fromdata.email,
                     username: fromdata.name
                 });
-                setConfirm("password");
 
 
 

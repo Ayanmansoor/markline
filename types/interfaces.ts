@@ -208,6 +208,7 @@ export interface newCollectionCardProps {
 export interface ProdcutFilterProps {
   collection: CollectionCardProps[];
   children?: React.ReactNode;
+  gender?:string,
   productRangevalue: number;
   setPRoductRange: React.Dispatch<React.SetStateAction<number>>;
 }

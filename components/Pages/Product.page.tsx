@@ -69,7 +69,7 @@ function ProductPage() {
   return (
     <>
 
-      <section className=' relative bg-secondary h-[700px]  pb-4 mt-1 '>
+      <section className=' relative bg-secondary min-h-[700px]  pb-4 mt-1 '>
 
         {
           isLoading ?
