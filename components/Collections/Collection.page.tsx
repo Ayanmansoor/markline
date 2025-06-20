@@ -65,7 +65,7 @@ function CollcetionPage() {
       }
 
 
-      {collections?.length ? <CategoriesSection title={"Our Collection of Elegents"} url={''} >
+      {collections?.length ? <CategoriesSection title={"Women's Footwear Collections – Sandals, Flats, Heels & More"} subtitle='Discover elegant sandals, comfy flats, chic heels & stylish mules' url={''} >
         <Collectionsection collections={collections.filter((item) => item.gender == 'WOMEN')} url={'collections/women'} />
       </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
 
@@ -92,7 +92,7 @@ function CollcetionPage() {
 
       {
 
-        products?.length > 0 ? <CategoriesSection title={"Best Deals On All Products"} url={''} >
+        products?.length > 0 ? <CategoriesSection title={"Shop Women's Favorites"} subtitle='Uncover standout styles handpicked for women—elegant, comfortable, and always in fashion.' url={''} >
           <GridRroduct data={products.filter((product) => product.gender == 'WOMEN')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' />
         </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
 
@@ -123,7 +123,7 @@ function CollcetionPage() {
           <Image src="/kids-collection.jpg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
           <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
             <span className='w-fit relative h-auto flex flex-col items-center gap-2'>
-              <h2 className=' text-base sm:text-xl md:text-xl lg:text-[40px] font-medium text-white'>WOMEN&apos;S</h2>
+              <h2 className=' text-base sm:text-xl md:text-xl lg:text-[40px] font-medium text-white'>KID&apos;S</h2>
               <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-center font-medium text-white'></p>
             </span>
           </div>
@@ -131,13 +131,13 @@ function CollcetionPage() {
       </section>
 
 
-      {collections?.length ? <CategoriesSection title={"Our Collection of Elegents"} url={''} >
+      {collections?.length ? <CategoriesSection title={"Crafted for the Modern Gentleman"} subtitle='Discover Markline’s timeless collection of men’s footwear — combining style, comfort, and unmatched craftsmanship for every occasion.' url={''} >
         <Collectionsection collections={collections.filter((item) => item.gender == 'MEN')} url={'collections/men'} />
       </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
 
       </div>}
       {
-        products?.length > 0 ? <CategoriesSection title={"Best Deals On All Products"} url={''} >
+        products?.length > 0 ? <CategoriesSection title={"Finely Crafted Footwear for the Modern Gentleman"} url={''} subtitle="Explore our premium selection of men's shoes—from polished oxfords and sleek loafers to rugged boots and smart sneakers—designed to elevate every step with timeless sophistication." >
           <GridRroduct data={products.filter((product) => product.gender == 'MEN')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' />
         </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
         </div>
@@ -145,13 +145,13 @@ function CollcetionPage() {
 
 
 
-      {collections?.filter((item) => item.gender == 'KIDS')?.length ? <CategoriesSection title={"Our Collection of Elegents"} url={''} >
+      {collections?.filter((item) => item.gender == 'KIDS')?.length ? <CategoriesSection title={"Kids Footwear Collection for Comfort & Style"} subtitle='From playful sneakers and durable school shoes to cute sandals and fun slip-ons, Markline’s kids collection blends comfort and vibrant design, trusted by parents for every big and small step.' url={''} >
         <Collectionsection collections={collections.filter((item) => item.gender == 'KIDS')} url={'collections'} />
       </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
 
       </div>}
       {
-        products?.filter((product) => product.gender == 'KIDS')?.length > 0 ? <CategoriesSection title={"Best Deals On All Products"} url={''} >
+        products?.filter((product) => product.gender == 'KIDS')?.length > 0 ? <CategoriesSection title={"Kids’ Footwear Collection for Play, Comfort & Growth"} subtitle='Explore durable sneakers, school shoes, sandals, and slip-ons designed for active kids—each pair offering breathable support, flexible soles, and fun designs that parents trust.' url={''} >
           <GridRroduct data={products.filter((product) => product.gender == 'KIDS')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' />
         </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
         </div>
@@ -166,7 +166,7 @@ function CollcetionPage() {
       }
 
 
-      <Discount />
+      <Discount title='Spotlight on Style' description='Step into the spotlight with Markline’s curated highlights—handpicked just for you. From sleek sandals and elegant flats to chic heels and playful toe-rings, our featured collection combines comfort, design, and everyday flair. Shop standout styles that elevate every outfit with effortless grace.' url='/' />
 
       {
         newArrivals &&

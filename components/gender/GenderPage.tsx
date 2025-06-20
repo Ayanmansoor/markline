@@ -67,7 +67,7 @@ function GenderPage() {
             {
 
                 genderCollection?.length > 0 ?
-                    <CategoriesSection title={"Women's Collection"} url="collections" urltext='collections'> 
+                    <CategoriesSection title={` ${nslug} Footwear Collection, Style, Comfort & Quality`} subtitle={`Explore our curated ${nslug} footwear .`} isH1={true} url="collections" urltext='collections'> 
                         <Collectionsection collections={genderCollection} url={`collections/${gender}`} />
                     </CategoriesSection>
                     :
@@ -81,7 +81,7 @@ function GenderPage() {
 
             {
                 products?.length > 0 ?
-                    <CategoriesSection title={"Shop for Women's Collection Online"} url="products"  urltext="Men's products">
+                    <CategoriesSection title={`${nslug} Footwear Collection for Comfort and Style`} subtitle={`Browse our curated ${nslug} shoes .`} url="products"  urltext="Men's products">
                         <GridRroduct data={products?.slice(0, 10)} url={'product'}  css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' />
                     </CategoriesSection>
                     :
@@ -93,40 +93,41 @@ function GenderPage() {
                     </div>
             }
 
-            <Discount />
+            <Discount title={`Spotlight ${nslug} Footwear: Featured Styles You'll Love`} description={`Explore our top picks from the ${nslug} collection—curated for quality, comfort, and on‑trend appeal. Whether it's chic sandals, cozy sneakers, or elegant dress shoes, these standout styles are designed to elevate your everyday wardrobe.`} url='' />
             <section className='w-full relative flex flex-col gap-5 container px-5 md:px-10 lg:px-20  pb-10'>
                 <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
 
                 <div className='w-full relative h-auto flex flex-col gap-4'>
                     <p className='text-base font-medium text-primary'>Shop Shoes By Gender</p>
                     <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
-                        <Link href={'/gender/men'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Men Shoes</Link>
-                        <Link href={'/gender/women'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Women Shoes</Link>
-                        <Link href={'/gender/kids'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Kids Shoes</Link>
-                        <Link href={'/gender/girls'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Grils Shoes</Link>
+                        <Link href={'/collections/men'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Men Shoes</Link>
+                        <Link href={'/collections/women'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Women Shoes</Link>
+                        <Link href={'/collections/kids'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Kids Shoes</Link>
+                        <Link href={'/collections/girls'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Grils Shoes</Link>
                     </div>
                 </div>
                 <div className='w-full relative h-auto flex flex-col gap-4'>
                     <p className='text-base font-medium text-primary'>Shop By Shoe Type</p>
                     <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
-                        <Link href='/collections/wedding-specials' className='text-sm font-medium text-orange-600 border-r border-l text-primary  px-3 border-primary'>Wedding Specials</Link>
-                        <Link href={"/collections/sandals"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Sandals</Link>
-                        <Link href={'/collections/flats'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Flats</Link>
-                        <Link href={"/collections/thongs"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Thongs</Link>
-                        <Link href={"/collections/ballerinas"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Ballerinas</Link>
-                        <Link href={"/collections/mules"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Mules</Link>
+                        {
+                            genderCollection &&
+                            genderCollection.map((item,index)=>(
+                        <Link href={`/collections/${item.gender}/${item.slug}`} className='text-sm font-medium text-orange-600 border-r border-l text-primary  px-3 border-primary' key={index}>{item.name}</Link>
+                            ))
+                        }
+                        
                     </div>
                 </div>
 
                 <div className='w-full relative h-auto flex flex-col gap-2'>
                     <p className='text-base font-medium text-primary'>Shop By Women Shoe Type</p>
                     <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
-                        <Link href='/collections/wedding-specials' className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Wedding Specials</Link>
-                        <Link href={"/collections/sandals"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Sandals</Link>
-                        <Link href={'/collections/flats'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Flats</Link>
-                        <Link href={"/collections/thongs"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Thongs</Link>
-                        <Link href={"/collections/ballerinas"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Ballerinas</Link>
-                        <Link href={"/collections/mules"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Mule</Link>
+                        <Link href='/collections/women/wedding-specials' className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Wedding Specials</Link>
+                        <Link href={"/collections/women/sandals"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Sandals</Link>
+                        <Link href={'/collections/women/flats'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Flats</Link>
+                        <Link href={"/collections/women/thongs"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Thongs</Link>
+                        <Link href={"/collections/women/ballerinas"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Ballerinas</Link>
+                        <Link href={"/collections/women/mules"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Mule</Link>
                     </div>
                 </div>
 

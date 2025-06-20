@@ -129,7 +129,7 @@ function ProductCard({ product, url }: ProductsDataProps) {
           <button className='w-full hover:bg-primary hover:text-white relative h-full py-2.5 flex items-center justify-center text-base  font-medium text-black   border-r border-gray-300'>Add to Cart</button>
         </AddToCardPopver>
 
-        <button className='flex items-center justify-center px-2.5     ' onClick={() => addTowishlistproduct(Stringifycolor, StringifySize)} >
+        <button className='flex items-center justify-center px-2.5' onClick={() => addTowishlistproduct(Stringifycolor, StringifySize)} >
           <FaHeart className={`text-[20px] flex items-center  text-black justify-center cursor-pointer hover:text-red-500  ${ (isInWhishlist || product.image_urls) && "text-red-500" }  `} />
         </button>
 

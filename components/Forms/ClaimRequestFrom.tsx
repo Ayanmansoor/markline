@@ -1,10 +1,12 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
 import { useForm } from 'react-hook-form'
+import axios from 'axios'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 
 const claimRequestFromschema=z.object({
@@ -19,8 +21,10 @@ const claimRequestFromschema=z.object({
 type claimRequestschema=z.infer<typeof claimRequestFromschema>
 
 function ClaimRequestFrom() {
+  const [submitting,setSubmitting]=useState(false)
+  const {executeRecaptcha}=useGoogleReCaptcha()
 
-    const {register,reset,formState:{errors},watch}= useForm(
+    const {register,handleSubmit,reset,formState:{errors},watch}= useForm(
             {
                 resolver: zodResolver(claimRequestFromschema)
             }
@@ -28,11 +32,22 @@ function ClaimRequestFrom() {
 
 
     async function onSubmit(data:claimRequestschema) {
-        try{
-
+      if(!executeRecaptcha)  {
+        return;
+      }
+      
+      try{
+          const token=await executeRecaptcha()
+          setSubmitting(true)
+          const response=await axios.post('/api/claimproduct',{
+              token,
+              ...data
+            })
+            setSubmitting(false)
+          console.log(response,'dfsdljf')
         }
         catch(error){
-
+          console.log(error,'dsflksdjf')
         }
     }
     
@@ -40,7 +55,7 @@ function ClaimRequestFrom() {
   return (
      <div className="max-w-3xl mx-auto px-4 py-10 bg-white border ">
       <h2 className="text-2xl font-bold mb-6">Submit a Product Claim</h2>
-      <form  className="space-y-6">
+      <form  className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label className="block font-medium mb-1">Name *</label>
           <input
@@ -118,7 +133,9 @@ function ClaimRequestFrom() {
           type="submit"
           className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition"
         >
-          Submit Claim
+          {
+            submitting ? "Submitting..." :"Submit Claim"
+          }
         </button>
 
       </form>

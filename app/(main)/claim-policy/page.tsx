@@ -87,13 +87,15 @@ function page() {
       <p className=" text-primary mt-6 text-lg font-semibold">
         Markline Fashion reserves the right to modify or update this policy at any time without prior notice.
       </p>
-    </section></>
+    </section>
+    
+<ClaimRequestFrom /> 
+
+    </>
   )
 }
-{/* <ClaimRequestFrom /> */}
 export default page
 
 
-// app/(policies)/product-claim-policy/page.tsx or wherever your routes are defined
 
 

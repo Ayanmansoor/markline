@@ -34,7 +34,7 @@ function Footer() {
     if (!executeRecaptcha) {
       return null;
     }
-    const token = executeRecaptcha()
+    const token = await executeRecaptcha()
     const reponse = await axios.post("/api/subcribe", {
       email: email,
       token: token

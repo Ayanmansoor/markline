@@ -15,8 +15,10 @@ function MegaManu({ children }: { children: React.ReactNode }) {
     const { data: collections = [], isLoading: collectionloading, isError: collectionerror } = useQuery({
         queryKey: ["megamanucollections"],
         queryFn: getAllCollections,
-        staleTime: 10 * 60 * 1000, // Data remains fresh for 10 minutes
-        cacheTime: 15 * 60 * 1000, // Data stays in cache for 15 minutes
+       staleTime: Infinity,        
+        refetchOnMount: false,      
+        refetchOnWindowFocus: false, 
+        refetchOnReconnect: false, 
     });
 
     useEffect(() => {
@@ -30,8 +32,8 @@ function MegaManu({ children }: { children: React.ReactNode }) {
         enabled: !!slug,
         queryFn: () => getProductBaseOnCollection(slug),
         staleTime: Infinity,        
-        refetchOnMount: false,      // don't refetch when remounting
-        refetchOnWindowFocus: false, // don't refetch when window gains focus
+        refetchOnMount: false,     
+        refetchOnWindowFocus: false, 
         refetchOnReconnect: false, 
     });
 
@@ -67,7 +69,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                                     <ul className="mt-3 w-full realtive h-[300px] flex flex-col gap-1  overflow-hidden overflow-y-auto ">
                                         {
                                             Array.isArray(collections) && collections?.map((item, index) => (
-                                                <Link href={`/collections/${item?.slug}`} className={`text-sm  capitalize font-medium hover:bg-gray-100  cursor-pointer  py-1 px-2 flex items-center gap-1 ${item.slug == slug ? "bg-gray-200" : "bg-transparent"} `} onMouseEnter={() => setslug(item?.slug)} key={index} >
+                                                <Link href={`/collections/${`${item.gender}`.toLowerCase()}/${item?.slug}`} className={`text-sm  capitalize font-medium hover:bg-gray-100  cursor-pointer  py-1 px-2 flex items-center gap-1 ${item.slug == slug ? "bg-gray-200" : "bg-transparent"} `} onMouseEnter={() => setslug(item?.slug)} key={index} >
                                                     {item.name}
                                                 </Link>
                                             ))

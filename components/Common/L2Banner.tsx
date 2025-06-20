@@ -10,15 +10,16 @@ import 'swiper/css/pagination';
 
 
 // import required modules
-import { Autoplay, Pagination } from 'swiper/modules';
+import { Autoplay, EffectFade, Pagination } from 'swiper/modules';
 import { L2DataProps } from '@/types/interfaces';
 
 function L2Banner({ data }: L2DataProps) {
     return (
         <section className='w-full relative h-[400px] bg-black mb-10  '>
             <Swiper pagination={true}
-                modules={[ Autoplay]}
+                 modules={[Pagination, Autoplay,EffectFade]}
                 loop={true}
+                 effect={'fade'}
                 autoplay={{
                     delay: 5000,
                     disableOnInteraction: false,

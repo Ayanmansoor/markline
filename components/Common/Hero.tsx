@@ -26,7 +26,7 @@ function  Hero({ bannerImages, css }: HeroData) {
                     effect={'fade'}
 
                     autoplay={{
-                        delay: 7000,
+                        delay: 2000,
                         disableOnInteraction: false,
                     }} className="mySwiper h-full w-full relative bg-secondary ">
                     {bannerImages?.map((images, index) => (

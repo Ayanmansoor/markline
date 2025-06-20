@@ -49,14 +49,27 @@ import { mergeMetadata } from '@/app/layout';
 
 
 
+import { Metadata } from "next";
 
-export async function generateMetadata({ params }) {
-  const slug = params.slug;
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const { slug } = await params;
+
+  // Map slug to a normalized label
+  const label =
+    slug === "men" ? "Men’s" :
+    slug === "women" ? "Women’s" :
+    slug === "kids" ? "Kids’" :
+    slug;
+
+  const title = `${label} Footwear Collection for Comfort and Style | Markline Fashion`;
+  const description = `Browse Markline's ${label.toLowerCase()} footwear—from sleek sneakers and seasonal sandals to formal wear and casual essentials—crafted with quality, comfort, and everyday style.`;
+  const url = `https://marklinefashion.com/products/${slug}`;
 
   return mergeMetadata({
-    title: "Footwear for Men, Women & Kids – Shop Stylish Shoes Online in India | Markline Fashion",
-    description:
-      "Explore the latest in men’s, kids’, and women’s footwear online in India. Shop trendy casuals, formals, wedding shoes & more at Markline Fashion.",
+    title,
+    description,
     robots: {
       index: true,
       follow: true,
@@ -65,17 +78,17 @@ export async function generateMetadata({ params }) {
       "max-video-preview": -1,
     },
     openGraph: {
-      title: "Footwear for Men, Women & Kids – Shop Stylish Shoes Online in India | Markline Fashion",
-      description:
-        "Explore the latest in men’s, kids’, and women’s footwear online in India. Shop trendy casuals, formals, wedding shoes & more at Markline Fashion.",
+      title,
+      description,
       type: "website",
-      url: `https://marklinefashion.vercel.app/products/${slug}`,
+      url,
     },
     alternates: {
-      canonical: `https://marklinefashion.vercel.app/products/${slug}`,
+      canonical: url,
     },
   });
 }
+
 
 
 function page() {

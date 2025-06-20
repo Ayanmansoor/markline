@@ -124,7 +124,9 @@ export interface CategoriesSectionProps {
   children: React.ReactNode;
   title: string;
   url: string;
+  subtitle?:string,
   urltext?:string
+  isH1?:boolean
 }
 
 export interface HeroProps {
@@ -279,4 +281,13 @@ export interface L2Bannerprop {
 
 export interface L2DataProps{
   data:L2Bannerprop[]
+}
+
+
+// 
+export interface SpotlightInterfce{
+  title?:string,
+  description?:string,
+  url?:string,
+  images?:string[]
 }

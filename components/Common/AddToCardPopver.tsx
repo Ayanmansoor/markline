@@ -24,6 +24,7 @@ interface productsCart {
 
 
 function AddToCardPopver({ children, currentProduct, colors, sizes, addToWhishlistCB }: AddToCardPopverProps) {
+    const [isProductsExist,setProductExist]=useState(true)
     const [productcart, setProductcart] = useState<productsCart>({
         colors: {
             color:
@@ -37,26 +38,8 @@ function AddToCardPopver({ children, currentProduct, colors, sizes, addToWhishli
             quentity: 1
         }
     })
-    const { addToCart, getCartProduct } = useCart();
+    const { addToCart, getCartProduct,isInCart } = useCart();
 
-    // useEffect(() => {
-    //     // clearCart()
-    //     const data = getCartProduct(currentProduct.id)
-    //     setProductcart(
-    //         (prev: any) => ({
-    //             ...prev,
-    //             colors: {
-    //                 ...prev?.colors,
-    //                 color: data?.color
-    //             },
-    //             sizes: {
-    //                 ...prev?.sizes,
-    //                 size: data?.size
-    //             }
-    //         })
-    //     )
-
-    // }, [currentProduct.id, getCartProduct])
 
     useEffect(() => {
 
@@ -86,7 +69,11 @@ function AddToCardPopver({ children, currentProduct, colors, sizes, addToWhishli
 
     }, [currentProduct]);
 
+    useEffect(()=>{
+          const isExist=isInCart(currentProduct.id ,productcart.colors.color,productcart.sizes.size)
+          setProductExist(isExist)
 
+    },[productcart])
 
 
 
@@ -106,7 +93,6 @@ function AddToCardPopver({ children, currentProduct, colors, sizes, addToWhishli
                 name: currentProduct.name
             }
         })
-        console.log("cart saved ",)
     }
 
     return (
@@ -182,10 +168,12 @@ function AddToCardPopver({ children, currentProduct, colors, sizes, addToWhishli
                             <option value="5">5</option>
                         </select>
                     </div>
-                    <button className='py-2 text-sm bg-primary text-white flex items-center justify-center '
+                    <button className='py-2 text-sm hover:bg-white hover:text-primary hover:border-primary border border-transparent  bg-primary text-white flex items-center justify-center '
                         onClick={handleStateChange}
 
-                    >Add To Cart</button>
+                    >
+                        {isProductsExist? "Added":"Add To Cart"} 
+                    </button>
 
                 </section>
             </PopoverContent>

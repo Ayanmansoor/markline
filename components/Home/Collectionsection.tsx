@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/scrollbar';
 import { CollectionCardProps, CollectionsDataProps } from '@/types/interfaces'
-import { Pagination, Scrollbar } from 'swiper/modules';
+import { Autoplay, Pagination, Scrollbar } from 'swiper/modules';
 import CollectionCard from './CollectionCard';
 
 function Collectionsection({ url, collections }: CollectionsDataProps) {
@@ -12,6 +12,12 @@ function Collectionsection({ url, collections }: CollectionsDataProps) {
         <Swiper
             slidesPerView={"auto"}
             direction={"horizontal"}
+            speed={3000}
+            loop={true}
+            autoplay={{
+             delay: 1000,
+            }}
+            modules={[Autoplay]}
             breakpoints={{
                 200: {
                     slidesPerView: 1.5,

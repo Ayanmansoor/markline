@@ -106,7 +106,7 @@ function HomePage() {
 
 
       <section className='w-full relative bg-secondary  '>
-        <h1 className='text-h1 font-medium container     px-2  md:px-10   xl:px-20  mx-auto pt-10 bg-secondary uppercase'>Find the Perfect Fit – For Him, Her & Kids </h1>
+        <h1 className='text-h1 font-medium container     px-2  md:px-10   xl:px-20  mx-auto pt-10 bg-secondary uppercase'>Find the Perfect Fit Footwear for Men, Women & Kids</h1>
       </section>
 
       <MainCollections />
@@ -114,7 +114,7 @@ function HomePage() {
       {
 
         currentproducts?.length > 0 ?
-          <CategoriesSection title={"Women's footwear collections"} url="collections" urltext='collections'>
+          <CategoriesSection title={"Women's Footwear Collections – Sandals, Flats, Heels & More"} subtitle='' url="collections" urltext='collections'>
             <Collectionsection collections={collections.filter((item) => item.gender == 'WOMEN')} url={'collections/women'} />
           </CategoriesSection>
           :
@@ -129,7 +129,7 @@ function HomePage() {
       {
 
         currentproducts?.length > 0 ?
-          <CategoriesSection title={"Markline Women’s Footwear "} url="products/women" urltext="Women's products">
+          <CategoriesSection title={" Women’s Footwear – Stylish, Comfortable & On-Trend"} subtitle='Elegant Sandals • Chic Heels • Everyday Flats' url="products/women" urltext="Women's products">
             <GridRroduct data={currentproducts?.slice(0, 10).filter((item) => item.gender == 'WOMEN')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' />
           </CategoriesSection>
           :
@@ -143,7 +143,7 @@ function HomePage() {
 
       {
         currentproducts?.length > 0 ?
-          <CategoriesSection title={"Markline Men’s Footwear"} url="products/men" urltext="Men's products">
+          <CategoriesSection title={" Men’s Footwear – Stylish, Comfortable & Durable"} subtitle='Sneakers • Loafers • Formal & Casual Shoes for Men' url="products/men" urltext="Men's products">
             <GridRroduct data={currentproducts?.slice(0, 10).filter((item) => item.gender == 'MEN')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' />
           </CategoriesSection>
           :
@@ -158,7 +158,7 @@ function HomePage() {
 
       {
         currentproducts?.slice(0, 10).filter((item) => item.gender == 'KIDS').length > 0 &&
-        <CategoriesSection title={"Markline Kids – Comfort Meets Style"} url="products/kids" urltext="kid's products">
+        <CategoriesSection title={" Kids – Comfort Meets Style"} url="products/kids" urltext="kid's products">
           <GridRroduct data={currentproducts?.slice(0, 10).filter((item) => item.gender == 'KIDS')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' />
         </CategoriesSection>
       }
@@ -206,7 +206,7 @@ function HomePage() {
       }
 
 
-      <Discount />
+      <Discount title={' Step into the Season'} description={'From chic everyday picks to head-turning highlights, explore MarkLine’s most eye-catching footwear. Curated for bold fashion lovers, this section showcases the must-have designs that steal attention and define trends.'} url={'/products/women'} images={[]} />
       {/* 
       <section className='w-full relative h-auto flex '>
 

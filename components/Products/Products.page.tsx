@@ -36,7 +36,7 @@ import { HiMiniAdjustmentsHorizontal } from "react-icons/hi2";
 
 const data = [
     {
-        title: "Shop Women’s Formal Shoes, Heels & Sandals  Markline Luxury Footwear",
+        title: "Shop Women’s Formal Shoes, Heels & Sandals  Markline  Footwear",
         discription: "Discover Markline’s women’s formal shoes collection featuring elegant heels, sophisticated sandals & stylish workwear footwear. Shop premium leather designs crafted for timeless comfort and free shipping across India.",
         slug: "women"
     },
@@ -232,10 +232,9 @@ function Productspage() {
                 <div className='w-full relative h-auto flex flex-col gap-4'>
                     <p className='text-base font-medium text-primary'>Shop Shoes By Gender</p>
                     <div className='w-full flex flex-wrap items-center gap-2'>
-                        <Link href='/collections/MEN' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Men Shoes</Link>
-                        <Link href='/collections/WOMEN' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Shoes</Link>
-                        <Link href='/collections/KIDS' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Kids Shoes</Link>
-                        <Link href='/collections/GIRLS' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Girls Shoes</Link>
+                        <Link href='/collections/men' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Men Shoes</Link>
+                        <Link href='/collections/women' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Shoes</Link>
+                        <Link href='/collections/kids' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Kids Shoes</Link>
                     </div>
                 </div>
 
@@ -243,25 +242,26 @@ function Productspage() {
                 <div className='w-full relative h-auto flex flex-col gap-4'>
                     <p className='text-base font-medium text-primary'>Shop By Shoe Type</p>
                     <div className='w-full flex flex-wrap items-center gap-2'>
-                        <Link href='/collections/wedding-specials' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Wedding Specials</Link>
-                        <Link href='/collections/sandals' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Sandals</Link>
-                        <Link href='/collections/flats' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Flats</Link>
-                        <Link href='/collections/thongs' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Thongs</Link>
-                        <Link href='/collections/ballerinas' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Ballerinas</Link>
-                        <Link href='/collections/mules' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Mules</Link>
+                        {
+                          allcollection.map((item,index)=>(
+                            item.gender==`${productslug}`.toUpperCase() &&
+                            <Link href={`/collections/${`${item.gender}`.toLowerCase()}/${item.slug}`} className='text-sm font-medium text-orange-600 border-x px-3 border-primary' key={index}>{item.name}</Link>
+                          ))  
+                        }
+                       
                     </div>
                 </div>
 
                 {/* Women-Specific Types */}
                 <div className='w-full relative h-auto flex flex-col gap-4'>
-                    <p className='text-base font-medium text-primary'>Shop By Women Shoe Type</p>
+                    <p className='text-base font-medium text-primary capitalize'>Shop By {productslug} Shoe Type</p>
                     <div className='w-full flex flex-wrap items-center gap-2'>
-                        <Link href='/collections/wedding-specials' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Wedding Specials</Link>
-                        <Link href='/collections/sandals' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Sandals</Link>
-                        <Link href='/collections/flats' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Flats</Link>
-                        <Link href='/collections/thongs' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Thongs</Link>
-                        <Link href='/collections/ballerinas' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Ballerinas</Link>
-                        <Link href='/collections/mules' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Mules</Link>
+                        {
+                          allcollection.map((item,index)=>(
+                            item.gender==`${productslug}`.toUpperCase() &&
+                            <Link href={`/collections/${`${item.gender}`.toLowerCase()}/${item.slug}`} className='text-sm font-medium text-orange-600 border-x px-3 border-primary' key={index}>{item.name}</Link>
+                          ))  
+                        }
                     </div>
                 </div>
 
@@ -320,7 +320,7 @@ function Productspage() {
                 </div>
             </section>
 
-            <Discount />
+
 
 
 

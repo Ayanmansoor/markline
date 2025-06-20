@@ -79,7 +79,7 @@ function NewArrival() {
             </section>
 
 
-            <Discount />
+            <Discount title='Spotlight on New Arrivals' description='Stay ahead with our latest footwear collections. Explore fresh drops—from chic women’s heels and comfy casuals to stylish men’s sneakers and fun kids’ sandals—handpicked to redefine your everyday style.' url='/' />
         </>
     )
 }

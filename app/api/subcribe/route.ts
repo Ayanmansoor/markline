@@ -4,6 +4,7 @@ import { mysupabase } from "@/Supabase/SupabaseConfig";
 
 export async function POST(req: NextRequest) {
   const { email, token } = await req.json();
+        console.log(token,email)
 
   if (!email && !token) {
     return NextResponse.json({ error: "" });
