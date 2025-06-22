@@ -28,9 +28,9 @@ function NewArrival() {
     return (
         <>
 
-            <section className='w-full relative h-auto flex items-start bg-black  '>
+            {/* <section className='w-full relative h-auto flex items-start bg-black  '>
                 <video src="/" className='w-full relative h-[250px] md:h-[350px] lg:h-[500px] '></video>
-            </section>
+            </section> */}
 
             <section className='container sm:h-[400px]   relative flex flex-col-reverse sm:grid py-5  lg:py-10 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-1 px-3 md:px-10   xl:px-20'>
                 <div className='w-full relative h-full '>
@@ -79,7 +79,7 @@ function NewArrival() {
             </section>
 
 
-            <Discount title='Spotlight on New Arrivals' description='Stay ahead with our latest footwear collections. Explore fresh drops—from chic women’s heels and comfy casuals to stylish men’s sneakers and fun kids’ sandals—handpicked to redefine your everyday style.' url='/' />
+            <Discount title='Spotlight on New Arrivals' description='Stay ahead with our latest footwear collections. Explore fresh drops—from chic women’s heels and comfy casuals to stylish men’s sneakers and fun kids’ sandals—handpicked to redefine your everyday style.' url='/' images={[]} />
         </>
     )
 }

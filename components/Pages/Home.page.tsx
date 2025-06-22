@@ -23,8 +23,8 @@ import { CollectionCardProps, ProductsProps } from '@/types/interfaces'
 
 const homebanners = [
   {
-    image_url: "/homebanner2.webp",
-    url: "/products",
+    image_url: "/banner-ballerina-with-oxford-shoe.png",
+    url: "collections/women/ballerinas",
     id: 0,
     name: "",
     gender: ""

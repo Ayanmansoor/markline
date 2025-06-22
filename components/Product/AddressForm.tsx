@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useRef, useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -6,6 +7,7 @@ import axios from 'axios'
 import { submitOrders } from '@/Supabase/acceptOrderForm'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import LoadRazorpay from '@/utils/loadrazorpay'
+import { mysupabase } from '@/Supabase/SupabaseConfig'
 
 
 // import emailjs from "emailjs-com"
@@ -33,7 +35,7 @@ const addressFromSchema = z.object({
     city: z.string().min(2, "City name is required"),
     full_address: z.string().min(5, "Address must be at required"),
 })
-import { AddressFromProps } from '@/types/interfaces'
+import { AddressFromProps, userinterfce } from '@/types/interfaces'
 
 type FormInputs = z.infer<typeof addressFromSchema>;
 
@@ -42,6 +44,25 @@ type FormInputs = z.infer<typeof addressFromSchema>;
 
 function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
     const { executeRecaptcha } = useGoogleReCaptcha()
+
+    const [currentuser, setUser] = useState<userinterfce >();
+    
+    
+  useEffect(() => {
+    async function getSupabaseUser() {
+      const {
+          data: { user },
+          error,
+      } = await mysupabase.auth.getUser();
+
+      if (user) {
+        setUser(user);
+      }
+    }
+    getSupabaseUser()
+  }, [])
+
+    
 
     const { register, watch, handleSubmit, reset, formState: {
         errors
@@ -60,9 +81,6 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
         const response = await axios.post('/api/create-order', {
             amount: final_price * 100,
         });
-
-        
-
 
         const res = await LoadRazorpay();
         if (!res) {
@@ -124,6 +142,7 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
                     razorpay_payment_id: response.razorpay_payment_id,
                     razorpay_order_id: response.razorpay_order_id,
                     razorpay_signature: response.razorpay_signature,
+                    user_id:currentuser?.id,
                     recaptchaToken
                 }
             ];
@@ -179,6 +198,8 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
         }
         catch (error) { }
     }
+
+    
 
 
     // async function onSubmit(data: FormInputs) {

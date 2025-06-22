@@ -29,8 +29,8 @@ function ProductPage() {
     queryFn: () => getProductData(productslug),
     enabled: !!productslug,
     staleTime: Infinity,
-    refetchOnMount: false,      // don't refetch when remounting
-    refetchOnWindowFocus: false, // don't refetch when window gains focus
+    refetchOnMount: false,     
+    refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
 
@@ -44,8 +44,8 @@ function ProductPage() {
     queryFn: () => getRelatedProducts(product, productslug),
     enabled: !!product && !!productslug,
     staleTime: Infinity,
-    refetchOnMount: false,      // don't refetch when remounting
-    refetchOnWindowFocus: false, // don't refetch when window gains focus
+    refetchOnMount: false,     
+    refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
 

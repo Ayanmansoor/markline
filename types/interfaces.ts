@@ -291,3 +291,16 @@ export interface SpotlightInterfce{
   url?:string,
   images?:string[]
 }
+
+export interface userinterfce {
+  id?:string
+  email?: string,
+  phone?: string,
+  user_metadata: {
+    email?: string,
+    email_verified?: boolean,
+    phone_verified?: boolean
+  }
+
+
+}

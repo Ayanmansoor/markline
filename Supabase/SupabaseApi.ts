@@ -324,6 +324,20 @@ async function getCollectionBaseOnGender(gender: string) {
 // post request
 
 
+async function getCurrentUserOrders(userId:string) {
+  try{
+      const {data,error}=await mysupabase.from('orders').select(" * ,products(*) ").eq("user_id",userId)
+      if(error){
+        return new Error(error.message)
+      }
+      return data 
+  }
+  catch(error){
+    return new Error("something wrong")
+  }
+}
+
+
 
 
 
@@ -346,5 +360,6 @@ export {
   getBannerBaseonSlug,
   getCollectionBannerBaseOnGender,
   getAllProductsbygender,
-  getAllCollectionsBaseOnGender
+  getAllCollectionsBaseOnGender,
+  getCurrentUserOrders
 };

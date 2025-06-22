@@ -124,7 +124,15 @@ function Footer() {
               <input type="text" className='w-full relative h-atuo py-2 cursor-pointer px-2 border-b border-white bg-transparent placeholder:text-white placeholder:text-sm text-base' placeholder='Enter Your Email' {...register('email')} />
             </form>
 
+
+            <div className='flex flex-col gap-1 mt-6'>
+              <h2 className='text-base font-semibold text-white'>Payment We accept:</h2>
+              <img src="/paymnet-bar.jpg" alt="payment bar" height={400} width={400} className='py-1 h-[50px] w-fit object-contain' />
+            </div> 
+
           </div>
+
+      
 
         </div>
       </section>

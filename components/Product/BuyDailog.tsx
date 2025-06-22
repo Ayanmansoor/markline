@@ -58,10 +58,7 @@ function BuyDailog({ children, product }: BuyDailogProps) {
                             <AddressForm product={product} setConfirm={setcurrentTab} setOrderID={setOrderID} />
                         </TabsContent>
                         
-                        {/* <TabsContent value="razorpay" className='w-full relative h-auto '>
-                            <PaymentOption orderID={orderId.orderID} email={orderId.email} username={orderId.username} />
-                        </TabsContent> */}
-
+                      
 
                         <TabsList className="w-full relative h-auto px-2 mt-4 flex items-center bg-transparent justify-end gap-2 lg:gap-10">
                                     {
