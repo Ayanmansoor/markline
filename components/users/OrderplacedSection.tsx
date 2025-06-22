@@ -53,7 +53,7 @@ function OrderplacedSection() {
         <section className=' grid grid-cols-2 md:flex flex-col gap-3 h-auto relative  '>
             {
                 orders.map((items,index)=>(
-                    <div className=' flex flex-col  md:grid md:grid-cols-[1fr_1fr_1fr_1fr_1fr_auto]   gap-1 md:gap-5  lg:gap-2 px-2 lg:px-5  md:px-10  border  py-2  lg:py-3 w-full relative border-gray-200 items-start  md:items-center '>
+                    <div className=' flex flex-col  md:grid md:grid-cols-[1fr_1fr_1fr_1fr_1fr_auto]   gap-1 md:gap-5  lg:gap-2 px-2 lg:px-5  md:px-10  border  py-2  lg:py-3 w-full relative border-gray-200 items-start  md:items-center ' key={index}>
                 {/* {
                     items?.products?.image_url?.map((image: any) => JSON.parse(image))?.map((item,index)=>(
                         <Image src={`${item?.image_url}` || ''} height={100} width={100} alt={item.name}  className=' h-[200px] md:h-[120px] w-full md:w-[140px] relative object-cover border border-gray-300 rounded-sm'/>

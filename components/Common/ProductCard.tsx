@@ -1,19 +1,9 @@
 'use client'
 import React, { useState, useReducer, useEffect } from 'react'
-import { PiHeartThin } from "react-icons/pi";
 import { FaHeart } from "react-icons/fa6";
-
-import { useRouter } from 'next/navigation';
-// import { useCart } from '@/Contexts/Cart.context';
-
-// import { useCart } from '../Context/Cart.context';
-
-// import { useWishlists } from '@/Contexts/wishlist';
 import { Swiper, SwiperSlide } from 'swiper/react';
-// import AddToCardPopver from '@/Comman/AddToCardPopver';
 
 
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
@@ -27,7 +17,6 @@ import { useWishlists } from '@/Contexts/wishlist';
 function ProductCard({ product, url }: ProductsDataProps) {
   const { addToWishlist, removeFromWishlist, wishlist, isProductInWishlist } = useWishlists()
 
-  // state for set color and sizes
   const [Stringifycolor, setStringifyColor] = useState<Colors[]>([])
   const [StringifySize, setStringifySize] = useState<Sizes[]>([])
   const [StringifyImages, setStringifyImages] = useState<any[] | undefined>([])
