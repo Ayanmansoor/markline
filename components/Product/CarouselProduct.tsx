@@ -14,7 +14,7 @@ import { CarouselProductProps, ProductsProps } from '@/types/interfaces';
 
 
 
-function CarouselProduct({ url, product }: CarouselProductProps) {
+function CarouselProduct({ url, product ,css }: CarouselProductProps) {
 
 
 
@@ -50,7 +50,7 @@ function CarouselProduct({ url, product }: CarouselProductProps) {
                 >
 
                     {product?.map((product:any, index: number) => (
-                        <SwiperSlide className='w-[320px]   sm:max-w-[320px] h-full relative bg-secondary px-0 md:px-3' key={index} >
+                        <SwiperSlide className={` ${css ? css : "w-[320px]   sm:max-w-[320px]"} h-full relative bg-secondary px-0 md:px-3`} key={index} >
                             <ProductCard  url={url} product={product} />
                         </SwiperSlide>
                     ))}

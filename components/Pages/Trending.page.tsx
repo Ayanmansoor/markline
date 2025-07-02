@@ -39,7 +39,7 @@ function TrendingPage() {
             }
 
 
-            <section className='container sm:h-[400px] relative flex flex-col-reverse sm:grid py-5 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-10 md:px-10 px-3    xl:px-20'>
+            <section className='container sm:h-[400px] relative flex flex-col-reverse sm:grid py-5 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-10 '>
                 <div className='w-full relative flex flex-col justify-center items-start gap-1'>
 
                     <h2 className='text-2xl font-semibold '>New Arrivals – Crafted for the Moment</h2>

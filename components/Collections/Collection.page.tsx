@@ -67,11 +67,11 @@ function CollcetionPage() {
 
       {collections?.length ? <CategoriesSection title={"Women's Footwear Collections – Sandals, Flats, Heels & More"} subtitle='Discover elegant sandals, comfy flats, chic heels & stylish mules' url={''} >
         <Collectionsection collections={collections.filter((item) => item.gender == 'WOMEN')} url={'collections/women'} />
-      </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
+      </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
 
       </div>}
       <section className='bg-white py-10'>
-        <div className='  container sm:h-[350px] relative flex flex-col-reverse sm:grid py-5  lg:py-10 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 px-3 sm:gap-1 md:px-10   xl:px-20'>
+        <div className='  container sm:h-[350px] relative flex flex-col-reverse sm:grid py-5  lg:py-10 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-1 '>
           <div className='w-full relative flex flex-col justify-center items-start gap-1'>
             <p className='text-base font-medium text-primary'>Running</p>
             <h2 className='text-2xl font-semibold '>Experience True Craftsmanship</h2>
@@ -93,13 +93,13 @@ function CollcetionPage() {
       {
 
         products?.length > 0 ? <CategoriesSection title={"Shop Women's Favorites"} subtitle='Uncover standout styles handpicked for women—elegant, comfortable, and always in fashion.' url={''} >
-          <GridRroduct data={products.filter((product) => product.gender == 'WOMEN')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' />
-        </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
+          <GridRroduct data={products.filter((product) => product.gender == 'WOMEN')} url={'product'} css=' sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(300px,auto))] ' />
+        </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
 
         </div>
       }
 
-      <section className='w-full relative py-5 md:py-10  container   px-5 md:px-10 lg:px-20 h-auto grid grid-cols-2 md:grid-cols-3 gap-1'>
+      <section className='w-full relative py-5 md:py-10  container   h-auto grid grid-cols-2 md:grid-cols-3 gap-1'>
         <Link href='/collections/men' className='w-full relative h-auto flex group overflow-hidden '>
           <Image src="/men-collection.jpeg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
           <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
@@ -133,13 +133,13 @@ function CollcetionPage() {
 
       {collections?.length ? <CategoriesSection title={"Crafted for the Modern Gentleman"} subtitle='Discover Markline’s timeless collection of men’s footwear — combining style, comfort, and unmatched craftsmanship for every occasion.' url={''} >
         <Collectionsection collections={collections.filter((item) => item.gender == 'MEN')} url={'collections/men'} />
-      </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
+      </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
 
       </div>}
       {
         products?.length > 0 ? <CategoriesSection title={"Finely Crafted Footwear for the Modern Gentleman"} url={''} subtitle="Explore our premium selection of men's shoes—from polished oxfords and sleek loafers to rugged boots and smart sneakers—designed to elevate every step with timeless sophistication." >
-          <GridRroduct data={products.filter((product) => product.gender == 'MEN')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' />
-        </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
+          <GridRroduct data={products.filter((product) => product.gender == 'MEN')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(300px,auto))] ' />
+        </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
         </div>
       }
 
@@ -147,13 +147,13 @@ function CollcetionPage() {
 
       {collections?.filter((item) => item.gender == 'KIDS')?.length ? <CategoriesSection title={"Kids Footwear Collection for Comfort & Style"} subtitle='From playful sneakers and durable school shoes to cute sandals and fun slip-ons, Markline’s kids collection blends comfort and vibrant design, trusted by parents for every big and small step.' url={''} >
         <Collectionsection collections={collections.filter((item) => item.gender == 'KIDS')} url={'collections'} />
-      </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
+      </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
 
       </div>}
       {
         products?.filter((product) => product.gender == 'KIDS')?.length > 0 ? <CategoriesSection title={"Kids’ Footwear Collection for Play, Comfort & Growth"} subtitle='Explore durable sneakers, school shoes, sandals, and slip-ons designed for active kids—each pair offering breathable support, flexible soles, and fun designs that parents trust.' url={''} >
-          <GridRroduct data={products.filter((product) => product.gender == 'KIDS')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' />
-        </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container px-20">
+          <GridRroduct data={products.filter((product) => product.gender == 'KIDS')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(300px,auto))]' />
+        </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
         </div>
       }
 
@@ -174,7 +174,7 @@ function CollcetionPage() {
           <SecondHero categoryName={"Shoes"} data={newArrivals} />
         </CategoriesSection>
       }
-      <section className='w-full relative flex flex-col gap-5 container px-5 md:px-10 lg:px-20  py-10'>
+      <section className='w-full relative flex flex-col gap-5 container   py-10'>
         <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
 
         {/* Gender-Based Links */}

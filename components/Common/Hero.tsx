@@ -24,7 +24,9 @@ function  Hero({ bannerImages, css }: HeroData) {
                     modules={[Pagination, Autoplay,EffectFade]}
                     loop={true}
                     effect={'fade'}
-
+                    fadeEffect= {{
+                        crossFade: true,
+                    }}
                     autoplay={{
                         delay: 2000,
                         disableOnInteraction: false,

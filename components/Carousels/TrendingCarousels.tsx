@@ -14,7 +14,7 @@ function TrendingCarousels({ data }: trendingProductsProps) {
 
   return (
     <section className='relative w-full h-auto bg-black  '>
-      <div className='container  mx-auto reltive h-fit w-full flex flex-col gap-5   text-secondary pt-5 pb-10 px-2  md:px-10   xl:px-20'>
+      <div className='container  mx-auto reltive h-fit w-full flex flex-col gap-5   text-secondary pt-5 pb-10 '>
         <span className='flex flex-col gap-1'>
           <h2 className='text-h1 font-medium text-white pt-5  uppercase'>Best-Selling Footwear  Customer Favorites at Markline</h2>
           <p className='text-base font-medium text-white italic'>Explore the top-rated, most-loved shoes our customers can&apos;t stop talking about.</p>
@@ -52,7 +52,7 @@ function TrendingCarousels({ data }: trendingProductsProps) {
           className="mySwiper w-full h-full relative py-5 "
         >
           {data?.map((item, index) => (
-            <SwiperSlide className='h-auto  w-[310px]   sm:max-w-[310px] bg-slate-50 overflow-hidden relative transition-all duration-500 text-third group' key={index}>
+            <SwiperSlide className=' w-[400px]   sm:max-w-[360px] h-full  bg-slate-50 overflow-hidden relative transition-all duration-500 text-third group' key={index}>
               <ProductCard product={item.products} url='product' />
             </SwiperSlide>
           ))}

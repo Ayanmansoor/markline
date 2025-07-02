@@ -73,7 +73,7 @@ function ProductPage() {
 
         {
           isLoading ?
-            <section className='container px-5 md:px-10 h-auto lg:px-20'>
+            <section className='container h-auto '>
               <ProductPageSkeleton />
             </section>
             :
@@ -85,7 +85,7 @@ function ProductPage() {
                 <ProductAbout product={product} />
               </div>
               :
-              <section className='container px-5 h-[700px] md:px-10 lg:px-20'>
+              <section className='container  h-[700px] '>
                 <ProductPageSkeleton />
               </section>
         }
@@ -97,7 +97,7 @@ function ProductPage() {
 
       {
         newloading ?
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container px-5 md:px-10 lg:px-20 ">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container  ">
             <ProductCardSkeleton />
             <ProductCardSkeleton />
             <ProductCardSkeleton />
@@ -109,7 +109,7 @@ function ProductPage() {
               <CarouselProduct url={'product'} product={relatedProducts} />
             </CategoriesSection >
             :
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container px-20 ">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container  ">
               <ProductCardSkeleton />
               <ProductCardSkeleton />
               <ProductCardSkeleton />
@@ -131,7 +131,7 @@ function ProductPage() {
     }
        */}
 
-      <section className='w-full relative flex flex-col gap-5 container px-5 md:px-10 lg:px-20  pb-10'>
+      <section className='w-full relative flex flex-col gap-5 container   pb-10'>
         <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
 
         <div className='w-full relative h-auto flex flex-col gap-4'>

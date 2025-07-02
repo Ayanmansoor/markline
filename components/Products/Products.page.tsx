@@ -117,7 +117,7 @@ function Productspage() {
 
 
 
-    if (isLoadingProducts || isLoadingCollections) return <div className='w-full relative h-[60vh] container  py-10  px-5  md:px-10   xl:px-20'></div>;
+    if (isLoadingProducts || isLoadingCollections) return <div className='w-full relative h-[60vh] container  py-10  '></div>;
     if (isErrorProducts || isErrorCollections) return <p>Error fetching data</p>;
     return (
         <>
@@ -128,7 +128,7 @@ function Productspage() {
 
             <L2Banner data={banner} />
 
-            <section className="w-full min-h-[300px] relative grid grid-cols-1 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.8fr_3fr] px-2  md:px-10   xl:px-20 ">
+            <section className="w-full min-h-[300px] relative grid grid-cols-1 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.8fr_3fr] gap-5 ">
                 {
                     isErrorCollections ?
                         <div className='text-center text-sm font-medium'>
@@ -141,7 +141,7 @@ function Productspage() {
 
                 }
 
-                <div className="w-full gap-5 pb-10 relative flex flex-col px-0 md:px-10 xl:px-10">
+                <div className="w-full gap-5 pb-10 relative flex flex-col ">
                     <div className="w-full h-auto flex flex-col items-center bg-secondary border-b border-gray-300 py-2 justify-between ">
                         {/* <h1 className="text-lg font-medium text-primary w-full"> Total Products ( {allproducts && allproducts?.length} ) </h1> */}
                         {
@@ -149,20 +149,20 @@ function Productspage() {
                                 data.map((item, index) => (
                                     item.slug == productslug &&
                                     <div className='flex flex-col gap-1 w-fit' key={index}>
-                                        <h1 className="text-2xl font-medium text-primary capitalize">
+                                        <h1 className=" text-sm md:text-xl  lg:text-2xl font-medium text-primary capitalize">
                                             {item.title}
                                         </h1>
-                                        <p className='text-base line-clamp-3 font-medium text-primary '>
+                                        <p className=' text-sm md:text-base line-clamp-3 font-medium text-primary '>
                                             {item.discription}
                                         </p>
                                     </div>
                                 ))
                                 :
                                 <div className='flex flex-col gap-1 w-fit' >
-                                    <h1 className="text-2xl font-medium text-primary capitalize">
+                                    <h1 className=" text-sm md:text-xl  lg:text-2xl  font-medium text-primary capitalize">
                                         Shop Men’s, Women’s & Kids’ Formal Footwear – Markline Premium Shoes
                                     </h1>
-                                    <p className='text-base line-clamp-3 font-medium text-primary '>
+                                    <p className='text-sm md:text-base line-clamp-3 font-medium text-primary '>
                                         Explore Markline’s premium formal footwear for men, women & kids. Discover handcrafted oxfords, elegant heels & durable school shoes—all with free shipping across India.
                                     </p>
                                 </div>
@@ -200,7 +200,7 @@ function Productspage() {
                             </div>
                             :
                             allproducts.length > 0 || filterProducts && filterProducts?.length > 0 ?
-                                <GridRroduct data={filterProducts ? filterProducts : allproducts} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' />
+                                <GridRroduct data={filterProducts ? filterProducts : allproducts} url={'product'} css=' sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(270px,auto))]  xl:grid-cols-[repeat(auto-fill,minmax(300px,auto))] ' />
                                 :
                                 <div className="grid grid-cols-2 md:grid-cols-3  gap-3  ">
                                     <ProductCardSkeleton />
@@ -225,7 +225,7 @@ function Productspage() {
 
 
 
-            <section className='w-full relative flex flex-col gap-5 container px-5 md:px-10 lg:px-20 py-10'>
+            <section className='w-full relative flex flex-col gap-5 container  py-10'>
                 <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
 
                 {/* Gender-Based Links */}

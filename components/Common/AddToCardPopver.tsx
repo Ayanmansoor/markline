@@ -98,7 +98,7 @@ function AddToCardPopver({ children, currentProduct, colors, sizes, addToWhishli
     return (
         <Popover >
             <PopoverTrigger className='w-full relative hover:bg-primary hover:text-white h-full'>{children}</PopoverTrigger>
-            <PopoverContent className="flex flex-col gap-2 w-full max-w-[300px] relative h-auto">
+            <PopoverContent className="flex flex-col gap-2 w-full max-w-[350px] relative h-auto">
                 <section className='w-full h-auto flex flex-col gap-1'>
                     <div className='flex flex-col gap-1 w-full relative'>
                         <h2 className='text-primary font-medium text-sm '>Colors</h2>

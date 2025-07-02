@@ -240,6 +240,7 @@ export interface GridProductProps {
 export interface CarouselProductProps {
   url: string;
   product: ProductsProps[];
+  css?:string
 }
 
 export interface whishlishtSectionProps{

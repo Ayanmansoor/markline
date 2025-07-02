@@ -14,7 +14,7 @@ function Discount({title,description,url,images}:SpotlightInterfce) {
     return (
         <>
             <section className='w-full mb-10 relative h-auto bg-black  py-5 md:py-10 border '>
-                <section className='w-full md:container md:px-20 relative min-h-[200px]  bg-black 
+                <section className='w-full md:container  relative min-h-[200px]  bg-black 
                 grid grid-cols-1    md:gap-0 md:grid-cols-[2fr_1.5fr]  gap-10 '>
 
                     <div className='w-full relative h-full flex items-start container  justify-center flex-col gap-1   '>

@@ -53,7 +53,7 @@ function ProductCard({ product, url }: ProductsDataProps) {
 
 
   return (
-    <section className='max-w-[400px]  relative h-full border  border-black justify-between flex items-start border-none flex-col  group '>
+    <section className='max-w-full  relative h-full border  border-black justify-between flex items-start border-none flex-col  group '>
       <Link href={`/${url}/${product?.slug}`} className=' h-auto relative w-full bg-[#ebeeef] group transition-all duration-500 ease-in cursor-pointer  '>
         <Swiper
           style={{
@@ -74,12 +74,12 @@ function ProductCard({ product, url }: ProductsDataProps) {
             StringifyImages ?
               StringifyImages?.map((image, index: number) => (
                 <SwiperSlide className='w-full realtive h-full relative border' key={index}>
-                  <img  src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className='w-full   transition-all duration-500 ease-in-out h-[180px] sm:h-[250px] md:h-[250px] lg:h-[300px]  object-cover' height={200} width={300} loading='lazy' />
+                  <img  src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className='w-full   transition-all duration-500 ease-in-out h-[220px] sm:h-[300px] md:h-[250px] lg:h-[350px]  object-cover' height={200} width={300} loading='lazy' />
                 </SwiperSlide>
               )) :
               product.image_urls?.map((image, index) => (
                 <SwiperSlide className='w-full realtive h-full relative border' key={index}>
-                  <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className='w-full   transition-all duration-500 ease-in-out h-[180px] sm:h-[250px] md:h-[250px] lg:h-[300px]  object-cover' height={200} width={300} loading='lazy' />
+                  <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className='w-full   transition-all duration-500 ease-in-out h-[220px] sm:h-[300px]  md:h-[250px] lg:h-[350px]  object-cover' height={200} width={300} loading='lazy' />
                 </SwiperSlide>
               ))
           }

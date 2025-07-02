@@ -29,7 +29,7 @@ body{
     --p35: calc(1.25rem + ((1vw - 0.2rem) * 0.9375));
     --p18: clamp(1rem, 0.9615rem + 0.1923vw, 1.125rem);
     --p40: clamp(1.5625rem, 1.2364rem + 1.6304vw, 2.5rem);
-    --footer-font: calc(9.375rem + ((1vw - 19.2px) * 7.8947));
+    --footer-font:  clamp(1.875rem, -1.7434rem + 14.4737vw, 15.625rem);
 
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;

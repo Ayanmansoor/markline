@@ -53,7 +53,7 @@ function Footer() {
 
       </section>
 
-      <section className='w-full relative h-[450px] md:flex hidden  flex-col gap-1 container text-white py-10 pb-56 px-5 md:px-10   xl:px-20'>
+      <section className='w-full relative h-[450px] md:flex hidden  flex-col gap-1 container text-white py-10 pb-56 px-5 md:px-10  '>
         <div className=' w-full h-full grid   z-20 grid-cols-4 lg:grid-cols-5 gap-5  '>
           
            <div className='relative h-auto  '>
@@ -144,8 +144,8 @@ function Footer() {
         <Link href={'/claim-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Product Claim Policy </Link>
       </section>
 
-      <div className='w-full relative bottom-5 z-0  z- h-auto  hidden  md:flex leading-[1.1] items-center  opacity-10  uppercase font-semibold text-footerfont justify-center -mt-28 text-gray-100 bg-clip-text left-0 right-0 '>
-        markline fashion
+      <div className='w-full relative bottom-32 z-0   h-auto  hidden  md:flex leading-[1.1] items-center  opacity-10  uppercase font-semibold text-footerfont justify-center -mt-28 text-gray-100 bg-clip-text left-0 right-0 '>
+        markline 
       </div>
 
 
