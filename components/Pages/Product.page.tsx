@@ -7,8 +7,8 @@ import Specification from '@/components/Product/Specification'
 import React from 'react'
 import Link from 'next/link'
 import ProductPageSkeleton from '../Skeleton/ProductPageSkeleton'
-import WihlistCardSection from '../Product/WihlistCardSection'
-
+// import WihlistCardSection from '../Product/WihlistCardSection'
+import Image from 'next/image'
 
 
 import { useParams } from 'next/navigation'
@@ -78,7 +78,7 @@ function ProductPage() {
             </section>
             :
             product ?
-              <div className='w-full mx-auto h-full container px-3 relative  flex flex-col justify-between  bg-secondary md:flex-row  md:px-10   xl:px-20  '>
+              <div className='w-full mx-auto h-full container relative  flex flex-col justify-between  bg-secondary md:flex-row    '>
                 <div className='  md:max-h-fit   w-full  relative lg:sticky lg:top-5 p-1 md:h-full  md:w-[60%] lg:w-[60%] '>
                   <ProductMain product={product} />
                 </div>
@@ -93,6 +93,17 @@ function ProductPage() {
       </section>
 
       <Specification product={product} />
+
+
+      {/* <section className='w-full relative container h-auto flex flex-col  gap-5'>
+
+          <div className='w-full relative grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-5 mt-10 mb-5'>
+              <Image src="/collectionsection.png" alt="products image" height={500} width={500} className="w-full relative md:row-start-1 md:row-end-4 rounded-xl"/>
+              <Image src="/collectionsection.png" alt="products image" height={500} width={500} className="w-full relative md:row-start-1 md:row-end-2 object-cover rounded-xl border"/>
+              <Image src="/collectionsection.png" alt="products image" height={500} width={500} className="w-full relative md:row-start-2 md:row-end-3 object-cover rounded-xl border"/>
+          </div>
+
+      </section> */}
 
 
       {
@@ -178,42 +189,42 @@ function ProductPage() {
           <section>
             <h2 className="text-xl sm:text-2xl font-semibold mb-4">Types of Footwear by Gender</h2>
             <ul className="list-disc list-inside text-gray-700 space-y-2">
-              <li><strong>For Men:</strong> Discover versatile lace-ups, loafers, ethnic mojaris, and street-ready sneakers designed for daily grind and weekend style.</li>
-              <li><strong>For Women:</strong> Choose from elegant heels, trendy flats, ethnic kolhapuris, and comfy slip-ons—perfectly balancing fashion and comfort.</li>
-              <li><strong>For Kids:</strong> Fun, flexible, and durable shoes tailored for growing feet. Explore velcro sneakers, sandals, and colorful sports shoes that keep up with their energy.</li>
-              <li><strong>For GenZ:</strong> Bold, expressive footwear like chunky sneakers, graphic slip-ons, and trend-led sandals that match their ever-evolving fashion sense.</li>
+              <li className=' text-sm sm:text-base'><strong>For Men:</strong> Discover versatile lace-ups, loafers, ethnic mojaris, and street-ready sneakers designed for daily grind and weekend style.</li>
+              <li className=' text-sm sm:text-base'><strong>For Women:</strong> Choose from elegant heels, trendy flats, ethnic kolhapuris, and comfy slip-ons—perfectly balancing fashion and comfort.</li>
+              <li className=' text-sm sm:text-base'><strong>For Kids:</strong> Fun, flexible, and durable shoes tailored for growing feet. Explore velcro sneakers, sandals, and colorful sports shoes that keep up with their energy.</li>
+              <li className=' text-sm sm:text-base'><strong>For GenZ:</strong> Bold, expressive footwear like chunky sneakers, graphic slip-ons, and trend-led sandals that match their ever-evolving fashion sense.</li>
             </ul>
           </section>
 
           <section>
             <h2 className="text-xl sm:text-2xl font-semibold mb-4">How to Choose the Right Shoes</h2>
             <ul className="list-disc list-inside text-gray-700 space-y-2">
-              <li><strong>Age & Style:</strong> Select age-appropriate designs—functional and playful for kids, expressive for GenZ, and versatile for adults.</li>
-              <li><strong>Occasion:</strong> From casual outings to formal events, choose shoes that match your lifestyle and schedule.</li>
-              <li><strong>Fit & Comfort:</strong> Always check sizing charts and customer reviews. Comfort features like arch support and padded soles are a must.</li>
-              <li><strong>Material:</strong> Leather for durability, mesh for breathability, and canvas or synthetics for affordability and flair.</li>
-              <li><strong>Wear Frequency:</strong> For frequent use, invest in supportive, durable shoes. For style rotation, consider lighter designs.</li>
+              <li className=' text-sm sm:text-base'><strong>Age & Style:</strong> Select age-appropriate designs—functional and playful for kids, expressive for GenZ, and versatile for adults.</li>
+              <li className=' text-sm sm:text-base'><strong>Occasion:</strong> From casual outings to formal events, choose shoes that match your lifestyle and schedule.</li>
+              <li className=' text-sm sm:text-base'><strong>Fit & Comfort:</strong> Always check sizing charts and customer reviews. Comfort features like arch support and padded soles are a must.</li>
+              <li className=' text-sm sm:text-base'><strong>Material:</strong> Leather for durability, mesh for breathability, and canvas or synthetics for affordability and flair.</li>
+              <li className=' text-sm sm:text-base'><strong>Wear Frequency:</strong> For frequent use, invest in supportive, durable shoes. For style rotation, consider lighter designs.</li>
             </ul>
           </section>
 
           <section>
             <h2 className="text-xl sm:text-2xl font-semibold mb-4">Footwear Trends for All</h2>
             <ul className="list-disc list-inside text-gray-700 space-y-2">
-              <li><strong>Bold Soles:</strong> Platform sneakers and boots are popular across ages and genders.</li>
-              <li><strong>Pastel Tones & Neutrals:</strong> Universally flattering hues dominating this season.</li>
-              <li><strong>Retro Revivals:</strong> Styles like Mary Janes and high-top sneakers are making a fashionable comeback.</li>
-              <li><strong>Tech Comfort:</strong> Cushioned footbeds and lightweight designs for all-day wear.</li>
-              <li><strong>Ethnic Fusion:</strong> Traditional designs reimagined for modern wardrobes.</li>
+              <li className=' text-sm sm:text-base'><strong>Bold Soles:</strong> Platform sneakers and boots are popular across ages and genders.</li>
+              <li  className=' text-sm sm:text-base'><strong>Pastel Tones & Neutrals:</strong> Universally flattering hues dominating this season.</li>
+              <li  className=' text-sm sm:text-base'><strong>Retro Revivals:</strong> Styles like Mary Janes and high-top sneakers are making a fashionable comeback.</li>
+              <li  className=' text-sm sm:text-base'><strong>Tech Comfort:</strong> Cushioned footbeds and lightweight designs for all-day wear.</li>
+              <li  className=' text-sm sm:text-base'><strong>Ethnic Fusion:</strong> Traditional designs reimagined for modern wardrobes.</li>
             </ul>
           </section>
 
           <section>
             <h2 className="text-xl sm:text-2xl font-semibold mb-4">Why Quality Footwear Matters</h2>
             <ul className="list-disc list-inside text-gray-700 space-y-2">
-              <li><strong>Comfort:</strong> Supportive construction makes walking and standing easier for all ages.</li>
-              <li><strong>Durability:</strong> Long-lasting shoes reduce waste and frequent replacement costs.</li>
-              <li><strong>Foot Health:</strong> Proper fit and cushioning prevent common issues like heel pain and blisters.</li>
-              <li><strong>Confidence:</strong> Stylish shoes that feel good can uplift your entire outfit and mood.</li>
+              <li  className=' text-sm sm:text-base'><strong>Comfort:</strong> Supportive construction makes walking and standing easier for all ages.</li>
+              <li  className=' text-sm sm:text-base'><strong>Durability:</strong> Long-lasting shoes reduce waste and frequent replacement costs.</li>
+              <li  className=' text-sm sm:text-base'><strong>Foot Health:</strong> Proper fit and cushioning prevent common issues like heel pain and blisters.</li>
+              <li  className=' text-sm sm:text-base'><strong>Confidence:</strong> Stylish shoes that feel good can uplift your entire outfit and mood.</li>
             </ul>
           </section>
         </div>

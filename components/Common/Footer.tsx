@@ -1,9 +1,7 @@
 'use client'
 import React from 'react'
-import { CiInstagram } from "react-icons/ci";
-import { CiFacebook } from "react-icons/ci";
-import { RxTwitterLogo } from "react-icons/rx";
-import { RiTelegramLine } from "react-icons/ri";
+import { RiInstagramFill } from "react-icons/ri";
+import { FaFacebook, FaPinterest, FaYoutube } from "react-icons/fa";
 import { PiFacebookLogo } from "react-icons/pi";
 import { PiInstagramLogoThin } from "react-icons/pi";
 import { RiTwitterXLine } from "react-icons/ri";
@@ -109,9 +107,10 @@ function Footer() {
 
             </h2>
             <ul className='flex items-start flex-col text-base  justify-start gap-3'>
-              <Link href={"https://www.instagram.com/marklinefashion/"} target='_blank' rel='noreferrer noindex' className='flex items-center gap-1'><CiInstagram className='text-[20px] hover:text-red-300' /> Instagram</Link>
-              <Link href={""} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><CiFacebook className='text-[20px] hover:text-red-300' /> Facebook</Link>
-              <Link href={"https://x.com/MarklineFashion"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><RxTwitterLogo className='text-[20px] hover:text-red-300' /> Twitter</Link>
+              <Link href={"https://www.instagram.com/marklinefashion/"} target='_blank' rel='noreferrer noindex' className='flex items-center gap-1'><RiInstagramFill  className='text-[20px] hover:text-red-300' /> Instagram</Link>
+              <Link href={""} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaFacebook  className='text-[20px] hover:text-red-300' /> Facebook</Link>
+              <Link href={"https://www.pinterest.com/Marklinefashion/"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaPinterest className='text-[20px] hover:text-red-300' />Pinterest</Link>
+              <Link href={"https://www.pinterest.com/Marklinefashion/"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaYoutube  className='text-[20px] hover:text-red-300' />YouTube</Link>
             </ul>
           </div>
 

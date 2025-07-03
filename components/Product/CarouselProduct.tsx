@@ -29,7 +29,7 @@ function CarouselProduct({ url, product ,css }: CarouselProductProps) {
                     direction={"horizontal"}
                     breakpoints={{
                         300: {
-                            slidesPerView: 1.8,
+                            slidesPerView: 1.3,
                         },
                         400: {
                             slidesPerView: 2,
