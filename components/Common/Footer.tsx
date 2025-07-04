@@ -108,9 +108,9 @@ function Footer() {
             </h2>
             <ul className='flex items-start flex-col text-base  justify-start gap-3'>
               <Link href={"https://www.instagram.com/marklinefashion/"} target='_blank' rel='noreferrer noindex' className='flex items-center gap-1'><RiInstagramFill  className='text-[20px] hover:text-red-300' /> Instagram</Link>
-              <Link href={""} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaFacebook  className='text-[20px] hover:text-red-300' /> Facebook</Link>
+              <Link href={"https://www.facebook.com/people/Markline/61578047250955"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaFacebook  className='text-[20px] hover:text-red-300' /> Facebook</Link>
               <Link href={"https://www.pinterest.com/Marklinefashion/"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaPinterest className='text-[20px] hover:text-red-300' />Pinterest</Link>
-              <Link href={"https://www.pinterest.com/Marklinefashion/"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaYoutube  className='text-[20px] hover:text-red-300' />YouTube</Link>
+              <Link href={"https://www.youtube.com/channel/UCCDnKdMSM4abCTRC2lq0IKA"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaYoutube  className='text-[20px] hover:text-red-300' />YouTube</Link>
             </ul>
           </div>
 

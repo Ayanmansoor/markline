@@ -62,7 +62,7 @@ function page() {
 
                         <div className="w-full relative flex  flex-wrap items-center gap-5 mt-3 ">
                             <Link
-                                href={"/"}
+                                href={"https://www.facebook.com/people/Markline/61578047250955"}
                                 className="text-p18 font-medium bg-primary rounded-full p-2 text-webtext "
                             >
                                 <FaFacebook className="text-white text-[25px]" />
