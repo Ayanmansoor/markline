@@ -37,7 +37,7 @@ function page() {
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-2">2. How to File a Claim</h2>
         <ol className="list-decimal list-inside text-gray-700">
-          <li className='text-lg text-primary font-medium'>Email us at <Link href="mailto:support@marklinefashion.com" className="text-blue-600 underline">support@marklinefashion.com</Link> or fill out the Claim Request Form on our website.</li>
+          <li className='text-lg text-primary font-medium'>Email us at <Link href="mailto:stylemarkline@gmail.com" className="text-blue-600 underline">stylemarkline@gmail.com</Link> or fill out the Claim Request Form on our website.</li>
           <li className='text-lg text-primary font-medium'>Include your Order ID, Product name, issue description, and photo/video evidence.</li>
           <li className='text-lg text-primary font-medium'>Our support team will review your claim within 2–3 business days.</li>
         </ol>
@@ -78,7 +78,7 @@ function page() {
           If you have any questions about this Product Claim Policy, please contact us:
         </p>
         <ul className="text-gray-700 mt-2">
-          <li className='text-lg text-primary font-medium'><strong>Email:</strong> <Link href="mailto:support@marklinefashion.com" className="text-blue-600 underline">support@marklinefashion.com</Link></li>
+          <li className='text-lg text-primary font-medium'><strong>Email:</strong> <Link href="mailto:stylemarkline@gmail.com" className="text-blue-600 underline">stylemarkline@gmail.com</Link></li>
           <li className='text-lg text-primary font-medium'><strong>Phone:</strong> +91-9702456322</li>
           <li className='text-lg text-primary font-medium'><strong>Working Hours:</strong> Monday to Saturday, 10 AM – 6 PM</li>
         </ul>

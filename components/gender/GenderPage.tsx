@@ -112,7 +112,7 @@ function GenderPage() {
                         {
                             genderCollection &&
                             genderCollection.map((item,index)=>(
-                        <Link href={`/collections/${item.gender}/${item.slug}`} className='text-sm font-medium text-orange-600 border-r border-l text-primary  px-3 border-primary' key={index}>{item.name}</Link>
+                            <Link href={`/collections/${item.gender}/${item.slug}`} className='text-sm font-medium text-orange-600 border-r border-l text-primary  px-3 border-primary' key={index}>{item.name}</Link>
                             ))
                         }
                         

@@ -19,10 +19,10 @@ export const metadata = {
     title: "About Us | Markline Fashion – Redefining Elegance",
     description:
       "Markline Fashion blends tradition with modern luxury. Discover our journey, vision, and passion for creating high-end fashion pieces.",
-    url: "https://marklinefashion.vercel.app/about",
+    url: "https://marklinefashion.vercel.app/about-us",
   },
   alternates: {
-    canonical: `https://marklinefashion.vercel.app/about`,
+    canonical: `https://marklinefashion.vercel.app/about-us`,
   },
 };
 

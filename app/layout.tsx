@@ -7,7 +7,7 @@ import { CartProvider } from "@/Contexts/Cart.context";
 import Provider from "./Provider";
 import Footer from "@/components/Common/Footer";
 import { WishlistProvider } from "@/Contexts/wishlist";
-
+import { GoogleTagManager } from '@next/third-parties/google'
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -90,10 +90,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${noto.variable} antialiased`}
       >
         <Provider>
+          <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_TAGMANAGER||""}/>
           <WishlistProvider>
             <CartProvider>
                 <Navbar />
-                {children}
+                  {children}
                 <Footer />
             </CartProvider>
           </WishlistProvider>

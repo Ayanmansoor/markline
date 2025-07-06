@@ -3,6 +3,7 @@ import React from 'react'
 import { QueryClientProvider, QueryClient } from 'react-query'
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
+
 function Provider({children}:{children:React.ReactNode}) {
     const query=new QueryClient()
   return (

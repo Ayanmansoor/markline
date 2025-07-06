@@ -128,23 +128,8 @@ function Productspage() {
 
             <L2Banner data={banner} />
 
-            <section className="w-full min-h-[300px] relative grid grid-cols-1 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.8fr_3fr] gap-5 ">
+            <div className='w-full relative h-auto flex flex-col container pb-5 mb-6 border-b border-gray-300'>
                 {
-                    isErrorCollections ?
-                        <div className='text-center text-sm font-medium'>
-                            Filter Data not Availble
-                        </div>
-                        :
-                        <span className=' hidden sticky top-20  h-fit  lg:block'>
-                            <ProductFilter gender={productslug} collection={productslug ? allcollection.filter((item) => item.gender == productslug.toUpperCase()) : allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
-                        </span>
-
-                }
-
-                <div className="w-full gap-5 pb-10 relative flex flex-col ">
-                    <div className="w-full h-auto flex flex-col items-center bg-secondary border-b border-gray-300 py-2 justify-between ">
-                        {/* <h1 className="text-lg font-medium text-primary w-full"> Total Products ( {allproducts && allproducts?.length} ) </h1> */}
-                        {
                             productslug ?
                                 data.map((item, index) => (
                                     item.slug == productslug &&
@@ -166,8 +151,26 @@ function Productspage() {
                                         Explore Markline’s premium formal footwear for men, women & kids. Discover handcrafted oxfords, elegant heels & durable school shoes—all with free shipping across India.
                                     </p>
                                 </div>
-                        }
-                      <section className='w-full relative gap-2 items-center mt-2 h-auto flex md:hidden '>
+                }    
+            </div>    
+
+            <section className="w-full min-h-[300px] relative grid grid-cols-1 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.8fr_3fr] gap-5 ">
+                {
+                    isErrorCollections ?
+                        <div className='text-center text-sm font-medium'>
+                            Filter Data not Availble
+                        </div>
+                        :
+                        <span className=' hidden sticky top-20  h-fit  lg:block'>
+                            <ProductFilter gender={productslug} collection={productslug ? allcollection.filter((item) => item.gender == productslug.toUpperCase()) : allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
+                        </span>
+
+                }
+
+                <div className="w-full gap-5 pb-10 relative flex flex-col ">
+                        {/* <h1 className="text-lg font-medium text-primary w-full"> Total Products ( {allproducts && allproducts?.length} ) </h1> */}
+                    
+                        <section className='w-full relative gap-2 items-center  h-auto flex md:hidden '>
                         <span className='  items-center gap-2  lg:hidden '>
                             <MobFilterSheet collection={[]} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} >
                                 <HiMiniAdjustmentsHorizontal className='text-[37px] text-foreground cursor-pointer border px-2 rounded-md ' />
@@ -188,7 +191,6 @@ function Productspage() {
                                 }
                             </Swiper>
                         </section>
-                    </div>
                     {
                         isLoadingProducts ?
 

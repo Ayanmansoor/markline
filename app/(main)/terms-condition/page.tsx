@@ -143,7 +143,7 @@ function page() {
                     <p>If you have any questions about these Terms and Conditions, please contact us:</p>
                     <p className='flex items-center gap-1 '>
                         <strong>Email:</strong> 
-                        <Link href={'melto:support@marklinefashion.com'}>support@marklinefashion.com</Link>
+                        <Link href={'melto:stylemarkline@gmail.com'}>stylemarkline@gmail.com</Link>
                     </p>
                 </section>
 

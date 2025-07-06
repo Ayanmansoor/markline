@@ -122,25 +122,24 @@ function CategoryL2page() {
             <L2Banner data={HomeBanner} />
 
 
-
-            <section className="w-full relative grid grid-cols-1 mt-5 md:mt-10 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.8fr_3fr] px-0  md:px-10   xl:px-20 ">
-                <span className=' hidden h-fit sticky top-20 lg:block'>
-                    <ProductFilter gender={gslug} collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
-                </span>
-
-                <div className="w-full gap-5 pb-10 relative flex flex-col px-5 md:px-10 xl:px-10">
-                    <div className="w-full h-auto flex flex-col items-start   gap-3 lg:items-center bg-secondary border-b border-gray-300 py-2 justify-between ">
-                        <div className='flex flex-col gap-1 w-fit'>
-                            <h1 className=" text-base md:text-lg font-medium text-primary capitalize">
+                <div className='flex flex-col gap-1 w-fit container border-gray-300 pb-5 border-b '>
+                            <h1 className=" text-base md:text-2xl font-semibold h-auto text-primary capitalize">
                                 {` ${collection} `.split('-').join(' ')}  – Trendy & Comfortable Footwear for Every Step
                             </h1>
                             <p className=' text-sm md:text-base line-clamp-3 font-medium text-primary '>
                                 Step into style with our latest range of {` ${collection} `.split('-').join(' ')}  at Markline Fashion. Our {` ${collection} `.split('-').join(' ')} are crafted to provide the perfect blend of fashion and comfort, ensuring you look and feel great all day long. Whether you&apos;re heading to a casual outing or a formal event, our {` ${collection} `.split('-').join(' ')}  are designed to complement every occasion.
                             </p>
 
-                        </div>
-                        {/* <section className=''></section> */}
-                        <section className='w-full relative gap-2 items-center mt-2 h-auto flex md:hidden '>
+                </div>
+
+            <section className="w-full relative grid grid-cols-1  md:mt-10 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.8fr_3fr]  ">
+                <span className=' hidden h-fit sticky top-20 lg:block'>
+                    <ProductFilter gender={gslug} collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
+                </span>
+
+                <div className="w-full gap-5 pb-10 relative flex flex-col px-5 md:px-10 xl:px-10">
+                     
+                    <section className='w-full relative gap-2 items-center  h-auto flex md:hidden '>
                         <span className='  items-center gap-2  lg:hidden '>
                             <MobFilterSheet collection={[]} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} >
                                 <HiMiniAdjustmentsHorizontal className='text-[37px] text-foreground cursor-pointer border px-2 rounded-md ' />
@@ -160,8 +159,7 @@ function CategoryL2page() {
                                     ))
                                 }
                             </Swiper>
-                        </section>
-                    </div>
+                    </section>
 
 
                     {
@@ -195,7 +193,7 @@ function CategoryL2page() {
 
                 </div>
             </section>
-            <section className='w-full relative flex flex-col gap-5 container px-5 md:px-10 lg:px-20   py-10'>
+            <section className='w-full relative flex flex-col gap-5 container   py-10'>
                 <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
 
                 <div className='w-full relative h-auto flex flex-col gap-4'>

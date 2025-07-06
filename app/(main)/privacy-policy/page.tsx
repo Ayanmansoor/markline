@@ -84,7 +84,7 @@ export default function PrivacyPolicy() {
           <li>Withdraw consent where processing is based on consent</li>
           <li>Object to or restrict processing of your data</li>
         </ul>
-        <p className="mt-2">To exercise these rights, contact us at <Link  href={'melto:support@marklinefashion.com'}>support@marklinefashion.com.</Link> </p>
+        <p className="mt-2">To exercise these rights, contact us at <Link  href={'melto:stylemarkline@gmail.com'}>stylemarkline@gmail.com.</Link> </p>
       </section>
 
       <section className="mb-6">

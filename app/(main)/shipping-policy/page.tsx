@@ -99,7 +99,7 @@ export default function ShippingPolicy() {
           <ul className="w-full relative flex flex-col gap-1 text-base ">
             <li> Please wait a few extra days</li>
             <li className=" flex items-center gap-1 ">
-                Then contact us at <Link href={'melto:support@marklinefashion.com'}>support@marklinefashion.com</Link>
+                Then contact us at <Link href={'melto:stylemarkline@gmail.com'}>stylemarkline@gmail.com</Link>
             </li>
           </ul>
           <p  className="text-lg font-meidum text-primary">We will work with our shipping partners to resolve the issue promptly.</p>
@@ -133,7 +133,7 @@ export default function ShippingPolicy() {
                 Some remote areas may have limited delivery services.
             </li>
            <li className=" flex items-center gap-1 ">
-              Contact us within 48 hours of delivery at <Link href={'melto:support@marklinefashion.com'}>support@marklinefashion.com</Link>
+              Contact us within 48 hours of delivery at <Link href={'melto:stylemarkline@gmail.com'}>stylemarkline@gmail.com</Link>
             </li>
           </ul>
         </section>
@@ -144,7 +144,7 @@ export default function ShippingPolicy() {
           <h2 className="text-2xl font-semibold tracking-tight">Questions?</h2>
           <p className="text-lg font-medium text-primary">For any questions or concerns related to shipping, please contact our customer service at:</p>
           <ul className="w-full relative flex flex-col gap-1 text-base ">
-            <li>📧 Email: <Link href={'melto:support@marklinefashion.com'}>support@marklinefashion.com</Link></li>
+            <li>📧 Email: <Link href={'melto:stylemarkline@gmail.com'}>stylemarkline@gmail.com</Link></li>
           </ul>
         </section>
 
@@ -155,7 +155,7 @@ export default function ShippingPolicy() {
           <p>If you have any questions regarding shipping, reach out to us:</p>
           <div className="not-prose">
             <address className="not-italic">
-              <p>Email: support@marklinefashion.com</p>
+              <p>Email: stylemarkline@gmail.com</p>
               <p>Phone: +91-XXXXXXXXXX</p>
               <p>Hours: Monday - Friday | 10 AM - 6 PM IST</p>
             </address>

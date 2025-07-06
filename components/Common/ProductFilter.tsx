@@ -18,8 +18,7 @@ function ProductFilter({ collection, productRangevalue, setPRoductRange ,gender 
     }
 
     return (
-        <section className='w-full    bg-white   flex-col items-start gap-3 flex'>
-            <div className='w-full relative flex flex-wrap h-auto'></div>
+   
             <div className='w-full relative  flex h-fit bg-transparent flex-col items-start  lg:px-2'>
                 <Accordion type="single" collapsible className='w-full relative h-auto bg-transparent'>
                     <AccordionItem value="item-1" className="w-full relative h-auto" >
@@ -27,20 +26,20 @@ function ProductFilter({ collection, productRangevalue, setPRoductRange ,gender 
                             collection.length > 0 &&
                             (
 
-                                <><AccordionTrigger className="w-full relative h-auto py-2 text-base font-medium  px-4">
+                                <><AccordionTrigger className="w-full relative h-auto py-2 text-base font-semibold  px-4">
                                     <span>
                                         Collections
                                     </span>
-                                </AccordionTrigger><AccordionContent className="w-full relative h-auto py-2 text-base font-medium  px-4 flex flex-wrap gap-2 ">
+                                </AccordionTrigger><AccordionContent className="w-full relative h-auto py-2 text-base font-semibold  px-4 flex flex-wrap gap-2 ">
                                         {collection?.map((item, index) => (
-                                            <Link href={`/collections/${gender}/${item.slug}`} className='text-base font-medium text-black border border-black px-3 py-1' key={index}>{item.name}</Link>
+                                            <Link href={`/collections/${gender}/${item.slug}`} className='text-base font-semibold text-black border border-black px-3 py-1' key={index}>{item.name}</Link>
                                         ))}
                                     </AccordionContent></>
                             )
                         }
                     </AccordionItem>
                     <AccordionItem value="item-2" className="w-full relative h-auto">
-                        <AccordionTrigger className="w-full relative h-auto py-2 text-base font-medium  px-4">
+                        <AccordionTrigger className="w-full relative h-auto py-2 text-base font-semibold  px-4">
                             <span>
                                 Sizes
                             </span>
@@ -56,7 +55,7 @@ function ProductFilter({ collection, productRangevalue, setPRoductRange ,gender 
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-3" className="w-full relative h-auto">
-                        <AccordionTrigger className="w-full relative h-auto py-2 text-base font-medium  px-4">
+                        <AccordionTrigger className="w-full relative h-auto py-2 text-base font-semibold  px-4">
                             <span>
                                 Price
                             </span>
@@ -81,7 +80,7 @@ function ProductFilter({ collection, productRangevalue, setPRoductRange ,gender 
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-4" className="w-full relative h-auto">
-                        <AccordionTrigger className="w-full relative h-auto py-2 text-base font-medium  px-4">
+                        <AccordionTrigger className="w-full relative h-auto py-2 text-base font-semibold  px-4">
                             <span>
                                 Genders
                             </span>
@@ -95,7 +94,6 @@ function ProductFilter({ collection, productRangevalue, setPRoductRange ,gender 
                 </Accordion>
 
             </div>
-        </section>
     )
 }
 

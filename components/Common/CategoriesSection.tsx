@@ -14,7 +14,11 @@ function CategoriesSection({ children, title, url ,urltext ,subtitle ,isH1 }: Ca
                         :
                           <h2 className='  text-base md:text-h1 font-medium     uppercase   bg-secondary '>{title}</h2>
                     }
-                    <h3 className='text-sm md:text-base font-medium italic text-primary '>{subtitle}</h3>
+                    {
+                        subtitle &&
+                        <h3 className='text-sm md:text-base font-medium italic text-primary '>{subtitle}</h3>
+                    }
+
                 </span>
                 {
                     url &&

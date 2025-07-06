@@ -20,8 +20,8 @@ function  Hero({ bannerImages, css }: HeroData) {
         <section className={`w-full relative ${css ? css : " h-[40vh] sm:h-[90vh]"}  `}>
 
             <>
-                <Swiper pagination={false}
-                    modules={[Pagination, Autoplay,EffectFade]}
+                <Swiper 
+                    modules={[Autoplay,EffectFade]}
                     loop={true}
                     effect={'fade'}
                     fadeEffect= {{
