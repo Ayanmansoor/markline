@@ -13,11 +13,11 @@ import { SpotlightInterfce } from '@/types/interfaces';
 function Discount({title,description,url,images}:SpotlightInterfce) {
     return (
         <>
-            <section className='w-full mb-10 relative h-auto bg-black  py-5 md:py-10 border '>
+            <section className='w-full mb-10 relative h-auto bg-black  py-5 md:py-10 border px-3 lg:px-5 '>
                 <section className='w-full md:container  relative min-h-[200px]  bg-black 
                 grid grid-cols-1    md:gap-0 md:grid-cols-[2fr_1.5fr]  gap-10 '>
 
-                    <div className='w-full relative h-full flex items-start container  justify-center flex-col gap-1   '>
+                    <div className='w-full relative h-full flex items-start container  justify-center flex-col gap-1 px-3 md:px-5    '>
                         <h2 className='text-h1 capitalize font-semibold text-white '>{title}</h2>
                         <p className=' text-sm md:text-sm font-normal w-full md:w-4/5 text-white '>{description}</p>
                         <Link href={`${url}`|| ""} className='w-fit mt-5 cursor-pointer text-base gap-1 group text-white relative h-fit flex flex-col  items-start '>Shop Now

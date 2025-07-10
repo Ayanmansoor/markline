@@ -17,7 +17,7 @@ function Navbar() {
 
     return (
         <nav className='bg-white sticky  top-0  z-50'>
-            <section className='  container  py-2 flex items-center justify-between gap-1 text-third   bg-white   '>
+            <section className='  container  py-2 flex items-center justify-between gap-1 text-third   bg-white px-3 md:px-5    '>
                 <Link href={'/'} className='text-h1 font-semibold md:font-meidum  italic text-primary '>MARKLINE</Link>
 
                 <ul className='hidden items-center gap-3 relative md:gap-5  xl:gap-5 lg:flex '>

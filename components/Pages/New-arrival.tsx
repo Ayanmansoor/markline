@@ -32,7 +32,7 @@ function NewArrival() {
                 <video src="/" className='w-full relative h-[250px] md:h-[350px] lg:h-[500px] '></video>
             </section> */}
 
-            <section className='container sm:h-[400px]   relative flex flex-col-reverse sm:grid py-5  lg:py-10 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-1'>
+            <section className='container sm:h-[400px]   relative flex flex-col-reverse sm:grid py-5  lg:py-10 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-1 px-3 lg:px-5'>
                 <div className='w-full relative h-full '>
                     <img src="/collectionsection.png" alt="" className='w-full relative sm:absolute  h-full object-cover ' height={500} width={400} loading='lazy'/>
                 </div>
@@ -45,7 +45,7 @@ function NewArrival() {
 
             {
                 isLoading ?
-                    <div className="grid grid-cols-2 md:grid-cols-3  gap-3 container   ">
+                    <div className="grid grid-cols-2 md:grid-cols-3  gap-3 container  px-3 lg:px-5  ">
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />
@@ -58,7 +58,7 @@ function NewArrival() {
                             <CarouselProduct url={'product'} product={products} css='w-[340px]   sm:max-w-[370px]' />
                         </CategoriesSection>
                         :
-                        <div className="grid grid-cols-2 md:grid-cols-3  gap-3 px-5 md:px-10 lg:px-20 ">
+                        <div className="grid grid-cols-2 md:grid-cols-3  gap-3 px-3 lg:px-5 ">
                             <ProductCardSkeleton />
                             <ProductCardSkeleton />
                             <ProductCardSkeleton />
@@ -67,7 +67,7 @@ function NewArrival() {
             }
 
 
-            <section className='container sm:h-[400px] relative flex flex-col-reverse sm:grid py-5 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-10 '>
+            <section className='container sm:h-[400px] relative flex flex-col-reverse sm:grid py-5 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-10 px-3 lg:px-5 '>
                 <div className='w-full relative flex flex-col justify-center items-start gap-1'>
                     {/* <p className='text-[16px] font-medium text-primary'>Running</p> */}
                     <h2 className='text-2xl font-semibold '>New Arrivals – Crafted for the Moment</h2>

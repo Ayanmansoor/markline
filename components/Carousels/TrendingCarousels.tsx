@@ -14,10 +14,10 @@ function TrendingCarousels({ data }: trendingProductsProps) {
 
   return (
     <section className='relative w-full h-auto bg-black  '>
-      <div className='container  mx-auto reltive h-fit w-full flex flex-col gap-5   text-secondary pt-5 pb-10 '>
+      <div className='container  mx-auto reltive h-fit w-full flex flex-col gap-5   text-secondary pt-5 pb-10 px-3 md:px-5  '>
         <span className='flex flex-col gap-1'>
-          <h2 className='text-h1 font-medium text-white pt-5  uppercase'>Best-Selling Footwear  Customer Favorites at Markline</h2>
-          <p className='text-base font-medium text-white italic'>Explore the top-rated, most-loved shoes our customers can&apos;t stop talking about.</p>
+          <h2 className='  text-base md:text-2xl lg:text-3xl font-medium text-white pt-5  uppercase'>Best-Selling Footwear  Customer Favorites at Markline</h2>
+          <p className=' text-xs md:text-base font-medium text-white italic'>Explore the top-rated, most-loved shoes our customers can&apos;t stop talking about.</p>
         </span>
 
         <Swiper

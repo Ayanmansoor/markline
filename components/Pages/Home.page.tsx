@@ -106,7 +106,7 @@ function HomePage() {
 
 
       <section className='w-full relative bg-secondary  '>
-        <h1 className='text-h1 font-medium container       mx-auto pt-10 bg-secondary uppercase'>Find the Perfect Fit Footwear for Men, Women & Kids</h1>
+        <h1 className='  text-base md:text-2xl lg:text-3xl font-medium container    px-3 md:px-5   mx-auto pt-10 bg-secondary uppercase'>Find the Perfect Fit Footwear for Men, Women & Kids</h1>
       </section>
 
       <MainCollections />
@@ -175,7 +175,7 @@ function HomePage() {
         </CategoriesSection >
       }
 
-      <section className='w-full relative py-5 md:py-10  container    h-auto grid grid-cols-2 gap-1'>
+      <section className='w-full relative py-5 md:py-10  container    h-auto grid grid-cols-2 gap-1  px-3 md:px-5'>
         <Link href='/collections/women/wedding-specials' className='w-full relative h-auto flex group overflow-hidden '>
           <Image src="/markline-fashion.png" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
           <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>

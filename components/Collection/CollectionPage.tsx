@@ -132,12 +132,12 @@ function CategoryL2page() {
 
                 </div>
 
-            <section className="w-full relative grid grid-cols-1  md:mt-10 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.8fr_3fr]  ">
-                <span className=' hidden h-fit sticky top-20 lg:block'>
+            <section className="w-full relative grid grid-cols-1  md:mt-10 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.8fr_3fr] px-3 lg:px-5 ">
+                <span className=' hidden h-fit sticky top-20 lg:block bg-white '>
                     <ProductFilter gender={gslug} collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
                 </span>
 
-                <div className="w-full gap-5 pb-10 relative flex flex-col px-5 md:px-10 xl:px-10">
+                <div className="w-full gap-5 pb-10 relative flex flex-col  px-3 lg:px-5">
                      
                     <section className='w-full relative gap-2 items-center  h-auto flex md:hidden '>
                         <span className='  items-center gap-2  lg:hidden '>
@@ -193,7 +193,7 @@ function CategoryL2page() {
 
                 </div>
             </section>
-            <section className='w-full relative flex flex-col gap-5 container   py-10'>
+            <section className='w-full relative flex flex-col gap-5 container  px-3 lg:px-5   py-10'>
                 <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
 
                 <div className='w-full relative h-auto flex flex-col gap-4'>

@@ -15,7 +15,7 @@ import { L2DataProps } from '@/types/interfaces';
 
 function L2Banner({ data }: L2DataProps) {
     return (
-        <section className='w-full relative h-[400px] bg-black mb-10  '>
+        <section className='w-full relative  h-auto lg:h-[300px] xl:h-[400px] bg-black mb-10  '>
             <Swiper 
                  modules={[ Autoplay,EffectFade]}
                 loop={true}

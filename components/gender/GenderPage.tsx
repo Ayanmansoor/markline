@@ -71,7 +71,7 @@ function GenderPage() {
                         <Collectionsection collections={genderCollection} url={`collections/${gender}`} />
                     </CategoriesSection>
                     :
-                    <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container px-5 md:px-10 xl:px-20 ">
+                    <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container px-3 lg:px-5 ">
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />
@@ -85,7 +85,7 @@ function GenderPage() {
                         <GridRroduct data={products?.slice(0, 10)} url={'product'}  css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(300px,auto))]' />
                     </CategoriesSection>
                     :
-                    <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container px-5 md:px-10 xl:px-20  ">
+                    <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container px-3 lg:px-5  ">
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />
@@ -94,7 +94,7 @@ function GenderPage() {
             }
 
             <Discount title={`Spotlight ${nslug} Footwear: Featured Styles You'll Love`} description={`Explore our top picks from the ${nslug} collection—curated for quality, comfort, and on‑trend appeal. Whether it's chic sandals, cozy sneakers, or elegant dress shoes, these standout styles are designed to elevate your everyday wardrobe.`} url='' />
-            <section className='w-full relative flex flex-col gap-5 container px-5 md:px-10 lg:px-20  pb-10'>
+            <section className='w-full relative flex flex-col gap-5 container px-3 lg:px-5  pb-10'>
                 <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
 
                 <div className='w-full relative h-auto flex flex-col gap-4'>

@@ -20,13 +20,13 @@ function Collectionsection({ url, collections }: CollectionsDataProps) {
             modules={[Autoplay]}
             breakpoints={{
                 200: {
-                    slidesPerView: 1.5,
+                    slidesPerView: 1,
                 },
                 300: {
-                    slidesPerView: 1.5,
+                    slidesPerView: 1.2,
                 },
                 400: {
-                    slidesPerView: 2,
+                    slidesPerView: 1.2,
                 },
                 640: {
                     slidesPerView: 2,

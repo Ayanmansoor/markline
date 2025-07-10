@@ -13,7 +13,7 @@ function CollectionCard({collections,url}:newCollectionCardProps) {
         <Link href={`/${url}/${collections.slug}`} className='w-full  cursor-pointer relative group max-h-[300px] h-[300px] md:max-h-[500px] flex flex-col items-start justify-start p-1 md:p-3 md:h-[500px]  '>
             {
                 images?.map((item, index) => (
-                    <img src={`${item.image_url}`} alt={item.name || ""} className=' w-full border  relative h-full  object-cover ' key={index}  loading='lazy' height={300} width={300} />
+                    <img src={`${item.image_url}`} alt={item.name || ""} className=' w-full  border  relative h-full  object-cover ' key={index}  loading='lazy' height={300} width={300} />
                 ))
             }
             <h2 className='text-base font-medium absolute bottom-3 line-clamp-1 capitalize text-start left-2  group-hover:left-4 transition-all duration-500   bg-black  z-10   text-white px-3 '>

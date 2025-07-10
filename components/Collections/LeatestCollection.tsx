@@ -10,7 +10,7 @@ import { Pagination, Autoplay, EffectFade } from 'swiper/modules';
 
 function LeatestCollection({ url }: { url: string }) {
     return (
-        <section className='w-full relative flex flex-col  container gap-4 py-10  '>
+        <section className='w-full relative flex flex-col  container gap-4 py-10  px-3 md:px-5   '>
             <div className='w-full relative h-auto flex items-center justify-between'>
                 <h2 className='w-full relative h-auto flex items-start text-h1 font-medium text-black uppercase'>new Collections</h2>
                 {

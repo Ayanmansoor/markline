@@ -35,11 +35,11 @@ function TrendingPage() {
         <section className='realtive w-full bg-secondary h-auto'>
             {
                 collectionBanner &&
-                <Hero bannerImages={collectionBanner} css='h-[500px]' />
+                <Hero bannerImages={collectionBanner} css='  h-auto lg:[300px] lg:max-h-auto max-h-[300px] xl:h-[400px] 2xl:h-[500px]' />
             }
 
 
-            <section className='container sm:h-[400px] relative flex flex-col-reverse sm:grid py-5 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-10 '>
+            <section className='container sm:h-[400px] relative flex flex-col-reverse sm:grid py-5 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-10 px-3 lg:px-5 '>
                 <div className='w-full relative flex flex-col justify-center items-start gap-1'>
 
                     <h2 className='text-2xl font-semibold '>New Arrivals – Crafted for the Moment</h2>

@@ -61,17 +61,19 @@ function CollcetionPage() {
     <>
       {
         collectionBanner &&
-        <Hero bannerImages={collectionBanner} css='h-[500px]' />
+        <Hero bannerImages={collectionBanner} css=' h-auto max-h-[250px] xl:max-h-[500px] lg:h-[400px] xl:h-[500px]' />
       }
 
 
-      {collections?.length ? <CategoriesSection title={"Women's Footwear Collections – Sandals, Flats, Heels & More"} subtitle='Discover elegant sandals, comfy flats, chic heels & stylish mules' url={''} >
+      {collections?.length ?
+       <CategoriesSection title={"Women's Footwear Collections – Sandals, Flats, Heels & More"} subtitle='Discover elegant sandals, comfy flats, chic heels & stylish mules' url={''} >
         <Collectionsection collections={collections.filter((item) => item.gender == 'WOMEN')} url={'collections/women'} />
       </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
 
-      </div>}
+      </div>
+      }
       <section className='bg-white py-10'>
-        <div className='  container sm:h-[350px] relative flex flex-col-reverse sm:grid py-5  lg:py-10 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-1 '>
+        <div className='  container sm:h-[350px] relative flex flex-col-reverse sm:grid py-5  lg:py-10 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-1 px-3 lg:px-5'>
           <div className='w-full relative flex flex-col justify-center items-start gap-1'>
             <p className='text-base font-medium text-primary'>Running</p>
             <h2 className='text-2xl font-semibold '>Experience True Craftsmanship</h2>
@@ -99,7 +101,7 @@ function CollcetionPage() {
         </div>
       }
 
-      <section className='w-full relative py-5 md:py-10  container   h-auto grid grid-cols-2 md:grid-cols-3 gap-1'>
+      <section className='w-full relative py-5 md:py-10  container   h-auto grid grid-cols-2 md:grid-cols-3 gap-1  px-3 lg:px-5'>
         <Link href='/collections/men' className='w-full relative h-auto flex group overflow-hidden '>
           <Image src="/men-collection.jpeg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
           <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
@@ -174,7 +176,7 @@ function CollcetionPage() {
           <SecondHero categoryName={"Shoes"} data={newArrivals} />
         </CategoriesSection>
       }
-      <section className='w-full relative flex flex-col gap-5 container   py-10'>
+      <section className='w-full relative flex flex-col gap-5 container   py-10  px-3 lg:px-5'>
         <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
 
         {/* Gender-Based Links */}
