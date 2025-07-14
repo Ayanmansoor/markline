@@ -27,7 +27,7 @@ export const metadata = mergeMetadata({
 export default function ShippingPolicy() {
   return (
 
-    <div className="container mx-auto py-12 px-5 md:px-10 lg:px-20">
+    <div className=" mx-auto py-12 px-5 md:px-10 lg:px-20">
       <div className="space-y-8">
         <div className="text-center mb-10">
           <h1 className="text-3xl font-bold tracking-tight">Shipping & Return Policy</h1>
@@ -61,13 +61,13 @@ export default function ShippingPolicy() {
                 <tr>
                   <td className="border p-2">Standard Shipping</td>
                   <td className="border p-2">4-7 business days</td>
-                  <td className="border p-2 flex items-center gap-2"> <strong>₹99</strong>(Below 5000 orders)</td>
+                  <td className="border p-2 flex items-center gap-2"> <strong>₹99</strong>(Below ₹2000 orders)</td>
                 </tr>
                 
                 <tr className="bg-green-50 font-medium">
                   <td className="border p-2">Free Shipping</td>
                   <td className="border p-2">4-7 business days</td>
-                  <td className="border p-2 text-green-600">FREE (on orders above ₹5000)</td>
+                  <td className="border p-2 text-green-600">FREE (on orders above ₹3000)</td>
                 </tr>
               </tbody>
             </table>

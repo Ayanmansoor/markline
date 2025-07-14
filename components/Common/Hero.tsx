@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -7,9 +9,7 @@ import Image from 'next/image';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-
-// import required modules
-import { Autoplay, Pagination ,EffectFade } from 'swiper/modules';
+import { Autoplay ,EffectFade } from 'swiper/modules';
 import { HeroData } from '@/types/interfaces';
 
 function  Hero({ bannerImages, css }: HeroData) {
@@ -17,9 +17,10 @@ function  Hero({ bannerImages, css }: HeroData) {
     
 
     return (
+            <>
+
         <section className={`w-full relative ${css ? css : " h-[40vh] sm:h-[90vh]"}  `}>
 
-            <>
                 <Swiper 
                     modules={[Autoplay,EffectFade]}
                     loop={true}
@@ -35,7 +36,7 @@ function  Hero({ bannerImages, css }: HeroData) {
 
                         <SwiperSlide className='h-full w-full relative ' key={index}>
                             <Link href={`${images?.url}`}> 
-                                <Image src={`${images?.image_url}`} loading='eager' priority={true} alt={images?.name} height={1500} width={2000} className='w-full h-full object-cover object-bottom relative ' />
+                                <Image src={`${images?.image_url}`} loading='eager' priority={true} alt={images?.name} height={2000} width={2500} className='w-full h-full object-cover object-bottom relative ' />
                             </Link>
                         </SwiperSlide>
 
@@ -44,8 +45,9 @@ function  Hero({ bannerImages, css }: HeroData) {
 
 
                 </Swiper>
-            </>
         </section>
+            </>
+
 
     )
 }

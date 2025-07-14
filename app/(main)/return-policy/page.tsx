@@ -25,7 +25,7 @@ export const metadata = mergeMetadata({
 function Returnpolicy() {
     const date=new Date().toLocaleDateString()
     return (
-        <div className="container px-3 md:px-10 lg:px-20 py-12">
+        <div className=" px-3 md:px-10 lg:px-20 py-12">
             <div className="space-y-8">
                 <div className="text-center mb-10">
                     <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Return Policy</h1>

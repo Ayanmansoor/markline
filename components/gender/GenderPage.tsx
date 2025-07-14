@@ -82,10 +82,10 @@ function GenderPage() {
             {
                 products?.length > 0 ?
                     <CategoriesSection title={`${nslug} Footwear Collection for Comfort and Style`} subtitle={`Browse our curated ${nslug} shoes .`} url="products"  urltext={` ${nslug} products`}>
-                        <GridRroduct data={products?.slice(0, 10)} url={'product'}  css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(300px,auto))]' />
+                        <GridRroduct data={products?.slice(0, 10)} url={'product'}  css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(360px,auto))]'  productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[400px]"} />
                     </CategoriesSection>
                     :
-                    <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container px-3 lg:px-5  ">
+                    <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3  px-3 lg:px-5  ">
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />
@@ -95,24 +95,24 @@ function GenderPage() {
 
             <Discount title={`Spotlight ${nslug} Footwear: Featured Styles You'll Love`} description={`Explore our top picks from the ${nslug} collection—curated for quality, comfort, and on‑trend appeal. Whether it's chic sandals, cozy sneakers, or elegant dress shoes, these standout styles are designed to elevate your everyday wardrobe.`} url='' />
             <section className='w-full relative flex flex-col gap-5 container px-3 lg:px-5  pb-10'>
-                <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
+                <h2 className='text-xl font-semibold text-primary'>POPULAR SEARCHES</h2>
 
                 <div className='w-full relative h-auto flex flex-col gap-4'>
-                    <p className='text-base font-medium text-primary'>Shop Shoes By Gender</p>
+                    <p className='text-base font-semibold text-primary'>Shop Shoes By Gender</p>
                     <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
-                        <Link href={'/collections/men'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Men Shoes</Link>
-                        <Link href={'/collections/women'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Women Shoes</Link>
-                        <Link href={'/collections/kids'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Kids Shoes</Link>
-                        <Link href={'/collections/girls'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary '>Grils Shoes</Link>
+                        <Link href={'/collections/men'} className='text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary '>Men Shoes</Link>
+                        <Link href={'/collections/women'} className='text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary '>Women Shoes</Link>
+                        <Link href={'/collections/kids'} className='text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary '>Kids Shoes</Link>
+                        <Link href={'/collections/girls'} className='text-sm font-semibold text-orange-600 border-r border-l text-primary   px-3 border-primary '>Grils Shoes</Link>
                     </div>
                 </div>
                 <div className='w-full relative h-auto flex flex-col gap-4'>
-                    <p className='text-base font-medium text-primary'>Shop By Shoe Type</p>
+                    <p className='text-base font-semibold text-primary'>Shop By Shoe Type</p>
                     <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
                         {
                             genderCollection &&
                             genderCollection.map((item,index)=>(
-                            <Link href={`/collections/${item.gender}/${item.slug}`} className='text-sm font-medium text-orange-600 border-r border-l text-primary  px-3 border-primary' key={index}>{item.name}</Link>
+                            <Link href={`/collections/${item.gender}/${item.slug}`} className='text-sm font-semibold text-orange-600  border-l text-primary  px-3 border-primary' key={index}>{item.name}</Link>
                             ))
                         }
                         
@@ -120,28 +120,28 @@ function GenderPage() {
                 </div>
 
                 <div className='w-full relative h-auto flex flex-col gap-2'>
-                    <p className='text-base font-medium text-primary'>Shop By Women Shoe Type</p>
+                    <p className='text-base font-semibold text-primary'>Shop By Women Shoe Type</p>
                     <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
-                        <Link href='/collections/women/wedding-specials' className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Wedding Specials</Link>
-                        <Link href={"/collections/women/sandals"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Sandals</Link>
-                        <Link href={'/collections/women/flats'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Flats</Link>
-                        <Link href={"/collections/women/thongs"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Thongs</Link>
-                        <Link href={"/collections/women/ballerinas"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Ballerinas</Link>
-                        <Link href={"/collections/women/mules"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Mule</Link>
+                        <Link href='/collections/women/wedding-specials' className='text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary'>Women Wedding Specials</Link>
+                        <Link href={"/collections/women/sandals"} className='text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary'>Women Sandals</Link>
+                        <Link href={'/collections/women/flats'} className='text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary'>Women Flats</Link>
+                        <Link href={"/collections/women/Thongs sandels"} className='text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary'>Women Thongs sandels</Link>
+                        <Link href={"/collections/women/ballerinas"} className='text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary'>Women Ballerinas</Link>
+                        <Link href={"/collections/women/mules"} className='text-sm font-semibold text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Mule</Link>
                     </div>
                 </div>
 
                 <div className=" py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto ">
                     <section>
-                        <h2 className="text-xl sm:text-2xl font-semibold mb-4">Explore Footwear for Everyone</h2>
-                        <p className="text-gray-700">
+                        <h2 className=" text-lg lg:text-xl  font-semibold mb-4">Explore Footwear for Everyone</h2>
+                        <p className="text-gray-700 text-base">
                             From playful kicks for kids to fashion-forward styles for GenZ, timeless classics for men, and elegant essentials for women, our diverse collection ensures that everyone finds their perfect fit. We combine comfort, quality, and the latest trends to create a seamless experience for every step of life.
                         </p>
                     </section>
 
                     <section>
-                        <h2 className="text-xl sm:text-2xl font-semibold mb-4">Types of Footwear by Gender</h2>
-                        <ul className="list-disc list-inside text-gray-700 space-y-2">
+                        <h2 className="text-lg lg:text-xl font-semibold mb-4">Types of Footwear by Gender</h2>
+                        <ul className="list-disc list-inside text-gray-700 space-y-2 text-base">
                             <li><strong>For Men:</strong> Discover versatile lace-ups, loafers, ethnic mojaris, and street-ready sneakers designed for daily grind and weekend style.</li>
                             <li><strong>For Women:</strong> Choose from elegant heels, trendy flats, ethnic kolhapuris, and comfy slip-ons—perfectly balancing fashion and comfort.</li>
                             <li><strong>For Kids:</strong> Fun, flexible, and durable shoes tailored for growing feet. Explore velcro sneakers, sandals, and colorful sports shoes that keep up with their energy.</li>
@@ -150,8 +150,8 @@ function GenderPage() {
                     </section>
 
                     <section>
-                        <h2 className="text-xl sm:text-2xl font-semibold mb-4">How to Choose the Right Shoes</h2>
-                        <ul className="list-disc list-inside text-gray-700 space-y-2">
+                        <h2 className="text-lg lg:text-xl font-semibold mb-4">How to Choose the Right Shoes</h2>
+                        <ul className="list-disc list-inside text-gray-700 space-y-2 text-base">
                             <li><strong>Age & Style:</strong> Select age-appropriate designs—functional and playful for kids, expressive for GenZ, and versatile for adults.</li>
                             <li><strong>Occasion:</strong> From casual outings to formal events, choose shoes that match your lifestyle and schedule.</li>
                             <li><strong>Fit & Comfort:</strong> Always check sizing charts and customer reviews. Comfort features like arch support and padded soles are a must.</li>
@@ -161,8 +161,8 @@ function GenderPage() {
                     </section>
 
                     <section>
-                        <h2 className="text-xl sm:text-2xl font-semibold mb-4">Footwear Trends for All</h2>
-                        <ul className="list-disc list-inside text-gray-700 space-y-2">
+                        <h2 className="text-lg lg:text-xl font-semibold mb-4">Footwear Trends for All</h2>
+                        <ul className="list-disc list-inside text-gray-700 space-y-2 text-base">
                             <li><strong>Bold Soles:</strong> Platform sneakers and boots are popular across ages and genders.</li>
                             <li><strong>Pastel Tones & Neutrals:</strong> Universally flattering hues dominating this season.</li>
                             <li><strong>Retro Revivals:</strong> Styles like Mary Janes and high-top sneakers are making a fashionable comeback.</li>
@@ -172,8 +172,8 @@ function GenderPage() {
                     </section>
 
                     <section>
-                        <h2 className="text-xl sm:text-2xl font-semibold mb-4">Why Quality Footwear Matters</h2>
-                        <ul className="list-disc list-inside text-gray-700 space-y-2">
+                        <h2 className="text-lg lg:text-xl font-semibold mb-4">Why Quality Footwear Matters</h2>
+                        <ul className="list-disc list-inside text-gray-700 space-y-2 text-base">
                             <li><strong>Comfort:</strong> Supportive construction makes walking and standing easier for all ages.</li>
                             <li><strong>Durability:</strong> Long-lasting shoes reduce waste and frequent replacement costs.</li>
                             <li><strong>Foot Health:</strong> Proper fit and cushioning prevent common issues like heel pain and blisters.</li>

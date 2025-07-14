@@ -106,7 +106,7 @@ function HomePage() {
 
 
       <section className='w-full relative bg-secondary  '>
-        <h1 className='  text-base md:text-2xl lg:text-3xl font-medium container    px-3 md:px-5   mx-auto pt-10 bg-secondary uppercase'>Find the Perfect Fit Footwear for Men, Women & Kids</h1>
+        <h1 className='  text-base md:text-2xl lg:text-3xl font-medium px-3 md:px-5 lg:px-10      mx-auto pt-10 bg-secondary uppercase'>Find the Perfect Fit Footwear for Men, Women & Kids</h1>
       </section>
 
       <MainCollections />
@@ -130,7 +130,7 @@ function HomePage() {
 
         currentproducts?.length > 0 ?
           <CategoriesSection title={" Women’s Footwear – Stylish, Comfortable & On-Trend"} subtitle='Elegant Sandals • Chic Heels • Everyday Flats' url="products/women" urltext="Women's products">
-            <GridRroduct data={currentproducts?.slice(0, 10).filter((item) => item.gender == 'WOMEN')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(300px,auto))]' />
+            <GridRroduct data={currentproducts?.slice(0, 10).filter((item) => item.gender == 'WOMEN')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(360px,auto))]'  />
           </CategoriesSection>
           :
           <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container ">
@@ -144,7 +144,7 @@ function HomePage() {
       {
         currentproducts?.length > 0 ?
           <CategoriesSection title={" Men’s Footwear – Stylish, Comfortable & Durable"} subtitle='Sneakers • Loafers • Formal & Casual Shoes for Men' url="products/men" urltext="Men's products">
-            <GridRroduct data={currentproducts?.slice(0, 10).filter((item) => item.gender == 'MEN')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(300px,auto))]' />
+            <GridRroduct data={currentproducts?.slice(0, 10).filter((item) => item.gender == 'MEN')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(360px,auto))]' />
           </CategoriesSection>
           :
           <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container   ">
@@ -159,9 +159,15 @@ function HomePage() {
       {
         currentproducts?.slice(0, 10).filter((item) => item.gender == 'KIDS').length > 0 &&
         <CategoriesSection title={" Kids – Comfort Meets Style"} url="products/kids" urltext="kid's products">
-          <GridRroduct data={currentproducts?.slice(0, 10).filter((item) => item.gender == 'KIDS')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(300px,auto))]' />
+          <GridRroduct data={currentproducts?.slice(0, 10).filter((item) => item.gender == 'KIDS')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(360px,auto))]' />
         </CategoriesSection>
-      }
+      } 
+      <div className='  py-10 lg:py-20 xl:py-32'> 
+          <Link href={"/collections/women/heels"} className='w-full cursor-pointer relative max-h-auto '>
+              <Image src={"/women-collection.png"} alt='women banner image' height={1600} width={1800} className='w-full h-full relative ' />
+          </Link>
+      </div>
+
 
       {
         trendingProducts?.length &&
@@ -175,7 +181,7 @@ function HomePage() {
         </CategoriesSection >
       }
 
-      <section className='w-full relative py-5 md:py-10  container    h-auto grid grid-cols-2 gap-1  px-3 md:px-5'>
+      <section className='w-full relative py-5 md:py-10      h-auto grid grid-cols-3 gap-1  '>
         <Link href='/collections/women/wedding-specials' className='w-full relative h-auto flex group overflow-hidden '>
           <Image src="/markline-fashion.png" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
           <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
@@ -194,12 +200,21 @@ function HomePage() {
             </span>
           </div>
         </Link>
+        <Link href='/collections/men/men-loafer' className='w-full relative h-auto flex group overflow-hidden '>
+          <Image src="/marklineman.jpg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
+          <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
+            <span className='w-fit relative h-auto flex flex-col items-center gap-1 md:gap-3'>
+              <h2 className=' text-base sm:text-xl md:text-2xl lg:text-[40px] font-medium text-white'>For Groom</h2>
+              <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-center font-medium text-white'>Man</p>
+            </span>
+          </div>
+        </Link>
       </section>
 
 
       {
         wedding?.length > 0 &&
-        <CategoriesSection title={"Markline  Collections Products "} url={''} >
+        <CategoriesSection title={"Markline  Collections Products"} url={''} >
           <ProductsHighlightes data={wedding} />
         </CategoriesSection >
 

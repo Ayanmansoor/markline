@@ -92,9 +92,9 @@ function Footer() {
 
             </h2>
             <ul className='flex items-start flex-col  text-base justify-start gap-2'>
-              <Link href={'/collection/men'} >Men</Link>
-              <Link href={'/collection/women'} >Women</Link>
-              <Link href={'/collection/kids'} >Kids</Link>
+              <Link href={'/collections/men'} >Men</Link>
+              <Link href={'/collections/women'} >Women</Link>
+              <Link href={'/collections/kids'} >Kids</Link>
               <Link href={'/trending'} >Gen Z</Link>
               {/* <Link href={'/discount-deals'} >Discount Deals</Link> */}
             </ul>

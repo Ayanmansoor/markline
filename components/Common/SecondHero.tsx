@@ -34,7 +34,7 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
 
     return (
         <section className='w-full h-auto bg-secondary relative'>
-            <div className=' grid-cols-3 lg:grid-cols-4 md:grid hidden h-[300px] w-full  relative    sm:h-[350px] md:h-[500px]  '>
+            <div className=' grid-cols-3 lg:grid-cols-4 md:grid hidden h-[300px] w-full  relative    sm:h-[350px] md:h-[500px] lg:h-[600px]  '>
                 {
                     firstdata && firstsection &&
 

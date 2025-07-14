@@ -61,7 +61,7 @@ function CollcetionPage() {
     <>
       {
         collectionBanner &&
-        <Hero bannerImages={collectionBanner} css=' h-auto max-h-[250px] xl:max-h-[500px] lg:h-[400px] xl:h-[500px]' />
+        <Hero bannerImages={collectionBanner} css=' h-auto h-[250px]  lg:h-[400px] xl:h-[500px]' />
       }
 
 
@@ -73,7 +73,7 @@ function CollcetionPage() {
       </div>
       }
       <section className='bg-white py-10'>
-        <div className='  container sm:h-[350px] relative flex flex-col-reverse sm:grid py-5  lg:py-10 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-1 px-3 lg:px-5'>
+        <div className='   sm:h-[350px] relative flex flex-col-reverse sm:grid py-5  lg:py-10 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-1 px-3 lg:px-10  '>
           <div className='w-full relative flex flex-col justify-center items-start gap-1'>
             <p className='text-base font-medium text-primary'>Running</p>
             <h2 className='text-2xl font-semibold '>Experience True Craftsmanship</h2>
@@ -95,13 +95,13 @@ function CollcetionPage() {
       {
 
         products?.length > 0 ? <CategoriesSection title={"Shop Women's Favorites"} subtitle='Uncover standout styles handpicked for women—elegant, comfortable, and always in fashion.' url={''} >
-          <GridRroduct data={products.filter((product) => product.gender == 'WOMEN')} url={'product'} css=' sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(300px,auto))] ' />
+          <GridRroduct data={products.filter((product) => product.gender == 'WOMEN')} url={'product'}  css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(360px,auto))]' />
         </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
 
         </div>
       }
 
-      <section className='w-full relative py-5 md:py-10  container   h-auto grid grid-cols-2 md:grid-cols-3 gap-1  px-3 lg:px-5'>
+      <section className='w-full relative py-5 md:py-10     h-auto grid grid-cols-2 md:grid-cols-3 gap-1  px-3 lg:px-10'>
         <Link href='/collections/men' className='w-full relative h-auto flex group overflow-hidden '>
           <Image src="/men-collection.jpeg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
           <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
@@ -140,7 +140,7 @@ function CollcetionPage() {
       </div>}
       {
         products?.length > 0 ? <CategoriesSection title={"Finely Crafted Footwear for the Modern Gentleman"} url={''} subtitle="Explore our premium selection of men's shoes—from polished oxfords and sleek loafers to rugged boots and smart sneakers—designed to elevate every step with timeless sophistication." >
-          <GridRroduct data={products.filter((product) => product.gender == 'MEN')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(300px,auto))] ' />
+          <GridRroduct data={products.filter((product) => product.gender == 'MEN')} url={'product'}  css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(360px,auto))]' />
         </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
         </div>
       }
@@ -154,7 +154,7 @@ function CollcetionPage() {
       </div>}
       {
         products?.filter((product) => product.gender == 'KIDS')?.length > 0 ? <CategoriesSection title={"Kids’ Footwear Collection for Play, Comfort & Growth"} subtitle='Explore durable sneakers, school shoes, sandals, and slip-ons designed for active kids—each pair offering breathable support, flexible soles, and fun designs that parents trust.' url={''} >
-          <GridRroduct data={products.filter((product) => product.gender == 'KIDS')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(300px,auto))]' />
+          <GridRroduct data={products.filter((product) => product.gender == 'KIDS')} url={'product'}  css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(360px,auto))]' />
         </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
         </div>
       }
@@ -172,12 +172,12 @@ function CollcetionPage() {
 
       {
         newArrivals &&
-        <CategoriesSection title={"Latest at Markline"} url="newarrivals" >
+        <CategoriesSection title={"Latest at Markline"} url="newarrivals" urltext='New Arrivals' >
           <SecondHero categoryName={"Shoes"} data={newArrivals} />
         </CategoriesSection>
       }
-      <section className='w-full relative flex flex-col gap-5 container   py-10  px-3 lg:px-5'>
-        <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
+      <section className='w-full relative flex flex-col gap-5    py-10  px-3 lg:px-10'>
+        <h2 className='     text-lg  font-medium text-primary'>POPULAR SEARCHES</h2>
 
         {/* Gender-Based Links */}
         <div className='w-full relative h-auto flex flex-col gap-4'>
@@ -197,7 +197,7 @@ function CollcetionPage() {
             <Link href='/collections/wedding-specials' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Wedding Specials</Link>
             <Link href='/collections/sandals' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Sandals</Link>
             <Link href='/collections/flats' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Flats</Link>
-            <Link href='/collections/thongs' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Thongs</Link>
+            <Link href='/collections/Thongs sandels' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Thongs sandels</Link>
             <Link href='/collections/ballerinas' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Ballerinas</Link>
             <Link href='/collections/mules' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Mules</Link>
           </div>
@@ -210,7 +210,7 @@ function CollcetionPage() {
             <Link href='/collections/wedding-specials' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Wedding Specials</Link>
             <Link href='/collections/sandals' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Sandals</Link>
             <Link href='/collections/flats' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Flats</Link>
-            <Link href='/collections/thongs' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Thongs</Link>
+            <Link href='/collections/Thongs sandels' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Thongs sandels</Link>
             <Link href='/collections/ballerinas' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Ballerinas</Link>
             <Link href='/collections/mules' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Mules</Link>
           </div>
@@ -219,8 +219,8 @@ function CollcetionPage() {
         {/* Informational Sections */}
         <div className=' py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto '>
           <section>
-            <h2 className='text-xl sm:text-2xl font-semibold mb-4'>Explore Footwear for Everyone</h2>
-            <p className='text-gray-700'>
+            <h2 className='text-base sm:text-lg font-semibold mb-4'>Explore Footwear for Everyone</h2>
+            <p className='text-gray-700 text-sm'>
               From playful kicks for kids to fashion-forward styles for GenZ, timeless classics for men, and elegant essentials for women,
               our diverse collection ensures that everyone finds their perfect fit. We combine comfort, quality, and the latest trends
               to create a seamless experience for every step of life.
@@ -228,8 +228,8 @@ function CollcetionPage() {
           </section>
 
           <section>
-            <h2 className='text-xl sm:text-2xl font-semibold mb-4'>Types of Footwear by Gender</h2>
-            <ul className='list-disc list-inside text-gray-700 space-y-2'>
+            <h2 className='text-base sm:text-lg font-semibold mb-4'>Types of Footwear by Gender</h2>
+            <ul className='list-disc list-inside text-gray-700 space-y-2 text-sm'>
               <li><strong>For Men:</strong> Versatile lace-ups, loafers, ethnic mojaris, and street-ready sneakers for every occasion.</li>
               <li><strong>For Women:</strong> Elegant heels, trendy flats, ethnic Kolhapuris, and comfy slip-ons—where style meets comfort.</li>
               <li><strong>For Kids:</strong> Fun, flexible, and durable shoes like velcro sneakers and sporty sandals built for adventure.</li>
@@ -238,8 +238,8 @@ function CollcetionPage() {
           </section>
 
           <section>
-            <h2 className='text-xl sm:text-2xl font-semibold mb-4'>How to Choose the Right Shoes</h2>
-            <ul className='list-disc list-inside text-gray-700 space-y-2'>
+            <h2 className='text-base sm:text-lg font-semibold mb-4'>How to Choose the Right Shoes</h2>
+            <ul className='list-disc list-inside text-gray-700 space-y-2 text-sm'>
               <li><strong>Age & Style:</strong> Opt for designs that fit the age group—playful for kids, expressive for GenZ, versatile for adults.</li>
               <li><strong>Occasion:</strong> Match your footwear to your lifestyle—casual, formal, or festive.</li>
               <li><strong>Fit & Comfort:</strong> Use sizing guides and reviews. Look for arch support and padded soles.</li>
@@ -249,8 +249,8 @@ function CollcetionPage() {
           </section>
 
           <section>
-            <h2 className='text-xl sm:text-2xl font-semibold mb-4'>Footwear Trends for All</h2>
-            <ul className='list-disc list-inside text-gray-700 space-y-2'>
+            <h2 className='text-base sm:text-lg font-semibold mb-4'>Footwear Trends for All</h2>
+            <ul className='list-disc list-inside text-gray-700 space-y-2 text-sm'>
               <li><strong>Bold Soles:</strong> Platforms and thick soles dominate the streets and runways.</li>
               <li><strong>Pastel Tones & Neutrals:</strong> Understated hues that work across outfits and age groups.</li>
               <li><strong>Retro Revivals:</strong> Mary Janes, moccasins, and high-tops making a bold comeback.</li>
@@ -260,8 +260,8 @@ function CollcetionPage() {
           </section>
 
           <section>
-            <h2 className='text-xl sm:text-2xl font-semibold mb-4'>Why Quality Footwear Matters</h2>
-            <ul className='list-disc list-inside text-gray-700 space-y-2'>
+            <h2 className='text-base sm:text-lg font-semibold mb-4'>Why Quality Footwear Matters</h2>
+            <ul className='list-disc list-inside text-gray-700 space-y-2 text-sm'>
               <li><strong>Comfort:</strong> Well-made shoes reduce fatigue and make walking a breeze.</li>
               <li><strong>Durability:</strong> Quality craftsmanship means less frequent replacements.</li>
               <li><strong>Foot Health:</strong> Good fit and cushioning prevent heel pain and blisters.</li>

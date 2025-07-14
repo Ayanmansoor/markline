@@ -14,7 +14,7 @@ import AddToCardPopver from './AddToCardPopver';
 
 import { useWishlists } from '@/Contexts/wishlist';
 
-function ProductCard({ product, url }: ProductsDataProps) {
+function ProductCard({ product, url ,className }: ProductsDataProps) {
   const { addToWishlist, removeFromWishlist, wishlist, isProductInWishlist } = useWishlists()
 
   const [Stringifycolor, setStringifyColor] = useState<Colors[]>([])
@@ -53,7 +53,7 @@ function ProductCard({ product, url }: ProductsDataProps) {
 
 
   return (
-    <section className='max-w-full  relative h-full border  border-black justify-between flex items-start border-none flex-col  group '>
+    <section className='max-w-full  relative h-full    justify-between flex items-start border-none flex-col  group '>
       <Link href={`/${url}/${product?.slug}`} className=' h-auto relative w-full bg-[#ebeeef] group transition-all duration-500 ease-in cursor-pointer  '>
         <Swiper
           style={{
@@ -74,12 +74,12 @@ function ProductCard({ product, url }: ProductsDataProps) {
             StringifyImages ?
               StringifyImages?.map((image, index: number) => (
                 <SwiperSlide className='w-full realtive h-full relative border ' key={index}>
-                  <img  src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className='w-full   transition-all duration-500 ease-in-out h-[220px] sm:h-[300px] md:h-[250px] lg:h-[350px]  object-contain sm:object-cover' height={200} width={300} loading='lazy' />
+                  <img  src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className={`w-full   transition-all duration-500 ease-in-out object-contain sm:object-cover  ${className? className :" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[350px] xl:h-[500px]"} `} height={200} width={300} loading='lazy' />
                 </SwiperSlide>
               )) :
               product.image_urls?.map((image, index) => (
                 <SwiperSlide className='w-full realtive h-full relative border' key={index}>
-                  <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className='w-full   transition-all duration-500 ease-in-out h-[220px] sm:h-[300px]  md:h-[250px] lg:h-[350px]  object-contain sm:object-cover' height={200} width={300} loading='lazy' />
+                  <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className={`w-full   transition-all duration-500 ease-in-out ${className? className :" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[350px] xl:h-[500px]"}  object-contain sm:object-cover`} height={200} width={300} loading='lazy' />
                 </SwiperSlide>
               ))
           }
@@ -90,11 +90,11 @@ function ProductCard({ product, url }: ProductsDataProps) {
         }
 
       </Link>
-      <Link href={`/${url}/${product?.slug}`} className='flex w-full items-start pt-2 justify-between  px-2 gap-0 border-l border-r' >
-        <h2 className=' text-xs sm:text-sm md:text-[16px] font-medium  line-clamp-2 h-[55px]  flex items-center gap-1 uppercase text-black'>{product?.name}</h2>
+      <Link href={`/${url}/${product?.slug}`} className='flex w-full items-start pt-2 justify-between  px-2 gap-0 ' >
+        <h2 className=' text-xs sm:text-sm  md:text-base lg:text-xl font-medium line-clamp-1  lg:line-clamp-2 h-auto lg:h-[55px]  flex items-center gap-1 uppercase  text-black'>{product?.name}</h2>
 
       </Link>
-      <section className='w-full relative h-auto border-l border-r pb-3 py-2 px-2 md:flex-row  flex-col flex  items-start lg:items-center justify-between gap-2'>
+      <section className='w-full relative h-auto  pb-3 py-2 px-2 md:flex-row  flex-col flex  items-start lg:items-center justify-between gap-2'>
         <div className='w-fit relative flex self-star  items-center  justify-end px-2   gap-2'>
           {
             product?.discounts &&
@@ -106,19 +106,19 @@ function ProductCard({ product, url }: ProductsDataProps) {
           }
           {
             !product?.discounts &&
-            <p className=' text-lg md:text-xl  font-medium text-nowrap text-primary'>₹ {product?.price}</p>
+            <p className=' text-lg lg:text-xl xl:text-2xl  font-semibold text-nowrap text-primary'>₹ {product?.price}</p>
 
           }
 
         </div>
 
       </section>
-      <div className='w-full relative grid grid-cols-[1fr_auto] border     border-t border-gray-300 items-center justify-center '>
+      <div className='w-full relative grid grid-cols-[1fr_auto]  border-gray-300 items-center justify-center '>
         <AddToCardPopver currentProduct={product} colors={Stringifycolor} sizes={StringifySize} addToWhishlistCB={addTowishlistproduct}  >
-          <button className='w-full hover:bg-primary hover:text-white relative h-full py-2.5 flex items-center justify-center text-base  font-medium text-black   border-r border-gray-300'>Add to Cart</button>
+          <button className='w-full hover:bg-gray-300 bg-primary hover:text-primary text-white relative h-full py-2 lg:py-2.5 flex items-center justify-center text-base hover:font-semibold  font-medium    border-gray-300'>Add to Cart</button>
         </AddToCardPopver>
 
-        <button className='flex items-center justify-center px-2.5' onClick={() => addTowishlistproduct(Stringifycolor, StringifySize)} >
+        <button className='flex items-center justify-center px-2.5 ' onClick={() => addTowishlistproduct(Stringifycolor, StringifySize)} >
           <FaHeart className={`text-[20px] flex items-center  text-black justify-center cursor-pointer hover:text-red-500  ${ (isInWhishlist || product.image_urls) && "text-red-500" }  `} />
         </button>
 

@@ -151,10 +151,10 @@ function ProductAbout({ product }: ProductsDataProps) {
 
                     </p>
 
-                    <div className=' flex flex-wrap  items-center relative  justify-start   w-full '>
+                    <div className=' flex flex-wrap gap-2 items-center relative  justify-start   w-full '>
                         {
                             colors?.map((color: any, index: number) => (
-                                <span className={`p-7   rounded-full cursor-pointer  border  ${color.name === productcart?.colors?.color?.name ? "  border-primary p-1" : " border-transparent"} ${index >= 1 ? "-m-[4px]" : ""} `} style={{ background: color.hex }} key={index}
+                                <span className={`px-7 py-5     cursor-pointer  border  ${color.name === productcart?.colors?.color?.name ? "  border-primary p-1" : " border-transparent"} ${index >= 1 ? "" : ""} `} style={{ background: color.hex }} key={index}
                                     onClick={(e) => {
                                         console.log(productcart)
                                         setProductcart((prev) => ({
@@ -221,7 +221,7 @@ function ProductAbout({ product }: ProductsDataProps) {
 
                         {/* <AddToCardPopver currentProduct={product} colors={colors} sizes={size}> */}
 
-                        <button disabled={colors?.length > 0 && size?.length > 0 ? false : true} className=' w-full relative xl:px-5 py-4 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' onClick={handleStateChange} >Add to Cart</button>
+                        <button disabled={colors?.length > 0 && size?.length > 0 ? false : true} className=' w-full relative xl:px-5 py-4 bg-white text-primary border-black border  hover:bg-slate-100 hover:text-black  ' onClick={handleStateChange} >Add to Cart</button>
                         <BuyDailog product={{ ...product, selectedColor: productcart.colors.color, selectedSize: productcart.sizes.size, quantity: productcart.quentitys.quentity }}>
                             <button disabled={colors && size ? false : true} className=' w-full relative  xl:px-5 py-4 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' >Buy Now</button>
                         </BuyDailog>
@@ -242,7 +242,7 @@ function ProductAbout({ product }: ProductsDataProps) {
                 <ul className='w-full relative h-auto flex items-start gap-2 flex-col py-4 '>
 
                     <li className=' text-white bg-primary px-3 py-1 w-full  flex items-start text-xs sm:text-sm lg:text-base font-medium'>
-                       Free delevery applicable  above 4,000 Rs Shoping.
+                       Free delevery applicable  above 2,000 Rs Shoping.
                     </li>
 
                     <li className='flex items-center w-full relative gap-1 text-xs sm:text-sm'><CiDiscount1 className='text-[20px]' />

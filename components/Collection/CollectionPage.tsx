@@ -122,7 +122,7 @@ function CategoryL2page() {
             <L2Banner data={HomeBanner} />
 
 
-                <div className='flex flex-col gap-1 w-fit container border-gray-300 pb-5 border-b '>
+                <div className='flex flex-col gap-1 w-fit  border-gray-300 pb-5 border-b '>
                             <h1 className=" text-base md:text-2xl font-semibold h-auto text-primary capitalize">
                                 {` ${collection} `.split('-').join(' ')}  – Trendy & Comfortable Footwear for Every Step
                             </h1>
@@ -132,7 +132,7 @@ function CategoryL2page() {
 
                 </div>
 
-            <section className="w-full relative grid grid-cols-1  md:mt-10 container lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.8fr_3fr] px-3 lg:px-5 ">
+            <section className="w-full relative grid grid-cols-1  md:mt-10  lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.8fr_3fr] px-3 lg:px-10 ">
                 <span className=' hidden h-fit sticky top-20 lg:block bg-white '>
                     <ProductFilter gender={gslug} collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
                 </span>
@@ -193,7 +193,7 @@ function CategoryL2page() {
 
                 </div>
             </section>
-            <section className='w-full relative flex flex-col gap-5 container  px-3 lg:px-5   py-10'>
+            <section className='w-full relative flex flex-col gap-5   px-3 lg:px-10   py-10'>
                 <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
 
                 <div className='w-full relative h-auto flex flex-col gap-4'>
@@ -211,7 +211,7 @@ function CategoryL2page() {
                         <Link href='/collections/wedding-specials' className='text-sm font-medium text-orange-600 border-r border-l text-primary  px-3 border-primary'>Wedding Specials</Link>
                         <Link href={"/collections/sandals"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Sandals</Link>
                         <Link href={'/collections/flats'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Flats</Link>
-                        <Link href={"/collections/thongs"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Thongs</Link>
+                        <Link href={"/collections/Thongs sandels"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Thongs sandels</Link>
                         <Link href={"/collections/ballerinas"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Ballerinas</Link>
                         <Link href={"/collections/mules"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Mules</Link>
                     </div>
@@ -223,7 +223,7 @@ function CategoryL2page() {
                         <Link href='/collections/wedding-specials' className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Wedding Specials</Link>
                         <Link href={"/collections/sandals"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Sandals</Link>
                         <Link href={'/collections/flats'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Flats</Link>
-                        <Link href={"/collections/thongs"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Thongs</Link>
+                        <Link href={"/collections/Thongs sandels"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Thongs sandels</Link>
                         <Link href={"/collections/ballerinas"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Ballerinas</Link>
                         <Link href={"/collections/mules"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Mule</Link>
                     </div>

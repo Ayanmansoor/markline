@@ -66,7 +66,7 @@ function AboutUsPage({ allproducts }: aboutProducts) {
 
   return (
     <>
-      <section className='w-full flex flex-col items-start gap-4 container py-10 lg:py-20 px-3 md:px-10 lg:px-20'>
+      <section className='w-full flex flex-col items-start gap-4  py-10 lg:py-20 px-3 md:px-10 '>
 
         <h1 className=' text-2xl md:text-3xl lg:text-5xl text-center w-full h-auto py-3 font-medium text-primary uppercase'>Markline</h1>
         
@@ -125,11 +125,11 @@ function AboutUsPage({ allproducts }: aboutProducts) {
         <video width="320" className='w-full relative min-h-[250px] max-h-fit pb-10 ' height="240" autoPlay muted loop>
           <source src="about-video.mp4" type="video/mp4" className='w-full relative object-cover' />
         </video>
-        <p className='w-full relative  text-base md:text-lg container px-3 md:px-10 lg:px-20 h-auto py-2 font-medium text-gray-600'>
+        <p className='w-full relative  text-base md:text-lg  px-3 md:px-10  h-auto py-2 font-medium text-gray-600'>
           <strong className='text-primary text-sm sm:text-base md:text-lg'>History of Markline </strong>
           Markline Fashion was founded in 1998 in Mumbai with a vision to redefine everyday footwear. What began as a small, passionate venture by our founder has now evolved into a beloved name in the Indian footwear industry.
         </p>
-        <p className='w-full relative  text-base md:text-lg container px-3 md:px-10 lg:px-20 h-auto py-2 font-medium text-gray-600'>Driven by a commitment to quality, style, and comfort, Markline steadily grew from local recognition to nationwide reach. Over the years, we’ve stayed rooted in our values while stepping forward with innovation — creating shoes that resonate with both trendsetters and traditionalists.</p>
+        <p className='w-full relative  text-base md:text-lg  px-3 md:px-10  h-auto py-2 font-medium text-gray-600'>Driven by a commitment to quality, style, and comfort, Markline steadily grew from local recognition to nationwide reach. Over the years, we’ve stayed rooted in our values while stepping forward with innovation — creating shoes that resonate with both trendsetters and traditionalists.</p>
 
       </section>
 
@@ -138,19 +138,19 @@ function AboutUsPage({ allproducts }: aboutProducts) {
 
           <CategoriesSection title={"Our Products "} url="">
 
-            <CarouselProduct product={allproducts?.slice(0, 10)} url={'product'} />
+            <CarouselProduct product={allproducts?.slice(0, 10)} url={'product'} css=' sm:max-w-[500px]' />
 
           </CategoriesSection >
         )
       }
 
-      <section className='w-full flex flex-col items-start gap-4 container py-10 lg:pt-20  px-3 md:px-10 lg:px-20'>
+      <section className='w-full flex flex-col items-start gap-4  py-10 lg:pt-20  px-3 md:px-10 '>
         <p className='w-full relative text-sm md:text-base  lg:text-lg  h-auto py-2 font-medium text-gray-600'>
           <strong className='text-primary text-lg'>Our Vision </strong>
          At Markline, our mission is to craft high-quality, stylish, and comfortable footwear that empowers individuals to express their identity. We are committed to delivering timeless designs, embracing sustainability, and staying rooted in the evolving needs of our customers.
         </p>
       </section>
-      <section className='w-full flex flex-col items-start gap-4 container pb-10 px-3 md:px-10 lg:px-20'>
+      <section className='w-full flex flex-col items-start gap-4  pb-10 px-3 md:px-10 '>
         <p className='w-full relative  text-sm md:text-base  lg:text-lg  h-auto py-2 font-medium text-gray-600'>
           <strong className='text-primary text-base md:text-lg'>Our Mission </strong>
         At Markline, we craft premium, stylish, and comfortable footwear that empowers every individual to express themselves with confidence. We’re committed to timeless design, sustainable choices, and staying in tune with the ever-evolving lives of our customers.
@@ -158,7 +158,7 @@ function AboutUsPage({ allproducts }: aboutProducts) {
       </section>
 
 
-      <section className='w-full flex flex-col items-start gap-4 container pb-5 lg:pb-10   px-3 md:px-10 lg:px-20'>
+      <section className='w-full flex flex-col items-start gap-4  pb-5 lg:pb-10   px-3 md:px-10 '>
 
         <h1 className='text-5xl text-center w-full h-auto py-3 font-medium text-primary uppercase'>FAQS</h1>
         <p className='w-full relative  text-sm md:text-base lg:text-lg  h-auto py-2 font-medium text-gray-600'>

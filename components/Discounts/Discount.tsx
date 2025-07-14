@@ -14,7 +14,7 @@ function Discount({title,description,url,images}:SpotlightInterfce) {
     return (
         <>
             <section className='w-full mb-10 relative h-auto bg-black  py-5 md:py-10 border px-3 lg:px-5 '>
-                <section className='w-full md:container  relative min-h-[200px]  bg-black 
+                <section className='w-full   relative min-h-[200px]  bg-black 
                 grid grid-cols-1    md:gap-0 md:grid-cols-[2fr_1.5fr]  gap-10 '>
 
                     <div className='w-full relative h-full flex items-start container  justify-center flex-col gap-1 px-3 md:px-5    '>
@@ -41,7 +41,7 @@ function Discount({title,description,url,images}:SpotlightInterfce) {
                                 <img src="/discount-image.jpeg" height={400} width={400} className='w-full cursor-pointer relative h-full object-cover ' alt="Nike Shope" loading='lazy' />
                             </SwiperSlide>
                             <SwiperSlide className='max-w-[200px] h-full relative flex items-center justify-center'>
-                                <img src="/silver-embellished-wedge-heel-thongs-for-women-2.jpeg" height={400} width={400} className='w-full relative h-full cursor-pointer object-cover ' alt="Nike Shope" loading='lazy' />
+                                <img src="/silver-embellished-wedge-heel-Thongs sandels-for-women-2.jpeg" height={400} width={400} className='w-full relative h-full cursor-pointer object-cover ' alt="Nike Shope" loading='lazy' />
                             </SwiperSlide>
                             <SwiperSlide className='max-w-[200px] h-full relative flex items-center justify-center'>
                                 <img src="/block-heel-mules-for-women-5.jpeg" height={400} width={400} className='w-full relative h-full object-cover cursor-pointer ' alt="Nike Shope" loading='lazy' />

@@ -5,7 +5,7 @@ import { CategoriesSectionProps } from '@/types/interfaces';
 
 function CategoriesSection({ children, title, url ,urltext ,subtitle ,isH1 }: CategoriesSectionProps) {
     return (
-        <section className='w-full relative container h-auto items-start gap-5  py-10 lg:py-20  flex flex-col  px-3 md:px-5   '>
+        <section className='w-full relative  h-auto items-start gap-5  py-10 lg:py-20  flex flex-col  px-3 md:px-5 lg:px-10    '>
             <div className='w-full relative h-auto flex items-center flex-col-reverse sm:flex-row  justify-between gap-2'>
                 <span className='flex flex-col gap-3 '>
                     {

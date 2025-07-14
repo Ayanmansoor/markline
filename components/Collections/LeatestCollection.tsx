@@ -10,7 +10,7 @@ import { Pagination, Autoplay, EffectFade } from 'swiper/modules';
 
 function LeatestCollection({ url }: { url: string }) {
     return (
-        <section className='w-full relative flex flex-col  container gap-4 py-10  px-3 md:px-5   '>
+        <section className='w-full relative flex flex-col max-h-fit    gap-4 py-10  px-3 md:px-5   '>
             <div className='w-full relative h-auto flex items-center justify-between'>
                 <h2 className='w-full relative h-auto flex items-start text-h1 font-medium text-black uppercase'>new Collections</h2>
                 {
@@ -19,7 +19,7 @@ function LeatestCollection({ url }: { url: string }) {
 
                 }
             </div>
-            <section className='w-full relative  pb-10  max-h-[800px] h-full grid   '>
+            <section className='w-full relative h-auto  pb-10    grid   '>
 
 
 
@@ -42,18 +42,18 @@ function LeatestCollection({ url }: { url: string }) {
                     className="mySwiper w-full relative h-full"
                 >
                     <SwiperSlide className=' max-w-full relative h-full px-1 '>
-                        <Link href={'/collection/women/mule'} className=''>
+                        <Link href={'/collection/women/mule'} className='w-full relative h-full '>
                             <video src="/advertise-one.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
                         </Link>
                     </SwiperSlide>
                     
                     <SwiperSlide className='max-w-full relative h-full    px-1'>
-                        <Link href={'/collection/men'} className=''>
+                        <Link href={'/collection/men'}  className='w-full relative h-full '>
                             <video src="/men-product.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
                         </Link>
                     </SwiperSlide>
                     <SwiperSlide className='max-w-full relative h-full  px-1 hidden md:block '>
-                        <Link href={'/collection/women/mule'} className=''>
+                        <Link href={'/collection/women/mule'}  className='w-full relative h-full '>
 
                             <video src="/advertise-one.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
                         </Link>

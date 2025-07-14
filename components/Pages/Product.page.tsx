@@ -73,12 +73,12 @@ function ProductPage() {
 
         {
           isLoading ?
-            <section className='container h-auto '>
+            <section className=' h-auto '>
               <ProductPageSkeleton />
             </section>
             :
             product ?
-              <div className='w-full mx-auto h-full container relative  flex flex-col justify-between  bg-secondary md:flex-row  px-3 lg:px-5  '>
+              <div className='w-full mx-auto h-full  relative  flex flex-col justify-between  bg-secondary md:flex-row  px-3 lg:px-10  '>
                 <div className='  md:max-h-fit   w-full  relative lg:sticky lg:top-5 p-1 md:h-full  md:w-[60%] lg:w-[60%] '>
                   <ProductMain product={product} />
                 </div>
@@ -117,7 +117,7 @@ function ProductPage() {
           :
           relatedProducts.length>0 ?
             <CategoriesSection title={"You may also like  "} url={'products/women'} urltext='products' >
-              <CarouselProduct url={'product'} product={relatedProducts} />
+              <CarouselProduct url={'product'} product={relatedProducts}  css=' sm:max-w-[500px]' />
             </CategoriesSection >
             :
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container  ">
@@ -142,7 +142,7 @@ function ProductPage() {
     }
        */}
 
-      <section className='w-full relative flex flex-col gap-5 container px-3 lg:px-5  pb-10'>
+      <section className='w-full relative flex flex-col gap-5  px-3 lg:px-10  pb-10'>
         <h2 className=' text-lg lg:text-xl font-semibold lg:font-medium text-primary'>POPULAR SEARCHES</h2>
 
         <div className='w-full relative h-auto flex flex-col gap-4'>
@@ -160,7 +160,7 @@ function ProductPage() {
             <Link href='/collections/wedding-specials' className='text-sm font-medium text-orange-600 border-r border-l text-primary  px-3 border-primary'>Wedding Specials</Link>
             <Link href={"/collections/sandals"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Sandals</Link>
             <Link href={'/collections/flats'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Flats</Link>
-            <Link href={"/collections/thongs"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Thongs</Link>
+            <Link href={"/collections/Thongs sandels"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Thongs sandels</Link>
             <Link href={"/collections/ballerinas"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Ballerinas</Link>
             <Link href={"/collections/mules"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Mules</Link>
           </div>
@@ -172,7 +172,7 @@ function ProductPage() {
             <Link href='/collections/wedding-specials' className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Wedding Specials</Link>
             <Link href={"/collections/sandals"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Sandals</Link>
             <Link href={'/collections/flats'} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Flats</Link>
-            <Link href={"/collections/thongs"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Thongs</Link>
+            <Link href={"/collections/Thongs sandels"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Thongs sandels</Link>
             <Link href={"/collections/ballerinas"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Ballerinas</Link>
             <Link href={"/collections/mules"} className='text-sm font-medium text-orange-600 border-r border-l text-primary   px-3 border-primary'>Women Mule</Link>
           </div>

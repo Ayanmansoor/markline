@@ -52,16 +52,16 @@ function TrendingPage() {
 
 
             <CategoriesSection title={"Top Deal On Fasion "} url='' >
-                <div className={` w-full   h-auto grid grid-cols-2   sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]   bg-secondary   `}>
+                <div className={` w-full   h-auto grid grid-cols-2   sm:grid-cols-[repeat(auto-fill,minmax(350px,auto))]   bg-secondary   `}>
                     {trending?.map((product, index: number) => (
-                        <ProductCard  url='product'  key={index} product={product.products} />
+                        <ProductCard  url='product'  key={index} product={product.products}  className={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[400px]"}/>
                     ))}
                 </div>
             </CategoriesSection>
 
 
 
-            <Discount />
+            <Discount  title='' description='' url=''   images={[]}/>
 
         </section>
     )

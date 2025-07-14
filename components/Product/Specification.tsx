@@ -11,7 +11,7 @@ import { ProductsDataProps } from '@/types/interfaces'
 function Specification({ product }: ProductsDataProps) {
 
     return (
-        <section className='w-full relative container  h-auto flex flex-col gap-8 bg-secondary px-3 lg:px-5     '>
+        <section className='w-full relative   h-auto flex flex-col gap-8 bg-secondary px-3 lg:px-10     '>
 
             <div className='w-full relative h-auto flex flex-col'>
                 <span className='w-fit relative px-5  py-1 border-t border-black text-primary bg-white text-base font-medium '>

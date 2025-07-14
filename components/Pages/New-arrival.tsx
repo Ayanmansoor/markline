@@ -55,7 +55,7 @@ function NewArrival() {
                     products &&
                         products.length > 0 ?
                         <CategoriesSection title={"New In – Fresh Picks for You"} url='' >
-                            <CarouselProduct url={'product'} product={products} css='w-[340px]   sm:max-w-[370px]' />
+                            <CarouselProduct url={'product'} product={products} css=' sm:max-w-[500px]' />
                         </CategoriesSection>
                         :
                         <div className="grid grid-cols-2 md:grid-cols-3  gap-3 px-3 lg:px-5 ">

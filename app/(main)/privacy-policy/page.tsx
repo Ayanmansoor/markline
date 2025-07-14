@@ -23,7 +23,7 @@ export const metadata = mergeMetadata({
 });
 export default function PrivacyPolicy() {
   return (
-    <div className="container  mx-auto px-5 md:px-10 lg:px-20 py-8 text-gray-800">
+    <div className="  mx-auto px-5 md:px-10 lg:px-20 py-8 text-gray-800">
 
 
       <div className="text-center mb-10">

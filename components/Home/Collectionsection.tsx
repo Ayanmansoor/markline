@@ -7,7 +7,7 @@ import { CollectionCardProps, CollectionsDataProps } from '@/types/interfaces'
 import { Autoplay, Pagination, Scrollbar } from 'swiper/modules';
 import CollectionCard from './CollectionCard';
 
-function Collectionsection({ url, collections }: CollectionsDataProps) {
+function    Collectionsection({ url, collections }: CollectionsDataProps) {
     return (
         <Swiper
             slidesPerView={"auto"}
@@ -23,10 +23,13 @@ function Collectionsection({ url, collections }: CollectionsDataProps) {
                     slidesPerView: 1,
                 },
                 300: {
-                    slidesPerView: 1.2,
+                    slidesPerView: 1.1,
                 },
                 400: {
                     slidesPerView: 1.2,
+                },
+                500: {
+                    slidesPerView: 2,
                 },
                 640: {
                     slidesPerView: 2,
@@ -35,13 +38,13 @@ function Collectionsection({ url, collections }: CollectionsDataProps) {
                     slidesPerView: 2,
                 },
                 900: {
-                    slidesPerView: 2,
+                    slidesPerView:2,
                 },
                 1024: {
-                    slidesPerView: 2.5,
+                    slidesPerView: 2.2,
                 },
                 1124: {
-                    slidesPerView: 3,
+                    slidesPerView: 2.2 ,
                 },
             }}
 
@@ -51,7 +54,7 @@ function Collectionsection({ url, collections }: CollectionsDataProps) {
         >
             {
                 collections?.map((item: CollectionCardProps, index: number) => (
-                    <SwiperSlide className='  w-full h-full relative bg-secondary' key={index} >
+                    <SwiperSlide className='  w-full h-full relative bg-secondary border border-gray-300     ' key={index} >
                         <CollectionCard collections={item} url={url} />
                     </SwiperSlide>
                 ))

@@ -218,6 +218,7 @@ export interface ProdcutFilterProps {
 export interface ProductsDataProps {
   product: ProductsProps;
   url?: string;
+  className?:string
 }
 
 export interface BuyComponentProps extends ProductsProps {
@@ -236,6 +237,7 @@ export interface GridProductProps {
   data: ProductsProps[];
   url: string;
   css?: string;
+  productsCardCss?:String
 }
 export interface CarouselProductProps {
   url: string;

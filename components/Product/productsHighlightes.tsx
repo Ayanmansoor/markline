@@ -57,7 +57,7 @@ function ProductsHighlightes({data}:ProductsHighlightesDataProps) {
                 >
 
                     {data?.map((item, index:number) => (
-                        <SwiperSlide className='  w-[400px]   sm:max-w-[360px] h-full relative bg-secondary ' key={index} >
+                        <SwiperSlide className='  sm:max-w-[500px] h-full relative bg-secondary ' key={index} >
                             <ProductCard product={item.product} url='product' />
                         </SwiperSlide>
                     ))}
