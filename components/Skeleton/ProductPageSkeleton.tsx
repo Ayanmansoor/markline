@@ -3,7 +3,7 @@ import ContentLoader from 'react-content-loader'
 
 function ProductPageSkeleton() {
     return (
-        <section className='w-full relative container px-3 lg:px-5 '>
+        <section className='w-full relative  px-3 lg:px-5 '>
             <ContentLoader
                 speed={2}
                 width={1080}

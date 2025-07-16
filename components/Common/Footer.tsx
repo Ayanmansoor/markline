@@ -126,7 +126,7 @@ function Footer() {
 
             <div className='flex flex-col gap-1 mt-6'>
               <h2 className='text-base font-semibold text-white'>Payment We accept:</h2>
-              <img src="/paymnet-bar.jpg" alt="payment bar" height={400} width={400} className='py-1 h-[50px] w-fit object-contain' />
+              <img src="/paymnet-bar.jpg" alt="Markline || markline fashion || buy online" height={400} width={400} className='py-1 h-[50px] w-fit object-contain' />
             </div> 
 
           </div>

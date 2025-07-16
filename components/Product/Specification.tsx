@@ -44,7 +44,7 @@ function Specification({ product }: ProductsDataProps) {
                 <AccordionItem value="item-3">
                     <AccordionTrigger className=' text-sm md:text-base lg:text-xl font-semibold md:font-medium px-2'>Size Guide</AccordionTrigger>
                     <AccordionContent className="w-full relative h-auto px-2 flex items-center justify-center text-sm text-primary">
-                        <img src="/size-guide.png" alt="sizes guide" className=' max-w-[300px] md:max-w-[400px] relative h-auto' height={200} width={500} loading='lazy' />
+                        <img src="/size-guide.png" alt="Markline || markline fashion || buy online || size Guied" className=' max-w-[300px] md:max-w-[400px] relative h-auto' height={200} width={500} loading='lazy' />
                     </AccordionContent>
                 </AccordionItem>
 

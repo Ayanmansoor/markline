@@ -114,7 +114,7 @@ function ProductAbout({ product }: ProductsDataProps) {
 
     return (
         <>
-            <div className='relative flex items-start h-auto  flex-col w-full md:w-[40%] py-5 md:pl-5  lg:pl-10 '>
+            <div className=' flex items-start h-fit relative md:sticky md:top-14  flex-col w-full md:w-[40%] py-5 md:pl-5  lg:pl-10 '>
 
                 <div className='flex items-center justify-between   w-full relative '>
                     <p className='text-[16px] font-normal items-center gap-1  '>{product?.gender}</p>
@@ -134,7 +134,7 @@ function ProductAbout({ product }: ProductsDataProps) {
                                         Math.floor(product?.price - (product?.price * (product?.discounts?.discount_persent / 100)))}</p>
                                 </>
                                 :
-                                <p className='text-2xl lg:text-4xl  font-medium text-nowrap text-red-500'>₹ {product?.price}</p>
+                                <p className='text-2xl lg:text-4xl  font-medium text-nowrap text-black'>₹ {product?.price}</p>
 
                         }
 

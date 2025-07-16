@@ -162,11 +162,11 @@ function HomePage() {
           <GridRroduct data={currentproducts?.slice(0, 10).filter((item) => item.gender == 'KIDS')} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(360px,auto))]' />
         </CategoriesSection>
       } 
-      <div className='  py-10 lg:py-20 xl:py-32'> 
+      {/* <div className='  py-10 lg:py-20 xl:py-32'> 
           <Link href={"/collections/women/heels"} className='w-full cursor-pointer relative max-h-auto '>
               <Image src={"/women-collection.png"} alt='women banner image' height={1600} width={1800} className='w-full h-full relative ' />
           </Link>
-      </div>
+      </div> */}
 
 
       {

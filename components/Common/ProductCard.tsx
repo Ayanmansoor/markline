@@ -73,8 +73,8 @@ function ProductCard({ product, url ,className }: ProductsDataProps) {
           {
             StringifyImages ?
               StringifyImages?.map((image, index: number) => (
-                <SwiperSlide className='w-full realtive h-full relative border ' key={index}>
-                  <img  src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className={`w-full   transition-all duration-500 ease-in-out object-contain sm:object-cover  ${className? className :" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[350px] xl:h-[500px]"} `} height={200} width={300} loading='lazy' />
+                <SwiperSlide className='w-full realtive h-full relative border overflow-hidden' key={index}>
+                  <img  src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className={`w-full   transition-all duration-100 ease-in-out object-contain sm:object-cover hover:scale-[1.010]  ${className? className :" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[350px] xl:h-[500px]"} `} height={200} width={300} loading='lazy' />
                 </SwiperSlide>
               )) :
               product.image_urls?.map((image, index) => (

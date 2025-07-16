@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
+import Image from 'next/image';
 
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 
@@ -31,7 +32,7 @@ function ProductMain({ product }: ProductsDataProps) {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    const [Image, setImage] = useState<Images[]>([])
+    const [Images, setImage] = useState<Images[]>([])
 
     useEffect(() => {
         const productImage = product?.image_url?.map((image: any) => JSON.parse(image))
@@ -41,12 +42,12 @@ function ProductMain({ product }: ProductsDataProps) {
 
     return (
         <>
-
+{/* md:grid  sm:grid-cols-[.2fr_1fr] */}
             {
                 product?.discounts?.discount_persent &&
                 <p className='text-xs font-medium text-white bg-red-500 px-1 py-[3px] absolute top-5 right-5 z-40 '>-{product?.discounts?.discount_persent}%</p>
             }
-            <section className='w-full relative h-fit flex flex-col-reverse md:grid  sm:grid-cols-[.2fr_1fr] gap-2'>
+            <section className='w-full relative h-fit flex flex-col-reverse  gap-2 md:hidden'>
 
 
                 <Swiper
@@ -75,7 +76,7 @@ function ProductMain({ product }: ProductsDataProps) {
                 >
 
                     {
-                        Image?.map((item, index) => (
+                        Images?.map((item, index) => (
                             <SwiperSlide key={index} className='max-w-fit  relative max-h-fit md:max-h-[130px]  border  overflow-hidden'>
                                 <img src={`${item?.image_url}` || ""} alt={item.name} height={500} width={500} className='    max-w-[100px] md:max-w-full  max-h-[140px] lg:max-h-[140px] relative object-cover '  loading='lazy' />
                             </SwiperSlide>
@@ -91,7 +92,7 @@ function ProductMain({ product }: ProductsDataProps) {
                     className="mySwiper2  h-full  relative w-full "
                 >
                     {
-                        Image?.map((item, index) => (
+                        Images?.map((item, index) => (
                             <SwiperSlide key={index} className='max-w-full   relative  max-h-fit border '>
                                 <img src={`${item?.image_url}` || ""} alt={`${item.name}`} height={500} width={500} className='w-full relative grid max-h-[550px] md:max-h-[600px] lg:max-h-[700px]  object-cover sm:object-contain  sm:object-bottom '  loading='lazy' />
                             </SwiperSlide>
@@ -99,8 +100,18 @@ function ProductMain({ product }: ProductsDataProps) {
                     }
                 </Swiper>
             </section>
+            
 
 
+
+                    <section className='w-full relative h-auto hidden md:grid grid-cols-2 gap-3'>
+                        {
+                            Images.map((item,index)=>(
+                                <img src={`${item?.image_url}` || ""} alt={`${item.name}`} height={400} width={400} className='w-full max-h-[600px] object-cover cursor-pointer border hover:scale-[1.01] transition-all duration-100 '  key={index}/>
+                            ))
+                        }
+                    </section>
+ 
         </>
     )
 }

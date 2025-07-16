@@ -81,7 +81,7 @@ function CollcetionPage() {
             {/* #<Link href="" className=' w-fti transition-all duration-300 relative h-auto px-4 py-1 text-white hover:bg-white border border-transparent  hover:border-primary hover:text-primary  rounded-full bg-primary mt-2 sm:mt-5'>Buy Now</Link> */}
           </div>
           <div className='w-full relative h-full ' >
-            <img src="/collectionsection.png" alt="" className='w-full relative sm:absolute  h-full object-cover ' height={500} width={400} loading='lazy' />
+            <img src="/collectionsection.png" alt="Markline || markline fashion || buy online" className='w-full relative sm:absolute  h-full object-cover ' height={500} width={400} loading='lazy' />
           </div>
 
         </div>
