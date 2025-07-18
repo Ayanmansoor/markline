@@ -222,9 +222,9 @@ function ProductAbout({ product }: ProductsDataProps) {
 
                         {/* <AddToCardPopver currentProduct={product} colors={colors} sizes={size}> */}
 
-                        <button disabled={colors?.length > 0 && size?.length > 0 ? false : true} className=' w-full relative xl:px-5 py-4 bg-white text-primary border-black border  hover:bg-slate-100 hover:text-black  ' onClick={handleStateChange} >Add to Cart</button>
+                        <button disabled={colors?.length > 0 && size?.length > 0 ? false : true} className=' w-full relative xl:px-5 py-2 md:py-4 bg-white text-primary border-black border  hover:bg-slate-100 hover:text-black  ' onClick={handleStateChange} >Add to Cart</button>
                         <BuyDailog product={{ ...product, selectedColor: productcart.colors.color, selectedSize: productcart.sizes.size, quantity: productcart.quentitys.quentity }}>
-                            <button disabled={colors && size ? false : true} className=' w-full relative  xl:px-5 py-4 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' >Buy Now</button>
+                            <button disabled={colors && size ? false : true} className=' w-full relative  xl:px-5 py-2 md:py-4 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' >Buy Now</button>
                         </BuyDailog>
                         {/* <BuyProduct product={{ ...product, selectedColor: productcart.colors.color, selectedSize: productcart.sizes.size, quantity: productcart.quentitys.quentity }}/> */}
                         {/* </AddToCardPopver>       */}

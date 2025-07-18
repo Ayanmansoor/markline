@@ -16,7 +16,7 @@ function Filter() {
                         <h2 className=' text-2xl md:text-3xl xl:text-6xl font-semibold text-white uppercase'>
                             HIM
                         </h2>
-                        <Link href={''} className='text-xl  group-hover:underline font-medium text-white '>
+                        <Link href={''} className='text-sm lg:text-lg  group-hover:underline font-medium text-white '>
                             View All
                         </Link>
                     </div>
@@ -27,7 +27,7 @@ function Filter() {
                         <h2 className='text-2xl md:text-3xl xl:text-6xl font-semibold text-white uppercase'>
                             HER
                         </h2>
-                          <Link href={''} className='text-xl  group-hover:underline font-medium text-white '>
+                          <Link href={''} className='text-sm lg:text-lg  group-hover:underline font-medium text-white '>
                             View All
                         </Link>
 
@@ -39,7 +39,7 @@ function Filter() {
                         <h2 className='text-2xl md:text-3xl xl:text-6xl font-semibold text-white group-hover:uppercase'>
                             KIDS
                         </h2>
-                        <Link href={''} className='text-xl  group-hover:underline font-medium text-white '>
+                        <Link href={''} className='text-sm lg:text-lg  group-hover:underline font-medium text-white '>
                             View All
                         </Link>
 
@@ -63,11 +63,11 @@ function Filter() {
                         <h2 className=' text-2xl md:text-3xl xl:text-6xl font-semibold text-white uppercase'>
                             HIM
                         </h2>
-                        <Link href={''} className='text-xl  group-hover:underline font-medium text-white '>
+                        <Link href={''} className=' text-sm lg:text-lg  group-hover:underline font-medium text-white '>
                             View All
                         </Link>
                     </div>
-                    <Image src={"/menimage.jpg"} alt="for him" height={500} width={500} className='w-full group-hover:scale-[1.01] transition-all duration-100 relative max-h-[500px] object-contain' />
+                    <Image src={"/menimage.jpg"} alt="for him" height={500} width={500} className='w-full group-hover:scale-[1.01] transition-all duration-100 relative max-h-[400px] sm:max-h-[500px] object-contain' />
                 </Link>
                     </SwiperSlide>
 
@@ -77,12 +77,12 @@ function Filter() {
                         <h2 className='text-2xl md:text-3xl xl:text-6xl font-semibold text-white uppercase'>
                             HER
                         </h2>
-                          <Link href={''} className='text-xl  group-hover:underline font-medium text-white '>
+                          <Link href={''} className=' text-sm lg:text-lg   group-hover:underline font-medium text-white '>
                             View All
                         </Link>
 
                     </div>
-                    <Image src={"/forwomen.png"} alt="Women" height={500} width={500} className='w-full   group-hover:scale-[1.01] transition-all duration-100 relative max-h-[500px] object-contain' />
+                    <Image src={"/forwomen.png"} alt="Women" height={500} width={500} className='w-full   group-hover:scale-[1.01] transition-all duration-100 relative max-h-[400px] sm:max-h-[500px]  object-contain' />
                 </Link>
                     </SwiperSlide>
                     <SwiperSlide className='max-w-fit relative h-auto  px-1 md:px-2'>
@@ -91,12 +91,12 @@ function Filter() {
                         <h2 className='text-2xl md:text-3xl xl:text-6xl font-semibold text-white group-hover:uppercase'>
                             KIDS
                         </h2>
-                        <Link href={''} className='text-xl  group-hover:underline font-medium text-white '>
+                        <Link href={''} className=' text-sm lg:text-lg  group-hover:underline font-medium text-white '>
                             View All
                         </Link>
 
                     </div>
-                    <Image src={"/kids.jpg"} alt="" height={500} width={500} className='w-full relative max-h-[500px] group-hover:scale-[1.01] transition-all duration-100 object-contain' />
+                    <Image src={"/kids.jpg"} alt="" height={500} width={500} className='w-full relative max-h-[400px] sm:max-h-[500px]  group-hover:scale-[1.01] transition-all duration-100 object-contain' />
                 </Link>
                     </SwiperSlide>
 
