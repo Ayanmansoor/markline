@@ -16,6 +16,7 @@ import { useWishlists } from '@/Contexts/wishlist';
 import Razorpay from 'razorpay';
 import axios from 'axios';
 import LoadRazorpay from '@/utils/loadrazorpay';
+import BuyProduct from './BuyProduct';
 
 interface productsCart {
     colors: {
@@ -200,7 +201,7 @@ function ProductAbout({ product }: ProductsDataProps) {
                                 ...prev,
                                 quentitys: {
                                     ...prev.quentitys,
-                                    quentity: e.target.value ? e.target.value : ''
+                                    quentity: e.target.value ? parseInt(e.target.value): ''
                                 }
                             }
                         ))}>
@@ -225,6 +226,7 @@ function ProductAbout({ product }: ProductsDataProps) {
                         <BuyDailog product={{ ...product, selectedColor: productcart.colors.color, selectedSize: productcart.sizes.size, quantity: productcart.quentitys.quentity }}>
                             <button disabled={colors && size ? false : true} className=' w-full relative  xl:px-5 py-4 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' >Buy Now</button>
                         </BuyDailog>
+                        {/* <BuyProduct product={{ ...product, selectedColor: productcart.colors.color, selectedSize: productcart.sizes.size, quantity: productcart.quentitys.quentity }}/> */}
                         {/* </AddToCardPopver>       */}
                     </div>
                     <span className='border py-1     flex items-center justify-center px-5 cursor-pointer group hover:bg-red-200 h-full ' onClick={() => addTowishlistproduct(colors, size)}>

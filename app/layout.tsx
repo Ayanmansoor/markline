@@ -8,6 +8,8 @@ import Provider from "./Provider";
 import Footer from "@/components/Common/Footer";
 import { WishlistProvider } from "@/Contexts/wishlist";
 import { GoogleTagManager } from '@next/third-parties/google'
+import Subcribes from "@/components/Common/Subcribes ";
+import Head from 'next/head';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -86,6 +88,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+        <Head>
+          <meta name="google-site-verification" content="oEr910b0yVfYsDYjLEQjfpZTkZ1UeL1Z0U4R3kEQ_Wk" />
+        </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${noto.variable} antialiased`}
       >
@@ -95,6 +100,7 @@ export default function RootLayout({
             <CartProvider>
                 <Navbar />
                   {children}
+                <Subcribes/>
                 <Footer />
             </CartProvider>
           </WishlistProvider>

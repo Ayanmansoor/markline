@@ -15,7 +15,6 @@ import WihlistCardSection from '../Product/WihlistCardSection'
 import Hero from '../Common/Hero'
 function CollcetionPage() {
 
-  const { wishlist } = useWishlists()
 
   const { data: collectionBanner = [], isLoading: bannerloading, isError: bannererror } = useQuery({
     queryKey: ["collectionBanner"],
@@ -95,13 +94,13 @@ function CollcetionPage() {
       {
 
         products?.length > 0 ? <CategoriesSection title={"Shop Women's Favorites"} subtitle='Uncover standout styles handpicked for women—elegant, comfortable, and always in fashion.' url={''} >
-          <GridRroduct data={products.filter((product) => product.gender == 'WOMEN')} url={'product'}  css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(360px,auto))]' />
+          <GridRroduct data={products.filter((product) => product.gender == 'WOMEN')} url={'product'}  css=' grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
         </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
 
         </div>
       }
 
-      <section className='w-full relative py-5 md:py-10     h-auto grid grid-cols-2 md:grid-cols-3 gap-1  px-3 lg:px-10'>
+      <section className='w-full relative py-5 md:py-10     h-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1  px-3 lg:px-10'>
         <Link href='/collections/men' className='w-full relative h-auto flex group overflow-hidden '>
           <Image src="/men-collection.jpeg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
           <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
@@ -140,7 +139,7 @@ function CollcetionPage() {
       </div>}
       {
         products?.length > 0 ? <CategoriesSection title={"Finely Crafted Footwear for the Modern Gentleman"} url={''} subtitle="Explore our premium selection of men's shoes—from polished oxfords and sleek loafers to rugged boots and smart sneakers—designed to elevate every step with timeless sophistication." >
-          <GridRroduct data={products.filter((product) => product.gender == 'MEN')} url={'product'}  css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(360px,auto))]' />
+          <GridRroduct data={products.filter((product) => product.gender == 'MEN')} url={'product'}  css=' grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
         </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
         </div>
       }
@@ -154,18 +153,18 @@ function CollcetionPage() {
       </div>}
       {
         products?.filter((product) => product.gender == 'KIDS')?.length > 0 ? <CategoriesSection title={"Kids’ Footwear Collection for Play, Comfort & Growth"} subtitle='Explore durable sneakers, school shoes, sandals, and slip-ons designed for active kids—each pair offering breathable support, flexible soles, and fun designs that parents trust.' url={''} >
-          <GridRroduct data={products.filter((product) => product.gender == 'KIDS')} url={'product'}  css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(360px,auto))]' />
+          <GridRroduct data={products.filter((product) => product.gender == 'KIDS')} url={'product'}  css=' grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' />
         </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
         </div>
       }
 
 
-      {
+      {/* {
         wishlist.length > 0 &&
         <CategoriesSection title={"Your Whishlist Products "} url={'products'} >
           <WihlistCardSection url={'products'} />
         </CategoriesSection >
-      }
+      } */}
 
 
       <Discount title='Spotlight on Style' description='Step into the spotlight with Markline’s curated highlights—handpicked just for you. From sleek sandals and elegant flats to chic heels and playful toe-rings, our featured collection combines comfort, design, and everyday flair. Shop standout styles that elevate every outfit with effortless grace.' url='/' />

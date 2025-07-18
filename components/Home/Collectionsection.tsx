@@ -12,7 +12,7 @@ function    Collectionsection({ url, collections }: CollectionsDataProps) {
         <Swiper
             slidesPerView={"auto"}
             direction={"horizontal"}
-            speed={3000}
+            speed={4000}
             loop={true}
             autoplay={{
              delay: 1000,
@@ -23,10 +23,10 @@ function    Collectionsection({ url, collections }: CollectionsDataProps) {
                     slidesPerView: 1,
                 },
                 300: {
-                    slidesPerView: 1.1,
+                    slidesPerView: 1.010,
                 },
                 400: {
-                    slidesPerView: 1.2,
+                    slidesPerView: 1.010,
                 },
                 500: {
                     slidesPerView: 2,

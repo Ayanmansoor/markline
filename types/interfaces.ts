@@ -118,6 +118,7 @@ export interface TrendingProductsProps {
 
 export interface trendingProductsProps {
   data: TrendingProductsProps[];
+  productsCardCss?:string
 }
 
 export interface CategoriesSectionProps {
@@ -237,7 +238,7 @@ export interface GridProductProps {
   data: ProductsProps[];
   url: string;
   css?: string;
-  productsCardCss?:String
+  productsCardCss?:string
 }
 export interface CarouselProductProps {
   url: string;
@@ -269,8 +270,15 @@ export interface BuyDailogProps {
   product: BuyComponentProps;
 }
 
+export interface BuyProductProps {
+  product: BuyComponentProps;
+}
+
+
 export interface ProductsHighlightesDataProps {
   data: ProductsHighlightesProps[];
+  productsCardCss?:string
+
 }
 
 export interface L2Bannerprop {

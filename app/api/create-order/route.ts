@@ -1,10 +1,6 @@
 import Razorpay from "razorpay";
 import { NextRequest, NextResponse } from "next/server";
 
-// const razorpay = new Razorpay({
-//   key_id: "rzp_test_OesQsrJ6x4L4pD",
-//   key_secret: "Qa9JS1aLuX9qDfqjRB6dJhXl",
-// });
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,

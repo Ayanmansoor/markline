@@ -203,7 +203,7 @@ function    Productspage() {
                             </div>
                             :
                             allproducts.length > 0 || filterProducts && filterProducts?.length > 0 ?
-                                <GridRroduct data={filterProducts ? filterProducts : allproducts} url={'product'} css=' sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(270px,auto))]  xl:grid-cols-[repeat(auto-fill,minmax(300px,auto))] 2xl:grid-cols-[repeat(auto-fill,minmax(350px,auto))] '  productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[400px]"}/>
+                                <GridRroduct data={filterProducts ? filterProducts : allproducts} url={'product'} css=' sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(270px,auto))]  xl:grid-cols-[repeat(auto-fill,minmax(300px,auto))] 2xl:grid-cols-[repeat(auto-fill,minmax(350px,auto))] '  productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"}/>
                                 :
                                 <div className="grid grid-cols-2 md:grid-cols-3  gap-3  ">
                                     <ProductCardSkeleton />
@@ -269,7 +269,7 @@ function    Productspage() {
                 </div>
 
                 {/* Informational Sections */}
-                <div className=' py-10 flex flex-col gap-10 no-scrollbar px-3   overflow-y-auto  lg:px-10'>
+                <div className=' py-10 flex flex-col gap-10 no-scrollbar    overflow-y-auto  '>
                     <section>
                         <h2 className=' text-base  font-semibold mb-4'>Explore Footwear for Everyone</h2>
                         <p className='text-gray-700 text-sm '>

@@ -9,7 +9,7 @@ import ProductCard from '../Common/ProductCard';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { trendingProductsProps } from '@/types/interfaces';
 
-function TrendingCarousels({ data }: trendingProductsProps) {
+function TrendingCarousels({ data ,productsCardCss }: trendingProductsProps) {
 
 
   return (
@@ -44,7 +44,7 @@ function TrendingCarousels({ data }: trendingProductsProps) {
               slidesPerView: 3,
             },
             1024: {
-              slidesPerView: 3 ,
+              slidesPerView: 4 ,
             },
           }}
 
@@ -53,7 +53,7 @@ function TrendingCarousels({ data }: trendingProductsProps) {
         >
           {data?.map((item, index) => (
             <SwiperSlide className='    sm:max-w-[500px] h-full  bg-slate-50 overflow-hidden relative transition-all duration-500 text-third group' key={index}>
-              <ProductCard product={item.products} url='product' />
+              <ProductCard product={item.products} url='product' className={productsCardCss} />
             </SwiperSlide>
           ))}
         </Swiper>

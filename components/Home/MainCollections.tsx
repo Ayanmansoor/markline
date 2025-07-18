@@ -58,20 +58,46 @@ function Filter() {
                 >
 
                     <SwiperSlide className='max-w-fit relative h-auto px-1 md:px-2'>
-                        <Link href="/gender/men">
-                            <img src="/forhim.png" height={500} width={500} className='w-full border relative max-h-[250px]  md:max-h-[300px] lg:max-h-[350px] object-cover' alt="Markline || markline fashion || buy online || For Women" loading='lazy' />
+                                      <Link href={'/collections/men'} className='w-full relative h-full group '>
+                     <div className='flex flex-col gap-2 items-center z-10 justify-center  absolute top-0 h-full bg-black/20 py-3 px-3 w-full '>
+                        <h2 className=' text-2xl md:text-3xl xl:text-6xl font-semibold text-white uppercase'>
+                            HIM
+                        </h2>
+                        <Link href={''} className='text-xl  group-hover:underline font-medium text-white '>
+                            View All
                         </Link>
+                    </div>
+                    <Image src={"/menimage.jpg"} alt="for him" height={500} width={500} className='w-full group-hover:scale-[1.01] transition-all duration-100 relative max-h-[500px] object-contain' />
+                </Link>
                     </SwiperSlide>
 
                     <SwiperSlide className='max-w-fit relative h-auto  px-1 md:px-2'>
-                        <Link href="/gender/women">
-                            <img src="/forher.png" height={500} width={500} className='w-full border relative  max-h-[250px] md:max-h-[300px] lg:max-h-[350px] object-cover' alt="Markline || markline fashion || buy online || For men" loading='lazy' />
+                       <Link href="/collections/women" className='w-full relative h-full  group overflow-hidden'>
+                    <div className='flex flex-col gap-2 items-center z-10 justify-center  absolute top-0 h-full bg-black/20 py-3 px-3 w-full '>
+                        <h2 className='text-2xl md:text-3xl xl:text-6xl font-semibold text-white uppercase'>
+                            HER
+                        </h2>
+                          <Link href={''} className='text-xl  group-hover:underline font-medium text-white '>
+                            View All
                         </Link>
+
+                    </div>
+                    <Image src={"/forwomen.png"} alt="Women" height={500} width={500} className='w-full   group-hover:scale-[1.01] transition-all duration-100 relative max-h-[500px] object-contain' />
+                </Link>
                     </SwiperSlide>
                     <SwiperSlide className='max-w-fit relative h-auto  px-1 md:px-2'>
-                        <Link href={'/gender/kids'}>
-                            <img src="/forKids.png" height={500} width={500} className='w-full border relative  max-h-[250px]  md:max-h-[300px] lg:max-h-[350px] object-cover' alt="Markline || markline fashion || buy online || For kids" loading='lazy' />
+                        <Link href={"/collections/kids"} className='relative h-full w-full group overflow-hidden'>
+                         <div className='flex flex-col gap-2 items-center  z-10 justify-center  absolute top-0 h-full bg-black/20 py-3 px-3 w-full '>
+                        <h2 className='text-2xl md:text-3xl xl:text-6xl font-semibold text-white group-hover:uppercase'>
+                            KIDS
+                        </h2>
+                        <Link href={''} className='text-xl  group-hover:underline font-medium text-white '>
+                            View All
                         </Link>
+
+                    </div>
+                    <Image src={"/kids.jpg"} alt="" height={500} width={500} className='w-full relative max-h-[500px] group-hover:scale-[1.01] transition-all duration-100 object-contain' />
+                </Link>
                     </SwiperSlide>
 
                 </Swiper>

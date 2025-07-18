@@ -41,7 +41,7 @@ function CarouselProduct({ url, product ,css }: CarouselProductProps) {
                             slidesPerView: 3,
                         },
                         1024: {
-                            slidesPerView: 3.2,
+                            slidesPerView: 4,
                         },
                     }}
 
@@ -51,7 +51,7 @@ function CarouselProduct({ url, product ,css }: CarouselProductProps) {
 
                     {product?.map((product:any, index: number) => (
                         <SwiperSlide className={` ${css ? css : "w-[320px]   sm:max-w-[320px]"} h-full relative bg-secondary px-0 md:px-3`} key={index} >
-                            <ProductCard  url={url} product={product} className={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[400px]"} />
+                            <ProductCard  url={url} product={product} className={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[350px] 2xl:h-[400px]"}  />
                         </SwiperSlide>
                     ))}
 

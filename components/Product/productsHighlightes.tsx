@@ -14,7 +14,7 @@ import { ProductsHighlightesDataProps, ProductsHighlightesProps } from '@/types/
 
 
 
-function ProductsHighlightes({data}:ProductsHighlightesDataProps) {
+function ProductsHighlightes({data ,productsCardCss}:ProductsHighlightesDataProps) {
    
 
 
@@ -47,7 +47,7 @@ function ProductsHighlightes({data}:ProductsHighlightesDataProps) {
                           spaceBetween:10
                         },
                         1024: {
-                          slidesPerView: 'auto',
+                          slidesPerView: 4,
                           spaceBetween:10
                         },
                       }}
@@ -58,7 +58,7 @@ function ProductsHighlightes({data}:ProductsHighlightesDataProps) {
 
                     {data?.map((item, index:number) => (
                         <SwiperSlide className='  sm:max-w-[500px] h-full relative bg-secondary ' key={index} >
-                            <ProductCard product={item.product} url='product' />
+                            <ProductCard product={item.product} url='product' className={productsCardCss} />
                         </SwiperSlide>
                     ))}
 

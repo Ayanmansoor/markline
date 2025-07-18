@@ -53,57 +53,57 @@ function Specification({ product }: ProductsDataProps) {
                     <AccordionTrigger className=' text-sm md:text-base lg:text-xl font-semibold md:font-medium px-2'> Footwear Care Instructions – Keep Your Markline Shoes Looking New</AccordionTrigger>
                     <AccordionContent className="w-full relative h-auto px-2 flex flex-col gap-3 items-start justify-center text-sm text-primary">
 
-                        <h3 className=' text-xl md:text-2xl font-semibold text-primary'>1. General Care Tips</h3>
-                        <ul className='text-base md:text-lg font-medium text-primary'>
+                        <h3 className=' text-base md:text-xl lg:text-2xl font-semibold text-primary'>1. General Care Tips</h3>
+                        <ul className='text-base lg:text-lg font-medium text-primary'>
                             <li>Store your shoes in a cool, dry place away from direct sunlight.</li>
                             <li>Use a shoe bag or box to protect your footwear from dust and moisture.</li>
                             <li>Rotate your shoes – don’t wear the same pair every day.</li>
                         </ul>
 
-                        <h3 className=' text-xl md:text-2xl font-semibold text-primary'> 2. For Leather Shoes</h3>
-                        <ul className='text-base md:text-lg font-medium text-primary'>
+                        <h3 className=' text-base md:text-xl lg:text-2xl font-semibold text-primary'> 2. For Leather Shoes</h3>
+                        <ul className='text-base lg:text-lg font-medium text-primary'>
                             <li>Clean with a soft, damp cloth to remove surface dirt.</li>
                             <li>Apply leather conditioner or polish to retain shine and prevent cracking.</li>
                             <li>Dry naturally if wet – avoid using heaters.</li>
                         </ul>
 
-                        <h3 className=' text-xl md:text-2xl font-semibold text-primary'>3. For Synthetic Footwear</h3>
-                        <ul className='text-base md:text-lg font-medium text-primary'>
+                        <h3 className=' text-base md:text-xl lg:text-2xl font-semibold text-primary'>3. For Synthetic Footwear</h3>
+                        <ul className='text-base lg:text-lg font-medium text-primary'>
                             <li>Wipe gently with a cloth and mild soap solution.</li>
                             <li>Do not use harsh chemicals or abrasive tools.</li>
                             <li>Air dry away from direct heat or sunlight.</li>
                         </ul>
 
-                        <h3 className=' text-xl md:text-2xl font-semibold text-primary'>4. For Fabric or Canvas Shoes</h3>
-                        <ul className='text-base md:text-lg font-medium text-primary'>
+                        <h3 className=' text-base md:text-xl lg:text-2xl font-semibold text-primary'>4. For Fabric or Canvas Shoes</h3>
+                        <ul className='text-base lg:text-lg font-medium text-primary'>
                             <li>Spot clean with a soft brush and mild detergent.</li>
                             <li>Air dry in the shade to prevent fading.</li>
                             <li>Use fabric protector spray to prevent stains.</li>
                         </ul>
 
-                        <h3 className=' text-xl md:text-2xl font-semibold text-primary'>5. For Heels & Delicate Styles</h3>
-                        <ul className='text-base md:text-lg font-medium text-primary'>
+                        <h3 className=' text-base md:text-xl lg:text-2xl font-semibold text-primary'>5. For Heels & Delicate Styles</h3>
+                        <ul className='text-base lg:text-lg font-medium text-primary'>
                             <li>Handle with care and avoid rough surfaces.</li>
                             <li>Use separators during storage to prevent scuffing.</li>
                             <li>Replace worn-out heel caps promptly.</li>
                         </ul>
 
-                        <h3 className=' text-xl md:text-2xl font-semibold text-primary'>6. For Kids’ Shoes</h3>
-                        <ul className='text-base md:text-lg font-medium text-primary'> 
+                        <h3 className=' text-base md:text-xl lg:text-2xl font-semibold text-primary'>6. For Kids’ Shoes</h3>
+                        <ul className='text-base lg:text-lg font-medium text-primary'> 
                             <li>Use child-safe wipes or damp cloth to clean.</li>
                             <li>Regularly inspect for wear and support.</li>
                             <li>Clean weekly to maintain hygiene.</li>
                         </ul>
 
-                        <h3 className=' text-xl md:text-2xl font-semibold text-primary'>7. Odor & Freshness Maintenance</h3>
-                        <ul className='text-base md:text-lg font-medium text-primary'> 
+                        <h3 className=' text-base md:text-xl lg:text-2xl font-semibold text-primary'>7. Odor & Freshness Maintenance</h3>
+                        <ul className='text-base lg:text-lg font-medium text-primary'> 
                             <li>Use silica gel or natural deodorizers to absorb moisture.</li>
                             <li>Allow shoes to breathe after each wear.</li>
                             <li>Use foot powder or breathable socks for freshness.</li>
                         </ul>
 
-                        <h3 className=' text-xl md:text-2xl font-semibold text-primary'>Additional Tips</h3>
-                        <ul className='text-base md:text-lg font-medium text-primary'>
+                        <h3 className=' text-base md:text-xl lg:text-2xl font-semibold text-primary'>Additional Tips</h3>
+                        <ul className='text-base lg:text-lg font-medium text-primary'>
                             <li>Never machine wash unless product care tag allows.</li>
                             <li>Check soles and replace footwear as needed.</li>
                             <li>Clean or replace laces regularly for a fresh look.</li>

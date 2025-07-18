@@ -29,7 +29,7 @@ submitOrders(orderArray: OrderFormData[]): Promise<FormResult> {
   try {
     const response = await axios.post(
       "https://qmtfmhylybgxvvihpaxw.supabase.co/functions/v1/confirm-order",
-      orderArray, // ✅ Send array here
+      orderArray, 
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_ANON_KEY}`,

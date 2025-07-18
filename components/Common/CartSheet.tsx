@@ -81,7 +81,7 @@ function CartSheet({ children }: {
                             cart.length > 0 ?
 
                                 cart.map((item, index) => (
-                                    <div className='w-full border p-2 rounded-lg relative h-auto flex flex-col   md:grid  md:grid-cols-[1.2fr_2fr_auto_auto]  items-start md:items-center justify-between gap-1' key={index}>
+                                    <div className='w-full border p-2 rounded-lg relative h-auto flex flex-col   md:grid  md:grid-cols-[100px_2fr_auto_auto]  items-start md:items-center justify-between gap-1' key={index}>
 
 
                                         <Swiper
@@ -148,17 +148,17 @@ function CartSheet({ children }: {
                         }
                     </section>
 
-                    <SheetFooter className='absolute bottom-5 w-full left-0 '>
+                    <SheetFooter className='absolute bottom-5 w-full left-0 bg-white '>
                         {
                             totalPrice > 0 &&
                             <section className='w-full relative z-30 p-3 h-fit  flex flex-col gap-2 border bg-white  '>
-                                <h2 className='text-base font-medium text-primary text-start'>After Discount</h2>
+                                <h2 className='text-base font-semibold text-primary text-start'>After Discount</h2>
                                 <span className='w-full relative h-auto bg-gray-100 flex items-center  justify-center px-3 py-1'>
                                     <p className='text-base w-full font-medium text-foreground '>Total </p>
                                     <p className='text-lg font-medium text-primary w-full'>₹ {beforeDiscount}</p>
                                 </span>
                                 {
-                                    totalDiscount &&
+                                    totalDiscount<0 &&
                                     <span className='w-full relative h-auto  flex items-center  justify-center px-3 py-1 '>
                                         <p className=' text-sm w-full font-medium text-foreground '>Discount</p>
                                         <p className='text-sm text-red-400 line-through font-medium text-primary w-full '>₹ {Math.floor(totalDiscount)}</p>
@@ -169,10 +169,10 @@ function CartSheet({ children }: {
                                     <p className='text-sm sm:text-base md:text-lg font-medium w-full text-primary'>Price To Pay</p>
                                     <p className='text-lg font-medium text-primary w-full'>₹ {Math.floor(totalPrice)}</p>
                                 </div>
-                                <div className='w-full relative h-auto flex items-start justify-between'>
-                                    <button className='w-fit relative h-auto flex items-center border text-sm md:text-base border-primary px-4 md:px-5 py-2 text-nowrap hover:bg-primary hover:text-white  font-medium text-primary' onClick={() => clearCart()} >Clear Orders</button>
+                                <div className='w-full relative h-auto flex items-start justify-end'>
+                                    {/* <button className='w-fit relative h-auto flex items-center border text-sm md:text-base border-primary px-4 md:px-5 py-2 text-nowrap hover:bg-primary hover:text-white  font-medium text-primary' onClick={() => clearCart()} >Clear Orders</button> */}
                                     <CartSheetOderDailog>
-                                        <button className='w-fit relative h-auto flex items-center  text-sm md:text-base border border-primary px-4 md:px-5 py-2 text-nowrap hover:bg-primary hover:text-white  font-medium text-primary'>Place Order</button>
+                                        <button className='w-fit relative h-auto flex items-center  text-sm md:text-base border border-primary px-4 md:px-5 py-2 text-nowrap bg-primary  text-white  font-medium text-primary'>Place Order</button>
                                     </CartSheetOderDailog>
                                 </div>
 

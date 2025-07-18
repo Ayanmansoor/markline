@@ -4,11 +4,12 @@ import { mysupabase } from "@/Supabase/SupabaseConfig";
 
 export async function POST(req: NextRequest) {
   const { email, token } = await req.json();
-        console.log(token,email)
+  console.log("Received email:", email, "Received token:", token);
 
-  if (!email && !token) {
-    return NextResponse.json({ error: "" });
+  if (!email || !token) {
+    return NextResponse.json({ error: "Email or Token is missing" }, { status: 400 });
   }
+
   const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
   const verifyResponse = await axios.post(
     "https://www.google.com/recaptcha/api/siteverify",
@@ -24,20 +25,22 @@ export async function POST(req: NextRequest) {
   );
 
   const verifyResult = verifyResponse.data;
+
   if (!verifyResult.success) {
     return NextResponse.json(
-      { error: "reCAPTCHA verification failed" },
+      { error: "reCAPTCHA verification failed", details: verifyResult['error-codes'] },
       { status: 403 }
     );
   }
 
-  const { data, error } = await mysupabase.from("subcribe").insert({
+  const { data, error } = await mysupabase.from("subscribe").insert({
     email: email,
   });
 
+
   if (error) {
     return NextResponse.json(
-      { error: "Somthing wrong to insert" },
+      { error: error.message || "Something went wrong inserting the email" },
       { status: 403 }
     );
   } else {
