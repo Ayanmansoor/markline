@@ -122,7 +122,7 @@ function CategoryL2page() {
             <L2Banner data={HomeBanner} />
 
 
-                <div className='flex flex-col gap-1 w-fit  border-gray-300 pb-5 border-b '>
+                <div className='flex flex-col gap-1 w-fit  border-gray-300 pb-5 border-b px-3 md:px-10'>
                             <h1 className=" text-base md:text-2xl font-semibold h-auto text-primary capitalize">
                                 {` ${collection} `.split('-').join(' ')}  – Trendy & Comfortable Footwear for Every Step
                             </h1>

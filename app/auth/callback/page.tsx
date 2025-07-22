@@ -23,7 +23,13 @@ export default function AuthCallback() {
 
     return (
         <>
-            <h1>hello</h1>
+           <div className="w-full relative h-[50vh] flex items-center justify-center ">
+
+                    <p className="text-2lx font-medium text-base text-primary">
+                        just a second ....
+                    </p>
+
+           </div>
         </>
     )
 

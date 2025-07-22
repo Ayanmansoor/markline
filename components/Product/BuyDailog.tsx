@@ -12,6 +12,7 @@ import AddressForm from './AddressForm'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import PaymentOption from './PaymentOption'
 
+
 import BuyComponent from './BuyComponent'
 import { BuyDailogProps, orderData } from '@/types/interfaces'
 
@@ -45,7 +46,7 @@ function BuyDailog({ children, product }: BuyDailogProps) {
                 <DialogTrigger asChild>
                     {children}
                 </DialogTrigger>
-                <DialogContent className=" max-w-[calc(100vw-20px)]  sm:max-w-[500px ] p-3 md:p-5  md:max-w-[625px]">
+                <DialogContent className=" max-w-[calc(100vw-20px)]   p-3 md:p-5  md:max-w-[825px]">
                     <DialogHeader>
                         <DialogTitle className=' text-lg border-b pb-5 lg:text-2xl xl:text-4xl font-semibold text-start'>Process Order</DialogTitle>
                     </DialogHeader>
@@ -54,9 +55,11 @@ function BuyDailog({ children, product }: BuyDailogProps) {
                         <TabsContent value="account" className='w-full relative h-auto rounded-md  '>
                             <BuyComponent product={product} />
                         </TabsContent>
+
                         <TabsContent value="address" className='w-full relative h-auto  '>
                             <AddressForm product={product} setConfirm={setcurrentTab} setOrderID={setOrderID} />
                         </TabsContent>
+
                         
                       
 
@@ -64,8 +67,7 @@ function BuyDailog({ children, product }: BuyDailogProps) {
                                     {
                                         (currentTab !== "password" && currentTab !== "address") &&
                                         <>
-                                            <TabsTrigger value="account" className='w-fit bg-black py-2 border px-5 lg:px-20 text-white text-base relative h-auto flex items-center justify-center '>Back</TabsTrigger>
-                                            <TabsTrigger value="address" className="w-fit bg-black border text-base  text-white px-5 lg:px-20 py-2 relative h-auto flex items-center justify-center">Next</TabsTrigger>
+                                                <TabsTrigger value="address" className="w-fit bg-black border text-base  text-white px-5 lg:px-20 py-2 relative h-auto flex items-center justify-center">Next</TabsTrigger>
                                         </>
 
                                     }

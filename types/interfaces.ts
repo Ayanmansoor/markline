@@ -315,3 +315,21 @@ export interface userinterfce {
 
 
 }
+
+
+export interface States{
+  name:string,
+  state_code:string
+}
+
+
+export interface StateComboboxProps{
+  setStateValue:(stateName:string)=>void;
+  errormessage:string
+}
+
+export interface CityComboboxProps{
+  setCityName:(cityname:string)=>void;
+  statename:string;
+  errormessage:string
+}

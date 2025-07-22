@@ -9,16 +9,6 @@ import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import LoadRazorpay from '@/utils/loadrazorpay'
 import { mysupabase } from '@/Supabase/SupabaseConfig'
 
-
-// import emailjs from "emailjs-com"
-// const envrecaptchaKey = import.meta.env.VITE_GOOGLE_SITE_KEY
-
-// const serviceid = import.meta.env.VITE_SERVICE_ID
-// const templateid = import.meta.env.VITE_TEMPLATE_ID
-// const publicId = import.meta.env.VITE_PUBLIC_KEY
-
-
-
 interface response {
     message: any;
     code: number;
@@ -36,6 +26,8 @@ const addressFromSchema = z.object({
     full_address: z.string().min(5, "Address must be at required"),
 })
 import { AddressFromProps, userinterfce } from '@/types/interfaces'
+import { StateCombobox } from '../FormComponents/StateCombobox'
+import { CityNameCombobox } from '../FormComponents/CityNameCombobox'
 
 type FormInputs = z.infer<typeof addressFromSchema>;
 
@@ -73,6 +65,16 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
     )
     const [isLoading, setIsLoading] = useState(false);
 
+
+    function setStateValue(stateName){
+        setValue("state_name",stateName)
+        console.log('this is state name' ,watch().state_name)
+    }
+    function setCityValue(cityname){
+        setValue("city",cityname)
+    }
+
+
     async function onSubmit(data: FormInputs) {
         const final_price = Math.floor(
             product?.price - (product?.price * (product?.discounts?.discount_persent || 0) / 100)
@@ -107,17 +109,14 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
                 color: "#084E10",
             },
         };
-
-
-
-
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
         setConfirm("password");
-
         setIsLoading(false);
     }
 
+
+    // save into my database along with payment data
     async function orderSubmition(response, fromdata: FormInputs) {
         try {
             if (!executeRecaptcha) {
@@ -196,124 +195,13 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
             }
 
         }
-        catch (error) { }
+        catch (error) {
+            console.log(error)
+         }
     }
 
     
 
-
-    // async function onSubmit(data: FormInputs) {
-
-
-
-
-    //     try {
-
-    //         const res = await LoadRazorpay();
-    //         if (!res) {
-    //             alert('Failed to load Razorpay SDK');
-    //             return;
-    //         }
-
-    //     const options = {
-    //         key: "rzp_test_OesQsrJ6x4L4pD",
-    //         amount: 50000, // in paise
-    //         currency: "INR",
-    //         name: "markline",
-    //         description: "Order description",
-    //         image: "/air-force.png",
-    //         handler: function (response) {
-    //           console.log('Payment successful', response);
-    //         },
-    //         prefill: {
-    //             name: data.name,
-    //             email: data.email,
-    //             contact: data.phone,
-    //         },
-    //         theme: {
-    //             color: "#084E10",
-    //         },
-    //         };
-
-    //     const paymentObject = new window.Razorpay(options);
-    //     paymentObject.open();
-    //     setIsLoading(false);
-
-
-    //     if (!executeRecaptcha) {
-    //             console.log("reCAPTCHA not yet available");
-    //             paymentObject.close();
-    //             return;
-    //     }
-
-    //         const recaptchaToken = await executeRecaptcha("submit_form");
-
-    //         const final_price = Math.floor(
-    //             product?.price - (product?.price * (product?.discounts?.discount_persent || 0) / 100)
-    //         );
-    //         const discountPrice = product.price * ((product?.discounts?.discount_persent || 0) / 100);
-
-    //         const orders = [
-    //             {
-    //                 ...data,
-    //                 final_price,
-    //                 quantity: product.quantity,
-    //                 discount_amount: discountPrice,
-    //                 product_key: product.id,
-    //                 recaptchaToken
-    //             }
-    //         ];
-    //         const responses = await submitOrders(orders);
-    //         const orderIDs: string[] = [];
-    //         responses.data?.forEach((ordersaved: any) => {
-    //             if (ordersaved) {
-    //                 // console.log("reponse product",ordersaved)
-    //                 const id = ordersaved?.id
-    //                 if (id) {
-    //                     orderIDs.push(id);
-    //                 }
-    //             } else {
-    //                 console.error("Order failed:", responses?.message);
-    //             }
-    //         });
-
-    //         if (orderIDs.length > 0) {
-    //             setOrderID({
-    //                 orderID: orderIDs,
-    //                 email: data.email,
-    //                 username: data.name
-    //             });
-    //             setConfirm("password");
-
-    //             const emailResponse = await fetch("/api/sendmail", {
-    //                 method: "POST",
-    //                 headers: {
-    //                     "Content-Type": "application/json"
-    //                 },
-    //                 body: JSON.stringify({
-    //                     email: data.email,
-    //                     name: data.name,
-    //                     phone:data.phone,
-    //                     orderId: orderIDs[0],
-    //                     productNames:""
-    //                 })
-    //             }); 
-
-    //             console.log("email end")
-
-    //             if (!emailResponse.ok) {
-    //                 console.error("Failed to send confirmation emails");
-    //             }
-
-    //             reset();
-    //             // clearCart(); 
-    //         } else {
-    //             console.error("No valid order ID returned.");
-    //         }
-    //     } catch (error: any) {
-    //         console.error("Unexpected error:", error.message);
-    //     }
-    // }
 
 
     return (
@@ -337,25 +225,13 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
                     {errors?.phone &&
                         <p className='text-xs font-medium text-red-400'>{errors.phone?.message}</p>}
                 </div>
+                <StateCombobox setStateValue={setStateValue} errormessage={errors.state_name&&errors?.state_name.message||""}/>
+                <CityNameCombobox setCityName={setCityValue} errormessage={errors.city&&errors.city.message||""} statename={watch().state_name}/> 
                 <div className='w-full relative h-auto flex flex-col gap-1'>
                     <label htmlFor="" className='text-sm font-medium text-gray-600'>Pin code *</label>
                     <input type="text" className='w-full relative h-auto px-3 py-2 rounded-lg border text-sm font-normal text-gray-800  ' placeholder=' Enter Your Pin Code ' {...register("pin_code")} />
                     {errors?.pin_code &&
                         <p className='text-xs font-medium text-red-400'>{errors?.pin_code?.message}</p>}
-                </div>
-
-                <div className='w-full relative h-auto flex flex-col gap-1'>
-                    <label htmlFor="" className='text-sm font-medium text-gray-600'>State Name *</label>
-                    <input type="text" className='w-full relative h-auto px-3 py-2 rounded-lg border text-sm font-normal text-gray-800  ' placeholder=' Enter Your State Name ' {...register("state_name")} />
-                    {errors?.state_name &&
-                        <p className='text-xs font-medium text-red-400'>{errors.state_name?.message}</p>}
-                </div>
-
-                <div className='w-full relative h-auto flex flex-col gap-1'>
-                    <label htmlFor="" className='text-sm font-medium text-gray-600'>City Name *</label>
-                    <input type="text" className='w-full relative h-auto px-3 py-2 rounded-lg border text-sm font-normal text-gray-800  ' placeholder=' Enter Your City Name ' {...register("city")} />
-                    {errors?.city &&
-                        <p className='text-xs font-medium text-red-400'>{errors.city?.message}</p>}
                 </div>
                 <div className='w-full relative h-auto flex flex-col gap-1 col-span-2'>
                     <label htmlFor="" className='text-sm font-medium text-gray-600'>Full Address *</label>
@@ -364,7 +240,7 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
                     {errors?.full_address &&
                         <p className='text-xs font-medium text-red-400'>{errors.full_address?.message}</p>}
                 </div>
-                <button className='w-full relative h-auto rounded-lg px-5 py-4 hover:bg-white hover:text-primary border  border-transparent hover:border-primary col-start-2  text-white  bg-primary '>Submit</button>
+                <button className='w-full relative h-auto rounded-lg px-5 py-1.5 text-lg hover:bg-white hover:text-primary border  border-transparent hover:border-primary col-start-2  text-white  bg-primary '>Submit</button>
 
             </form>
         </>
