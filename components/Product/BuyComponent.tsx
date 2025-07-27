@@ -1,5 +1,5 @@
-import { Images, ProductsDataProps } from '@/types/interfaces'
-import React , {useEffect, useState} from 'react'
+import { AddressProps, BuyProductProps, forProductsProps, Images, OrderProps, ProductsDataProps } from '@/types/interfaces'
+import React , {useEffect, useMemo, useState} from 'react'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -9,150 +9,138 @@ import { Pagination } from 'swiper/modules';
 import LoadRazorpay from '@/utils/loadrazorpay';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { mysupabase } from '@/Supabase/SupabaseConfig';
+import { submitOrders } from '@/Supabase/acceptOrderForm';
+import { getSelectedAddress } from '@/Supabase/SupabaseApi';
+import UpdateLocalstorageForOrder from '@/lib/UpdateLocalStorageForOrder';
+import SendMail from '@/lib/SendMailHelper';
 
 
-function BuyComponent({ product }: ProductsDataProps | any) {
-    const [currentUser,setCurrentUser]=useState<any>(null)
-    const { executeRecaptcha } = useGoogleReCaptcha()
+function BuyComponent({ product ,user, setConfirm}: forProductsProps ) {
+   const [isSubmittingOrder, setIsSubmittingOrder] = useState(false);
+  const [userAddress, setUserAddress] = useState<AddressProps | null>(null);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
-    async function getUserData(){
-        const {data: { user } , error } = await mysupabase.auth.getUser();
-        console.log(user,"this is user data")
-        setCurrentUser(user)
+  const productImages = product?.image_url?.map((obj: any) => JSON.parse(obj));
+
+  const { final_price, discountAmount } = useMemo(() => {
+    const discountPercent = product?.discounts?.discount_persent || 0;
+    const discountAmount = product?.price * (discountPercent / 100);
+    const final_price = Math.floor(product?.price - discountAmount);
+    return { final_price, discountAmount };
+  }, [product]);
+
+  useEffect(() => {
+    if (!user?.id) return;
+    const fetchAddress = async () => {
+      const address = await getSelectedAddress(user.id);
+      setUserAddress(address);
+    };
+    fetchAddress();
+  }, [user]);
+
+  const saveBeforePayment = async () => {
+    try {
+      setIsSubmittingOrder(true);
+
+      if (!executeRecaptcha) {
+        console.warn("reCAPTCHA not loaded.");
+        setIsSubmittingOrder(false);
+        return;
+      }
+
+      const token = await executeRecaptcha();
+
+      const orderPayload = {
+        name: userAddress?.name,
+        pin_code: userAddress?.pin_code,
+        state_name: userAddress?.state_name,
+        city: userAddress?.city,
+        full_address: userAddress?.full_address,
+        email: user?.email,
+        phone: user?.phone ||  user?.user_metadata?.phone || "" ,
+        final_price,
+        quantity: product.quantity,
+        discount_amount: discountAmount,
+        product_key: product.id,
+        user_id: user?.id,
+        user_address: userAddress?.id,
+      };
+
+      const { data } = await axios.post("/api/place-my-order", {
+        orderdata: orderPayload,
+        recaptchaToken: token,
+      });
+      if (setConfirm){
+        setConfirm("password")
+      }
+      await initiateRazorpayPayment(data.data); 
+    } catch (error) {
+      console.error("Order Save Error:", error);
+      setIsSubmittingOrder(false);
     }
+  };
 
-    useEffect(()=>{
-        getUserData()
-    },[])
+  const initiateRazorpayPayment = async (savedOrder: OrderProps) => {
+    try {
+      const { data } = await axios.post("/api/create-order", {
+        amount: final_price * 100,
+      });
 
-    const productImages = product?.image_url?.map((obj: any) => JSON.parse(obj))
+      const razorpayLoaded = await LoadRazorpay();
+      if (!razorpayLoaded) {
+        alert("Razorpay SDK failed to load");
+        return;
+      }
 
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: data.amount,
+        currency: data.currency,
+        name: "Markline",
+        description: "Secure Payment",
+        order_id: data.id,
+        image:
+          "https://res.cloudinary.com/demhgityh/image/upload/v1750353291/markline-checkout-logo_ukrvoi.png",
+        handler: (response: any) =>
+          finalizeOrderPayment(response, user, savedOrder),
+        prefill: {
+          email: user?.email,
+          contact: user?.phone || user?.user_metadata?.phone || "",
+        },
+        theme: {
+          color: "#084E10",
+        },
+      };
 
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+    } catch (error) {
+      console.error("Payment Init Error:",);
+    }
+  };
 
-    //    async function handlepayment() {
-    //         const final_price = Math.floor(
-    //             product?.price - (product?.price * (product?.discounts?.discount_persent || 0) / 100)
-    //         );
-    
-    //         const response = await axios.post('/api/create-order', {
-    //             amount: final_price * 100,
-    //         });
-    
-    //         const res = await LoadRazorpay();
-    //         if (!res) {
-    //             alert('Failed to load Razorpay SDK');
-    //             return;
-    //         }
-    
-    //         const options = {
-    //             key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-    //             amount: response.data.amount,
-    //             one_click_checkout: true,
-    //             currency: response.data.currency,
-    //             name: "Markline Fashion",
-    //             description: "Order description",
-    //             order_id: response.data.id,
-    //             image: "https://res.cloudinary.com/demhgityh/image/upload/v1750353291/markline-checkout-logo_ukrvoi.png",
-    //             handler: (response) => orderSubmition(response, data),
-    //             prefill: {
-    //                 name: data.name,
-    //                 email: data.email,
-    //                 contact: data.phone,
-    //             },
-    //             theme: {
-    //                 color: "#084E10",
-    //             },
-    //         };
-    
-    
-    
-    
-    //         const paymentObject = new window.Razorpay(options);
-    //         paymentObject.open();
-    
-    //     }
+  const finalizeOrderPayment = async (
+    razorpayResponse,
+    user,
+    savedOrder: OrderProps
+  ) => {
+    try {
+      const { data } = await axios.post("/api/update-order", {
+        SavedOrders: savedOrder,
+        user_id: user?.id,
+        razorpay_payment_id: razorpayResponse.razorpay_payment_id,
+        razorpay_order_id: razorpayResponse.razorpay_order_id,
+        razorpay_signature: razorpayResponse.razorpay_signature,
+      });
 
-    //     async function orderSubmition(response, fromdata) {
-    //             try {
-    //                 if (!executeRecaptcha) {
-    //                     console.log("token is not generated");
-    //                     return;
-    //                 }
-        
-                
-    //                 const recaptchaToken = await executeRecaptcha()
-        
-    //                 const final_price = Math.floor(
-    //                     product?.price - (product?.price * (product?.discounts?.discount_persent || 0) / 100)
-    //                 );
-    //                 const discountPrice = product.price * ((product?.discounts?.discount_persent || 0) / 100);
-    //                 const orders = [
-    //                     {
-    //                         ...fromdata,
-    //                         final_price,
-    //                         quantity: product.quantity,
-    //                         discount_amount: discountPrice,
-    //                         product_key: product.id,
-    //                         razorpay_payment_id: response.razorpay_payment_id,
-    //                         razorpay_order_id: response.razorpay_order_id,
-    //                         razorpay_signature: response.razorpay_signature,
-    //                         user_id:currentuser?.id,
-    //                         recaptchaToken
-    //                     }
-    //                 ];
-        
-        
-    //                 const responses = await submitOrders(orders)
-        
-        
-        
-    //                 const orderIDs: string[] = [];
-    //                 responses.data?.forEach((ordersaved: any) => {
-    //                     if (ordersaved) {
-        
-    //                         const id = ordersaved?.id
-    //                         if (id) {
-    //                             orderIDs.push(id);
-    //                         }
-    //                     } else {
-    //                         console.error("Order failed:", responses?.message);
-    //                     }
-    //                 });
-        
-    //                 if (orderIDs.length > 0) {
-    //                     setOrderID({
-    //                         orderID: orderIDs,
-    //                         email: fromdata.email,
-    //                         username: fromdata.name
-    //                     });
-        
-        
-        
-    //                     const emailResponse: any = await axios.post('/api/sendmail',
-    //                         {
-    //                             email: fromdata.email,
-    //                             name: fromdata.name,
-    //                             phone: fromdata.phone,
-    //                             orderId: orderIDs[0],
-    //                             productNames: product.name,
-        
-    //                         }
-    //                     )
-        
-    //                     if (!emailResponse.ok) {
-    //                         console.error("Failed to send confirmation emails");
-    //                     }
-        
-    //                     reset();
-    //                 } else {
-    //                     console.error("No valid order ID returned.");
-    //                 }
-        
-    //             }
-    //             catch (error) {
-    //                 console.log(error)
-    //              }
-    //      }
+      setIsSubmittingOrder(false);
+      await UpdateLocalstorageForOrder();
+      await SendMail({ data: [data.updated] });
+    } catch (error) {
+      console.error("Finalize Order Error:");
+      setIsSubmittingOrder(false);
+    }
+  };
 
     return (
         <>
@@ -207,7 +195,7 @@ function BuyComponent({ product }: ProductsDataProps | any) {
                         </div>
                         <div className='w-full relative bg-gray-100 py-1 text-balck  grid grid-cols-2  px-10 '>
                             <p className='text-p18 font-medium text-black '>Size :</p>
-                            <p className='text-p18 font-medium text-black '>{product.selectedSize.size}</p>
+                            <p className='text-p18 font-medium text-black '>{product?.selectedSize.size}</p>
                         </div>
                            <div className='w-full relative bg-gray-100 py-1 text-balck  grid grid-cols-2  px-10 '>
                             <p className='text-lg font-medium text-black '>Quantity :</p>
@@ -248,10 +236,16 @@ function BuyComponent({ product }: ProductsDataProps | any) {
                     </div>
                 </section>
             </section >
-            {/* {
-                currentUser &&
-                 <button className='text-base font-medium text-white rounded-md border border-gray-200 px-12 mt-4 py-2 bg-primary ' >Buy Now</button> 
-            } */}
+            <div  className='w-full flex items-end  justify-end'>
+            {
+                user?.phone || user?.email  && 
+                 <button disabled={isSubmittingOrder}  className='text-base font-medium  text-white rounded-md border border-gray-200 px-12 mt-4 py-2 bg-primary ' onClick={()=>{
+                    saveBeforePayment()
+                 }} >{
+                    isSubmittingOrder ? "Just a second.." : "Buy Now"
+                 }</button> 
+            }
+            </div>
         </>
     )
 }

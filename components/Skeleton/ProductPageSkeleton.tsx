@@ -1,87 +1,98 @@
+'use client'
 import React from 'react'
 import ContentLoader from 'react-content-loader'
+import { Skeleton } from '../ui/skeleton'
 
 function ProductPageSkeleton() {
     return (
-        <section className='w-full relative  px-3 lg:px-5 '>
-            <ContentLoader
-                speed={2}
-                width={1080}
-                height={800}
-                viewBox="0 0 1080 900"
-                backgroundColor="#D5D5D5"
-                foregroundColor="#ecebeb"
-                className='  xl:block hidden'
-            >
-                <rect x="753" y="419" rx="5" ry="5" width="510" height="2" />
-                <rect x="147" y="24" rx="0" ry="0" width="540" height="540" />
-                <rect x="12" y="25" rx="0" ry="0" width="104" height="109" />
-                <rect x="11" y="165" rx="0" ry="0" width="104" height="109" />
-                <rect x="11" y="305" rx="0" ry="0" width="105" height="109" />
-                <rect x="753" y="27" rx="0" ry="0" width="160" height="18" />
-                <rect x="753" y="63" rx="0" ry="0" width="496" height="32" />
+      
+      <div className=" mx-auto  px-4 py-12 md:py-16 lg:py-10 w-full">
+        {/* Product Grid Layout: Two columns on large screens, stacked on small screens */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
+          {/* Left Column: Product Image Gallery Skeleton */}
+          <div className="flex flex-col gap-4">
+            {/* Main Product Image Skeleton */}
+            <Skeleton className="relative w-full aspect-square rounded-xl shadow-lg" />
 
-                <rect x="753" y="189" rx="0" ry="0" width="45" height="16" />
-                <rect x="753" y="224" rx="0" ry="0" width="80" height="80" />
-                <rect x="11" y="451" rx="0" ry="0" width="105" height="109" />
-                <rect x="73" y="479" rx="0" ry="0" width="2" height="14" />                
-                <rect x="753" y="127" rx="20" ry="20" width="101" height="32" />
-                <rect x="872" y="128" rx="21" ry="21" width="85" height="32" />
-                <rect x="972" y="125" rx="20" ry="20" width="146" height="32" />
-                <rect x="1133" y="127" rx="20" ry="20" width="66" height="32" />
-                <rect x="828" y="190" rx="0" ry="0" width="175" height="16" />
-                <rect x="937" y="194" rx="0" ry="0" width="8" height="8" />
-                <rect x="854" y="224" rx="0" ry="0" width="80" height="80" />
-                <rect x="954" y="224" rx="0" ry="0" width="80" height="80" />
-                <rect x="753" y="309" rx="0" ry="0" width="80" height="5" />
-                <rect x="753" y="364" rx="0" ry="0" width="53" height="16" />
-                <rect x="828" y="348" rx="25" ry="25" width="432" height="42" />
-                <rect x="753" y="459" rx="0" ry="0" width="140" height="32" />
-                <rect x="1150" y="521" rx="0" ry="0" width="6" height="4" />
-                <rect x="1157" y="496" rx="0" ry="0" width="49" height="5" />
-                <rect x="753" y="504" rx="0" ry="0" width="70" height="12" />
-                <rect x="753" y="549" rx="25" ry="25" width="435" height="42" />
-                <rect x="1101" y="459" rx="25" ry="25" width="48" height="48" />
-                <rect x="1213" y="459" rx="25" ry="25" width="48" height="48" />
-                <rect x="1172" y="461" rx="0" ry="0" width="16" height="30" />
-                <rect x="1212" y="547" rx="25" ry="25" width="48" height="48" />
-                <rect x="12" y="627" rx="0" ry="0" width="175" height="18" />
-            </ContentLoader>
+            {/* Thumbnail Images Grid Skeleton */}
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+              <Skeleton className="relative w-full aspect-square rounded-lg" />
+              <Skeleton className="relative w-full aspect-square rounded-lg" />
+              <Skeleton className="relative w-full aspect-square rounded-lg" />
+              {/* Add more thumbnail skeletons if needed */}
+            </div>
+          </div>
 
-            <ContentLoader
-                speed={2}
-                width={'100%'}
-                height={800}
-                viewBox="0 0 100% 800"
-                backgroundColor="#D5D5D5"
-                foregroundColor="#ecebeb"
-                className=' hidden lg:block  xl:hidden '
-            >
-                <rect x="147" y="24" rx="0" ry="0" width="540" height="540" />
-                <rect x="12" y="25" rx="0" ry="0" width="104" height="109" />
-                <rect x="11" y="165" rx="0" ry="0" width="104" height="109" />
-                <rect x="11" y="165" rx="0" ry="0" width="104" height="109" />
+          {/* Right Column: Product Details and Actions Skeleton */}
+          <div className="flex flex-col gap-6 p-4 md:p-0">
+            {/* Product Category Skeleton */}
+            <Skeleton className="h-4 w-24 rounded-md" />
 
-            </ContentLoader>
+            {/* Product Title Skeleton */}
+            <Skeleton className="h-10 w-3/4 rounded-md" />
+            <Skeleton className="h-10 w-1/2 rounded-md" /> {/* Second line for title */}
 
+            {/* Price Section Skeleton */}
+            <div className="flex items-baseline space-x-3">
+              <Skeleton className="h-9 w-32 rounded-md" />
+              <Skeleton className="h-4 w-28 rounded-md" />
+            </div>
 
-            <ContentLoader
-                speed={2}
-                width={'100%'}
-                height={500}
-                viewBox="0 0 100% 500"
-                backgroundColor="#D5D5D5"
-                foregroundColor="#ecebeb"
-                className=' block lg:hidden'
-            >
-                <rect x="1" y="2" rx="0" ry="0" width="584" height="300" />
-                <rect x="2" y="330" rx="0" ry="0" width="145" height="121" />
-                <rect x="159" y="330" rx="0" ry="0" width="145" height="121" />
-                <rect x="316" y="330" rx="0" ry="0" width="145" height="121" />
-                <rect x="472" y="330" rx="0" ry="0" width="109" height="121" />
-            </ContentLoader>
-        </section>
+            {/* Color Selection Skeleton */}
+            <div>
+              <Skeleton className="h-5 w-20 mb-2 rounded-md" />
+              <div className="flex space-x-3">
+                <Skeleton className="w-9 h-9 rounded-full" />
+                <Skeleton className="w-9 h-9 rounded-full" />
+                <Skeleton className="w-9 h-9 rounded-full" />
+              </div>
+            </div>
+
+            {/* Size Selection Skeleton */}
+            <div>
+              <Skeleton className="h-5 w-28 mb-2 rounded-md" />
+              <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-2 max-w-lg">
+                {[...Array(7)].map((_, i) => ( // Create 7 size button skeletons
+                  <Skeleton key={i} className="w-full h-10 rounded-md" />
+                ))}
+              </div>
+            </div>
+
+            {/* Stock Status Badge Skeleton */}
+            <Skeleton className="h-7 w-28 rounded-full" />
+
+            {/* Quantity Selector Skeleton */}
+            <div>
+              <Skeleton className="h-5 w-24 mb-2 rounded-md" />
+              <Skeleton className="w-[120px] h-10 rounded-md" />
+            </div>
+
+            {/* Action Buttons Skeleton */}
+            <div className="flex flex-col sm:flex-row items-center gap-4 mt-6">
+              <Skeleton className="flex-1 w-full sm:w-auto h-14 rounded-lg" />
+              <Skeleton className="flex-1 w-full sm:w-auto h-14 rounded-lg" />
+              <Skeleton className="w-14 h-14 rounded-lg" /> {/* Wishlist button skeleton */}
+            </div>
+
+            {/* Delivery Information Section Skeleton */}
+            <div className="mt-8 p-6 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col gap-3">
+              <div className="flex items-center">
+                <Skeleton className="w-6 h-6 mr-3 rounded-full" />
+                <Skeleton className="h-5 w-3/4 rounded-md" />
+              </div>
+              <div className="flex items-center">
+                <Skeleton className="w-6 h-6 mr-3 rounded-full" />
+                <Skeleton className="h-5 w-full rounded-md" />
+              </div>
+              <div className="flex items-center">
+                <Skeleton className="w-6 h-6 mr-3 rounded-full" />
+                <Skeleton className="h-5 w-5/6 rounded-md" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     )
 }
 

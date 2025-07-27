@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import {
     Dialog,
     DialogContent,
@@ -7,23 +8,29 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import SheetCartForm from './SheetCartForm'
-import PaymentOption from './PaymentOption'
 import { OrderId } from '@/types/interfaces'
 
+import { mysupabase } from '@/Supabase/SupabaseConfig'
+import { getSelectedAddress } from '@/Supabase/SupabaseApi'
 
 
-function CartSheetOderDailog({ children }: { children: React.ReactNode }) {
+interface cartsheetProps{
+    children:React.ReactNode
+    closeSheet:()=>void
+}
+
+function CartSheetOderDailog({ children,closeSheet }:cartsheetProps) {
     const [currentTab, setcurrentTab] = useState('orders')
-
     const [orderId, setOrderID] = useState<OrderId>({
         orderID: "",
         email: "",
         username: ""
     })
 
+
+    
     return (
         <Dialog>
             <DialogTrigger className='w-fit h-fit relative cursor-pointer'>{children}</DialogTrigger>
@@ -34,17 +41,13 @@ function CartSheetOderDailog({ children }: { children: React.ReactNode }) {
                 <Tabs defaultValue="orders" className="w-full min-h-[200px] md:min-h-[300px]" value={currentTab} onValueChange={setcurrentTab}  >
                     <TabsList className="w-full relative h-auto px-2">
                         <TabsTrigger value="orders" className="w-full relative h-auto text-center">Orders</TabsTrigger>
-                        {
-                            currentTab == "success" &&
-                            <TabsTrigger value="success" className="w-full relative h-auto text-center">Success</TabsTrigger>
-                        }
                     </TabsList>
                     <TabsContent value="orders">
-                        <SheetCartForm setConfirm={setcurrentTab} setOrderID={setOrderID} />
+                        <SheetCartForm setConfirm={setcurrentTab} setOrderID={setOrderID} closeSheet={closeSheet} />
                     </TabsContent>
-                    <TabsContent value="success" >
+                    {/* <TabsContent value="success" >
                         <PaymentOption username={orderId.username} email={orderId.email} orderID={orderId.orderID} />
-                    </TabsContent>
+                    </TabsContent> */}
                 </Tabs>
 
 
@@ -54,3 +57,4 @@ function CartSheetOderDailog({ children }: { children: React.ReactNode }) {
 }
 
 export default CartSheetOderDailog
+

@@ -1,5 +1,5 @@
 'use client'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
     Sheet,
     SheetContent,
@@ -8,17 +8,24 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
+import { mysupabase } from '@/Supabase/SupabaseConfig';
 import { BsPlus } from "react-icons/bs";
 import { HiMiniMinusSmall } from "react-icons/hi2";
 import CartSheetOderDailog from './CartSheetOderDailog';
 import { useCart } from '@/Contexts/Cart.context';
-import { Colors, ProductsProps, Sizes, updateQuantityProps } from '@/types/interfaces';
+import { AddressProps, CartItem, Colors, OrderProps, ProductsProps, Sizes, updateQuantityProps, userinterfce } from '@/types/interfaces';
 import { IoIosClose } from 'react-icons/io';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
+import { getSelectedAddress } from '@/Supabase/SupabaseApi';
+import axios from 'axios';
+import LoadRazorpay from '@/utils/loadrazorpay';
+import UpdateLocalstorageForOrder from '@/lib/UpdateLocalStorageForOrder';
+import SendMail from '@/lib/SendMailHelper';
 
 
 function CartSheet({ children }: {
@@ -26,6 +33,11 @@ function CartSheet({ children }: {
 
 }) {
     const { cart, clearCart, updateQuantity, deleteFromCart } = useCart()
+    const [open, setOpen] = useState(false)
+    const [User,setUser]=useState<userinterfce|null>()
+    const [isOrderSub,setOrderSub]=useState<boolean>(false)
+    const {executeRecaptcha}=useGoogleReCaptcha()
+    const [UserAddress,setUserAddress]=useState<AddressProps|undefined>()
     const { totalPrice, totalDiscount, beforeDiscount } = useMemo(() => {
         let total = 0
         let discountSaved = 0
@@ -51,6 +63,41 @@ function CartSheet({ children }: {
         }
     }, [cart])
 
+    function closeSheet(){
+        setOpen(false)
+    }
+
+
+
+useEffect(() => {
+  async function fetchUserAndAddress() {
+    try {
+      const {
+        data: { user },
+        error,
+      } = await mysupabase.auth.getUser();
+      
+      if (error) {
+        console.error("Error fetching user:",);
+        return;
+      }
+
+      if (user) {
+        setUser(user);
+        console.log("User fetched:");
+
+        const address = await getSelectedAddress(user.id);
+        setUserAddress(address);
+      }
+    } catch (err) {
+      console.error("Something went wrong:",);
+    }
+  }
+
+  fetchUserAndAddress();
+}, []);
+
+
     function increaseQuentity({ productId, quantity, color, size }: updateQuantityProps) {
         if (quantity >= 1 && quantity <=5) {
             updateQuantity({ productId, quantity: quantity + 1, color, size })
@@ -64,12 +111,123 @@ function CartSheet({ children }: {
             }
         }
     }
+            
+            const { total_final_amount } = useMemo(() => {
+                        const total_final_amount = cart.reduce((accu, product, index) => {
+                                    accu += product.discounts ? Math.floor(product?.price - (product?.price * (product?.discounts?.discount_persent / 100))) : product?.price;
+                                    return accu;
+                                }, 0)
+                
+                        return { total_final_amount };
+            }, [cart.length]);
 
 
+    
+        async function OrdersBeforePayment() {
+                    try{
+                    setOrderSub(true)
+                    if (!executeRecaptcha) {
+                                console.log("token is not generated");
+                                setOrderSub(false)
+                                return;
+                        }
+    
+                    const recaptchaToken = await executeRecaptcha()
+    
+                    const orders = cart?.map((product: CartItem) => {
+                        const final_price = Math.floor(product?.price - (product?.price * (product?.discounts?.discount_persent / 100)));
+                        const discountPrice = product?.price * (product?.discounts?.discount_persent / 100);
+                        return {
+                           name: UserAddress?.name,
+                            pin_code: UserAddress?.pin_code,
+                            state_name: UserAddress?.state_name,
+                            city: UserAddress?.city,
+                            full_address: UserAddress?.full_address,
+                            email: User?.email,
+                            phone: User?.phone || User?.user_metadata.phone||"",
+                            final_price: final_price || product.price,
+                            quantity: product?.quantity,
+                            discount_amount: discountPrice || 0,
+                            product_key: product?.productId,
+                        };
+                    });
+    
+    
+                    const {data}=await axios.post("/api/bulk-place-order",{
+                        products:orders,
+                        recaptchaToken
+                    })
+    
+                    console.log(data,"to create bulk orders")
+                    setOpen(false)
+                    await Razorpayment(data.data,UserAddress)
+    
+                    }
+                catch (error) {
+                        console.error("Bulk order submission failed:", );
+                        setOrderSub(false)
+    
+                    }
+            }
+    
+        async function Razorpayment(orderedData:OrderProps[],UserAddress:AddressProps|undefined) {
+        
 
+
+            const response = await axios.post('/api/create-order', {
+                amount: total_final_amount * 100,
+            });
+            const res = await LoadRazorpay();
+            if (!res) {
+                alert('Failed to load Razorpay SDK');
+                return;
+            }
+            const options = {
+                key:  process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                amount: response.data.amount,
+                currency: response.data.currency,
+                name: "Markline",
+                description: "Order description",
+                order_id: response.data.id,
+                image: "https://res.cloudinary.com/demhgityh/image/upload/v1750353291/markline-checkout-logo_ukrvoi.png",
+                handler: (response) => orderSubmition(response, UserAddress ,orderedData),
+                prefill: {
+                    name: UserAddress?.name,
+                    email: User?.email,
+                    contact: User?.phone,
+                },
+                theme: {
+                    color: "#084E10",
+                },
+            };
+
+            const paymentObject = new window.Razorpay(options);
+            paymentObject.open();
+        }
+        async function orderSubmition(razorpayresponse, UserAddress :AddressProps|undefined,orderedData:OrderProps[]) {
+        
+            try{
+                    const {data}=await axios.post('/api/bulk-update-orders',{
+                        OrderedProducts:orderedData,
+                        user_id:"",
+                        razorpay_payment_id: razorpayresponse.razorpay_payment_id,
+                        razorpay_order_id: razorpayresponse.razorpay_order_id,
+                        razorpay_signature: razorpayresponse.razorpay_signature,
+                    })
+                    setOrderSub(false)
+                    await UpdateLocalstorageForOrder()
+                    clearCart()
+                    await SendMail({ data: data.data });
+                    
+                    
+            }
+            catch (error) {
+                console.error("Bulk order submission failed:",);
+            }
+        }
 
     return (
-        <Sheet>
+           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger className='w-fit h-fit relative '>{children}</SheetTrigger>
             <SheetContent className="py-5  px-2 max-w-[550px] md:min-w-[550px] h-full  overflow-y-auto" id="style-3">
                 <SheetHeader>
@@ -88,7 +246,7 @@ function CartSheet({ children }: {
                                             pagination={{
                                                 dynamicBullets: true,
                                             }}
-                                            modules={[Pagination]}
+                                            modules={[Pagination]}  
                                             className="mySwiper w-full relative h-full "
                                         >
                                             {
@@ -170,10 +328,18 @@ function CartSheet({ children }: {
                                     <p className='text-lg font-medium text-primary w-full'>₹ {Math.floor(totalPrice)}</p>
                                 </div>
                                 <div className='w-full relative h-auto flex items-start justify-end'>
-                                    {/* <button className='w-fit relative h-auto flex items-center border text-sm md:text-base border-primary px-4 md:px-5 py-2 text-nowrap hover:bg-primary hover:text-white  font-medium text-primary' onClick={() => clearCart()} >Clear Orders</button> */}
-                                    <CartSheetOderDailog>
+                                    {
+                                       UserAddress?.id && UserAddress?.id && 
+                                       <button className='w-fit relative h-auto flex items-center  text-sm md:text-base border border-primary px-4 md:px-5 py-2 text-nowrap bg-primary  text-white  font-medium text-primary' disabled={isOrderSub} onClick={OrdersBeforePayment} >{isOrderSub?  "Just a second...":"Buy Now"}</button>
+
+                                    }
+                                    {
+                                        !UserAddress?.id && !UserAddress?.id &&
+                                        <CartSheetOderDailog closeSheet={closeSheet}>
                                         <button className='w-fit relative h-auto flex items-center  text-sm md:text-base border border-primary px-4 md:px-5 py-2 text-nowrap bg-primary  text-white  font-medium text-primary'>Place Order</button>
-                                    </CartSheetOderDailog>
+                                        </CartSheetOderDailog>
+                                    }
+                                    
                                 </div>
 
                             </section>

@@ -91,7 +91,7 @@ function ProductCard({ product, url ,className }: ProductsDataProps) {
 
       </Link>
       <Link href={`/${url}/${product?.slug}`} className='flex w-full items-start pt-2 justify-between  px-2 gap-0 ' >
-        <h2 className=' text-xs sm:text-sm  md:text-base lg:text-xl font-medium line-clamp-1  lg:line-clamp-2 h-[50px]  flex items-center gap-1 uppercase  text-black'>{product?.name}</h2>
+        <h2 className=' text-xs sm:text-sm  md:text-base 2xl:text-xl font-medium line-clamp-1  lg:line-clamp-2 h-[50px]  flex items-center gap-1 uppercase  text-black'>{product?.name}</h2>
 
       </Link>
       <section className='w-full relative h-auto  pb-3 py-2 px-2 md:flex-row  flex-col flex  items-start lg:items-center justify-between gap-2'>
@@ -115,11 +115,11 @@ function ProductCard({ product, url ,className }: ProductsDataProps) {
       </section>
       <div className='w-full relative grid grid-cols-[1fr_auto]  border-gray-300 items-center justify-center '>
         <AddToCardPopver currentProduct={product} colors={Stringifycolor} sizes={StringifySize} addToWhishlistCB={addTowishlistproduct}  >
-          <button className='w-full hover:bg-gray-300 bg-primary hover:text-primary text-white relative h-full py-2 lg:py-2.5 flex items-center justify-center text-base hover:font-semibold  font-medium    border-gray-300'>Add to Cart</button>
+          <button className='w-full group-hover:bg-gray-300 bg-primary group-hover:text-primary text-white relative h-full py-2 lg:py-2.5 flex items-center justify-center text-base group-hover:font-semibold  font-medium    group-border-gray-300'>Add to Cart</button>
         </AddToCardPopver>
 
-        <button className='flex items-center justify-center px-2.5 ' onClick={() => addTowishlistproduct(Stringifycolor, StringifySize)} >
-          <FaHeart className={`text-[20px] flex items-center  text-black justify-center cursor-pointer hover:text-red-500  ${ (isInWhishlist || product.image_urls) && "text-red-500" }  `} />
+        <button className='flex items-center justify-center px-2.5 group h-full group-hover:bg-red-400' onClick={() => addTowishlistproduct(Stringifycolor, StringifySize)} >
+          <FaHeart className={`text-[20px] flex items-center  text-black justify-center cursor-pointer group group-hover:text-white  ${ (isInWhishlist || product.image_urls) && "text-red-500" }  `} />
         </button>
 
       </div>

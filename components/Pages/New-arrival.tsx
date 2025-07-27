@@ -32,9 +32,9 @@ function NewArrival() {
                 <video src="/" className='w-full relative h-[250px] md:h-[350px] lg:h-[500px] '></video>
             </section> */}
 
-            <section className='container sm:h-[400px]   relative flex flex-col-reverse sm:grid py-5  lg:py-10 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-1 px-3 lg:px-5'>
+            <section className=' sm:h-[500px]   relative flex flex-col-reverse sm:grid py-5  lg:py-10 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-1 px-3 lg:px-5'>
                 <div className='w-full relative h-full '>
-                    <img src="/collectionsection.png" alt="" className='w-full relative sm:absolute  h-full object-cover ' height={500} width={400} loading='lazy'/>
+                    <img src="/collectionsection.png" alt="" className='w-full relative sm:absolute  max-h-full object-cover ' height={500} width={400} loading='lazy'/>
                 </div>
                 <div className='w-full relative flex flex-col justify-center items-start gap-5 px-2 md:px-5 lg:px-10'>
                     <h2 className='text-2xl font-semibold'>Experience True Craftsmanship</h2>
@@ -67,7 +67,7 @@ function NewArrival() {
             }
 
 
-            <section className='container sm:h-[400px] relative flex flex-col-reverse sm:grid py-5 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-10 px-3 lg:px-5 '>
+            <section className=' sm:h-[500px] relative flex flex-col-reverse sm:grid py-5 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-10 px-3 lg:px-5 '>
                 <div className='w-full relative flex flex-col justify-center items-start gap-1'>
                     {/* <p className='text-[16px] font-medium text-primary'>Running</p> */}
                     <h2 className='text-2xl font-semibold '>New Arrivals – Crafted for the Moment</h2>

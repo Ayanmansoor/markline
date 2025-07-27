@@ -1,13 +1,15 @@
 'use client'
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import axios from 'axios'
-import { submitOrders } from '@/Supabase/acceptOrderForm'
+// import { submitOrders } from '@/Supabase/acceptOrderForm'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import LoadRazorpay from '@/utils/loadrazorpay'
-import { mysupabase } from '@/Supabase/SupabaseConfig'
+import SendMail from '@/lib/SendMailHelper'
+
+
 
 interface response {
     message: any;
@@ -25,9 +27,11 @@ const addressFromSchema = z.object({
     city: z.string().min(2, "City name is required"),
     full_address: z.string().min(5, "Address must be at required"),
 })
-import { AddressFromProps, userinterfce } from '@/types/interfaces'
+import { AddressFromProps, OrderProps, userinterfce } from '@/types/interfaces'
 import { StateCombobox } from '../FormComponents/StateCombobox'
 import { CityNameCombobox } from '../FormComponents/CityNameCombobox'
+import { ordersprops } from '../users/OrderplacedSection'
+import UpdateLocalstorageForOrder from '@/lib/UpdateLocalStorageForOrder'
 
 type FormInputs = z.infer<typeof addressFromSchema>;
 
@@ -36,34 +40,16 @@ type FormInputs = z.infer<typeof addressFromSchema>;
 
 function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
     const { executeRecaptcha } = useGoogleReCaptcha()
-
-    const [currentuser, setUser] = useState<userinterfce >();
-    
-    
-  useEffect(() => {
-    async function getSupabaseUser() {
-      const {
-          data: { user },
-          error,
-      } = await mysupabase.auth.getUser();
-
-      if (user) {
-        setUser(user);
-      }
-    }
-    getSupabaseUser()
-  }, [])
-
+    const [isOrderSub,setOrderSub]=useState<boolean>(false)
     
 
-    const { register, watch, handleSubmit, reset, formState: {
-        errors
-    }, setValue, setFocus, getValues, getFieldState } = useForm(
-        {
-            resolver: zodResolver(addressFromSchema)
-        }
-    )
-    const [isLoading, setIsLoading] = useState(false);
+     const { register, watch, handleSubmit, reset, formState: {
+            errors
+        }, setValue, setFocus, getValues, getFieldState } = useForm(
+            {
+                resolver: zodResolver(addressFromSchema)
+            }
+        )
 
 
     function setStateValue(stateName){
@@ -74,11 +60,55 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
         setValue("city",cityname)
     }
 
+    const { final_price, discountPrice } = useMemo(() => {
+        const discountPercent = product?.discounts?.discount_persent || 0;
+        const discountPrice = product?.price * (discountPercent / 100);
+        const final_price = Math.floor(product?.price - discountPrice);
 
-    async function onSubmit(data: FormInputs) {
-        const final_price = Math.floor(
-            product?.price - (product?.price * (product?.discounts?.discount_persent || 0) / 100)
-        );
+        return { final_price, discountPrice };
+    }, [product]);
+    
+    async function saveBeforePayment(data: FormInputs) {
+            try{
+                setOrderSub(true)
+
+                if (!executeRecaptcha) {
+                        console.log("token is not generated");
+                        setOrderSub(false)
+
+                        return;
+                }
+
+                const recaptchaToken = await executeRecaptcha()
+        
+
+                const orders= {
+                            ...data,
+                            final_price,
+                            quantity: product.quantity,
+                            discount_amount: discountPrice,
+                            product_key: product.id,
+                        
+                        }
+                
+
+                const response=await axios.post('/api/place-my-order',{
+                    orderdata:orders,
+                    recaptchaToken
+                })
+
+               await onSubmit(response.data.data)
+            }
+            catch(error){
+                console.log(error,"this errror")
+                setOrderSub(false)
+
+            }
+    }
+
+
+    async function onSubmit(data: OrderProps) {
+       
 
         const response = await axios.post('/api/create-order', {
             amount: final_price * 100,
@@ -87,7 +117,9 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
         const res = await LoadRazorpay();
         if (!res) {
             alert('Failed to load Razorpay SDK');
+            setOrderSub(false)
             return;
+
         }
 
         const options = {
@@ -95,7 +127,7 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
             amount: response.data.amount,
             one_click_checkout: true,
             currency: response.data.currency,
-            name: "Markline Fashion",
+            name: "Markline",
             description: "Order description",
             order_id: response.data.id,
             image: "https://res.cloudinary.com/demhgityh/image/upload/v1750353291/markline-checkout-logo_ukrvoi.png",
@@ -112,101 +144,42 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
         setConfirm("password");
-        setIsLoading(false);
     }
 
 
     // save into my database along with payment data
-    async function orderSubmition(response, fromdata: FormInputs) {
-        try {
-            if (!executeRecaptcha) {
-                console.log("token is not generated");
-                return;
-            }
+    async function orderSubmition(razorpayresponse, SavedOrders:OrderProps) {
+      
 
-        
-            const recaptchaToken = await executeRecaptcha()
-
-            const final_price = Math.floor(
-                product?.price - (product?.price * (product?.discounts?.discount_persent || 0) / 100)
-            );
-            const discountPrice = product.price * ((product?.discounts?.discount_persent || 0) / 100);
-            const orders = [
-                {
-                    ...fromdata,
-                    final_price,
-                    quantity: product.quantity,
-                    discount_amount: discountPrice,
-                    product_key: product.id,
-                    razorpay_payment_id: response.razorpay_payment_id,
-                    razorpay_order_id: response.razorpay_order_id,
-                    razorpay_signature: response.razorpay_signature,
-                    user_id:currentuser?.id,
-                    recaptchaToken
-                }
-            ];
-
-
-            const responses = await submitOrders(orders)
-
-            // console.log(responses, 'response from from submition on supabase')
-
-
-            const orderIDs: string[] = [];
-            responses.data?.forEach((ordersaved: any) => {
-                if (ordersaved) {
-
-                    const id = ordersaved?.id
-                    if (id) {
-                        orderIDs.push(id);
-                    }
-                } else {
-                    console.error("Order failed:", responses?.message);
-                }
-            });
-
-            if (orderIDs.length > 0) {
-                setOrderID({
-                    orderID: orderIDs,
-                    email: fromdata.email,
-                    username: fromdata.name
-                });
-
-
-
-                const emailResponse: any = await axios.post('/api/sendmail',
-                    {
-                        email: fromdata.email,
-                        name: fromdata.name,
-                        phone: fromdata.phone,
-                        orderId: orderIDs[0],
-                        productNames: product.name,
-
-                    }
-                )
-
-                if (!emailResponse.ok) {
-                    console.error("Failed to send confirmation emails");
-                }
-
-                reset();
-            } else {
-                console.error("No valid order ID returned.");
-            }
+        try{
+                            const {data} = await axios.post(`/api/update-order`, {
+                                    SavedOrders,
+                                    user_id:"",
+                                    razorpay_payment_id: razorpayresponse.razorpay_payment_id,
+                                    razorpay_order_id: razorpayresponse.razorpay_order_id,
+                                    razorpay_signature: razorpayresponse.razorpay_signature,
+                            });
+                            setOrderSub(false)
+                            await UpdateLocalstorageForOrder()
+                             await SendMail({ data: [data.updated] });
+                           
+                           
 
         }
-        catch (error) {
-            console.log(error)
-         }
+        catch(error){
+                    console.log('this is')
+                    setOrderSub(false)
+
+
+        }
     }
 
     
 
 
-
     return (
         <>
-            <form action='' onSubmit={handleSubmit(onSubmit)} className='w-full relative h-auto grid grid-cols-2 items-start justify-start gap-y-2 gap-x-3 md:gap-x-5 '>
+            <form action=''  className='w-full relative h-auto grid grid-cols-2 items-start justify-start gap-y-2 gap-x-3 md:gap-x-5 '>
                 <div className='w-full relative h-auto flex flex-col gap-1'>
                     <label htmlFor="" className='text-sm font-medium text-gray-600'>Name *</label>
                     <input type="text" className='w-full relative h-auto px-3 py-2 rounded-lg border text-sm font-normal text-gray-800  ' placeholder=' Enter Your Name ' {...register("name")} />
@@ -240,9 +213,9 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
                     {errors?.full_address &&
                         <p className='text-xs font-medium text-red-400'>{errors.full_address?.message}</p>}
                 </div>
-                <button className='w-full relative h-auto rounded-lg px-5 py-1.5 text-lg hover:bg-white hover:text-primary border  border-transparent hover:border-primary col-start-2  text-white  bg-primary '>Submit</button>
+                <button className='w-full relative h-auto rounded-lg px-5 py-1.5 text-lg hover:bg-white hover:text-primary border  border-transparent hover:border-primary col-start-2  text-white  bg-primary ' disabled={isOrderSub} onClick={handleSubmit(saveBeforePayment)}>{isOrderSub  ? "Submitting...." : "Submit" }</button>
 
-            </form>
+            </form>     
         </>
     )
 }

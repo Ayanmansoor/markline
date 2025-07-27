@@ -17,6 +17,7 @@ import Razorpay from 'razorpay';
 import axios from 'axios';
 import LoadRazorpay from '@/utils/loadrazorpay';
 import BuyProduct from './BuyProduct';
+import { toast } from 'sonner';
 
 interface productsCart {
     colors: {
@@ -70,6 +71,8 @@ function ProductAbout({ product }: ProductsDataProps) {
                 name: product.name
             }
         })
+        toast("Added To Cart.")   
+        
 
     }
 
@@ -157,7 +160,6 @@ function ProductAbout({ product }: ProductsDataProps) {
                             colors?.map((color: any, index: number) => (
                                 <span className={`px-7 py-5     cursor-pointer  border  ${color.name === productcart?.colors?.color?.name ? "  border-primary p-1" : " border-transparent"} ${index >= 1 ? "" : ""} `} style={{ background: color.hex }} key={index}
                                     onClick={(e) => {
-                                        console.log(productcart)
                                         setProductcart((prev) => ({
                                             ...prev,
                                             colors: {

@@ -20,7 +20,6 @@ function NotFound() {
             refetchOnWindowFocus: false, 
             refetchOnReconnect: false,
         });
-        console.log(allproducts,'404 page')
 
   return (
     <section className='w-full relative flex flex-col gap-5 '>

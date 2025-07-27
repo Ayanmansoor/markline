@@ -172,7 +172,7 @@ function CategoryL2page() {
                             </div>
                             :
                             products?.length ?
-                                <GridRroduct data={filterProducts ? filterProducts : products} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] ' /> :
+                                <GridRroduct data={filterProducts ? filterProducts : products} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] '  /> :
                                 <div className="grid grid-cols-2 md:grid-cols-3  gap-3 ">
                                     <ProductCardSkeleton />
                                     <ProductCardSkeleton />

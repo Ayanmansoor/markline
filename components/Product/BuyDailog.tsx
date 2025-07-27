@@ -10,32 +10,50 @@ import {
 } from "@/components/ui/dialog"
 import AddressForm from './AddressForm'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import PaymentOption from './PaymentOption'
 
 
 import BuyComponent from './BuyComponent'
-import { BuyDailogProps, orderData } from '@/types/interfaces'
+import { BuyDailogProps, orderData, userinterfce } from '@/types/interfaces'
+import { mysupabase } from '@/Supabase/SupabaseConfig'
 
 
 
 
 function BuyDailog({ children, product }: BuyDailogProps) {
-
-
     const [currentTab, setcurrentTab] = useState('account')
+    const [currentuser, setUser] = useState<userinterfce >();
+    
     const [orderId, setOrderID] = useState<orderData>({
         orderID: "",
         email: "",
         username: ""
     })
-
   const [open, setOpen] = useState(false);
+
+
+
 
   useEffect(() => {
     if (currentTab === "password") {
       setOpen(false); 
     }
   }, [currentTab]);
+
+    
+    
+  useEffect(() => {
+    async function getSupabaseUser() {
+      const {
+          data: { user },
+          error,
+      } = await mysupabase.auth.getUser();
+
+      if (user) {
+        setUser(user);
+      }
+    }
+    getSupabaseUser()
+  }, [])
 
 
 
@@ -52,33 +70,37 @@ function BuyDailog({ children, product }: BuyDailogProps) {
                     </DialogHeader>
                     <Tabs defaultValue="account" className=" w-full min-h-[200px] md:min-h-[300px]" value={currentTab} onValueChange={setcurrentTab}  >
 
+                        
                         <TabsContent value="account" className='w-full relative h-auto rounded-md  '>
-                            <BuyComponent product={product} />
+                            <BuyComponent product={product} user={currentuser}  setConfirm={setcurrentTab} />
                         </TabsContent>
-
-                        <TabsContent value="address" className='w-full relative h-auto  '>
-                            <AddressForm product={product} setConfirm={setcurrentTab} setOrderID={setOrderID} />
-                        </TabsContent>
+                        
+                       {
+                            ( !currentuser?.email) &&
+                            <TabsContent value="address" className='w-full relative h-auto'>
+                                <AddressForm product={product} setConfirm={setcurrentTab} setOrderID={setOrderID}  />
+                            </TabsContent>
+                        }
 
                         
-                      
 
-                        <TabsList className="w-full relative h-auto px-2 mt-4 flex items-center bg-transparent justify-end gap-2 lg:gap-10">
-                                    {
+                        
+                                {
+                                    ( !currentuser?.email) &&
+                                    <TabsList className="w-full relative h-auto px-2 mt-4 flex items-center bg-transparent justify-end gap-2 lg:gap-10">
+                                        {
                                         (currentTab !== "password" && currentTab !== "address") &&
-                                        <>
-                                                <TabsTrigger value="address" className="w-fit bg-black border text-base  text-white px-5 lg:px-20 py-2 relative h-auto flex items-center justify-center">Next</TabsTrigger>
-                                        </>
-
-                                    }
-                        </TabsList>
+                                        <TabsTrigger
+                                            value="address"
+                                            className="w-fit bg-black border text-base text-white px-5 lg:px-20 py-2 relative h-auto flex items-center justify-center"
+                                        >
+                                            Next
+                                        </TabsTrigger>
+                                        }
+                                    </TabsList>
+                                }
 
                     </Tabs>
-
-                    {/* <DialogFooter className='w-full relative h-auto border-t border-gray-200 pt-3 flex items-center justify-end gap-3 px-5'>
-                            <button className='w-fit  relative h-auto bg-black text-white px-6 py-1'>Close</button>
-                            <button className='w-fit bg-black text-white cursor-pointer  relative h-auto px-6 py-1'>Next</button>
-                    </DialogFooter> */}
                 </DialogContent>
             </Dialog>
         </>

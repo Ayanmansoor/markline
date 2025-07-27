@@ -30,7 +30,8 @@ function ProductFilter({ collection, productRangevalue, setPRoductRange ,gender 
                                     <span>
                                         Collections
                                     </span>
-                                </AccordionTrigger><AccordionContent className="w-full relative h-auto py-2 text-base font-semibold  px-4 flex flex-wrap gap-2 ">
+                                </AccordionTrigger>
+                                <AccordionContent className="w-full relative h-auto py-2 text-base font-semibold  px-4 flex flex-wrap gap-2 ">
                                         {collection?.map((item, index) => (
                                             <Link href={`/collections/${gender}/${item.slug}`} className='text-base font-semibold text-black border border-black px-3 py-1' key={index}>{item.name}</Link>
                                         ))}
@@ -62,11 +63,11 @@ function ProductFilter({ collection, productRangevalue, setPRoductRange ,gender 
                         </AccordionTrigger>
                         <AccordionContent className="w-full relative h-auto py-2 text-base  flex flex-wrap  font-medium px-4 ">
                             <div className='w-full relative h-auto flex items-center justify-between gap-1'>
-                                <span className='text-base px-2 rounded-full  font-medium text-primary border bg-transparent border-primary'>Minimum</span>
-                                <span className='text-base font-medium text-primary border bg-transparent border-primary rounded-full px-2 '>maximum</span>
+                                <span className=' text-xs  sm:text-sm md:text-base px-1 md:px-2 rounded-full  font-medium text-primary border bg-transparent border-primary'>Minimum</span>
+                                <span className='text-xs  sm:text-sm md:text-base font-medium text-primary border bg-transparent border-primary rounded-full px-1 md:px-2 '>maximum</span>
                             </div>
                             <div className='w-full relative h-auto  flex flex-col gap-2'>
-                                <Slider className="mt-4" defaultValue={[productRangevalue]}
+                                <Slider className="mt-4 max-w-full" defaultValue={[productRangevalue]}
                                     max={5000}
                                     step={1}
                                     onValueChange={changeFilterRangeValue}

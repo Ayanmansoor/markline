@@ -16,6 +16,7 @@ import { useQuery } from 'react-query'
 import { getProductData, getAllProducts, getRelatedProducts } from '@/Supabase/SupabaseApi'
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
 import { useWishlists } from '@/Contexts/wishlist'
+import OrderConfirmed from '../Common/OrderConfirm'
 
 function ProductPage() {
 
@@ -108,7 +109,7 @@ function ProductPage() {
 
       {
         newloading ?
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container  ">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3   ">
             <ProductCardSkeleton />
             <ProductCardSkeleton />
             <ProductCardSkeleton />
@@ -120,13 +121,14 @@ function ProductPage() {
               <CarouselProduct url={'product'} product={relatedProducts}  css=' sm:max-w-[500px]' />
             </CategoriesSection >
             :
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container  ">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3   ">
               <ProductCardSkeleton />
               <ProductCardSkeleton />
               <ProductCardSkeleton />
               <ProductCardSkeleton />
             </div>
       }
+
       {/* 
       {
         wishlist.length > 0 &&

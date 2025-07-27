@@ -24,8 +24,9 @@ interface FormResult {
   data?: any;
 }
 
-async function 
-submitOrders(orderArray: OrderFormData[]): Promise<FormResult> {
+
+
+async function submitOrders(orderArray: OrderFormData[]): Promise<FormResult> {
   try {
     const response = await axios.post(
       "https://qmtfmhylybgxvvihpaxw.supabase.co/functions/v1/confirm-order",
@@ -45,7 +46,7 @@ submitOrders(orderArray: OrderFormData[]): Promise<FormResult> {
       data: response.data.data,
     };
   } catch (error: any) {
-    console.error("Order submission failed:", error?.response?.data || error.message);
+    console.error("Order submission failed:",error.message);
     return {
       message: error?.response?.data?.error || "Something went wrong.",
       code: error?.response?.status || 500,

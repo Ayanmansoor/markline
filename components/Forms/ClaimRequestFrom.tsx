@@ -44,16 +44,15 @@ function ClaimRequestFrom() {
               ...data
             })
             setSubmitting(false)
-          console.log(response,'dfsdljf')
         }
         catch(error){
-          console.log(error,'dsflksdjf')
+          console.log("error while claim products")
         }
     }
     
 
   return (
-     <div className="max-w-3xl mx-auto px-4 py-10 bg-white border ">
+     <div className=" w-full h-fit px-4 py-10  border sticky top-20">
       <h2 className="text-2xl font-bold mb-6">Submit a Product Claim</h2>
       <form  className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <div>

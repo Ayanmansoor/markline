@@ -53,7 +53,7 @@ export async function POST(req:NextRequest){
         }
     }
     catch(error){
-        console.log('lsdfj')
+        console.log('error occur while saving')
     }
 
 }

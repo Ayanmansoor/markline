@@ -65,7 +65,6 @@ function HomePage() {
         getHighlighteProducts("casuals"),
         getHighlighteProducts("wedding")
       ]).catch((error: any) => {
-        console.log(error);
         return [];
       });
 
@@ -91,7 +90,7 @@ function HomePage() {
 
 
     } catch (error: any) {
-      console.error("Unexpected error fetching data:", error);
+      console.error("Unexpected error fetching data:",);
     }
   }
 
@@ -131,7 +130,7 @@ function HomePage() {
 // sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(360px,auto))]
         currentproducts?.length > 0 ?
           <CategoriesSection title={" Women’s Footwear – Stylish, Comfortable & On-Trend"} subtitle='Elegant Sandals • Chic Heels • Everyday Flats' url="products/women" urltext="Women's products">
-            <GridRroduct data={currentproducts?.slice(0, 10).filter((item) => item.gender == 'WOMEN')} url={'product'} css='  grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'   productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
+            <GridRroduct data={currentproducts?.slice(0, 10).filter((item) => item.gender == 'WOMEN')} url={'product'} css='  grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'   productsCardCss={" h-[260px] sm:h-[350px] md:h-[400px] lg:h-[350px] xl:h-[350px] 2xl:h-[450px]"} />
           </CategoriesSection>
           :
           <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container ">
@@ -145,7 +144,7 @@ function HomePage() {
       {
         currentproducts?.length > 0 ?
           <CategoriesSection title={" Men’s Footwear – Stylish, Comfortable & Durable"} subtitle='Sneakers • Loafers • Formal & Casual Shoes for Men' url="products/men" urltext="Men's products">
-            <GridRroduct data={currentproducts?.slice(0, 10).filter((item) => item.gender == 'MEN')} url={'product'} css='  grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
+            <GridRroduct data={currentproducts?.slice(0, 10).filter((item) => item.gender == 'MEN')} url={'product'} css='  grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' productsCardCss={" h-[260px] sm:h-[350px] md:h-[400px] lg:h-[350px] xl:h-[350px] 2xl:h-[450px]"} />
           </CategoriesSection>
           :
           <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container   ">
@@ -160,7 +159,7 @@ function HomePage() {
       {
         currentproducts?.slice(0, 10).filter((item) => item.gender == 'KIDS').length > 0 &&
         <CategoriesSection title={" Kids – Comfort Meets Style"} url="products/kids" urltext="kid's products">
-          <GridRroduct data={currentproducts?.slice(0, 10).filter((item) => item.gender == 'KIDS')} url={'product'} css='  grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
+          <GridRroduct data={currentproducts?.slice(0, 10).filter((item) => item.gender == 'KIDS')} url={'product'} css='  grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' productsCardCss={"  h-[260px] sm:h-[350px] md:h-[400px] lg:h-[350px] xl:h-[350px] 2xl:h-[450px]"} />
         </CategoriesSection>
       } 
 
@@ -168,13 +167,13 @@ function HomePage() {
 
       {
         trendingProducts?.length &&
-        <TrendingCarousels data={trendingProducts} productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
+        <TrendingCarousels data={trendingProducts} productsCardCss={" h-[280px] sm:h-[300px] md:h-[280px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
       }
 
       {
         casuals?.length > 0 &&
         <CategoriesSection title={"Everyday Essentials  Women's Casual Footwear "} url={''} >
-          <ProductsHighlightes data={casuals}  productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"}/>
+          <ProductsHighlightes data={casuals}  productsCardCss={" h-[280px] sm:h-[300px] md:h-[280px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"}/>
         </CategoriesSection >
       }
 
@@ -212,7 +211,7 @@ function HomePage() {
       {
         wedding?.length > 0 &&
         <CategoriesSection title={"Markline  Collections Products"} url={''} >
-          <ProductsHighlightes data={wedding} productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
+          <ProductsHighlightes data={wedding}  productsCardCss={" h-[280px] sm:h-[300px] md:h-[280px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
         </CategoriesSection >
 
       }

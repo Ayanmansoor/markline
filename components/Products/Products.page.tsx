@@ -112,7 +112,7 @@ function    Productspage() {
             })
             setFilterProducts(filterproduct)
         }
-    }, [productRangevalue, allproducts])
+    }, [ allproducts])
 
 
 
@@ -155,7 +155,7 @@ function    Productspage() {
                 }    
             </div>    
 
-            <section className="w-full min-h-[300px] relative grid grid-cols-1  lg:grid-cols-[.7fr_3fr] 2xl:grid-cols-[0.8fr_3fr] gap-5 px-3 md:px-5 lg:px-5 ">
+            <section className="w-full min-h-[300px] relative grid grid-cols-1  lg:grid-cols-[250px_3fr] 2xl:grid-cols-[0.8fr_3fr] gap-5 px-3 md:px-5 lg:px-5 ">
                 {
                     isErrorCollections ?
                         <div className='text-center text-sm font-medium'>
@@ -192,6 +192,7 @@ function    Productspage() {
                                 }
                             </Swiper>
                         </section>
+                        {/*  sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(270px,auto))]  xl:grid-cols-[repeat(auto-fill,minmax(300px,auto))] 2xl:grid-cols-[repeat(auto-fill,minmax(350px,auto))] */}
                     {
                         isLoadingProducts ?
 
@@ -203,7 +204,7 @@ function    Productspage() {
                             </div>
                             :
                             allproducts.length > 0 || filterProducts && filterProducts?.length > 0 ?
-                                <GridRroduct data={filterProducts ? filterProducts : allproducts} url={'product'} css=' sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(270px,auto))]  xl:grid-cols-[repeat(auto-fill,minmax(300px,auto))] 2xl:grid-cols-[repeat(auto-fill,minmax(350px,auto))] '  productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"}/>
+                                <GridRroduct data={filterProducts ? filterProducts : allproducts} url={'product'} css=' grid-cols-2 md:grid-cols-3  '  productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[350px] 2xl:h-[470px]"}/>
                                 :
                                 <div className="grid grid-cols-2 md:grid-cols-3  gap-3  ">
                                     <ProductCardSkeleton />

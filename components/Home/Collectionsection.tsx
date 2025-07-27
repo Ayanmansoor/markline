@@ -25,11 +25,8 @@ function    Collectionsection({ url, collections }: CollectionsDataProps) {
                 300: {
                     slidesPerView: 1.010,
                 },
-                400: {
-                    slidesPerView: 1.010,
-                },
                 500: {
-                    slidesPerView: 2,
+                    slidesPerView: 1.010,
                 },
                 640: {
                     slidesPerView: 2,

@@ -217,7 +217,6 @@ function CartProvider({ children }: providertype) {
     }
 
     function deleteFromCart(productId: number, color: string, size: string) {
-        console.log("deleted", productId, color, size)
         setCart((prevData) => {
             return prevData.filter((product) => {
                 return (product.productId !== productId || product.color.name !== color || product.size.size !== size)

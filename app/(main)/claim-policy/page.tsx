@@ -10,7 +10,11 @@ export const metadata = {
 
 function page() {
   return (
-     <><section className="container mx-auto px-5 md:px-10 lg:px-20 py-10">
+     <>
+
+    <section className='w-full relative grid  grid-cols-1 xl:grid-cols-[1fr_.5fr] gap-2 container mx-auto px-5 '>
+
+     <section className=" py-10">
       <h1 className="text-3xl font-bold mb-6">Product Claim Policy</h1>
 
       <section className="mb-6">
@@ -88,8 +92,8 @@ function page() {
         Markline Fashion reserves the right to modify or update this policy at any time without prior notice.
       </p>
     </section>
-    
-<ClaimRequestFrom /> 
+      <ClaimRequestFrom/>
+    </section>
 
     </>
   )

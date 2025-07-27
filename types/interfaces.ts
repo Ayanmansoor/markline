@@ -179,6 +179,7 @@ export interface OrderId {
 export interface SheetCartFormProps {
   setConfirm: any;
   setOrderID: any;
+  closeSheet?:()=>void
 }
 
 export interface BlogCardProps {
@@ -220,6 +221,8 @@ export interface ProductsDataProps {
   product: ProductsProps;
   url?: string;
   className?:string
+  user?:userinterfce
+   setConfirm?: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export interface BuyComponentProps extends ProductsProps {
@@ -228,10 +231,20 @@ export interface BuyComponentProps extends ProductsProps {
   quantity: number;
 }
 
+
+export interface  forProductsProps{
+   product: BuyComponentProps;
+  url?: string;
+  className?:string
+  user?:userinterfce
+   setConfirm?: React.Dispatch<React.SetStateAction<any>>;
+}
+
 export interface AddressFromProps {
   product: ProductsProps;
   setConfirm: React.Dispatch<React.SetStateAction<any>>;
   setOrderID: React.Dispatch<React.SetStateAction<any>>;
+  user?:userinterfce
 }
 
 export interface GridProductProps {
@@ -309,6 +322,7 @@ export interface userinterfce {
   phone?: string,
   user_metadata: {
     email?: string,
+    phone?:string,
     email_verified?: boolean,
     phone_verified?: boolean
   }
@@ -332,4 +346,75 @@ export interface CityComboboxProps{
   setCityName:(cityname:string)=>void;
   statename:string;
   errormessage:string
+}
+
+export interface addressDailogprops{
+      children:React.ReactNode,
+      currentaddress?:AddressProps
+        handleperform?:()=>void
+}
+
+export interface AddressProps {
+  id: number;
+  user_id: string;
+  name: string;
+  state_name: string;
+  city: string;
+  pin_code: string;
+  full_address: string;
+  is_selected?: boolean | null;
+  created_at?: string; 
+  index?:number
+  handleperform?:()=>void
+
+}
+
+export interface OrderProps {
+  created_at: string; // ISO date string
+  name: string;
+  city: string;
+  full_address: string;
+  product_key: number;
+  final_price: number;
+  discount_amount: number;
+  quantity: number;
+  email: string;
+  phone: string;
+  state_name: string;
+  pin_code: string;
+  id: string;
+  razorpay_payment_id: string | null;
+  razorpay_order_id: string | null;
+  razorpay_signature: string | null;
+  user_id: string;
+  isDelivered: 'PENDING' | 'DELIVERED' | 'CANCELLED'; // assuming possible statuses
+  user_address: number;
+}
+
+export interface BulkOrderProductProps {
+  name: string;
+  email: string;
+  phone: string;
+  pin_code: string;
+  state_name: string;
+  city: string;
+  full_address: string;
+  final_price: number;
+  quantity: number;
+  discount_amount: number;
+  product_key: number;
+  user_id: string|null; // use string | null if it can be null
+}
+
+export interface UserInterface {
+  id:string,
+  email?: string;
+  phone?: string;
+  user_metadata?: {
+    email?: string;
+    email_verified?: boolean;
+    phone?: string;
+    phone_verified?: boolean;
+    
+  };
 }

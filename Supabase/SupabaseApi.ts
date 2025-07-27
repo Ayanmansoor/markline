@@ -1,6 +1,7 @@
 import { ProductsProps } from "@/types/interfaces";
 import { mysupabase } from "./SupabaseConfig";
 import { useEffect } from "react";
+import { NextResponse } from "next/server";
 
 async function getAllProducts() {
   const { data: products, error } = await mysupabase
@@ -181,7 +182,7 @@ async function getProductData(slug: string) {
 
     return product;
   } catch (error) {
-    console.error("Error fetching product:", error);
+    console.error("Error fetching product:",);
     return null; // Return null instead of throwing an error
   }
 }
@@ -199,7 +200,7 @@ async function getAllCollectionBanner() {
 
     return collectionbanner;
   } catch (error) {
-    console.error("Error fetching product:", error);
+    console.error("Error fetching product:",);
     return null;
   }
 }
@@ -218,7 +219,7 @@ async function getCollectionBannerBaseOnGender(gender: string) {
 
     return genderbanner;
   } catch (error) {
-    console.error("Error fetching product:", error);
+    console.error("Error fetching product:",);
     return null;
   }
 }
@@ -326,18 +327,53 @@ async function getCollectionBaseOnGender(gender: string) {
 
 async function getCurrentUserOrders(userId:string) {
   try{
-      const {data,error}=await mysupabase.from('orders').select(" * ,products(*) ").eq("user_id",userId)
+      const {data:orders,error}=await mysupabase.from('orders').select(" * ,products(*) ").eq("user_id",userId)
+      const {data:address,error:addressError} = await mysupabase.from('address').select(" * ").eq("user_id",userId)
       if(error){
         return new Error(error.message)
       }
-      return data 
+      return {
+        orders,
+        address
+      } 
   }
   catch(error){
-    return new Error("something wrong")
+     
   }
 }
 
+async function getSelectedAddress(userId) {
+  const { data: address, error } = await mysupabase
+    .from('address')
+    .select('*')
+    .eq('user_id', userId)
+    .eq('is_selected', true)
+    .maybeSingle(); 
 
+  if (error) {
+    return new Error(error.message);
+  }
+  return address;
+}
+
+
+async function updateCurrentUserAddress(userId:string, updatedAddress: any)  {
+    try{
+      const { data, error } = await mysupabase
+      .from('address')
+      .update(updatedAddress) 
+      .eq('user_id', userId)
+      .select(); 
+
+      if (error) {
+       return new Error(error.message);
+      }
+    return data
+
+    }
+    catch(error){
+    }
+}
 
 
 
@@ -361,5 +397,7 @@ export {
   getCollectionBannerBaseOnGender,
   getAllProductsbygender,
   getAllCollectionsBaseOnGender,
-  getCurrentUserOrders
+  getCurrentUserOrders,
+  updateCurrentUserAddress,
+  getSelectedAddress
 };

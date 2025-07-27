@@ -16,7 +16,6 @@ export async function POST(req:NextRequest) {
 
 
         else{
-        console.log(name,email,orderID,productname,discription,"ldfjlsdjfljsd")
 
             const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
             const verifyResponse = await axios.post(
@@ -63,6 +62,6 @@ export async function POST(req:NextRequest) {
 
     }
     catch(error){
-        console.log(error)
+        console.log("error occurr saving")
     }
 }

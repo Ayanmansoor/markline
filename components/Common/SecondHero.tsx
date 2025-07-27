@@ -41,12 +41,12 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
                     <Link href={`/product/${firstdata?.slug}`} className='col-start-1  col-end-3 row-start-1 border border-[#ebeeef] row-end-3 relative   overflow-hidden'>
                         <Swiper
                             style={{
-                                "--swiper-pagination-color": "#0c0c0c",
-                                "--swiper-pagination-bullet-inactive-color": "#0c0c0c",
-                                "--swiper-pagination-bullet-inactive-opacity": "1",
-                                "--swiper-pagination-bullet-size": "7px",
-                                "--swiper-pagination-bullet-horizontal-gap": "6px"
-                            } as React.CSSProperties & Record<string, string>}
+                                       "--swiper-pagination-color": "#0c0c0c",
+                                       "--swiper-pagination-bullet-inactive-color": "#0c0c0c",
+                                       "--swiper-pagination-bullet-inactive-opacity": "1",
+                                       "--swiper-pagination-bullet-size": "7px",
+                                       "--swiper-pagination-bullet-horizontal-gap": "6px"
+                                     } as React.CSSProperties & Record<string, string>}
                             pagination={{
                                 dynamicBullets: true,
                             }}

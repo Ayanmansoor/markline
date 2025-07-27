@@ -7,7 +7,6 @@ import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 export async function POST(req: NextRequest) {
   const { email, token } = await req.json();
-  console.log("Received email:", email, "Received token:", );
 
   if (!email || !token) {
     return NextResponse.json({ error: "Email or Token is missing" }, { status: 400 });

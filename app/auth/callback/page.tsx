@@ -15,7 +15,6 @@ export default function AuthCallback() {
             }
             else {
                 // route.push('/')
-                console.log(error, 'this is console')
             }
         }
         verefication()

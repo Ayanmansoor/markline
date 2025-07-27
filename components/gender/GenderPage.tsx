@@ -82,7 +82,7 @@ function GenderPage() {
             {
                 products?.length > 0 ?
                     <CategoriesSection title={`${nslug} Footwear Collection for Comfort and Style`} subtitle={`Browse our curated ${nslug} shoes .`} url="products"  urltext={` ${nslug} products`}>
-                        <GridRroduct data={products?.slice(0, 10)} url={'product'}  css='sm:grid-cols-[repeat(auto-fill,minmax(230px,auto))]  lg:grid-cols-[repeat(auto-fill,minmax(360px,auto))]'  productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[400px]"} />
+                        <GridRroduct data={products?.slice(0, 10)} url={'product'}  css=' grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'  productsCardCss={" h-[280px] sm:h-[300px] md:h-[350px] lg:h-[390px] xl:h-[450px]"} />
                     </CategoriesSection>
                     :
                     <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3  px-3 lg:px-5  ">
@@ -94,7 +94,7 @@ function GenderPage() {
             }
 
             <Discount title={`Spotlight ${nslug} Footwear: Featured Styles You'll Love`} description={`Explore our top picks from the ${nslug} collection—curated for quality, comfort, and on‑trend appeal. Whether it's chic sandals, cozy sneakers, or elegant dress shoes, these standout styles are designed to elevate your everyday wardrobe.`} url='' />
-            <section className='w-full relative flex flex-col gap-5 container px-3 lg:px-5  pb-10'>
+            <section className='w-full relative flex flex-col gap-5  px-3 lg:px-5  pb-10'>
                 <h2 className='text-xl font-semibold text-primary'>POPULAR SEARCHES</h2>
 
                 <div className='w-full relative h-auto flex flex-col gap-4'>

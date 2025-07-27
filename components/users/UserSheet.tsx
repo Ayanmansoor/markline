@@ -16,6 +16,7 @@ import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { mysupabase } from '@/Supabase/SupabaseConfig'
+import { toast } from 'sonner'
 
 
 const updateProfileSchema = z.object({
@@ -41,37 +42,50 @@ interface userinterfce {
 
 function UserSheet() {
     const [currentuser, setUser] = useState<userinterfce>()
+    const [isUpdating,setUpdating]=useState(false)
+    const [open,setOpen]=useState(false)
+    
     const message = useRef<HTMLParagraphElement>(null)
 
     const { register, reset,setValue, formState: { errors }, handleSubmit } = useForm({
         resolver: zodResolver(updateProfileSchema)
     })
 
+async function onSubmit({ email, phone, name }: updateschema) {
+  try {
+    setUpdating(true);
 
-    async function onSubmit({ email, phone, name }: updateschema) {
-        try {
-            const { data, error } = await mysupabase.auth.updateUser({
-                data: {
-                    name,
+        if (!phone.startsWith("+")) {
+            phone = `+91${phone}`; 
+        }
+
+        const { data, error } = await mysupabase.auth.updateUser({
+            data: {
                     phone,
-                    email
-                }
-            })
-            if (!error && message.current) {
-                message.current.innerText = "Profile is not update . try again later! "
-            }
-            else {
-                if (message.current) {
-                    message.current.innerText = "Profile is updated"
-                }
-                console.log(data)
-            }
-        }
+                    name
+                },
+            email
+        });
 
-        catch (error) {
-            console.log(error)
-        }
+    if (error) {
+      if (message.current) {
+        message.current.innerText = "Profile is not updated. Try again later!";
+      }
+      console.log(error);
+    } else {
+      if (message.current) {
+        message.current.innerText = "Profile is updated";
+      }
+      toast("Profile is updated.");
+      setOpen(false);
     }
+  } catch (error) {
+    console.error(error);
+    toast("Something went wrong. Try again later.");
+  } finally {
+    setUpdating(false);
+  }
+}
 
     useEffect(() => {
         async function getSupabaseUser() {
@@ -81,20 +95,17 @@ function UserSheet() {
             } = await mysupabase.auth.getUser();
 
             setValue("email",`${user?.email}`)
-            setValue('phone',`${user?.phone}`)
-            
-            
-
+            setValue('phone',`${user?.user_metadata?.phone}`)
         }
         getSupabaseUser()
-    }, [])
+    }, [isUpdating])
 
 
 
     return (
-        <Sheet>
-            <SheetTrigger className='w-fit h-fit relative '>
-                <BsThreeDotsVertical className='text-primary bg-gray-200  rounded-md cursor-pointer w-fit text-[50px] py-3' />
+        <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger className='w-fit h-fit relative justify-self-end '>
+                <BsThreeDotsVertical className='text-primary bg-gray-200  rounded-md cursor-pointer w-fit text-[45px] py-3' />
             </SheetTrigger>
             <SheetContent>
                 <SheetHeader>
@@ -125,7 +136,7 @@ function UserSheet() {
 
 
                         <SheetFooter className='w-full relative h-auto flex items-start '>
-                            <button className='text-base px-5  md:px-7 py-2 md:py-3 font-medium text-white  bg-primary transition-all duration-75 hover:text-primary hover:bg-white  cursor-pointer hover:border-primary border'>Update</button>
+                            <button disabled={isUpdating} className='text-base px-5  md:px-7 py-2 md:py-3 font-medium text-white  bg-primary transition-all duration-75 hover:text-primary hover:bg-white  cursor-pointer hover:border-primary border'>{isUpdating ? "Updating..." : "Update"}</button>
                         </SheetFooter>
 
                     </form>

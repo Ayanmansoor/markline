@@ -24,6 +24,13 @@ function LeatestCollection({ url }: { url: string }) {
 
 
                 <Swiper
+                    style={{
+                            "--swiper-pagination-color": "#0c0c0c",
+                            "--swiper-pagination-bullet-inactive-color": "#0c0c0c",
+                            "--swiper-pagination-bullet-inactive-opacity": "1",
+                            "--swiper-pagination-bullet-size": "7px",
+                            "--swiper-pagination-bullet-horizontal-gap": "6px"
+                          } as React.CSSProperties & Record<string, string>}
                     pagination={{
                         clickable: true,
                     }}

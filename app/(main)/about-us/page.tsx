@@ -29,7 +29,6 @@ export const metadata = {
 export default async function AboutUsPageWrapper() {
   const allproducts = await getAllProducts();
   if (allproducts instanceof Error) {
-    console.error("Failed to load products:", allproducts.message);
     return <AboutUsPage allproducts={[]} />;
   }
 

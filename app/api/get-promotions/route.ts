@@ -13,7 +13,6 @@ export async function POST(req:NextRequest,res:NextResponse){
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error in get-promotions:", error);
     return NextResponse.json(
       {
         promotions: [],

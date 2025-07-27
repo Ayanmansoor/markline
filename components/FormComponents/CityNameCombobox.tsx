@@ -10,15 +10,16 @@ export function CityNameCombobox({setCityName,errormessage,statename}:CityCombob
   
 
   async function getCityName(statename:string){
+    if(statename){
     const res=await axios.post(`https://countriesnow.space/api/v0.1/countries/state/cities` , {
       country:"India",
       state:statename
     })
     setCities(res.data.data)
   }
+  }
 
   useEffect(()=>{
-    console.log(statename,'value changes')
     getCityName(statename)
   },[statename])
 

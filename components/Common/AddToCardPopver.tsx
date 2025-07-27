@@ -9,6 +9,7 @@ import { AddToCardPopverProps, Colors, Sizes } from '@/types/interfaces';
 import { Colors as colorProps, Sizes as sizeProps } from '@/types/interfaces';
 import { useCart } from '@/Contexts/Cart.context';
 import { useWishlists } from '@/Contexts/wishlist';
+import { toast } from 'sonner';
 
 interface productsCart {
     colors: {
@@ -93,6 +94,8 @@ function AddToCardPopver({ children, currentProduct, colors, sizes, addToWhishli
                 name: currentProduct.name
             }
         })
+        toast("Added To Cart.")   
+        
     }
 
     return (

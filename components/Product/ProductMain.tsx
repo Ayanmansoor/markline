@@ -1,23 +1,23 @@
+"use client"
 import React, { useState, useEffect } from 'react'
-
 import Image from 'next/image';
-
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
-
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
-
-
 // import required modules
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 import { ProductsDataProps, Images } from '@/types/interfaces';
 
 
+import { Fancybox as NativeFancybox } from '@fancyapps/ui';
+import '@fancyapps/ui/dist/fancybox/fancybox.css';
+
 function ProductMain({ product }: ProductsDataProps) {
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
+   
 
     const [side, setSide] = useState<'vertical' | 'horizontal'>('vertical');
 
@@ -38,6 +38,13 @@ function ProductMain({ product }: ProductsDataProps) {
         const productImage = product?.image_url?.map((image: any) => JSON.parse(image))
         setImage(productImage || [])
     }, [product])
+     useEffect(() => {
+        NativeFancybox.bind('[data-fancybox="gallery"]', {});
+
+        return () => {
+        NativeFancybox.unbind('[data-fancybox="gallery"]');
+        };
+        }, []);
 
 
     return (
@@ -104,10 +111,10 @@ function ProductMain({ product }: ProductsDataProps) {
 
 
 
-                    <section className='w-full relative h-auto hidden md:grid grid-cols-2 gap-3'>
+                    <section className='w-full relative h-auto hidden md:grid grid-cols-2 gap-3' >
                         {
                             Images.map((item,index)=>(
-                                <img src={`${item?.image_url}` || ""} alt={`${item.name}`} height={400} width={400} className='w-full max-h-[600px] object-cover cursor-pointer border hover:scale-[1.01] transition-all duration-100 '  key={index}/>
+                                <img src={`${item?.image_url}` || ""} alt={`${item.name}`} height={400} width={400} className='w-full max-h-[600px] object-cover cursor-pointer border hover:scale-[1.01] transition-all duration-100 '  key={index}  data-fancybox="gallery"   data-caption={`${item.name}`}/>
                             ))
                         }
                     </section>

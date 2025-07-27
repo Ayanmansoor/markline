@@ -94,7 +94,7 @@ function CollcetionPage() {
       {
 
         products?.length > 0 ? <CategoriesSection title={"Shop Women's Favorites"} subtitle='Uncover standout styles handpicked for women—elegant, comfortable, and always in fashion.' url={''} >
-          <GridRroduct data={products.filter((product) => product.gender == 'WOMEN')} url={'product'}  css=' grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
+          <GridRroduct data={products.filter((product) => product.gender == 'WOMEN')} url={'product'}  css=' grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[350px] md:h-[350px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
         </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
 
         </div>
