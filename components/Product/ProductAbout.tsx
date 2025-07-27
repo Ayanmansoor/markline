@@ -18,6 +18,7 @@ import axios from 'axios';
 import LoadRazorpay from '@/utils/loadrazorpay';
 import BuyProduct from './BuyProduct';
 import { toast } from 'sonner';
+import { RotateCcw, Shield, Truck } from 'lucide-react';
 
 interface productsCart {
     colors: {
@@ -158,7 +159,7 @@ function ProductAbout({ product }: ProductsDataProps) {
                     <div className=' flex flex-wrap gap-2 items-center relative  justify-start   w-full '>
                         {
                             colors?.map((color: any, index: number) => (
-                                <span className={`px-7 py-5     cursor-pointer  border  ${color.name === productcart?.colors?.color?.name ? "  border-primary p-1" : " border-transparent"} ${index >= 1 ? "" : ""} `} style={{ background: color.hex }} key={index}
+                                <span className={`px-7 py-7  rounded-full   cursor-pointer  border  ${color.name === productcart?.colors?.color?.name ? "  border-primary p-1" : " border-transparent"} ${index >= 1 ? "" : ""} `} style={{ background: color.hex }} key={index}
                                     onClick={(e) => {
                                         setProductcart((prev) => ({
                                             ...prev,
@@ -181,7 +182,7 @@ function ProductAbout({ product }: ProductsDataProps) {
                             <div className='w-full gap-2 relative h-auto  grid grid-cols-6 '>
                                 {
                                     size?.map((item: any, index) => (
-                                        <p key={index} className={`py-2 text-center border  font-normal cursor-pointer hover:text-white hover:bg-black hover:font-medium ${item.size === productcart?.sizes?.size?.size ? " bg-primary border-transparent text-white" : " text-primary border-primary bg-transparent"}  `} onClick={() => setProductcart((prev) => ({
+                                        <p key={index} className={`py-2 rounded-md  text-center border  font-normal cursor-pointer hover:text-white hover:bg-black hover:font-medium ${item.size === productcart?.sizes?.size?.size ? " bg-primary border-transparent text-white" : " text-primary border-primary bg-transparent"}  `} onClick={() => setProductcart((prev) => ({
                                             ...prev,
                                             sizes: {
                                                 ...prev.sizes,
@@ -243,7 +244,7 @@ function ProductAbout({ product }: ProductsDataProps) {
                 </div>
 
                 {/* BENIFITS */}
-                <ul className='w-full relative h-auto flex items-start gap-2 flex-col py-4 '>
+                {/* <ul className='w-full relative h-auto flex items-start gap-2 flex-col py-4 '>
 
                     <li className=' text-white bg-primary px-3 py-1 w-full  flex items-start text-xs sm:text-sm lg:text-base font-medium'>
                        Free delevery to all Orders
@@ -255,7 +256,21 @@ function ProductAbout({ product }: ProductsDataProps) {
                     <li className='flex items-start w-full relative gap-1 text-xs sm:text-sm'><CiDeliveryTruck className='text-[30px]' />
                         Delivery: Orders are typically delivered within 3-7 business days across India.
                     </li>
-                </ul>
+                </ul> */}
+                <div className="grid grid-cols-3 gap-4 py-6 border-t w-full  border-gray-200">
+                        <div className="text-center">
+                            <Truck className=" h-10 w-10 mx-auto mb-2 text-gray-500" />
+                            <p className="text-lg text-primary">Free Shipping</p>
+                        </div>
+                        <div className="text-center">
+                            <Shield className=" h-10 w-10 mx-auto mb-2 text-gray-500" />
+                            <p className="text-lg  text-primary">Premium Quality</p>
+                        </div>
+                        <div className="text-center">
+                            <RotateCcw className=" h-10 w-10 mx-auto mb-2 text-gray-500" />
+                            <p className="text-lg text-primary">30-Day Returns</p>
+                        </div>
+                </div>
 
 
 

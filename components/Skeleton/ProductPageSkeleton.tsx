@@ -6,8 +6,6 @@ import { Skeleton } from '../ui/skeleton'
 function ProductPageSkeleton() {
     return (
       
-      <div className=" mx-auto  px-4 py-12 md:py-16 lg:py-10 w-full">
-        {/* Product Grid Layout: Two columns on large screens, stacked on small screens */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
           {/* Left Column: Product Image Gallery Skeleton */}
@@ -30,13 +28,13 @@ function ProductPageSkeleton() {
             <Skeleton className="h-4 w-24 rounded-md" />
 
             {/* Product Title Skeleton */}
-            <Skeleton className="h-10 w-3/4 rounded-md" />
-            <Skeleton className="h-10 w-1/2 rounded-md" /> {/* Second line for title */}
+            <Skeleton className=" h-2 md:h-5 lg:h-10 w-3/4 rounded-md" />
+            <Skeleton className="h-2 md:h-5 lg:h-10 w-1/2 rounded-md" /> {/* Second line for title */}
 
             {/* Price Section Skeleton */}
             <div className="flex items-baseline space-x-3">
-              <Skeleton className="h-9 w-32 rounded-md" />
-              <Skeleton className="h-4 w-28 rounded-md" />
+              <Skeleton className=" h-2 md:h-4 lg:h-9 w-32 rounded-md" />
+              <Skeleton className=" h-2 lg:h-4 w-28 rounded-md" />
             </div>
 
             {/* Color Selection Skeleton */}
@@ -92,7 +90,7 @@ function ProductPageSkeleton() {
             </div>
           </div>
         </div>
-      </div>
+      
     )
 }
 

@@ -26,6 +26,7 @@ import axios from 'axios';
 import LoadRazorpay from '@/utils/loadrazorpay';
 import UpdateLocalstorageForOrder from '@/lib/UpdateLocalStorageForOrder';
 import SendMail from '@/lib/SendMailHelper';
+import { ShoppingBag } from 'lucide-react';
 
 
 function CartSheet({ children }: {
@@ -300,8 +301,9 @@ useEffect(() => {
                                 ))
 
                                 :
-                                <div className='text-p20 font-medium py-10 px-5 bg-gray-100 flex items-center justify-center   text-primary'>
-                                    Your Cart Is Empty  :)
+                                <div className='text-p20 font-medium py-10 px-5   flex items-center justify-center flex-col   text-primary'>
+                                    <ShoppingBag className="h-10 w-10  mx-auto text-gray-400 mb-8" />
+                                    Your cart is empty
                                 </div>
                         }
                     </section>
