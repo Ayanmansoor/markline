@@ -89,14 +89,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-        {/* <Head>
-          <meta name="google-site-verification" content="oEr910b0yVfYsDYjLEQjfpZTkZ1UeL1Z0U4R3kEQ_Wk" />
-        </Head> */}
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_TAGMANAGER||""}/>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${noto.variable} antialiased`}
       >
         <Provider>
-          <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_TAGMANAGER||""}/>
           <WishlistProvider>
             <CartProvider>
                 <Navbar />
@@ -110,5 +107,6 @@ export default function RootLayout({
         </Provider>
       </body>
     </html>
+ 
   );
 }
