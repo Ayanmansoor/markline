@@ -132,6 +132,26 @@ async function getAllTrendingProducts() {
   }
 }
 
+async function getAllProductsWithVariants() {
+  try{
+ const { data, error } = await mysupabase
+  .from("product")
+  .select(`
+    *,
+    product_variants (*)
+  `);
+
+     if (data) {
+    return data;
+  } else {
+    return new Error(error.message);
+  }
+  }
+  catch(error){
+
+  }
+}
+
 // async function getAllLimitedEditionProducts() {
 //   const { data: trendings, error } = await mysupabase
 //     .from("products")
@@ -377,6 +397,9 @@ async function updateCurrentUserAddress(userId:string, updatedAddress: any)  {
 
 
 
+
+
+
 export {
   getAllProducts,
   getAllCollections,
@@ -399,5 +422,6 @@ export {
   getAllCollectionsBaseOnGender,
   getCurrentUserOrders,
   updateCurrentUserAddress,
-  getSelectedAddress
+  getSelectedAddress,
+  getAllProductsWithVariants,
 };

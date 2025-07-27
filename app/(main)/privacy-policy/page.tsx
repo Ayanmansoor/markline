@@ -1,27 +1,36 @@
+'use client'
 import { mergeMetadata } from "@/app/layout";
+import { getAllProductsWithVariants } from "@/Supabase/SupabaseApi";
 import Link from "next/link"
-export const metadata = mergeMetadata({
-  title: "Privacy Policy | Markline Fashion",
-  description:
-    "Learn how Markline Fashion collects, uses, and protects your personal information. Your privacy and security are our top priority.",
-  robots: {
-    index: true,
-    follow: true,
-    "max-image-preview": "large",
-    "max-snippet": -1,
-    "max-video-preview": -1,
-  },
-  openGraph: {
-    title: "Privacy Policy | Markline Fashion",
-    description:
-      "At Markline Fashion, we are committed to safeguarding your privacy. Read our full privacy policy to understand your rights and our practices.",
-    url: "https://marklinefashion.vercel.app/privacy-policy",
-  },
-  alternates: {
-    canonical: `https://marklinefashion.vercel.app/privacy-policy`,
-  },
-});
+// export const metadata = mergeMetadata({
+//   title: "Privacy Policy | Markline Fashion",
+//   description:
+//     "Learn how Markline Fashion collects, uses, and protects your personal information. Your privacy and security are our top priority.",
+//   robots: {
+//     index: true,
+//     follow: true,
+//     "max-image-preview": "large",
+//     "max-snippet": -1,
+//     "max-video-preview": -1,
+//   },
+//   openGraph: {
+//     title: "Privacy Policy | Markline Fashion",
+//     description:
+//       "At Markline Fashion, we are committed to safeguarding your privacy. Read our full privacy policy to understand your rights and our practices.",
+//     url: "https://marklinefashion.vercel.app/privacy-policy",
+//   },
+//   alternates: {
+//     canonical: `https://marklinefashion.vercel.app/privacy-policy`,
+//   },
+// });
 export default function PrivacyPolicy() {
+    // async function getdata(){
+    //   const data=await getAllProductsWithVariants()
+    
+    //   console.log(data,"ljdslfjsd")
+    // }
+    // getdata()
+
   return (
     <div className="  container mx-auto px-5 md:px-5 py-8 text-gray-800">
 

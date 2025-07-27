@@ -32,6 +32,7 @@ import { StateCombobox } from '../FormComponents/StateCombobox'
 import { CityNameCombobox } from '../FormComponents/CityNameCombobox'
 import { ordersprops } from '../users/OrderplacedSection'
 import UpdateLocalstorageForOrder from '@/lib/UpdateLocalStorageForOrder'
+import { toast } from 'sonner'
 
 type FormInputs = z.infer<typeof addressFromSchema>;
 
@@ -100,6 +101,7 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
                await onSubmit(response.data.data)
             }
             catch(error){
+                toast("Something strength happend . try again later.")
                 console.log(error,"this errror")
                 setOrderSub(false)
 
@@ -167,7 +169,7 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
 
         }
         catch(error){
-                    console.log('this is')
+                    toast(" Your Payment we received . We Cantact you Shortly .")
                     setOrderSub(false)
 
 

@@ -34,7 +34,7 @@ function CartSheetOderDailog({ children,closeSheet }:cartsheetProps) {
     return (
         <Dialog>
             <DialogTrigger className='w-fit h-fit relative cursor-pointer'>{children}</DialogTrigger>
-            <DialogContent className=" max-w-[calc(100vw-30px)]  sm:max-w-[500px]  md:max-w-[625px]">
+            <DialogContent className=" max-w-[calc(100vw-20px)]  sm:max-w-[500px]  md:max-w-[625px] p-3 sm:p-5">
                 <DialogHeader>
                 </DialogHeader>
 

@@ -13,6 +13,7 @@ import { submitOrders } from '@/Supabase/acceptOrderForm';
 import { getSelectedAddress } from '@/Supabase/SupabaseApi';
 import UpdateLocalstorageForOrder from '@/lib/UpdateLocalStorageForOrder';
 import SendMail from '@/lib/SendMailHelper';
+import { toast } from 'sonner';
 
 
 function BuyComponent({ product ,user, setConfirm}: forProductsProps ) {
@@ -75,6 +76,7 @@ function BuyComponent({ product ,user, setConfirm}: forProductsProps ) {
       }
       await initiateRazorpayPayment(data.data); 
     } catch (error) {
+      toast("Somthing strength happnd . try again later ")
       console.error("Order Save Error:", error);
       setIsSubmittingOrder(false);
     }
@@ -137,6 +139,7 @@ function BuyComponent({ product ,user, setConfirm}: forProductsProps ) {
       await UpdateLocalstorageForOrder();
       await SendMail({ data: [data.updated] });
     } catch (error) {
+      toast("We received your payment , Our Team contact you shortly, ")
       console.error("Finalize Order Error:");
       setIsSubmittingOrder(false);
     }

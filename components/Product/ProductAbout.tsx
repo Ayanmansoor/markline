@@ -259,16 +259,16 @@ function ProductAbout({ product }: ProductsDataProps) {
                 </ul> */}
                 <div className="grid grid-cols-3 gap-4 py-6 border-t w-full  border-gray-200">
                         <div className="text-center">
-                            <Truck className=" h-10 w-10 mx-auto mb-2 text-gray-500" />
-                            <p className="text-lg text-primary">Free Shipping</p>
+                            <Truck className=" h-7 lg:h-10 w-5 md:w-7 lg:w-10 mx-auto mb-2 text-gray-500" />
+                            <p className=" text-sm font-semibold sm:font-medium md:text-base lg:text-lg text-primary">Free Shipping</p>
                         </div>
                         <div className="text-center">
-                            <Shield className=" h-10 w-10 mx-auto mb-2 text-gray-500" />
-                            <p className="text-lg  text-primary">Premium Quality</p>
+                            <Shield className=" h-7 lg:h-10 w-5 md:w-7 lg:w-10 mx-auto mb-2 text-gray-500" />
+                            <p className=" text-sm font-semibold sm:font-medium md:text-base lg:text-lg  text-primary">Premium Quality</p>
                         </div>
                         <div className="text-center">
-                            <RotateCcw className=" h-10 w-10 mx-auto mb-2 text-gray-500" />
-                            <p className="text-lg text-primary">30-Day Returns</p>
+                            <RotateCcw className=" h-7 lg:h-10 w-5 md:w-7 lg:w-10 mx-auto mb-2 text-gray-500" />
+                            <p className=" text-sm font-semibold sm:font-medium md:text-base lg:text-lg text-primary">30-Day Returns</p>
                         </div>
                 </div>
 

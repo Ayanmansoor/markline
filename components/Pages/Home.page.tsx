@@ -41,7 +41,7 @@ const homebanners = [
 
 function HomePage() {
 
-  const [currentproducts, setCurrentProducts] = useState<ProductsProps[]>([])
+const [currentproducts, setCurrentProducts] = useState<ProductsProps[]>([])
   const [collections, setCollections] = useState<CollectionCardProps[]>([])
   const [trendingProducts, setTrendingProducts] = useState<any>()
   const [HomeBanner, sethomeBanner] = useState<any>()

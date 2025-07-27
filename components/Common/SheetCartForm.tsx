@@ -34,6 +34,7 @@ import { StateCombobox } from '../FormComponents/StateCombobox'
 import { CityNameCombobox } from '../FormComponents/CityNameCombobox'
 import UpdateLocalstorageForOrder from '@/lib/UpdateLocalStorageForOrder'
 import SendMail from '@/lib/SendMailHelper'
+import { toast } from 'sonner'
 
 function SheetCartForm({ setConfirm, setOrderID ,closeSheet}: SheetCartFormProps) {
         const { cart, clearCart } = useCart()
@@ -114,6 +115,7 @@ function SheetCartForm({ setConfirm, setOrderID ,closeSheet}: SheetCartFormProps
 
                 }
             catch (error) {
+                    toast("something strength happend .try again later")
                     console.error("Bulk order submission failed:", );
                     setOrderSub(true)
 
@@ -237,6 +239,8 @@ function SheetCartForm({ setConfirm, setOrderID ,closeSheet}: SheetCartFormProps
                     
             }
             catch (error) {
+                  toast("We received your payment , Our Team contact you shortly, ")
+
                 console.error("Bulk order submission failed:", );
             }
         }

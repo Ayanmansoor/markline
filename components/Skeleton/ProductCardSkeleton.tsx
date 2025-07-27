@@ -30,7 +30,7 @@ function ProductCardSkeleton() {
           <Skeleton className="h-2 lg:h-6 w-3/4 rounded-md" />
 
           {/* Price Skeleton */}
-          <Skeleton className="h-7 w-24 rounded-md mt-2" />
+          <Skeleton className=" h-2 md:h-4 lg:h-7 w-24 rounded-md mt-2" />
 
           {/* Add to Cart Button Skeleton */}
           <div className="flex items-center space-x-3 mt-4">
