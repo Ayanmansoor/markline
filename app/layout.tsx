@@ -88,25 +88,63 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_TAGMANAGER||""}/>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${noto.variable} antialiased`}
-      >
+    // <html lang="en">
+      
+    //   <body
+    //     className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${noto.variable} antialiased`}
+    //   >
+    //     <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_TAGMANAGER||""}/>
+    //     <Provider>
+    //       <WishlistProvider>
+    //         <CartProvider>
+    //             <Navbar />
+    //               {children}
+    //             <Subcribes/>
+    //             <Footer />
+    //             <Toaster/>
+    //          <OrderConfirmed/>
+    //         </CartProvider>
+    //       </WishlistProvider>
+    //     </Provider>
+    //   </body>
+    // </html>
+      <html lang="en">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id=${process.env.NEXT_PUBLIC_TAGMANAGER}'+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','${process.env.NEXT_PUBLIC_TAGMANAGER}');
+            `,
+          }}
+        />
+      </head>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${noto.variable} antialiased`}>
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_TAGMANAGER}`}
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          ></iframe>
+        </noscript>
+
         <Provider>
           <WishlistProvider>
             <CartProvider>
-                <Navbar />
-                  {children}
-                <Subcribes/>
-                <Footer />
-                <Toaster/>
-             <OrderConfirmed/>
+              <Navbar />
+              {children}
+              <Subcribes />
+              <Footer />
+              <Toaster />
+              <OrderConfirmed />
             </CartProvider>
           </WishlistProvider>
         </Provider>
       </body>
     </html>
- 
   );
 }
