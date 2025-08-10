@@ -3,9 +3,9 @@ import Link from 'next/link';
 import ClaimRequestFrom from '@/components/Forms/ClaimRequestFrom';
 
 export const metadata = {
-  title: "Product Claim Policy | Markline Fashion",
+  title: "Product Claim Policy | Markline",
   description:
-    "Understand Markline Fashion's product claim policy. Learn how to report damaged, defective, or incorrect items and what resolutions are available.",
+    "Understand Markline's product claim policy. Learn how to report damaged, defective, or incorrect items and what resolutions are available.",
 };
 
 function page() {
@@ -89,7 +89,7 @@ function page() {
       </section>
 
       <p className=" text-primary mt-6 text-lg font-semibold">
-        Markline Fashion reserves the right to modify or update this policy at any time without prior notice.
+        Markline reserves the right to modify or update this policy at any time without prior notice.
       </p>
     </section>
       <ClaimRequestFrom/>

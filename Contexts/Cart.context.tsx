@@ -1,290 +1,203 @@
-'use client'
+'use client';
+import { CartVariant } from '@/types/interfaces';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from 'react';
 
-import { CartItem, Colors, Sizes, updateQuantityProps } from "@/types/interfaces";
-import { createContext, useContext, useEffect, useState } from "react";
+// --- Interfaces ---
 
-// import React, {
-//     createContext,
-//     useState,
-//     useEffect,
-//     useContext,
-//     ReactNode
-// } from 'react';
-
-// import { ProductsProps, Colors, Sizes, CartProductsProps } from '@/types/interfaces';
-
-// // Define CartItem based on ProductsProps + selected color/size/quantity
-// interface CartItem extends CartProductsProps {
-//     selectedcolors: {
-//         name: string,
-//         hex: string
-//     };
-//     selectedsizes: {
-//         size: string,
-//         hex?: string
-//     }
-//     ,
-//     quantity: number;
-// }
-
-
-
-// // Context type
-// interface CartContextType {
-//     cart: CartItem[];
-//     addToCart: (product: any) => void;
-//     deleteFromCart: (productId: number, color: Colors, size: Sizes) => void;
-//     clearCart: () => void;
-//     isInCart: (productId: number, color: Colors, size: Sizes) => boolean;
-//     updateQuantity: (
-//         productId: number,
-//         newQuantity: number,
-//         color: Colors,
-//         size: Sizes
-//     ) => void;
-//     getCartProduct: (productId: number | string,) => CartItem | undefined;
-// }
-
-// // Create context
-// const CartContext = createContext<CartContextType | undefined>(undefined);
-
-// interface CartProviderProps {
-//     children: ReactNode;
-// }
-
-// const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
-//     const [cart, setCart] = useState<CartItem[]>(() => {
-//         const savedCart = localStorage.getItem('cart');
-//         return savedCart ? JSON.parse(savedCart) : [];
-//     });
-
-//     useEffect(() => {
-//         if (cart.length > 0) {
-//             localStorage.setItem('cart', JSON.stringify(cart));
-//         } else {
-//             localStorage.removeItem('cart');
-//         }
-//     }, [cart]);
-
-//     const addToCart = (product: any) => {
-//         console.log(product,"kjdlfjsldf")
-//         setCart((prevCart) => {
-//             const exists = prevCart.some(item =>
-//                 item.id === product.id &&
-//                 item.selectedcolors.name === product.selectedColor.name &&
-//                 item.selectedsizes.size === product.selectedSize.size
-//             );
-//             if (exists) return prevCart;
-//             return [...prevCart, product];
-//         });
-//     };
-
-//     const updateQuantity = (
-//         productId: number,
-//         newQuantity: number,
-//         color: Colors,
-//         size: Sizes
-//     ) => {
-//         console.log(productId, newQuantity, color, size, "sdlfjsdlfj")
-//         setCart((prevCart) => {
-//             const index = prevCart.findIndex(
-//                 item =>
-//                     item.id === productId &&
-//                     item.selectedColor.name === color.name &&
-//                     item.selectedSize.size === size.size
-//             );
-
-//             if (index !== -1) {
-//                 const updatedCart = [...prevCart];
-//                 if (newQuantity === 0) {
-//                     updatedCart.splice(index, 1);
-//                 } else {
-//                     updatedCart[index].quantity = newQuantity;
-//                 }
-//                 return updatedCart;
-//             }
-//             return prevCart;
-//         });
-//     };
-
-//     const isInCart = (productId: number, color: Colors, size: Sizes) => {
-//         return cart.some(item =>
-//             item.id === productId &&
-//             item.selectedColor.name === color.name &&
-//             item.selectedSize.size === size.size
-//         );
-//     };
-
-//     const deleteFromCart = (productId: number, color: Colors, size: Sizes) => {
-//         setCart(prevCart =>
-//             prevCart.filter(item =>
-//                 !(item.id === productId &&
-//                     item.selectedColor.name === color.name &&
-//                     item.selectedSize.size === size.size)
-//             )
-//         );
-//     };
-
-//     const clearCart = () => {
-//         setCart([]);
-//     };
-
-//     const getCartProduct = (productId: number,): CartItem | undefined => {
-//         return cart.find(item =>
-//             item.id === productId
-//         );
-//     };
-
-//     return (
-//         <CartContext.Provider
-//             value={{
-//                 cart,
-//                 addToCart,
-//                 deleteFromCart,
-//                 clearCart,
-//                 isInCart,
-//                 updateQuantity,
-//                 getCartProduct
-//             }}
-//         >
-//             {children}
-//         </CartContext.Provider>
-//     );
-// };
-
-// const useCart = (): CartContextType => {
-//     const context = useContext(CartContext);
-//     if (!context) {
-//         throw new Error('useCart must be used within a CartProvider');
-//     }
-//     return context;
-// };
-
-// export { CartProvider, useCart };
-
-interface providertype {
-    children: React.ReactNode
+export interface Colors {
+  name: string;
+  hex: string;
 }
 
-interface hereCartitem {
-    data: CartItem
+export interface Sizes {
+  size: string;
+  unit: string;
 }
 
-interface CartContextType {
-    cart: CartItem[];
-    addToCart: (product: hereCartitem) => void;
-    deleteFromCart: (productId: number, color: string, size: string) => void;
-    clearCart: () => void;
-    isInCart: (productId: number, color: Colors, size: Sizes) => boolean;
-    updateQuantity: ({ productId, quantity, color, size }: updateQuantityProps) => void;
-    getCartProduct: (productId?: number | string) => CartItem | undefined;
+export interface Images {
+  name: string;
+  image_url: string;
 }
 
+export interface NewDiscountProps {
+  discount_id: string;
+  name: string;
+  discount_persent: number;
+  discount_start: string;
+  discount_end: string;
+}
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+// export interface CartVariant {
+//   id: number;
+//   sku: string;
+//   price: number;
+//   stock: number;
+//   image_url: Images[];
+//   is_active: boolean;
+//   created_at: string;
+//   products_id: number;
+//   discount_key?: string;
+//   discounts?: NewDiscountProps;
+//   selectedColor: Colors;
+//   selectedSize: Sizes;
+// }
+
+export interface newCartItem {
+  productId: number;
+  productName: string;
+  slug: string;
+  variant: CartVariant;
+  quantity: number;
+  gender: string;
+}
+
+// --- Context Interface ---
+
+interface CartContextProps {
+  cart: newCartItem[];
+  addToCart: (item: newCartItem) => void;
+  removeFromCart: ({ productId, colorName, size }: { productId: number, colorName: Colors | undefined, size: Sizes | undefined }) => void;
+  updateQuantity: ({ productId, colorName, size, quantity }: { productId: number, colorName: Colors, size: Sizes, quantity: number }) => void;
+  clearCart: () => void;
+  isInCart: ({ variantId, colorName, size }: { variantId: number, colorName: string, size: string }) => boolean;
+  getCartProduct: ({variantId,colorName,size,}: {variantId: number;colorName: string;size: string;}) => newCartItem | undefined;
+}
+
+// --- Context Creation ---
+
+const CartContext = createContext<CartContextProps | undefined>(undefined);
+
+// --- Provider Component ---
+
+export const CartProvider = ({ children }: { children: ReactNode }) => {
+  const [cart, setCart] = useState<newCartItem[]>(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('cart');
+      return stored ? JSON.parse(stored) : [];
+    }
+    return [];
+  });
 
 
-function CartProvider({ children }: providertype) {
 
-    const [cart, setCart] = useState<CartItem[]>([]);
+  // Sync to localStorage
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
 
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            const savedCart = localStorage.getItem('cart');
-            if (savedCart) {
-                setCart(JSON.parse(savedCart));
-            }
+  // Add item to cart
+  const addToCart = (item: newCartItem) => {
+    setCart((prev) => {
+      const exists = prev.some(
+        (i) =>
+          i.variant?.id === item?.variant?.id &&
+          i.variant?.selectedColor.name === item.variant?.selectedColor.name &&
+          i.variant?.selectedSize.size === item.variant?.selectedSize.size
+      );
+      return exists ? prev : [...prev, item];
+    });
+  };
+
+  // Remove item from cart
+  const removeFromCart = ({ productId, colorName, size }: { productId: number, colorName: Colors | undefined, size: Sizes | undefined }) => {
+    setCart((prev) =>
+      prev.filter(
+        (i) =>
+          !(
+            i.productId === productId &&
+            i.variant?.selectedColor.name === colorName?.name &&
+            i.variant?.selectedSize.size === size?.size
+          )
+      )
+    );
+  };
+
+  // Alias
+
+  // Update quantity
+  const updateQuantity = ({
+    productId,
+    colorName,
+    size,
+    quantity, }: { productId: number, colorName: Colors | null, size: Sizes | null, quantity: number }) => {
+
+    setCart((prev) =>
+      prev.map((i) => {
+        if (
+          i.productId === productId &&
+          i.variant?.selectedColor.name === colorName?.name &&
+          i.variant?.selectedSize.size === size?.size
+        ) {
+          return { ...i, quantity };
         }
-    }, []);
+        return i;
 
-    useEffect(() => {
-        if (cart.length > 0) {
-            localStorage.setItem('cart', JSON.stringify(cart));
-        } else {
-            localStorage.removeItem('cart');
-        }
-    }, [cart]);
+      })
+    );
+  };
 
-    function addToCart({ data }: hereCartitem) {
-        console.log("saved")
-        setCart((prevCards) => {
-            const exists = prevCards.some((item) => {
-                return item.productId === data.productId && item.color.name === data.color.name && item.size.size === data.size.size
-            })
-            if (exists) return prevCards
-            return [...prevCards, data]
-        })
-    }
+  // Clear entire cart
+  const clearCart = () => {
+    setCart([]);
+  };
 
-    function deleteFromCart(productId: number, color: string, size: string) {
-        setCart((prevData) => {
-            return prevData.filter((product) => {
-                return (product.productId !== productId || product.color.name !== color || product.size.size !== size)
-            });
-        })
-    }
+  // Check if item exists in cart
+  const isInCart = ({ variantId, colorName, size }: { variantId: number, colorName: string, size: string }) => {
+    return cart.some(
+      (i) =>
+        i.variant.id === variantId &&
+        i.variant.selectedColor.name === colorName &&
+        i.variant.selectedSize.size === size
+    );
+  };
 
-    function updateQuantity({ productId, color, size, quantity }: updateQuantityProps) {
-        setCart((prevCart) => {
-            const index = prevCart.findIndex(
-                item =>
-                    item.productId === productId &&
-                    item.color.name === color.name &&
-                    item.size.size === size.size
-            );
+  // Get item from cart
+  function getCartProduct({
+    variantId,
+    colorName,
+    size,
+  }: {
+    variantId: number;
+    colorName: string;
+    size: string;
+  }) {
+    return cart.find(
+      (item) =>
+        item.variant.id === variantId &&
+        item.variant.selectedColor.name === colorName &&
+        item.variant.selectedSize.size === size
+    );
+  }
 
-            if (index !== -1) {
-                const updatedCart = [...prevCart];
-                if (quantity === 0) {
-                    updatedCart.splice(index, 1);
-                } else {
-                    updatedCart[index].quantity = quantity;
-                }
-                return updatedCart;
-            }
-            return prevCart;
-        });
-    }
-
-    const isInCart = (productId: number, color: Colors, size: Sizes) => {
-        return cart.some(item => {
-            return item.productId === productId && item.color.name === color.name && item.size.size === size.size
-        })
-    };
-
-    const getCartProduct = (productId?: number | string): CartItem | undefined => {
-        return cart.find((item) => item.productId === productId);
-    };
-
-    const clearCart = () => {
-        setCart([]);
-    };
-
-
-    return (
-        <CartContext.Provider value={{
-            cart,
-            addToCart,
-            deleteFromCart,
-            updateQuantity,
-            clearCart,
-            getCartProduct,
-            isInCart
-
-        }}>
-            {children}
-        </CartContext.Provider>
-    )
-
-}
-
-const useCart = (): CartContextType => {
-    const context = useContext(CartContext);
-    if (!context) {
-        throw new Error('useCart must be used within a CartProvider');
-    }
-    return context;
+  return (
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+        isInCart,
+        getCartProduct,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
 };
 
+// --- Hook ---
 
-export { CartProvider, useCart };
+export const useCartContext = (): CartContextProps => {
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error('useCartContext must be used within a CartProvider');
+  }
+  return context;
+};

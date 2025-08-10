@@ -4,7 +4,7 @@ import CarouselProduct from '@/components/Product/CarouselProduct'
 import ProductAbout from '@/components/Product/ProductAbout'
 import ProductMain from '@/components/Product/ProductMain'
 import Specification from '@/components/Product/Specification'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import ProductPageSkeleton from '../Skeleton/ProductPageSkeleton'
 // import WihlistCardSection from '../Product/WihlistCardSection'
@@ -13,27 +13,53 @@ import Image from 'next/image'
 
 import { useParams } from 'next/navigation'
 import { useQuery } from 'react-query'
-import { getProductData, getAllProducts, getRelatedProducts } from '@/Supabase/SupabaseApi'
+import { getProductData, getRelatedProducts } from '@/Supabase/SupabaseApi'
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
 import { useWishlists } from '@/Contexts/wishlist'
 import OrderConfirmed from '../Common/OrderConfirm'
+import { Images, ProductVariant } from '@/types/interfaces'
 
 function ProductPage() {
 
-  const { wishlist } = useWishlists()
+  const [stringifyImages, setStringifyImages] = useState<any[]>([]); // default to empty array
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(); // initially null
 
-  const { slug } = useParams()
+  const { slug } = useParams();
   const productslug = Array.isArray(slug) ? slug[0] : slug;
 
-  const { data: product, isLoading, isError, error } = useQuery({
+  const { data: product, isLoading, isError } = useQuery({
     queryKey: ["product", productslug],
     queryFn: () => getProductData(productslug),
     enabled: !!productslug,
     staleTime: Infinity,
-    refetchOnMount: false,     
+    refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
+
+  // Always use useEffect to update selectedVariant after product fetch
+  useEffect(() => {
+    if (product?.product_variants?.length > 0) {
+      setSelectedVariant(product.product_variants[0]);
+    }
+  }, [product]);
+
+  useEffect(() => {
+    if (!selectedVariant?.image_url) return;
+
+    try {
+      const parsedImages: Images[] = Array.isArray(selectedVariant.image_url)
+        ? selectedVariant.image_url.map((item: string) => JSON.parse(item))
+        : [];
+
+      setStringifyImages(parsedImages);
+    } catch (error) {
+      console.error("Failed to parse variant images:", error);
+    }
+  }, [selectedVariant]);
+
+  // Safe conditional rendering (no hook inside this)
+
 
   const {
     data: relatedProducts = [],
@@ -41,32 +67,32 @@ function ProductPage() {
     isError: newError,
     error: err,
   } = useQuery({
-    queryKey: ["relatedProducts", product, productslug],
+    queryKey: [
+      "relatedProducts",
+      product?.brand_key,
+      product?.collection_key,
+      productslug,
+    ],
     queryFn: () => getRelatedProducts(product, productslug),
     enabled: !!product && !!productslug,
     staleTime: Infinity,
-    refetchOnMount: false,     
+    refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
 
 
-  // console.log(product,"product data")
-
   if (isLoading) {
-    return <div className='w-full relative h-fit'>
-      <ProductPageSkeleton />
-    </div>;
+    return (
+      <div className="w-full relative h-fit">
+        <ProductPageSkeleton />
+      </div>
+    );
   }
 
-  if (isError) {
-    return <div>Error: </div>;
+  if (isError || !product) {
+    return <div>Error loading product.</div>;
   }
-
-
-
-
-
   return (
     <>
 
@@ -76,23 +102,20 @@ function ProductPage() {
           isLoading ?
             <section className=' h-auto '>
               <ProductPageSkeleton />
-            </section>
-            :
-            product ?
+            </section> : product ?
               <div className='w-full mx-auto h-full  relative  flex flex-col justify-between  bg-secondary md:flex-row  px-3 lg:px-10  '>
                 <div className='  md:max-h-fit   w-full  relative lg:sticky lg:top-5 p-1 md:h-full  md:w-[60%] lg:w-[60%] '>
-                  <ProductMain product={product} />
+                  <ProductMain variant={selectedVariant} />
                 </div>
-                <ProductAbout product={product} />
-              </div>
-              :
-              <section className='container  h-[700px] '>
+                {
+                  selectedVariant &&
+                <ProductAbout product={product} variant={selectedVariant} onVariantChange={(variant) => setSelectedVariant(variant)} />
+                }
+              </div> : <section className='container  h-[700px] '>
                 <ProductPageSkeleton />
               </section>
         }
-
       </section>
-
       <Specification product={product} />
 
 
@@ -109,7 +132,7 @@ function ProductPage() {
 
       {
         newloading ?
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3   ">
+          <div className="grid grid-cols-2 py-10 lg:py-20 px-5 lg:px-10 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3   ">
             <ProductCardSkeleton />
             <ProductCardSkeleton />
             <ProductCardSkeleton />
@@ -117,11 +140,11 @@ function ProductPage() {
           </div>
           :
           relatedProducts.length>0 ?
-            <CategoriesSection title={"You may also like  "} url={'products/women'} urltext='products' >
+            <CategoriesSection title={"You may also like  "}  url={'products/women'} urltext='products' >
               <CarouselProduct url={'product'} product={relatedProducts}  css=' sm:max-w-[500px]' />
             </CategoriesSection >
             :
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3   ">
+            <div className="grid grid-cols-2 py-10 lg:py-20 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3   px-5 lg:px-10  ">
               <ProductCardSkeleton />
               <ProductCardSkeleton />
               <ProductCardSkeleton />
@@ -136,7 +159,7 @@ function ProductPage() {
           <CarouselProduct url={'products'} product={wishlist} />
         </CategoriesSection >
       } */}
-    {/* {
+      {/* {
       wishlist.length > 0 &&
       <CategoriesSection title={"Your Whishlist Products "} url={'products'} >
         <WihlistCardSection url={'products'} />
@@ -213,20 +236,20 @@ function ProductPage() {
             <h2 className="text-lg lg:text-xl xl:text-2xl font-semibold mb-4">Footwear Trends for All</h2>
             <ul className="list-disc list-inside text-gray-700 space-y-2 text-sm lg:text-base">
               <li className=' text-sm sm:text-base'><strong>Bold Soles:</strong> Platform sneakers and boots are popular across ages and genders.</li>
-              <li  className=' text-sm sm:text-base'><strong>Pastel Tones & Neutrals:</strong> Universally flattering hues dominating this season.</li>
-              <li  className=' text-sm sm:text-base'><strong>Retro Revivals:</strong> Styles like Mary Janes and high-top sneakers are making a fashionable comeback.</li>
-              <li  className=' text-sm sm:text-base'><strong>Tech Comfort:</strong> Cushioned footbeds and lightweight designs for all-day wear.</li>
-              <li  className=' text-sm sm:text-base'><strong>Ethnic Fusion:</strong> Traditional designs reimagined for modern wardrobes.</li>
+              <li className=' text-sm sm:text-base'><strong>Pastel Tones & Neutrals:</strong> Universally flattering hues dominating this season.</li>
+              <li className=' text-sm sm:text-base'><strong>Retro Revivals:</strong> Styles like Mary Janes and high-top sneakers are making a fashionable comeback.</li>
+              <li className=' text-sm sm:text-base'><strong>Tech Comfort:</strong> Cushioned footbeds and lightweight designs for all-day wear.</li>
+              <li className=' text-sm sm:text-base'><strong>Ethnic Fusion:</strong> Traditional designs reimagined for modern wardrobes.</li>
             </ul>
           </section>
 
           <section>
             <h2 className="text-lg lg:text-xl xl:text-2xl font-semibold mb-4">Why Quality Footwear Matters</h2>
             <ul className="list-disc list-inside text-gray-700 space-y-2 text-sm lg:text-base ">
-              <li  className=' text-sm sm:text-base'><strong>Comfort:</strong> Supportive construction makes walking and standing easier for all ages.</li>
-              <li  className=' text-sm sm:text-base'><strong>Durability:</strong> Long-lasting shoes reduce waste and frequent replacement costs.</li>
-              <li  className=' text-sm sm:text-base'><strong>Foot Health:</strong> Proper fit and cushioning prevent common issues like heel pain and blisters.</li>
-              <li  className=' text-sm sm:text-base'><strong>Confidence:</strong> Stylish shoes that feel good can uplift your entire outfit and mood.</li>
+              <li className=' text-sm sm:text-base'><strong>Comfort:</strong> Supportive construction makes walking and standing easier for all ages.</li>
+              <li className=' text-sm sm:text-base'><strong>Durability:</strong> Long-lasting shoes reduce waste and frequent replacement costs.</li>
+              <li className=' text-sm sm:text-base'><strong>Foot Health:</strong> Proper fit and cushioning prevent common issues like heel pain and blisters.</li>
+              <li className=' text-sm sm:text-base'><strong>Confidence:</strong> Stylish shoes that feel good can uplift your entire outfit and mood.</li>
             </ul>
           </section>
         </div>

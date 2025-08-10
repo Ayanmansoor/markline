@@ -45,6 +45,8 @@ function OrderandAddressSection() {
         
     },[perform])
 
+    console.log(orders,'this is')
+
   return (
     <section className='flex flex-col gap-0 rounded-lg overflow-hidden'>
 

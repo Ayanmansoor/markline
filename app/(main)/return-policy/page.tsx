@@ -1,9 +1,9 @@
 import React from 'react'
 import { mergeMetadata } from '@/app/layout';
 export const metadata = mergeMetadata({
-    title: "Return Policy | Markline Fashion",
+    title: "Return Policy | Markline",
     description:
-      "Read Markline Fashion’s return policy to learn about eligibility, timeframes, and conditions for returning or exchanging your purchase.",
+      "Read Markline’s return policy to learn about eligibility, timeframes, and conditions for returning or exchanging your purchase.",
     robots: {
       index: true,
       follow: true,
@@ -12,7 +12,7 @@ export const metadata = mergeMetadata({
       "max-video-preview": -1,
     },
     openGraph: {
-      title: "Return Policy | Markline Fashion",
+      title: "Return Policy | Markline",
       description:
         "We want you to love your purchase. Review our return policy to ensure a smooth return or exchange process.",
       url: "https://marklinefashion.vercel.app/return-policy",
@@ -85,7 +85,7 @@ function Returnpolicy() {
                     </p>
                     <div className="not-prose">
                         <address className="not-italic text-sm md:text-base">
-                            <p>Markline Fashion</p>
+                            <p>Markline</p>
                             {/* <p>[Your Address]</p>
                             <p>[Your City, State/Province, ZIP/Postal Code]</p>
                             <p>[Your Country]</p>

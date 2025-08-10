@@ -9,9 +9,9 @@ import ProductCard from '../Common/ProductCard';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { trendingProductsProps } from '@/types/interfaces';
 
-function TrendingCarousels({ data ,productsCardCss }: trendingProductsProps) {
+function  TrendingCarousels({ data ,productsCardCss }: trendingProductsProps) {
 
-
+  
   return (
     <section className='relative w-full h-auto bg-black  '>
       <div className='  mx-auto reltive h-fit w-full flex flex-col gap-5   text-secondary pt-5 pb-10 px-3 md:px-5 lg:px-10 '>
@@ -37,13 +37,13 @@ function TrendingCarousels({ data ,productsCardCss }: trendingProductsProps) {
             400: {
               slidesPerView: 2,
             },
-            640: {
+            768: {
               slidesPerView: 2,
             },
-            768: {
+            1024: {
               slidesPerView: 3,
             },
-            1024: {
+            1280: {
               slidesPerView: 4 ,
             },
           }}
@@ -53,7 +53,7 @@ function TrendingCarousels({ data ,productsCardCss }: trendingProductsProps) {
         >
           {data?.map((item, index) => (
             <SwiperSlide className='    sm:max-w-[500px] h-full  bg-slate-50 overflow-hidden relative transition-all duration-500 text-third group' key={index}>
-              <ProductCard product={item.products} url='product' className={productsCardCss} />
+              <ProductCard product={item.product} url='product' className={productsCardCss} />
             </SwiperSlide>
           ))}
         </Swiper>

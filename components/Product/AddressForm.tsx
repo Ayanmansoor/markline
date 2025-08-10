@@ -27,7 +27,7 @@ const addressFromSchema = z.object({
     city: z.string().min(2, "City name is required"),
     full_address: z.string().min(5, "Address must be at required"),
 })
-import { AddressFromProps, OrderProps, userinterfce } from '@/types/interfaces'
+import { AddressFromProps, NewAddressFromProps, OrderProps, userinterfce } from '@/types/interfaces'
 import { StateCombobox } from '../FormComponents/StateCombobox'
 import { CityNameCombobox } from '../FormComponents/CityNameCombobox'
 import { ordersprops } from '../users/OrderplacedSection'
@@ -39,7 +39,7 @@ type FormInputs = z.infer<typeof addressFromSchema>;
 
 // import Razorpay from 'razorpay'
 
-function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
+function AddressForm({ product, setConfirm, setOrderID ,variant}: NewAddressFromProps) {
     const { executeRecaptcha } = useGoogleReCaptcha()
     const [isOrderSub,setOrderSub]=useState<boolean>(false)
     
@@ -62,9 +62,9 @@ function AddressForm({ product, setConfirm, setOrderID }: AddressFromProps) {
     }
 
     const { final_price, discountPrice } = useMemo(() => {
-        const discountPercent = product?.discounts?.discount_persent || 0;
-        const discountPrice = product?.price * (discountPercent / 100);
-        const final_price = Math.floor(product?.price - discountPrice);
+        const discountPercent = variant?.discounts?.discount_persent || 0;
+        const discountPrice = variant?.price * (discountPercent / 100);
+        const final_price = Math.floor(variant?.price - discountPrice);
 
         return { final_price, discountPrice };
     }, [product]);

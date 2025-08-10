@@ -8,13 +8,13 @@ import Link from 'next/link';
 
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { CarouselProductProps, ProductsProps } from '@/types/interfaces';
+import {  newCarouselProductProps,  } from '@/types/interfaces';
 
 
 
 
 
-function CarouselProduct({ url, product ,css }: CarouselProductProps) {
+function CarouselProduct({ url, product ,css }: newCarouselProductProps) {
 
 
 

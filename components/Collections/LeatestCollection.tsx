@@ -12,10 +12,10 @@ function LeatestCollection({ url }: { url: string }) {
     return (
         <section className='w-full relative flex flex-col max-h-fit    gap-4 py-10  px-3 md:px-5   '>
             <div className='w-full relative h-auto flex items-center justify-between'>
-                <h2 className='w-full relative h-auto flex items-start text-h1 font-medium text-black uppercase'>new Collections</h2>
+                <h2 className='w-full relative h-auto flex items-start text-base md:text-lg lg:text-xl font-medium text-black uppercase'>new Collections</h2>
                 {
                     url &&
-                    <Link href={`/${url}`} className=' text-base lg:text-lg  font-medium text-foreground flex items-center gap-1 capitalize' >{url} <GoArrowUpRight className='text-[20px] ' /> </Link>
+                    <Link href={`/${url}`} className=' text-sm md:text-base lg:text-lg  font-medium text-foreground flex items-center gap-1 capitalize' >{url} <GoArrowUpRight className='text-[20px] ' /> </Link>
 
                 }
             </div>

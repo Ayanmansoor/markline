@@ -7,35 +7,73 @@ import { useQuery } from 'react-query';
 import { getAllCollections, getProductBaseOnCollection } from '@/Supabase/SupabaseApi';
 import Link from 'next/link';
 import MegaManuCarSkeleton from '../Skeleton/MegaManuCarSkeleton';
+import { NewProductProps, ProductVariant } from '@/types/interfaces';
+import { Skeleton } from '../ui/skeleton';
 
 
 function MegaManu({ children }: { children: React.ReactNode }) {
 
     const [slug, setslug] = useState('')
+    const [gender, setGender] = useState('WOMEN')
+    const [selectProducts, setProducts] = useState<NewProductProps>()
+    const [allGenderProducts, setGenderProducts] = useState<any>()
+
+
     const { data: collections = [], isLoading: collectionloading, isError: collectionerror } = useQuery({
         queryKey: ["megamanucollections"],
         queryFn: getAllCollections,
-       staleTime: Infinity,        
-        refetchOnMount: false,      
-        refetchOnWindowFocus: false, 
-        refetchOnReconnect: false, 
+        staleTime: Infinity,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
 
     useEffect(() => {
         const getslug = collections[0]?.slug
+        console.log(collections, "this is collections")
         setslug(getslug)
-
-    }, [collections])
+        if (Array.isArray(collections)) {
+            const filtercollection = collections?.filter((item, index) => {
+                return item.gender == gender
+            })
+            setGenderProducts(filtercollection)
+        }
+    }, [collections, gender])
 
     const { data: products = [], isLoading, isError } = useQuery({
         queryKey: ["megamanuslugdata", slug],
         enabled: !!slug,
         queryFn: () => getProductBaseOnCollection(slug),
-        staleTime: Infinity,        
-        refetchOnMount: false,     
-        refetchOnWindowFocus: false, 
-        refetchOnReconnect: false, 
+        staleTime: Infinity,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
+
+
+    useEffect(() => {
+        if (products) {
+            setProducts(products[0])
+        }
+    }, [products])
+
+    function selectProductBaseOnCategory(slug: string) {
+        const p = products?.find((product) => {
+            if (product.slug == slug) return product;
+        })
+        setProducts(p)
+    }
+
+    // useEffect(()=>{
+
+    //     const  filterCollection =collections?.filter((item:any,index)=>{
+    //         console.log(item,"this is gender value")
+    //         return item.gender==gender
+    //     })
+    //     setGenderProducts(filterCollection)
+    //     console.log(filterCollection)
+
+    // },[collections])
 
 
     return (
@@ -50,29 +88,63 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                     <MdKeyboardArrowDown className='text-[20px] ' />
                 </button>
                 <div
-                    className="absolute lg:-left-[400px]  top-3 transition group-hover:translate-y-5 translate-y-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-500 ease-in-out group-hover:transform z-50 min-w-[960px] transform"
+                    className="absolute -left-[400px] 2xl:-left-[500px]  top-3 transition group-hover:translate-y-5 translate-y-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-500 ease-in-out group-hover:transform z-50 min-w-[1000px] 2xl:min-w-[1200px] flex flex-col gap-5 transform"
+
                 >
                     <div
                         className="relative top-6 p-6 bg-white rounded-xl shadow-xl w-full"
                     >
                         <div
-                            className="w-10 h-10 bg-white transform rotate-45 absolute top-0 z-0 translate-x-0 transition-transform group-hover:translate-x-[25rem] duration-500 ease-in-out rounded-sm"
+                            className="w-10 h-10 bg-white transform rotate-45 absolute top-0 z-0 translate-x-0 transition-transform group-hover:translate-x-[25rem] 2xl:group-hover:translate-x-[32rem] duration-500 ease-in-out rounded-sm"
                         ></div>
-                        <div className="relative z-10">
-                            <div className="grid grid-cols-[.7fr_2fr]  gap-6 w-fulll ">
+                        <div className="relative z-10 flex flex-col gap-10">
+                            <div className="grid grid-cols-[.7fr_.7fr_.7fr_2fr]  gap-6 w-fulll ">
                                 <div>
                                     <p
-                                        className="uppercase tracking-wider text-primary font-medium border-b pb-2 text-[13px]"
+                                        className="uppercase tracking-wider text-primary font-medium border-b py-3 text-[13px] "
+                                    >
+
+                                    </p>
+                                    <ul className="mt-3 w-full realtive h-[300px] flex flex-col gap-1  overflow-hidden overflow-y-auto items-start justify-start   " id='style-4'>
+                                        <li className={`text-sm  capitalize font-medium hover:bg-gray-100 w-full cursor-pointer  py-1 px-2 flex items-center gap-1 ${gender == "WOMEN" && " bg-gray-100 "}`} onMouseEnter={() => setGender("WOMEN")}>WOMEN</li>
+                                        <li className={`text-sm  capitalize font-medium hover:bg-gray-100  w-full  cursor-pointer  py-1 px-2 flex items-center gap-1 ${gender == "MEN" && "bg-gray-100 "}`} onMouseEnter={() => setGender("MEN")}>MEN</li>
+                                        <li className={`text-sm  capitalize font-medium hover:bg-gray-100  w-full  cursor-pointer  py-1 px-2 flex items-center gap-1 ${gender == "KIDS" && "bg-gray-100 "}`} onMouseEnter={() => setGender("KIDS")}>KIDS</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p
+                                        className="uppercase tracking-wider text-primary font-medium border-b pb-2 text-[13px] "
                                     >
                                         Our Collection
                                     </p>
-                                    <ul className="mt-3 w-full realtive h-[300px] flex flex-col gap-1  overflow-hidden overflow-y-auto ">
+                                    <ul className="mt-3 w-full realtive h-[300px] flex flex-col gap-1  overflow-hidden overflow-y-auto   " id='style-4'>
                                         {
-                                            Array.isArray(collections) && collections?.map((item, index) => (
+                                            Array.isArray(allGenderProducts) && allGenderProducts?.map((item, index) => (
                                                 <Link href={`/collections/${`${item.gender}`.toLowerCase()}/${item?.slug}`} className={`text-sm  capitalize font-medium hover:bg-gray-100  cursor-pointer  py-1 px-2 flex items-center gap-1 ${item.slug == slug ? "bg-gray-200" : "bg-transparent"} `} onMouseEnter={() => setslug(item?.slug)} key={index} >
                                                     {item.name}
                                                 </Link>
                                             ))
+                                        }
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p
+                                        className="uppercase tracking-wider line-clamp-1 text-primary font-medium border-b pb-2 text-[13px]"
+                                    >
+                                        Products - {slug}
+                                    </p>
+                                    <ul className="mt-3 w-full realtive h-[300px] flex flex-col gap-1  overflow-hidden overflow-y-auto  " id='style-4'>
+                                        {
+                                            products &&
+                                                products?.length > 0 ?
+                                                products?.map((item, index) => (
+                                                    <Link href={`/product/${item.slug}`.toLowerCase()} className={`text-sm  capitalize font-medium hover:bg-gray-100  cursor-pointer  py-1 px-2 flex items-center gap-1 ${selectProducts?.slug == item.slug ? "bg-gray-100" : "bg-transparent"} `} key={index} onMouseEnter={() => selectProductBaseOnCategory(item.slug)} >
+                                                        {item.name}
+                                                    </Link>
+                                                ))
+                                                :
+                                                <Skeleton className="h-5   max-w-full " />
+
                                         }
                                     </ul>
                                 </div>
@@ -83,7 +155,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                                         Products
                                     </p>
 
-                                    <ul className="mt-4 text-[15px] grid grid-cols-5 h-[300px] gap-4  items-start justify-start overflow-hidden overflow-y-auto">
+                                    <ul className="mt-4 text-[15px] grid grid-cols-3 xl:grid-cols-3 h-[300px] gap-2  items-start justify-start overflow-hidden overflow-y-auto">
                                         {
                                             isLoading ?
                                                 <>
@@ -95,15 +167,15 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                                                 </>
                                                 :
                                                 products && products?.length > 0 ?
-                                                    products?.map((item, index) => (
-                                                        <MegamanuCard product={item} url={'product'} key={index} />
+                                                    selectProducts?.product_variants?.map((product: ProductVariant, index) => (
+                                                        <MegamanuCard product={product} key={index} slug={selectProducts.slug} name={selectProducts.slug} />
                                                     ))
                                                     :
                                                     <>
-                                                    <MegaManuCarSkeleton />
-                                                    <MegaManuCarSkeleton />
-                                                    <MegaManuCarSkeleton />
-                                                    <MegaManuCarSkeleton />
+                                                        <MegaManuCarSkeleton />
+                                                        <MegaManuCarSkeleton />
+                                                        <MegaManuCarSkeleton />
+                                                        <MegaManuCarSkeleton />
                                                     </>
                                         }
 

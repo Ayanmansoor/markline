@@ -3,9 +3,9 @@ import { mergeMetadata } from "@/app/layout";
 import Link from "next/link"
 
 export const metadata = mergeMetadata({
-  title: "Shipping Policy | Markline Fashion",
+  title: "Shipping Policy | Markline",
   description:
-    "Learn about Markline Fashion's shipping policy. Find information on delivery times, shipping methods, order processing, and international shipping options.",
+    "Learn about Markline's shipping policy. Find information on delivery times, shipping methods, order processing, and international shipping options.",
   robots: {
     index: true,
     follow: true,
@@ -14,9 +14,9 @@ export const metadata = mergeMetadata({
     "max-video-preview": -1,
   },
   openGraph: {
-    title: "Shipping Policy | Markline Fashion",
+    title: "Shipping Policy | Markline",
     description:
-      "Discover how Markline Fashion ensures timely and reliable shipping. Get details on domestic and international shipping, tracking, and delivery timelines.",
+      "Discover how Markline ensures timely and reliable shipping. Get details on domestic and international shipping, tracking, and delivery timelines.",
     url: "https://marklinefashion.vercel.app/shipping-policy",
   },
   alternates: {
@@ -121,7 +121,7 @@ export default function ShippingPolicy() {
 
           <section className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight">Address Accuracy</h2>
-          <p>Please ensure that your shipping address is complete and accurate. Markline Fashion is not responsible for delays or non-delivery due to incorrect address information.</p>
+          <p>Please ensure that your shipping address is complete and accurate. Markline is not responsible for delays or non-delivery due to incorrect address information.</p>
         </section>
 
         <section className="space-y-4">

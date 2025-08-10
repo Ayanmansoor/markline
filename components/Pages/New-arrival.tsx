@@ -17,13 +17,13 @@ function NewArrival() {
     const { data: products = [], isLoading, isError } = useQuery<any>({
         queryKey: ["newArrivalProduct"], // Cache per collection
         queryFn: getAllNewArrivalProducts,
-        staleTime: Infinity,        
+        staleTime: Infinity,
         refetchOnMount: false,      // don't refetch when remounting
         refetchOnWindowFocus: false, // don't refetch when window gains focus
-        refetchOnReconnect: false, 
+        refetchOnReconnect: false,
     });
 
-  
+    console.log(products, 'this is all product')
 
     return (
         <>
@@ -34,7 +34,7 @@ function NewArrival() {
 
             <section className=' sm:h-[500px]   relative flex flex-col-reverse sm:grid py-5  lg:py-10 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-1 px-3 lg:px-5'>
                 <div className='w-full relative h-full '>
-                    <img src="/collectionsection.png" alt="" className='w-full relative sm:absolute  max-h-full object-cover ' height={500} width={400} loading='lazy'/>
+                    <img src="/collectionsection.png" alt="" className='w-full relative sm:absolute  max-h-full object-cover ' height={500} width={400} loading='lazy' />
                 </div>
                 <div className='w-full relative flex flex-col justify-center items-start gap-5 px-2 md:px-5 lg:px-10'>
                     <h2 className='text-2xl font-semibold'>Experience True Craftsmanship</h2>
@@ -45,7 +45,7 @@ function NewArrival() {
 
             {
                 isLoading ?
-                    <div className="grid grid-cols-2 md:grid-cols-3  gap-3 container  px-3 lg:px-5  ">
+                    <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4  items-start justify-start gap-3 px-5  lg:px-10   ">
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />
@@ -58,7 +58,7 @@ function NewArrival() {
                             <CarouselProduct url={'product'} product={products} css=' sm:max-w-[500px]' />
                         </CategoriesSection>
                         :
-                        <div className="grid grid-cols-2 md:grid-cols-3  gap-3 px-3 lg:px-5 ">
+                        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4  items-start justify-start gap-3 px-5  lg:px-10   ">
                             <ProductCardSkeleton />
                             <ProductCardSkeleton />
                             <ProductCardSkeleton />

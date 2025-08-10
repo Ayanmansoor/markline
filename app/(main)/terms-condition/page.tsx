@@ -2,9 +2,9 @@ import React from 'react'
 import Link from 'next/link'
 import { mergeMetadata } from '@/app/layout';
 export const metadata = mergeMetadata({
-  title: " Terms Condition  | Markline Fashion",
+  title: " Terms Condition  | Markline",
   description:
-    "Learn about Markline Fashion's Terms Condition. Find information on delivery times, shipping methods, order processing, and international shipping options.",
+    "Learn about Markline's Terms Condition. Find information on delivery times, shipping methods, order processing, and international shipping options.",
   robots: {
     index: true,
     follow: true,
@@ -13,9 +13,9 @@ export const metadata = mergeMetadata({
     "max-video-preview": -1,
   },
   openGraph: {
-    title: "Terms Condition | Markline Fashion",
+    title: "Terms Condition | Markline",
     description:
-      "Discover how Markline Fashion ensures timely and reliable shipping. Get details on domestic and international shipping, tracking, and delivery timelines.",
+      "Discover how Markline ensures timely and reliable shipping. Get details on domestic and international shipping, tracking, and delivery timelines.",
     url: "https://marklinefashion.vercel.app/terms-condition",
   },
   alternates: {
@@ -34,7 +34,7 @@ function page() {
 
 
                 <p>
-                    Welcome to Markline Fashion. By using our website and purchasing products from us, you agree to the following terms and conditions. Please read them carefully before using our services.
+                    Welcome to Markline. By using our website and purchasing products from us, you agree to the following terms and conditions. Please read them carefully before using our services.
                 </p>
 
                 <section className="space-y-4">
@@ -57,7 +57,7 @@ function page() {
                 <section className="space-y-4">
                     <h2 className="text-2xl font-semibold tracking-tight">Eligibility</h2>
                     <p>
-                        You must be at least 18 years old or accessing the website under the supervision of a parent or legal guardian to make a purchase from Markline Fashion.
+                        You must be at least 18 years old or accessing the website under the supervision of a parent or legal guardian to make a purchase from Markline.
                     </p>
                 </section>
 
@@ -117,7 +117,7 @@ function page() {
 
                 <section className="space-y-4">
                     <h2 className="text-2xl font-semibold tracking-tight"> Intellectual Property</h2>
-                    <p>All content on this website — including text, images, logos, graphics, and code — is the property of Markline Fashion and protected by copyright and trademark laws. You may not reproduce, distribute, or use any content without our prior written permission.</p>
+                    <p>All content on this website — including text, images, logos, graphics, and code — is the property of Markline and protected by copyright and trademark laws. You may not reproduce, distribute, or use any content without our prior written permission.</p>
 
                 </section>
 
@@ -129,7 +129,7 @@ function page() {
 
                 <section className="space-y-4">
                     <h2 className="text-2xl font-semibold tracking-tight">Limitation of Liability</h2>
-                    <p>Markline Fashion is not liable for any indirect, incidental, or consequential damages arising from your use of the website or purchase of products. All products are provided “as is” without warranties of any kind..</p>
+                    <p>Markline is not liable for any indirect, incidental, or consequential damages arising from your use of the website or purchase of products. All products are provided “as is” without warranties of any kind..</p>
                 </section>
 
 

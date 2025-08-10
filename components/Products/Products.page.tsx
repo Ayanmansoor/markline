@@ -5,12 +5,12 @@ import { isError, useQuery } from 'react-query'
 import Link from 'next/link'
 import { IoFilterOutline } from "react-icons/io5";
 import MobFilterSheet from './MobFilterSheet';
-import { getAllProducts, getAllCollections, getBannerBaseonSlug } from '@/Supabase/SupabaseApi'
+import { getAllCollections, getBannerBaseonSlug, getAllProductsWithVariants } from '@/Supabase/SupabaseApi'
 import ProductFilter from '../Common/ProductFilter';
 import GridRroduct from '../Home/GridRroduct';
 import Discount from '../Discounts/Discount';
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton';
-import { ProductsProps } from '@/types/interfaces';
+import { NewProductProps, newProductsProps, ProductsProps } from '@/types/interfaces';
 import CarouselProduct from '../Product/CarouselProduct';
 import L2Banner from '../Common/L2Banner';
 import CategoriesSection from '../Common/CategoriesSection';
@@ -59,14 +59,14 @@ function    Productspage() {
     const { slug } = useParams()
     const productslug = Array.isArray(slug) ? slug[0] : slug;
 
-    const [filterProducts, setFilterProducts] = useState<ProductsProps[]>()
+    const [filterProducts, setFilterProducts] = useState<NewProductProps[]>()
     const {
         data: allproducts = [],
         isLoading: isLoadingProducts,
         isError: isErrorProducts,
     } = useQuery<any>({
         queryKey: ["products"],
-        queryFn: getAllProducts,
+        queryFn: getAllProductsWithVariants,
         staleTime: Infinity,
         refetchOnMount: false,      
         refetchOnWindowFocus: false,
@@ -86,34 +86,24 @@ function    Productspage() {
         refetchOnReconnect: false,
     });
 
-    const {
-        data: banner = [],
-        isLoading: bannerLoading,
-        isError: bannerErorr
-    } = useQuery<any>({
-        queryKey: ["dynamicBanner"],
-        queryFn: () => getBannerBaseonSlug('product'),
-        staleTime: Infinity,
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-    })
 
-    useEffect(() => {
-        if (productslug) {
-            const filterproduct = allproducts?.filter((product: ProductsProps) => {
-                return product?.price <= productRangevalue && product.gender == productslug.toUpperCase()
-            })
-            setFilterProducts(filterproduct)
-        }
-        else {
-            const filterproduct = allproducts?.filter((product: ProductsProps) => {
-                return product?.price <= productRangevalue
-            })
-            setFilterProducts(filterproduct)
-        }
-    }, [ allproducts])
 
+  useEffect(() => {
+  if (!allproducts) return;
+     const filtered = allproducts.filter((product: NewProductProps) => {
+    const variants = product?.product_variants || [];
+    const lowestPrice = variants.length
+      ? Math.min(...variants.map(variant => variant.price || 0))
+      : 0;
+    const matchPrice = lowestPrice <= productRangevalue;
+    const matchGender = productslug
+      ? product.gender === productslug.toUpperCase()
+      : true;
+    return matchPrice && matchGender;
+  });
+
+  setFilterProducts(filtered);
+}, [allproducts, productRangevalue, productslug])
 
 
 
@@ -126,9 +116,9 @@ function    Productspage() {
             <GridRroduct data={{ categoryName: "category", name: "Top Deal On Fasion " }} />
             */}
 
-            <L2Banner data={banner} />
+            {/* <L2Banner data={banner} /> */}
 
-            <div className='w-full relative h-auto flex flex-col  pb-5 mb-6 border-b border-gray-300 px-3 md:px-5 lg:px-10'>
+            <div className='w-full relative h-auto flex flex-col  py-5 lg:py-10 mb-6 border-b border-gray-300 px-3 md:px-5 lg:px-10'>
                 {
                             productslug ?
                                 data.map((item, index) => (

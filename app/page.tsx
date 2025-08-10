@@ -5,9 +5,9 @@ import { mergeMetadata } from "./layout";
 
 
 export const metadata = mergeMetadata({
-  title: "Buy Women's & Kids' Footwear Online in India | Markline Fashion",
+  title: "Buy Women's & Kids' Footwear Online in India | Markline",
   description:
-    "Explore stylish women's and kids' footwear at Markline Fashion. Shop sandals, heels, sneakers & more online. Shipping across India",
+    "Explore stylish women's and kids' footwear at Markline. Shop sandals, heels, sneakers & more online. Shipping across India",
   robots: {
     index: true,
     follow: true,
@@ -16,9 +16,9 @@ export const metadata = mergeMetadata({
     "max-video-preview": -1,
   },
   openGraph: {
-    title: "Buy Women's & Kids' Footwear Online in India | Markline Fashion",
+    title: "Buy Women's & Kids' Footwear Online in India | Markline",
     description:
-      "Explore stylish women's and kids' footwear at Markline Fashion. Shop sandals, heels, sneakers & more online.  Shipping across India",
+      "Explore stylish women's and kids' footwear at Markline. Shop sandals, heels, sneakers & more online.  Shipping across India",
     url: "https://marklinefashion.vercel.app",
   },
   alternates: {

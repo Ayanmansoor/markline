@@ -9,13 +9,13 @@ import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 // import required modules
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
-import { ProductsDataProps, Images } from '@/types/interfaces';
+import { ProductsDataProps, Images, newProductsProps, ProductMainProps } from '@/types/interfaces';
 
 
 import { Fancybox as NativeFancybox } from '@fancyapps/ui';
 import '@fancyapps/ui/dist/fancybox/fancybox.css';
 
-function ProductMain({ product }: ProductsDataProps) {
+function ProductMain({ variant }: ProductMainProps) {
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
    
 
@@ -35,9 +35,9 @@ function ProductMain({ product }: ProductsDataProps) {
     const [Images, setImage] = useState<Images[]>([])
 
     useEffect(() => {
-        const productImage = product?.image_url?.map((image: any) => JSON.parse(image))
+        const productImage = variant?.image_url?.map((image: any) => JSON.parse(image))
         setImage(productImage || [])
-    }, [product])
+    }, [variant])
      useEffect(() => {
         NativeFancybox.bind('[data-fancybox="gallery"]', {});
 
@@ -51,8 +51,8 @@ function ProductMain({ product }: ProductsDataProps) {
         <>
 {/* md:grid  sm:grid-cols-[.2fr_1fr] */}
             {
-                product?.discounts?.discount_persent &&
-                <p className='text-xs font-medium text-white bg-red-500 px-1 py-[3px] absolute top-5 right-5 z-40 '>-{product?.discounts?.discount_persent}%</p>
+                variant?.discounts?.discount_persent &&
+                <p className='text-xs font-medium text-white bg-red-500 px-1 py-[3px] absolute top-5 right-5 z-40 '>-{variant?.discounts?.discount_persent}%</p>
             }
             <section className='w-full relative h-fit flex flex-col-reverse  gap-2 md:hidden'>
 

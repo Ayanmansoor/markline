@@ -3,9 +3,9 @@ import { mergeMetadata } from "@/app/layout";
 import { getAllProductsWithVariants } from "@/Supabase/SupabaseApi";
 import Link from "next/link"
 // export const metadata = mergeMetadata({
-//   title: "Privacy Policy | Markline Fashion",
+//   title: "Privacy Policy | Markline",
 //   description:
-//     "Learn how Markline Fashion collects, uses, and protects your personal information. Your privacy and security are our top priority.",
+//     "Learn how Markline collects, uses, and protects your personal information. Your privacy and security are our top priority.",
 //   robots: {
 //     index: true,
 //     follow: true,
@@ -14,9 +14,9 @@ import Link from "next/link"
 //     "max-video-preview": -1,
 //   },
 //   openGraph: {
-//     title: "Privacy Policy | Markline Fashion",
+//     title: "Privacy Policy | Markline",
 //     description:
-//       "At Markline Fashion, we are committed to safeguarding your privacy. Read our full privacy policy to understand your rights and our practices.",
+//       "At Markline, we are committed to safeguarding your privacy. Read our full privacy policy to understand your rights and our practices.",
 //     url: "https://marklinefashion.vercel.app/privacy-policy",
 //   },
 //   alternates: {
@@ -24,12 +24,12 @@ import Link from "next/link"
 //   },
 // });
 export default function PrivacyPolicy() {
-    // async function getdata(){
-    //   const data=await getAllProductsWithVariants()
+    async function getdata(){
+      const data=await getAllProductsWithVariants()
     
-    //   console.log(data,"ljdslfjsd")
-    // }
-    // getdata()
+      console.log(data,"ljdslfjsd")
+    }
+    getdata()
 
   return (
     <div className="  container mx-auto px-5 md:px-5 py-8 text-gray-800">
@@ -41,7 +41,7 @@ export default function PrivacyPolicy() {
       </div>
 
       <p className="text-base font-medium text-primary mb-10">
-        Markline Fashion (“we”, “our”, or “us”) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and protect your personal information when you visit our website , interact with us, or make a purchase.
+        Markline (“we”, “our”, or “us”) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and protect your personal information when you visit our website , interact with us, or make a purchase.
       </p>
 
       <section className="mb-6">

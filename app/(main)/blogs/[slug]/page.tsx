@@ -8,12 +8,12 @@ export async function generateMetadata({ params }) {
 
     if (!blog || !blog.title) {
         return {
-            title: "Blog | Markline Fashion",
-            description: "Explore articles from Markline Fashion covering footwear, fashion trends, and more.",
+            title: "Blog | Markline",
+            description: "Explore articles from Markline covering footwear, fashion trends, and more.",
         };
     }
 
-    const title = blog.title || "Markline Fashion Blog";
+    const title = blog.title || "Markline Blog";
     const description =
         blog.seoDescription ||
         blog.discription?.slice(0, 150) + "..." || "Read insightful articles on footwear and fashion by Markline.";

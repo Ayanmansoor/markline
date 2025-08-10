@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: {
   const slug = params.slug;
   const label = params?.gender === 'men' ? "Men’s" : params?.gender === 'women' ? "Women’s" : "Kids’";
 
-  const title = `${label} Footwear Collection – Style, Comfort & Quality | Markline Fashion`;
+  const title = `${label} Footwear Collection – Style, Comfort & Quality | Markline`;
   const description = `Explore the Markline ${label.toLowerCase()} footwear collection: from stylish sneakers and trendy sandals to formal and casual picks—crafted with quality, comfort, and everyday style.`;
 
   const url = `https://marklinefashion.com/gender/${params.gender}`;

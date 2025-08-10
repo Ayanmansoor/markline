@@ -10,13 +10,13 @@ function CollectionCard({collections,url}:newCollectionCardProps) {
 
 
     return (
-        <Link href={`/${url}/${collections.slug}`} className='w-full overflow-hidden      cursor-pointer relative group  flex flex-col items-start justify-start p-1 md:p-3  h-[450px] lg:h-[550px] xl:h-[600px] 2xl:h-[700px]   '>
+        <Link href={`/${url}/${collections.slug}`} className='w-full overflow-hidden max-h-[350px] lg:max-h-[470px] h-full      cursor-pointer relative group  flex flex-col items-start justify-center gap-4 p-1 md:p-3     '>
             {
                 images?.map((item, index) => (
-                    <img src={`${item.image_url}`} alt={item.name || ""} className=' w-full  border  relative h-full  object-cover hover:scale-[1.010] transition-all duration-100 ' key={index}  loading='lazy' height={300} width={300} />
+                    <img src={`${item.image_url}`} alt={item.name || ""} className=' w-full  border h-[250px] md:h-[300px]   relative  rounded-md  object-cover hover:scale-[1.010] transition-all duration-100 ' key={index}  loading='lazy' height={300} width={300} />
                 ))
             }
-            <h2 className='text-base font-medium absolute bottom-3 line-clamp-1 capitalize text-start left-2  group-hover:left-4 transition-all duration-500   bg-black  z-10   text-white px-3 '>
+            <h2 className=' text-sm md:text-base lg:text-lg font-medium  bottom-3 line-clamp-1  text-center w-full  duration-500     z-10   text-primary uppercase px-3 '>
                 {collections.name}
             </h2>
         </Link>

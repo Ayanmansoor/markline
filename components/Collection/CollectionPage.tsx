@@ -26,7 +26,7 @@ import 'swiper/css/pagination';
 import { HiMiniAdjustmentsHorizontal } from "react-icons/hi2";
 
 function CategoryL2page() {
-    const { collection,gender } = useParams()
+    const { collection, gender } = useParams()
     const [productShow, setProductShow] = useState(20)
     const [productRangevalue, setPRoductRange] = useState(5000)
     const [description, setDescription] = useState<string>("")
@@ -38,13 +38,12 @@ function CategoryL2page() {
         queryKey: ["collectiondatabaseonslug", collection],
         enabled: !!collection,
         queryFn: () => getProductBaseOnCollection(nslug),
-        staleTime: Infinity,        // never becomes stale
-        refetchOnMount: false,      // don't refetch when remounting
-        refetchOnWindowFocus: false, // don't refetch when window gains focus
-        refetchOnReconnect: false,   // don't refetch on reconnect
+        staleTime: Infinity,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
 
-    // console.log(products, "collection product data")
 
     // const {
     //     data: allcollection = [],
@@ -59,33 +58,33 @@ function CategoryL2page() {
     //     refetchOnReconnect: false,
     // });
 
-  const {
+    const {
         data: allcollection = [],
         isLoading: isLoadingCollections,
         isError: isErrorCollections,
     } = useQuery<any>({
-        queryKey: ["collections",gender],
+        queryKey: ["collections", gender],
         enabled: !!gender,
         queryFn: () => getAllCollectionsBaseOnGender(gslug),
         staleTime: Infinity,
-        refetchOnMount: false,      
+        refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
     });
 
 
-    const {
-        data: HomeBanner = [],
-        isLoading: bannerLoading,
-        isError: isErrorOnBanner,
-    } = useQuery<any>({
-        queryKey: ["collectionbanner"],
-        queryFn: getAllBanner,
-        staleTime: Infinity,
-        refetchOnMount: false,      
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-    });
+        // const {
+        //     data: HomeBanner = [],
+        //     isLoading: bannerLoading,
+        //     isError: isErrorOnBanner,
+        // } = useQuery<any>({
+        //     queryKey: ["collectionbanner"],
+        //     queryFn: getAllBanner,
+        //     staleTime: Infinity,
+        //     refetchOnMount: false,
+        //     refetchOnWindowFocus: false,
+        //     refetchOnReconnect: false,
+        // });
 
 
 
@@ -119,26 +118,26 @@ function CategoryL2page() {
 
     return (
         <>
-            <L2Banner data={HomeBanner} />
+            {/* <L2Banner data={HomeBanner} />/ */}
 
 
-                <div className='flex flex-col gap-1 w-fit  border-gray-300 pb-5 border-b px-3 md:px-10'>
-                            <h1 className=" text-base md:text-2xl font-semibold h-auto text-primary capitalize">
-                                {` ${collection} `.split('-').join(' ')}  – Trendy & Comfortable Footwear for Every Step
-                            </h1>
-                            <p className=' text-sm md:text-base line-clamp-3 font-medium text-primary '>
-                                Step into style with our latest range of {` ${collection} `.split('-').join(' ')}  at Markline Fashion. Our {` ${collection} `.split('-').join(' ')} are crafted to provide the perfect blend of fashion and comfort, ensuring you look and feel great all day long. Whether you&apos;re heading to a casual outing or a formal event, our {` ${collection} `.split('-').join(' ')}  are designed to complement every occasion.
-                            </p>
+            <div className='flex flex-col gap-1 w-fit  border-gray-300 py-5 lg:py-10 border-b px-3 md:px-10'>
+                <h1 className=" text-base md:text-2xl font-semibold h-auto text-primary capitalize">
+                    {` ${collection} `.split('-').join(' ')}  – Trendy & Comfortable Footwear for Every Step
+                </h1>
+                <p className=' text-sm md:text-base line-clamp-3 font-medium text-primary '>
+                    Step into style with our latest range of {` ${collection} `.split('-').join(' ')}  at Markline. Our {` ${collection} `.split('-').join(' ')} are crafted to provide the perfect blend of fashion and comfort, ensuring you look and feel great all day long. Whether you&apos;re heading to a casual outing or a formal event, our {` ${collection} `.split('-').join(' ')}  are designed to complement every occasion.
+                </p>
 
-                </div>
+            </div>
 
-            <section className="w-full relative grid grid-cols-1  md:mt-10  lg:grid-cols-[1fr_3fr] 2xl:grid-cols-[0.8fr_3fr] px-3 lg:px-10 ">
+            <section className="w-full min-h-[300px] mt-5 relative grid grid-cols-1  lg:grid-cols-[250px_3fr] 2xl:grid-cols-[0.8fr_3fr] gap-5 px-3 md:px-5 lg:px-5 ">
                 <span className=' hidden h-fit sticky top-20 lg:block bg-white '>
                     <ProductFilter gender={gslug} collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
                 </span>
 
                 <div className="w-full gap-5 pb-10 relative flex flex-col  px-3 lg:px-5">
-                     
+
                     <section className='w-full relative gap-2 items-center  h-auto flex md:hidden '>
                         <span className='  items-center gap-2  lg:hidden '>
                             <MobFilterSheet collection={[]} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} >
@@ -146,35 +145,33 @@ function CategoryL2page() {
                             </MobFilterSheet>
                         </span>
 
-                            <Swiper
-                                spaceBetween={3}
-                                slidesPerView={'auto'}
-                                className="mySwiper w-full  relative h-auto "
-                            >
-                                {
-                                    allcollection.map((collec) => (
-                                        <SwiperSlide className='max-w-fit  border  px-3 py-1.5   h-auto text-base font-medium rounded-sm' key={collec.slug}>
-                                            <Link href={`${collec.slug}`} className='text-sm max-w-fit  relative  font-medium text-primary'>{collec.name}</Link>
-                                        </SwiperSlide>
-                                    ))
-                                }
-                            </Swiper>
+                        <Swiper
+                            spaceBetween={3}
+                            slidesPerView={'auto'}
+                            className="mySwiper w-full  relative h-auto "
+                        >
+                            {
+                                allcollection.map((collec) => (
+                                    <SwiperSlide className='max-w-fit  border  px-3 py-1.5   h-auto text-base font-medium rounded-sm' key={collec.slug}>
+                                        <Link href={`${collec.slug}`} className='text-sm max-w-fit  relative  font-medium text-primary'>{collec.name}</Link>
+                                    </SwiperSlide>
+                                ))
+                            }
+                        </Swiper>
                     </section>
 
 
                     {
                         isLoading ?
-                            <div className="grid grid-cols-2 md:grid-cols-3  gap-3  ">
-                                <ProductCardSkeleton />
+                            <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3   items-start justify-start gap-3 px-5  lg:px-10   ">
                                 <ProductCardSkeleton />
                                 <ProductCardSkeleton />
                                 <ProductCardSkeleton />
                             </div>
                             :
                             products?.length ?
-                                <GridRroduct data={filterProducts ? filterProducts : products} url={'product'} css='sm:grid-cols-[repeat(auto-fill,minmax(250px,auto))] '  /> :
-                                <div className="grid grid-cols-2 md:grid-cols-3  gap-3 ">
-                                    <ProductCardSkeleton />
+                                <GridRroduct data={filterProducts ? filterProducts : products} url={'product'} css='grid-cols-2 md:grid-cols-3  ' /> :
+                                <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3   items-start justify-start gap-3 px-5  lg:px-10   ">
                                     <ProductCardSkeleton />
                                     <ProductCardSkeleton />
                                     <ProductCardSkeleton />
@@ -193,6 +190,7 @@ function CategoryL2page() {
 
                 </div>
             </section>
+
             <section className='w-full relative flex flex-col gap-5   px-3 lg:px-10   py-10'>
                 <h2 className='text-xl font-medium text-primary'>POPULAR SEARCHES</h2>
 

@@ -4,7 +4,7 @@ import Image from 'next/image'
 import ProductCardSkeleton from '@/components/Skeleton/ProductCardSkeleton'
 import CategoriesSection from '@/components/Common/CategoriesSection'
 import CarouselProduct from '@/components/Product/CarouselProduct'
-import { getAllProducts } from '@/Supabase/SupabaseApi'
+import {  getAllProductsWithVariants } from '@/Supabase/SupabaseApi'
 import { useQuery } from 'react-query'
 function NotFound() {
 
@@ -14,7 +14,7 @@ function NotFound() {
             isError: isErrorProducts,
         } = useQuery<any>({
             queryKey: ["products"],
-            queryFn: getAllProducts,
+            queryFn: getAllProductsWithVariants,
             staleTime: Infinity,
             refetchOnMount: false,      
             refetchOnWindowFocus: false, 

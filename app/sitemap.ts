@@ -2,13 +2,13 @@ import {
   getAllBlogs,
   getAllCollections,
   getAllCollectionsBaseOnGender,
-  getAllProducts,
+  getAllProductsWithVariants,
 } from "@/Supabase/SupabaseApi";
 import { BlogCardProps, ProductsProps } from "@/types/interfaces";
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default async function sitemap() {
-  const products: any = await getAllProducts();
+  const products: any = await getAllProductsWithVariants();
   const womencollections: any = await getAllCollectionsBaseOnGender("WOMEN");
   const mencollections: any = await getAllCollectionsBaseOnGender("MEN");
   const blogs: any = await getAllBlogs();

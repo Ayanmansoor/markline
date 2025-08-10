@@ -9,7 +9,6 @@ import { submitOrders } from '@/Supabase/acceptOrderForm'
 import { mysupabase } from '@/Supabase/SupabaseConfig'
 
 
-import { useCart } from '@/Contexts/Cart.context'
 
 // const serviceid = import.meta.env.VITE_SERVICE_ID
 // const templateid = import.meta.env.VITE_TEMPLATE_ID
@@ -28,16 +27,17 @@ const addressFromSchema = z.object({
 
 type orderForm = z.infer<typeof addressFromSchema>;
 
-import { acceptorderProps, CartItem, OrderProps, SheetCartFormProps, userinterfce } from '@/types/interfaces'
+import { acceptorderProps, CartItem, newCartItem, OrderProps, SheetCartFormProps, userinterfce } from '@/types/interfaces'
 import LoadRazorpay from '@/utils/loadrazorpay'
 import { StateCombobox } from '../FormComponents/StateCombobox'
 import { CityNameCombobox } from '../FormComponents/CityNameCombobox'
 import UpdateLocalstorageForOrder from '@/lib/UpdateLocalStorageForOrder'
 import SendMail from '@/lib/SendMailHelper'
 import { toast } from 'sonner'
+import { useCartContext } from '@/Contexts/Cart.context'
 
 function SheetCartForm({ setConfirm, setOrderID ,closeSheet}: SheetCartFormProps) {
-        const { cart, clearCart } = useCart()
+        const { cart, clearCart } = useCartContext()
         const [isOrderSub,setOrderSub]=useState<boolean>(false)
         
         const { executeRecaptcha } = useGoogleReCaptcha()
@@ -63,14 +63,22 @@ function SheetCartForm({ setConfirm, setOrderID ,closeSheet}: SheetCartFormProps
             }
         )
 
-            const { total_final_amount } = useMemo(() => {
-                const total_final_amount = cart.reduce((accu, product, index) => {
-                            accu += product.discounts ? Math.floor(product?.price - (product?.price * (product?.discounts?.discount_persent / 100))) : product?.price;
-                            return accu;
-                        }, 0)
-        
-                return { total_final_amount };
-            }, [cart.length]);
+           const { total_final_amount } = useMemo(() => {
+  const total_final_amount = cart.reduce((accu, product) => {
+    if (!product.variant) return accu;
+
+    const discount = product.variant.discounts?.discount_persent ?? 0;
+    const discountedPrice = Math.floor(
+      product.variant.price - (product.variant.price * discount) / 100
+    );
+
+    accu += product.variant.discounts ? discountedPrice : product.variant.price;
+    return accu;
+  }, 0);
+
+  return { total_final_amount };
+}, [cart]);
+
 
             
 
@@ -92,15 +100,16 @@ function SheetCartForm({ setConfirm, setOrderID ,closeSheet}: SheetCartFormProps
 
                 const recaptchaToken = await executeRecaptcha()
 
-                const orders = cart?.map((product: CartItem) => {
-                    const final_price = Math.floor(product?.price - (product?.price * (product?.discounts?.discount_persent / 100)));
-                    const discountPrice = product?.price * (product?.discounts?.discount_persent / 100);
+                const orders = cart?.map((product:any) => {
+                    const final_price = Math.floor(product?.variant?.price - (product?.variant.price * (product?.discounts?.discount_persent / 100)));
+                    const discountPrice = product?.variant.price * (product?.discounts?.discount_persent / 100);
                     return {
                         ...formdata,
-                        final_price: final_price || product.price,
+                        final_price: final_price || product.variant.price,
                         quantity: product?.quantity,
                         discount_amount: discountPrice || 0,
                         product_key: product?.productId,
+                        variant_id:product.variant.id
                     };
                 });
 

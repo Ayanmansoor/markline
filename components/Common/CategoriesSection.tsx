@@ -10,9 +10,9 @@ function CategoriesSection({ children, title, url ,urltext ,subtitle ,isH1 }: Ca
                 <span className='flex flex-col gap-3 '>
                     {
                         isH1 ? 
-                          <h1 className='    text-base md:text-2xl lg:text-3xl self-start  font-medium   w-fit  uppercase   bg-secondary '>{title}</h1>                        
+                          <h1 className='    text-sm sm:text-base md:text-2xl lg:text-3xl self-start  font-medium   w-fit  uppercase   bg-secondary '>{title}</h1>                        
                         :
-                          <h2 className='     text-base md:text-2xl lg:text-3xl  font-medium     uppercase self-start   w-fit  bg-secondary '>{title}</h2>
+                          <h2 className='   text-sm sm:text-base   md:text-2xl lg:text-3xl  font-medium     uppercase self-start   w-fit  bg-secondary '>{title}</h2>
                     }
                     {
                         subtitle &&

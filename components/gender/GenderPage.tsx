@@ -6,7 +6,7 @@ import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
 import Collectionsection from '../Home/Collectionsection'
 import GridRroduct from '../Home/GridRroduct'
 import Discount from '../Discounts/Discount'
-import { getCollectionBaseOnGender, getAllBanner, getProductBaseOnCollection, } from '@/Supabase/SupabaseApi'
+import { getCollectionBaseOnGender, getAllBanner, getProductBaseOnCollection, getAllCollectionWithProducts, } from '@/Supabase/SupabaseApi'
 import { useParams } from 'next/navigation'
 import { useQuery } from 'react-query'
 import { CldImage } from 'next-cloudinary';
@@ -18,15 +18,7 @@ function GenderPage() {
     const { gender } = useParams()
     const nslug = Array.isArray(gender) ? gender[0] : gender;
     const finalslug = nslug.toUpperCase()
-    const { data: products, isLoading, isError } = useQuery<any>({
-        queryKey: ["collectiondatabaseonslug", gender],
-        enabled: !!gender,
-        queryFn: () => getProductBaseOnCollection(finalslug),
-        staleTime: Infinity,
-        refetchOnMount: false,      
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-    });
+
     const {
         data: HomeBanner = [],
         isLoading: bannerLoading,
@@ -50,7 +42,14 @@ function GenderPage() {
         refetchOnReconnect: false,
     });
 
-
+  const { data: collectionAlongWithProducts = [], isLoading: collectionAlongWithLoading, isError: collectionerrorLoading } = useQuery<any>({
+    queryKey: ["collectionAlongWithProducts", "WOMEN"], // you can also pass the gender as part of the key
+    queryFn: () => getAllCollectionWithProducts(`${finalslug}`.toUpperCase()),
+    staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
 
     return (
         <>
@@ -71,7 +70,8 @@ function GenderPage() {
                         <Collectionsection collections={genderCollection} url={`collections/${gender}`} />
                     </CategoriesSection>
                     :
-                    <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container px-3 lg:px-5 ">
+                    <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-start justify-start gap-3  px-3 lg:px-5 ">
+                        <ProductCardSkeleton />
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />
@@ -80,12 +80,15 @@ function GenderPage() {
             }
 
             {
-                products?.length > 0 ?
-                    <CategoriesSection title={`${nslug} Footwear Collection for Comfort and Style`} subtitle={`Browse our curated ${nslug} shoes .`} url="products"  urltext={` ${nslug} products`}>
-                        <GridRroduct data={products?.slice(0, 10)} url={'product'}  css=' grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'  productsCardCss={" h-[280px] sm:h-[300px] md:h-[350px] lg:h-[390px] xl:h-[450px]"} />
+                collectionAlongWithProducts?.length > 0 ?
+                collectionAlongWithProducts.map((item,index)=>(
+                    <CategoriesSection title={`${item.name} Footwear Collection for Comfort and Style`} subtitle={`Browse our curated ${nslug} shoes .`} url="products"  urltext={` ${nslug} products`} key={index}>
+                        <GridRroduct data={item.products} url={'product'}  css=' grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'  productsCardCss={" h-[280px] sm:h-[300px] md:h-[350px] lg:h-[390px] xl:h-[450px]"} />
                     </CategoriesSection>
+                    ))
                     :
-                    <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3  px-3 lg:px-5  ">
+                    <div className="grid  py-5 lg:py-10 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5  items-start justify-start gap-3  px-3 lg:px-5  ">
+                        <ProductCardSkeleton />
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />

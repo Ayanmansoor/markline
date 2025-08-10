@@ -36,18 +36,18 @@ const noto = Noto_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Markline Fashion | Elegance in Every Step",
-  description: "Markline Fashion brings you luxurious footwear and fashion accessories crafted for elegance, comfort, and confidence. Step into your style with our premium collections.",
+  title: "Markline | Elegance in Every Step",
+  description: "Markline brings you luxurious footwear and fashion accessories crafted for elegance, comfort, and confidence. Step into your style with our premium collections.",
   metadataBase: new URL("https://marklinefashion.vercel.app/"),
   twitter: {
     card: "summary_large_image",
-    title: "Markline Fashion | Luxury Footwear & Accessories",
-    description: "Discover timeless style with Markline Fashion – premium shoes, bags, and accessories for modern elegance.",
+    title: "Markline | Luxury Footwear & Accessories",
+    description: "Discover timeless style with Markline – premium shoes, bags, and accessories for modern elegance.",
     images: "/opengraph-image.png",
     site: "@marklinefashion",
   },
   openGraph: {
-    title: "Markline Fashion | Elegance in Every Step",
+    title: "Markline | Elegance in Every Step",
     description: "Luxury fashion brand offering high-end footwear, bags, and accessories designed to elevate your style with sophistication and flair.",
     images: [
       {
@@ -55,12 +55,12 @@ export const metadata: Metadata = {
         url: "/opengraph-image.png",
         width: 4800,
         height: 2520,
-        alt: "Markline Fashion - Luxury Footwear & Accessories",
+        alt: "Markline - Luxury Footwear & Accessories",
       },
     ],
     url: "https://marklinefashion.vercel.app/",
     locale: "en_us",
-    siteName: "Markline Fashion",
+    siteName: "Markline",
   },
 };
 

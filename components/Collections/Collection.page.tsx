@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import { useQuery } from 'react-query'
-import { getAllCollections, getAllNewArrivalProducts, getAllProducts, getAllCollectionBanner, getCollectionBannerBaseOnGender } from '@/Supabase/SupabaseApi'
+import { getAllCollections, getAllNewArrivalProducts, getAllCollectionBanner, getAllCollectionWithProducts, getAllProductsWithVariants } from '@/Supabase/SupabaseApi'
 import CategoriesSection from '../Common/CategoriesSection'
 import Discount from '../Discounts/Discount'
 import Collectionsection from '../Home/Collectionsection'
@@ -13,6 +13,7 @@ import SecondHero from '../Common/SecondHero'
 import { useWishlists } from '@/Contexts/wishlist'
 import WihlistCardSection from '../Product/WihlistCardSection'
 import Hero from '../Common/Hero'
+import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
 function CollcetionPage() {
 
 
@@ -25,16 +26,16 @@ function CollcetionPage() {
     refetchOnReconnect: false,
   });
 
-  const { data: products, isLoading: productloading, isError: producterror } = useQuery<any>({
+  const { data: products = [], isLoading: productloading, isError: producterror } = useQuery<any>({
     queryKey: ["products"],
-    queryFn: getAllProducts,
+    queryFn: getAllProductsWithVariants,
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
 
-  const { data: collections, isLoading: collectionloading, isError: collectionerror } = useQuery<any>({
+  const { data: collections = [], isLoading: collectionloading, isError: collectionerror } = useQuery<any>({
     queryKey: ["collections"],
     queryFn: getAllCollections,
     staleTime: Infinity,
@@ -44,14 +45,36 @@ function CollcetionPage() {
   });
 
 
-  const { data: newArrivals, isLoading, isError } = useQuery<any>({
-    queryKey: ["newarrivals"],
-    queryFn: getAllNewArrivalProducts,
+  const { data: collectionAlongWithProducts = [], isLoading: collectionAlongWithLoading, isError: collectionerrorLoading } = useQuery<any>({
+    queryKey: ["collectionAlongWithProducts", "WOMEN"], // you can also pass the gender as part of the key
+    queryFn: () => getAllCollectionWithProducts("WOMEN"),
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
+
+   const { data: collectionWithMen = [], isLoading: collectionWithMenLoading, isError: collectionWithisError } = useQuery<any>({
+    queryKey: ["collectionWithMen", "MEN"], // you can also pass the gender as part of the key
+    queryFn: () => getAllCollectionWithProducts("MEN"),
+    staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
+
+      const { data: collectionWithkids = [], isLoading: collectionWithLoading, isError: collectionWithKidsisError } = useQuery<any>({
+    queryKey: ["collectionWithkids", "KIDS"], // you can also pass the gender as part of the key
+    queryFn: () => getAllCollectionWithProducts("KIDS"),
+    staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
+
+
+
+
 
 
 
@@ -65,27 +88,42 @@ function CollcetionPage() {
 
 
       {collections?.length ?
-       <CategoriesSection title={"Women's Footwear Collections – Sandals, Flats, Heels & More"} subtitle='Discover elegant sandals, comfy flats, chic heels & stylish mules' url={''} >
-        <Collectionsection collections={collections.filter((item) => item.gender == 'WOMEN')} url={'collections/women'} />
-      </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
-
-      </div>
+        <CategoriesSection title={"Women's Footwear Collections – Sandals, Flats, Heels & More"} subtitle='Discover elegant sandals, comfy flats, chic heels & stylish mules' url={''} >
+          <Collectionsection collections={collections.filter((item) => item.gender == 'WOMEN')} url={'collections/women'} />
+        </CategoriesSection> :
+        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4   xl:grid-cols-5 items-start justify-start gap-3 px-5  lg:px-10   ">
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+        </div>
       }
-      <section className='bg-white py-10'>
+
+
+      {/* <section className='bg-white py-10'>
         <div className='   sm:h-[350px] relative flex flex-col-reverse sm:grid py-5  lg:py-10 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-1 px-3 lg:px-10  '>
           <div className='w-full relative flex flex-col justify-center items-start gap-1'>
             <p className='text-base font-medium text-primary'>Running</p>
             <h2 className='text-2xl font-semibold '>Experience True Craftsmanship</h2>
             <p className='text-base font-medium '>Explore our exclusive categories where every piece is a reflection of superior craftsmanship and timeless style. From elegant silhouettes to modern essentials, Markline offers collections designed to elevate your wardrobe with purpose and precision.</p>
-            {/* #<Link href="" className=' w-fti transition-all duration-300 relative h-auto px-4 py-1 text-white hover:bg-white border border-transparent  hover:border-primary hover:text-primary  rounded-full bg-primary mt-2 sm:mt-5'>Buy Now</Link> */}
           </div>
           <div className='w-full relative h-full ' >
-            <img src="/collectionsection.png" alt="Markline || markline fashion || buy online" className='w-full relative sm:absolute  h-full object-cover ' height={500} width={400} loading='lazy' />
+            <img src="/collectionsection.png" alt="Markline || Markline || buy online" className='w-full relative sm:absolute  h-full object-cover ' height={500} width={400} loading='lazy' />
           </div>
 
         </div>
-      </section>
+      </section> */}
+      <Link href='/collections/women' className='w-full relative max-h-[450px] 2xl:max-h-[500px] flex group overflow-hidden '>
+        <Image src="/men-collection.jpeg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
+        <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
+          <span className='w-fit relative h-auto flex flex-col items-center gap-3'>
+            <h2 className=' text-base sm:text-xl md:text-xl lg:text-[40px] font-medium text-white'>WOMEN&apos;S</h2>
+            <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-center font-medium text-white'></p>
 
+          </span>
+        </div>
+      </Link>
 
 
 
@@ -93,69 +131,119 @@ function CollcetionPage() {
 
       {
 
-        products?.length > 0 ? <CategoriesSection title={"Shop Women's Favorites"} subtitle='Uncover standout styles handpicked for women—elegant, comfortable, and always in fashion.' url={''} >
-          <GridRroduct data={products.filter((product) => product.gender == 'WOMEN')} url={'product'}  css=' grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[350px] md:h-[350px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
-        </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
-
+        products?.length > 0 ?
+          <CategoriesSection title={"Shop Women's Favorites"} subtitle='Uncover standout styles handpicked for women—elegant, comfortable, and always in fashion.' url={''} >
+            <GridRroduct data={products.filter((product) => product.gender == 'WOMEN')} url={'product'} css=' grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[350px] md:h-[350px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
+          </CategoriesSection> :
+           <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4   xl:grid-cols-5 items-start justify-start gap-3 px-5  lg:px-10   ">
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
         </div>
       }
 
-      <section className='w-full relative py-5 md:py-10     h-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1  px-3 lg:px-10'>
-        <Link href='/collections/men' className='w-full relative h-auto flex group overflow-hidden '>
-          <Image src="/men-collection.jpeg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
-          <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
-            <span className='w-fit relative h-auto flex flex-col items-center gap-3'>
-              <h2 className=' text-base sm:text-xl md:text-xl lg:text-[40px] font-medium text-white'>MEN&apos;S</h2>
-              <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-center font-medium text-white'></p>
+      {
 
-            </span>
-          </div>
-        </Link>
-        <Link href='/collections/women' className='w-full relative h-auto flex group overflow-hidden '>
-          <Image src="/women-collection.jpg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
-          <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
-            <span className='w-fit relative h-auto flex flex-col items-center gap-2'>
-              <h2 className=' text-base sm:text-xl md:text-xl lg:text-[40px] font-medium text-white'>WOMEN&apos;S</h2>
-              <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-center font-medium text-white'></p>
-            </span>
-          </div>
-        </Link>
-        <Link href='/collections/kids' className='w-full relative h-auto flex group overflow-hidden '>
-          <Image src="/kids-collection.jpg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
-          <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
-            <span className='w-fit relative h-auto flex flex-col items-center gap-2'>
-              <h2 className=' text-base sm:text-xl md:text-xl lg:text-[40px] font-medium text-white'>KID&apos;S</h2>
-              <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-center font-medium text-white'></p>
-            </span>
-          </div>
-        </Link>
-      </section>
+        collectionAlongWithProducts?.length > 0 &&
+        collectionAlongWithProducts.map((item,index) => (
+          <CategoriesSection title={`${item.name}`} subtitle='Uncover standout styles handpicked for women—elegant, comfortable, and always in fashion.' url={''} key={index}>
+            <GridRroduct data={item.product.filter((product) => product.gender == 'WOMEN')} url={'product'} css=' grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[350px] md:h-[350px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
+          </CategoriesSection>
+        ))
+      }
 
 
-      {collections?.length ? <CategoriesSection title={"Crafted for the Modern Gentleman"} subtitle='Discover Markline’s timeless collection of men’s footwear — combining style, comfort, and unmatched craftsmanship for every occasion.' url={''} >
+
+
+      <Link href='/collections/men' className='w-full relative h-auto flex group  max-h-[450px] 2xl:max-h-[500px] overflow-hidden '>
+        <Image src="/women-collection.jpg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
+        <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
+          <span className='w-fit relative h-auto flex flex-col items-center gap-2'>
+            <h2 className=' text-base sm:text-xl md:text-xl lg:text-[40px] font-medium text-white'>MEN&apos;S</h2>
+            <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-center font-medium text-white'></p>
+          </span>
+        </div>
+      </Link>
+
+      {collections?.length > 0 ? <CategoriesSection title={"Crafted for the Modern Gentleman"} subtitle='Discover Markline’s timeless collection of men’s footwear — combining style, comfort, and unmatched craftsmanship for every occasion.' url={''} >
         <Collectionsection collections={collections.filter((item) => item.gender == 'MEN')} url={'collections/men'} />
-      </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
-
-      </div>}
-      {
-        products?.length > 0 ? <CategoriesSection title={"Finely Crafted Footwear for the Modern Gentleman"} url={''} subtitle="Explore our premium selection of men's shoes—from polished oxfords and sleek loafers to rugged boots and smart sneakers—designed to elevate every step with timeless sophistication." >
-          <GridRroduct data={products.filter((product) => product.gender == 'MEN')} url={'product'}  css=' grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
-        </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
+      </CategoriesSection> :  
+      <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4   xl:grid-cols-5 items-start justify-start gap-3 px-5  lg:px-10   ">
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
         </div>
+
+      }
+      {/* {
+        products?.length > 0 ? <CategoriesSection title={"Finely Crafted Footwear for the Modern Gentleman"} url={''} subtitle="Explore our premium selection of men's shoes—from polished oxfords and sleek loafers to rugged boots and smart sneakers—designed to elevate every step with timeless sophistication." >
+          <GridRroduct data={products.filter((product) => product.gender == 'MEN')} url={'product'} css=' grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
+        </CategoriesSection> :
+          <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5  items-start justify-start gap-3 px-5  lg:px-10   ">
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+          </div>
+      } */}
+
+
+      
+      {
+
+        collectionWithMen?.length > 0 &&
+        collectionWithMen.map((item,index) => (
+          <CategoriesSection title={`${item.name}`} subtitle={``} url={''} key={index} >
+            <GridRroduct data={item.product.filter((product) => product.gender == 'WOMEN')} url={'product'} css=' grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[350px] md:h-[350px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
+          </CategoriesSection>
+        ))
       }
 
+
+      <Link href='/collections/kids' className='w-full relative h-auto flex group  max-h-[450px] 2xl:max-h-[500px] overflow-hidden '>
+        <Image src="/kids-collection.jpg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
+        <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
+          <span className='w-fit relative h-auto flex flex-col items-center gap-2'>
+            <h2 className=' text-base sm:text-xl md:text-xl lg:text-[40px] font-medium text-white'>KID&apos;S</h2>
+            <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-center font-medium text-white'></p>
+          </span>
+        </div>
+      </Link>
 
 
       {collections?.filter((item) => item.gender == 'KIDS')?.length ? <CategoriesSection title={"Kids Footwear Collection for Comfort & Style"} subtitle='From playful sneakers and durable school shoes to cute sandals and fun slip-ons, Markline’s kids collection blends comfort and vibrant design, trusted by parents for every big and small step.' url={''} >
         <Collectionsection collections={collections.filter((item) => item.gender == 'KIDS')} url={'collections'} />
-      </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
-
-      </div>}
-      {
-        products?.filter((product) => product.gender == 'KIDS')?.length > 0 ? <CategoriesSection title={"Kids’ Footwear Collection for Play, Comfort & Growth"} subtitle='Explore durable sneakers, school shoes, sandals, and slip-ons designed for active kids—each pair offering breathable support, flexible soles, and fun designs that parents trust.' url={''} >
-          <GridRroduct data={products.filter((product) => product.gender == 'KIDS')} url={'product'}  css=' grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' />
-        </CategoriesSection> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 container ">
+      </CategoriesSection> :
+        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5  items-start justify-start gap-3 px-5  lg:px-10   ">
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
         </div>
+
+      }
+
+
+
+
+   
+
+      
+      
+      {
+
+        collectionWithkids?.length > 0 &&
+        collectionWithkids.map((item,index) => (
+          <CategoriesSection title={`${item.name}`} subtitle={``} url={''} key={index} >
+            <GridRroduct data={item.product.filter((product) => product.gender == 'WOMEN')} url={'product'} css=' grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[350px] md:h-[350px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
+          </CategoriesSection>
+        ))
       }
 
 
@@ -169,12 +257,13 @@ function CollcetionPage() {
 
       <Discount title='Spotlight on Style' description='Step into the spotlight with Markline’s curated highlights—handpicked just for you. From sleek sandals and elegant flats to chic heels and playful toe-rings, our featured collection combines comfort, design, and everyday flair. Shop standout styles that elevate every outfit with effortless grace.' url='/' />
 
-      {
-        newArrivals &&
+      {/* {newArrivals
+        newArrivals.length > 0 &&
         <CategoriesSection title={"Latest at Markline"} url="newarrivals" urltext='New Arrivals' >
           <SecondHero categoryName={"Shoes"} data={newArrivals} />
         </CategoriesSection>
-      }
+      } */}
+
       <section className='w-full relative flex flex-col gap-5    py-10  px-3 lg:px-10'>
         <h2 className='     text-lg  font-medium text-primary'>POPULAR SEARCHES</h2>
 

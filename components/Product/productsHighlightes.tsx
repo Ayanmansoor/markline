@@ -8,13 +8,13 @@ import Link from 'next/link';
 
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { ProductsHighlightesDataProps, ProductsHighlightesProps } from '@/types/interfaces';
+import { NEwProductsHighlightesDataProps, ProductsHighlightesDataProps, ProductsHighlightesProps } from '@/types/interfaces';
 
 
 
 
 
-function ProductsHighlightes({data ,productsCardCss}:ProductsHighlightesDataProps) {
+function ProductsHighlightes({data ,productsCardCss}:NEwProductsHighlightesDataProps) {
    
 
 

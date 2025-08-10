@@ -5,9 +5,9 @@ import React from 'react'
 
 
 export const metadata = mergeMetadata({
-  title: "New Arrivals | Markline Fashion – Latest in Luxury Footwear & Accessories",
+  title: "New Arrivals | Markline – Latest in Luxury Footwear & Accessories",
   description:
-    "Stay ahead of trends with the latest arrivals at Markline Fashion. Shop fresh styles in premium shoes, bags, and more – just landed.",
+    "Stay ahead of trends with the latest arrivals at Markline. Shop fresh styles in premium shoes, bags, and more – just landed.",
   robots: {
     index: true,
     follow: true,
@@ -16,9 +16,9 @@ export const metadata = mergeMetadata({
     "max-video-preview": -1,
   },
   openGraph: {
-    title: "New Arrivals | Markline Fashion – Latest in Luxury Footwear & Accessories",
+    title: "New Arrivals | Markline – Latest in Luxury Footwear & Accessories",
     description:
-      "Explore the newest additions to Markline Fashion’s luxury collection. Discover cutting-edge fashion crafted for elegance and comfort.",
+      "Explore the newest additions to Markline’s luxury collection. Discover cutting-edge fashion crafted for elegance and comfort.",
     url: "https://marklinefashion.vercel.app/new-arrivals",
   },
   alternates: {

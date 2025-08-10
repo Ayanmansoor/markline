@@ -11,6 +11,7 @@ function    Collectionsection({ url, collections }: CollectionsDataProps) {
     return (
         <Swiper
             slidesPerView={"auto"}
+            spaceBetween={10}
             direction={"horizontal"}
             speed={4000}
             loop={true}
@@ -18,32 +19,7 @@ function    Collectionsection({ url, collections }: CollectionsDataProps) {
              delay: 1000,
             }}
             modules={[Autoplay]}
-            breakpoints={{
-                200: {
-                    slidesPerView: 1,
-                },
-                300: {
-                    slidesPerView: 1.010,
-                },
-                500: {
-                    slidesPerView: 1.010,
-                },
-                640: {
-                    slidesPerView: 2,
-                },
-                768: {
-                    slidesPerView: 2,
-                },
-                900: {
-                    slidesPerView:2,
-                },
-                1024: {
-                    slidesPerView: 2.2,
-                },
-                1124: {
-                    slidesPerView: 2.2 ,
-                },
-            }}
+           
 
            
 
@@ -51,7 +27,7 @@ function    Collectionsection({ url, collections }: CollectionsDataProps) {
         >
             {
                 collections?.map((item: CollectionCardProps, index: number) => (
-                    <SwiperSlide className='  w-full h-full relative bg-secondary border border-gray-300     ' key={index} >
+                    <SwiperSlide className=' max-w-[250px] sm:max-w-[300px] md:max-w-[300px] lg:max-w-[300px] xl:max-w-[300px] h-full relative rounded-lg bg-secondary border border-gray-300     ' key={index} >
                         <CollectionCard collections={item} url={url} />
                     </SwiperSlide>
                 ))

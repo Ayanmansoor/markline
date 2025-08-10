@@ -3,29 +3,17 @@ import { mysupabase } from "./SupabaseConfig";
 import { useEffect } from "react";
 import { NextResponse } from "next/server";
 
-async function getAllProducts() {
+async function getAllProductsbygender(gender: string) {
   const { data: products, error } = await mysupabase
     .from("products")
     .select("*,discounts(*)")
-    .eq("is_new_arrival", false);
+    .eq("is_new_arrival", false)
+    .eq("gender", gender.toUpperCase());
   if (products) {
     return products;
   } else {
     return new Error(error.message);
   }
-}
-
-async function getAllProductsbygender(gender:string) {
-   const { data: products, error } = await mysupabase
-    .from("products")
-    .select("*,discounts(*)")
-    .eq("is_new_arrival", false)
-    .eq('gender',gender.toUpperCase())
-  if (products) {
-    return products;
-  } else {
-    return new Error(error.message);
-  } 
 }
 
 async function getAllBlogs() {
@@ -72,12 +60,11 @@ async function getAllCollections() {
   }
 }
 
-
-async function getAllCollectionsBaseOnGender(gender:string) {
+async function getAllCollectionsBaseOnGender(gender: string) {
   const { data: collections, error } = await mysupabase
     .from("collection")
     .select("*")
-    .eq('gender',gender.toUpperCase());
+    .eq("gender", gender.toUpperCase());
   if (collections) {
     return collections;
   } else {
@@ -124,7 +111,7 @@ async function getBannerBaseonSlug(slug: string) {
 async function getAllTrendingProducts() {
   const { data: trendings, error } = await mysupabase
     .from("trendings")
-    .select("*,products(*)");
+    .select("*,product(* , product_variants(*))");
   if (trendings) {
     return trendings;
   } else {
@@ -133,23 +120,18 @@ async function getAllTrendingProducts() {
 }
 
 async function getAllProductsWithVariants() {
-  try{
- const { data, error } = await mysupabase
-  .from("product")
-  .select(`
+  try {
+    const { data, error } = await mysupabase.from("product").select(`
     *,
-    product_variants (*)
+    product_variants(*)
   `);
 
-     if (data) {
-    return data;
-  } else {
-    return new Error(error.message);
-  }
-  }
-  catch(error){
-
-  }
+    if (data) {
+      return data;
+    } else {
+      return new Error(error.message);
+    }
+  } catch (error) {}
 }
 
 // async function getAllLimitedEditionProducts() {
@@ -166,8 +148,8 @@ async function getAllProductsWithVariants() {
 
 async function getAllNewArrivalProducts() {
   const { data: newArrivals, error } = await mysupabase
-    .from("products")
-    .select("*,brands(*)")
+    .from("product")
+    .select("*,brands(*),product_variants(*)")
     .eq("is_new_arrival", true);
   if (newArrivals) {
     return newArrivals;
@@ -190,20 +172,26 @@ async function getAllNewCollections() {
 
 async function getProductData(slug: string) {
   try {
-    const { data: product, error } = await mysupabase // Add `await` here
-      .from("products")
-      .select("*,brands(*),collection(*),discounts(*)")
+    const { data: product, error } = await mysupabase
+      .from("product")
+      .select(
+        `
+        *,
+        product_variants(*)
+      `
+      )
       .eq("slug", slug)
-      .single();
+      .single(); // ensures only one product is returned
 
     if (error) {
-      throw new Error(error.message); // Properly handle errors
+      console.error("Supabase error:", error.message);
+      return null;
     }
 
     return product;
   } catch (error) {
-    console.error("Error fetching product:",);
-    return null; // Return null instead of throwing an error
+    console.error("Error fetching product:", error);
+    return null;
   }
 }
 
@@ -220,7 +208,7 @@ async function getAllCollectionBanner() {
 
     return collectionbanner;
   } catch (error) {
-    console.error("Error fetching product:",);
+    console.error("Error fetching product:");
     return null;
   }
 }
@@ -239,55 +227,60 @@ async function getCollectionBannerBaseOnGender(gender: string) {
 
     return genderbanner;
   } catch (error) {
-    console.error("Error fetching product:",);
+    console.error("Error fetching product:");
     return null;
   }
 }
-
 async function getProductBaseOnCollection(slug: string) {
   try {
-    if (!slug) {
-      return null;
-    }
+    if (!slug) return null;
 
-    if (!["MEN", "WOMEN", "KIDS"].includes(slug)) {
-      const { data: collectionBaseData, error } = await mysupabase
-        .from("products")
+    const isGender = ["MEN", "WOMEN", "KIDS"].includes(slug);
+
+    if (isGender) {
+      const { data, error } = await mysupabase
+        .from("product")
         .select(
           `
-      *,
-      brands(*),
-      collection!inner(id, slug,description),
-      discounts(*)
-    `
-        )
-        .eq("collection.slug", slug);
-
-      if (error) {
-        throw new Error(error.message);
-      }
-      return collectionBaseData;
-    }
-
-    if (["MEN", "WOMEN", "KIDS"].includes(slug)) {
-      const { data: collectionBaseData, error } = await mysupabase
-        .from("products")
-        .select(
-          `
-        *,
-        brands(*),
-        collection(id, slug),
-        discounts(*)
-      `
+          *,
+          brands(*),
+          collection(*),
+          product_variants(*)
+        `
         )
         .eq("gender", slug);
 
-      if (error) {
-        throw new Error(error.message);
-      }
-      return collectionBaseData;
+      if (error) throw new Error(error.message);
+      return data;
     }
+
+    // First fetch collection ID based on slug
+    const { data: collectionData, error: collectionError } = await mysupabase
+      .from("collection")
+      .select("id")
+      .eq("slug", slug)
+      .single();
+
+    if (collectionError) throw new Error(collectionError.message);
+    if (!collectionData) return [];
+
+    // Now fetch products using collection_key
+    const { data: products, error: productError } = await mysupabase
+      .from("product")
+      .select(
+        `
+        *,
+        brands(*),
+        collection(*),
+        product_variants(*)
+      `
+      )
+      .eq("collection_key", collectionData.id);
+
+    if (productError) throw new Error(productError.message);
+    return products;
   } catch (error) {
+    console.error("Error fetching collection-based product:", error);
     return null;
   }
 }
@@ -296,16 +289,22 @@ async function getRelatedProducts(product: ProductsProps, slug: string) {
   if (!product) return [];
 
   const { data: relatedProducts, error } = await mysupabase
-    .from("products")
-    .select("*, brands(*), collection(*), discounts(*)")
+    .from("product")
+    .select(
+      `
+      *,
+      product_variants(*)
+    `
+    )
     .or(
       `brand_key.eq.${product?.brand_key},collection_key.eq.${product?.collection_key}`
     )
-    .neq("slug", slug) // Exclude the current product
+    .neq("slug", slug)
     .limit(6);
 
   if (error) {
-    throw new Error(error.message);
+    console.error("Error fetching related products:", error.message);
+    return [];
   }
 
   return relatedProducts;
@@ -341,34 +340,35 @@ async function getCollectionBaseOnGender(gender: string) {
   return genderCollections;
 }
 
-
 // post request
 
-
-async function getCurrentUserOrders(userId:string) {
-  try{
-      const {data:orders,error}=await mysupabase.from('orders').select(" * ,products(*) ").eq("user_id",userId)
-      const {data:address,error:addressError} = await mysupabase.from('address').select(" * ").eq("user_id",userId)
-      if(error){
-        return new Error(error.message)
-      }
-      return {
-        orders,
-        address
-      } 
-  }
-  catch(error){
-     
-  }
+async function getCurrentUserOrders(userId: string) {
+  try {
+    const { data: orders, error } = await mysupabase
+      .from("orders")
+      .select(" * ,product(*) ,product_variants(*) ")
+      .eq("user_id", userId);
+    const { data: address, error: addressError } = await mysupabase
+      .from("address")
+      .select(" * ")
+      .eq("user_id", userId);
+    if (error) {
+      return new Error(error.message);
+    }
+    return {
+      orders,
+      address,
+    };
+  } catch (error) {}
 }
 
 async function getSelectedAddress(userId) {
   const { data: address, error } = await mysupabase
-    .from('address')
-    .select('*')
-    .eq('user_id', userId)
-    .eq('is_selected', true)
-    .maybeSingle(); 
+    .from("address")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("is_selected", true)
+    .maybeSingle();
 
   if (error) {
     return new Error(error.message);
@@ -376,32 +376,47 @@ async function getSelectedAddress(userId) {
   return address;
 }
 
+async function updateCurrentUserAddress(userId: string, updatedAddress: any) {
+  try {
+    const { data, error } = await mysupabase
+      .from("address")
+      .update(updatedAddress)
+      .eq("user_id", userId)
+      .select();
 
-async function updateCurrentUserAddress(userId:string, updatedAddress: any)  {
-    try{
-      const { data, error } = await mysupabase
-      .from('address')
-      .update(updatedAddress) 
-      .eq('user_id', userId)
-      .select(); 
-
-      if (error) {
-       return new Error(error.message);
-      }
-    return data
-
+    if (error) {
+      return new Error(error.message);
     }
-    catch(error){
-    }
+    return data;
+  } catch (error) {}
 }
 
+// new
 
-
-
-
+async function getAllCollectionWithProducts(gender: string) {
+  try {
+    const { data, error } = await mysupabase
+      .from("collection")
+      .select(
+        `
+    *,
+    product:product(
+      *,
+      product_variants(*)
+    )
+  `
+      )
+      .eq("gender", gender).eq("is_show",true);
+    if (error) {
+      return new Error(error.message);
+    }
+    return data;
+  } catch (error) {
+    console.log(error,"i getting")
+  }
+}
 
 export {
-  getAllProducts,
   getAllCollections,
   getAllBanner,
   getAllTrendingProducts,
@@ -423,5 +438,9 @@ export {
   getCurrentUserOrders,
   updateCurrentUserAddress,
   getSelectedAddress,
+
+
+
   getAllProductsWithVariants,
+  getAllCollectionWithProducts
 };

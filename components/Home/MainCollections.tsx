@@ -10,7 +10,7 @@ import Image from 'next/image';
 function Filter() {
     return (
         <>
-            <section className=' w-full relative bg-secondary gap-2  px-3 md:px-5 lg:px-10  h-auto   items-center hidden md:grid grid-cols-3 justify-center   pt-3    '>
+            <section className=' w-full relative bg-secondary gap-2  px-3 md:px-5 lg:px-10  h-auto   items-center hidden md:grid grid-cols-3 justify-center   pt-12   '>
                 <Link href={'/collections/men'} className='w-full relative h-full group '>
                      <div className='flex flex-col gap-2 items-center z-10 justify-center  absolute top-0 h-full bg-black/20 py-3 px-3 w-full '>
                         <h2 className=' text-2xl md:text-3xl xl:text-6xl font-semibold text-white uppercase'>

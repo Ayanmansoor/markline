@@ -13,16 +13,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 
 import BuyComponent from './BuyComponent'
-import { BuyDailogProps, orderData, userinterfce } from '@/types/interfaces'
+import { BuyDailogProps, newBuyDailogProps, orderData, userinterfce } from '@/types/interfaces'
 import { mysupabase } from '@/Supabase/SupabaseConfig'
 
 
 
 
-function BuyDailog({ children, product }: BuyDailogProps) {
+function BuyDailog({ children, product ,selectedVariant}: newBuyDailogProps) {
     const [currentTab, setcurrentTab] = useState('account')
     const [currentuser, setUser] = useState<userinterfce >();
-    
     const [orderId, setOrderID] = useState<orderData>({
         orderID: "",
         email: "",
@@ -72,13 +71,13 @@ function BuyDailog({ children, product }: BuyDailogProps) {
 
                         
                         <TabsContent value="account" className='w-full relative h-auto rounded-md  '>
-                            <BuyComponent product={product} user={currentuser}  setConfirm={setcurrentTab} />
+                            <BuyComponent product={product} user={currentuser} setConfirm={setcurrentTab} variant={selectedVariant} />
                         </TabsContent>
                         
                        {
                             ( !currentuser?.email) &&
                             <TabsContent value="address" className='w-full relative h-auto'>
-                                <AddressForm product={product} setConfirm={setcurrentTab} setOrderID={setOrderID}  />
+                                <AddressForm product={product} setConfirm={setcurrentTab} setOrderID={setOrderID} variant={selectedVariant}  />
                             </TabsContent>
                         }
 

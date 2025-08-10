@@ -1,4 +1,4 @@
-import { AddressProps, BuyProductProps, forProductsProps, Images, OrderProps, ProductsDataProps } from '@/types/interfaces'
+import { AddressProps, BuyProductProps, forProductsProps, Images, NewForProductsProps, OrderProps, ProductsDataProps } from '@/types/interfaces'
 import React , {useEffect, useMemo, useState} from 'react'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -16,17 +16,17 @@ import SendMail from '@/lib/SendMailHelper';
 import { toast } from 'sonner';
 
 
-function BuyComponent({ product ,user, setConfirm}: forProductsProps ) {
+function BuyComponent({ product , variant , user, setConfirm  }: NewForProductsProps ) {
    const [isSubmittingOrder, setIsSubmittingOrder] = useState(false);
   const [userAddress, setUserAddress] = useState<AddressProps | null>(null);
   const { executeRecaptcha } = useGoogleReCaptcha();
 
-  const productImages = product?.image_url?.map((obj: any) => JSON.parse(obj));
+  const productImages = variant?.image_url?.map((obj: any) => JSON.parse(obj));
 
   const { final_price, discountAmount } = useMemo(() => {
-    const discountPercent = product?.discounts?.discount_persent || 0;
-    const discountAmount = product?.price * (discountPercent / 100);
-    const final_price = Math.floor(product?.price - discountAmount);
+    const discountPercent = variant?.discounts?.discount_persent || 0;
+    const discountAmount = variant?.price * (discountPercent / 100);
+    const final_price = Math.floor(variant?.price - discountAmount);
     return { final_price, discountAmount };
   }, [product]);
 
@@ -65,6 +65,7 @@ function BuyComponent({ product ,user, setConfirm}: forProductsProps ) {
         product_key: product.id,
         user_id: user?.id,
         user_address: userAddress?.id,
+        variant_id:variant?.id
       };
 
       const { data } = await axios.post("/api/place-my-order", {
@@ -177,18 +178,18 @@ function BuyComponent({ product ,user, setConfirm}: forProductsProps ) {
 
                     <div className='w-full relative h-full flex  flex-col gap-1'>
                        {
-                            !product?.discounts?.discount_persent &&
+                            !variant?.discounts?.discount_persent &&
                             <div className='w-full relative bg-gray-100 py-1 text-balck  grid grid-cols-2  px-10 '>
                                 <p className='text-lg font-medium text-black '>Price :</p>
-                                <p className='text-lg font-medium text-black '>₹{product.price}</p>
+                                <p className='text-lg font-medium text-black '>₹{variant.price}</p>
                             </div>
                         }
                         {
-                            product?.discounts?.discount_persent &&
+                            variant?.discounts?.discount_persent &&
                             <div className='w-full relative bg-gray-100 py-1 text-balck  grid grid-cols-2  px-10 '>
                                 <p className='text-lg font-medium text-black '>Price :</p>
                                 <p className='text-lg font-medium text-black '>₹₹{
-                                    Math.floor(product?.price - (product?.price * (product?.discounts?.discount_persent / 100)))}</p>
+                                    Math.floor(variant?.price - (variant?.price * (variant?.discounts?.discount_persent / 100)))}</p>
                             </div>
                         }
 
@@ -198,7 +199,7 @@ function BuyComponent({ product ,user, setConfirm}: forProductsProps ) {
                         </div>
                         <div className='w-full relative bg-gray-100 py-1 text-balck  grid grid-cols-2  px-10 '>
                             <p className='text-p18 font-medium text-black '>Size :</p>
-                            <p className='text-p18 font-medium text-black '>{product?.selectedSize.size}</p>
+                            <p className='text-p18 font-medium text-black '>{product?.selectedSize?.size}</p>
                         </div>
                            <div className='w-full relative bg-gray-100 py-1 text-balck  grid grid-cols-2  px-10 '>
                             <p className='text-lg font-medium text-black '>Quantity :</p>
@@ -210,30 +211,30 @@ function BuyComponent({ product ,user, setConfirm}: forProductsProps ) {
 
 
                         {
-                            product?.discounts?.discount_persent && product?.discounts?.name &&
+                            variant?.discounts?.discount_persent && variant?.discounts?.name &&
                             <div className='w-full relative  py-1 text-balck  bg-green-50 grid grid-cols-2 items-center  px-10 '>
                                 <p className='text-sm font-medium text-green-800 '>Discount name :</p>
-                                <p className=' text-sm sm:text-base leading-[1.3] flex items-center gap-4 font-medium text-green-800 '>{product?.discounts?.name}
+                                <p className=' text-sm sm:text-base leading-[1.3] flex items-center gap-4 font-medium text-green-800 '>{variant?.discounts?.name}
 
-                                    <p className='text-red-400 line-through'>{product?.discounts?.discount_persent}%</p>
+                                    <p className='text-red-400 line-through'>{variant?.discounts?.discount_persent}%</p>
                                 </p>
                             </div>
 
                         }
                         {
-                            product?.discounts?.discount_persent &&
+                            variant?.discounts?.discount_persent &&
                             < div className='w-full relative  py-1 text-balck  bg-gray-100 items-center grid grid-cols-2  px-10 '>
                                 <p className='text-xl font-semibold text-gray-400 '>Total :</p>
-                                <p className='text-xl font-medium text-black '>₹{Math.floor(product?.price - (product?.price * (product?.discounts?.discount_persent / 100)))}</p>
+                                <p className='text-xl font-medium text-black '>₹{Math.floor(variant?.price - (variant?.price * (variant?.discounts?.discount_persent / 100)))}</p>
                             </div>
                         }
 
                         {
-                            !product?.discounts?.discount_persent &&
+                            !variant?.discounts?.discount_persent &&
 
                             < div className='w-full relative  py-1 text-balck  bg-gray-100 items-center grid grid-cols-2  px-10 '>
                                 <p className='text-xl font-semibold text-gray-700 '>Total :</p>
-                                <p className='text-xl font-medium text-gray-900 '>₹{product?.price}</p>
+                                <p className='text-xl font-medium text-gray-900 '>₹{variant?.price}</p>
                             </div>
                         }
                     </div>

@@ -14,8 +14,8 @@ export async function generateMetadata({ params }) {
 
   if (!data || !data.seoTitle) {
     return {
-      title: "Collection | Markline Fashion",
-      description: "Explore elegant collections by Markline Fashion, where tradition meets modern design.",
+      title: "Collection | Markline",
+      description: "Explore elegant collections by Markline, where tradition meets modern design.",
     };
   }
 
@@ -30,9 +30,9 @@ export async function generateMetadata({ params }) {
   const imageUrl = imageObject?.image_url || "https://marklinefashion.vercel.app/default.jpg";
 
   return {
-    title: `${collectionName} Collection | Markline Fashion`,
+    title: `${collectionName} Collection | Markline`,
     description,
-    keywords: ["Markline Fashion", collectionName, "Toe Rings", "Women's Jewelry", "Elegant Accessories"],
+    keywords: ["Markline", collectionName, "Toe Rings", "Women's Jewelry", "Elegant Accessories"],
     openGraph: {
       title: `${collectionName} Collection`,
       description,

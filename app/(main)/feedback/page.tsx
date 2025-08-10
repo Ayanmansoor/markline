@@ -5,9 +5,9 @@ import React from "react";
 import { BsLinkedin } from "react-icons/bs";
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa6";
 export const metadata = mergeMetadata({
-    title: "Feedback | Markline Fashion – We Value Your Opinion",
+    title: "Feedback | Markline – We Value Your Opinion",
     description:
-      "Share your thoughts and experiences with Markline Fashion. Your feedback helps us improve our luxury fashion offerings and deliver exceptional service.",
+      "Share your thoughts and experiences with Markline. Your feedback helps us improve our luxury fashion offerings and deliver exceptional service.",
     robots: {
       index: true,
       follow: true,
@@ -16,9 +16,9 @@ export const metadata = mergeMetadata({
       "max-video-preview": -1,
     },
     openGraph: {
-      title: "Feedback | Markline Fashion – We Value Your Opinion",
+      title: "Feedback | Markline – We Value Your Opinion",
       description:
-        "Let us know how we're doing at Markline Fashion. Your feedback ensures we continue offering top-tier fashion and customer satisfaction.",
+        "Let us know how we're doing at Markline. Your feedback ensures we continue offering top-tier fashion and customer satisfaction.",
       url: "https://marklinefashion.vercel.app/feedback",
     },
     alternates: {

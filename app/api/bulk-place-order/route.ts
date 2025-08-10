@@ -33,7 +33,7 @@ export async function POST(req:NextRequest,res:NextResponse) {
                         );
                     }
 
-        const {data,error}=await mysupabase.from("orders").insert([...products]).select('* , products(name)')         
+        const {data,error}=await mysupabase.from("orders").insert([...products]).select('* , product(name)')         
 
         
                     

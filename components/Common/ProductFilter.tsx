@@ -33,7 +33,7 @@ function ProductFilter({ collection, productRangevalue, setPRoductRange ,gender 
                                 </AccordionTrigger>
                                 <AccordionContent className="w-full relative h-auto py-2 text-base font-semibold  px-4 flex flex-wrap gap-2 ">
                                         {collection?.map((item, index) => (
-                                            <Link href={`/collections/${gender}/${item.slug}`} className='text-base font-semibold text-black border border-black px-3 py-1' key={index}>{item.name}</Link>
+                                            <Link href={`/collections/${gender}/${item.slug}`} className='text-base font-medium text-black border border-black px-3 py-1' key={index}>{item.name}</Link>
                                         ))}
                                     </AccordionContent></>
                             )

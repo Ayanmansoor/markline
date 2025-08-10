@@ -107,10 +107,10 @@ function Footer() {
 
             </h2>
             <ul className='flex items-start flex-col text-base  justify-start gap-3'>
-              <Link href={"https://www.instagram.com/marklinefashion/"} target='_blank' rel='noreferrer noindex' className='flex items-center gap-1'><RiInstagramFill  className='text-[20px] hover:text-red-300' /> Instagram</Link>
-              <Link href={"https://www.facebook.com/people/Markline/61578047250955"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaFacebook  className='text-[20px] hover:text-red-300' /> Facebook</Link>
-              <Link href={"https://www.pinterest.com/Marklinefashion/"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaPinterest className='text-[20px] hover:text-red-300' />Pinterest</Link>
-              <Link href={"https://www.youtube.com/channel/UCCDnKdMSM4abCTRC2lq0IKA"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaYoutube  className='text-[20px] hover:text-red-300' />YouTube</Link>
+              <Link href={"https://www.instagram.com/marklinefashion/"} target='_blank' rel='noreferrer noindex' className='flex items-center gap-1 group '><RiInstagramFill  className='text-[20px] group-hover:text-red-300' /> Instagram</Link>
+              <Link href={"https://www.facebook.com/people/Markline/61578047250955"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaFacebook  className='text-[20px] group-hover:text-red-300' /> Facebook</Link>
+              <Link href={"https://www.pinterest.com/Marklinefashion/"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaPinterest className='text-[20px] group-hover:text-red-300' />Pinterest</Link>
+              <Link href={"https://www.youtube.com/channel/UCCDnKdMSM4abCTRC2lq0IKA"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaYoutube  className='text-[20px] group-hover:text-red-300' />YouTube</Link>
             </ul>
           </div>
 
@@ -126,7 +126,7 @@ function Footer() {
 
             <div className='flex flex-col gap-1 mt-6'>
               <h2 className='text-base font-semibold text-white'>Payment We accept:</h2>
-              <img src="/paymnet-bar.jpg" alt="Markline || markline fashion || buy online" height={400} width={400} className='py-1 h-[50px] w-fit object-contain' />
+              <img src="/paymnet-bar.jpg" alt="Markline || Markline || buy online" height={400} width={400} className='py-1 h-[50px] w-fit object-contain' />
             </div> 
 
           </div>

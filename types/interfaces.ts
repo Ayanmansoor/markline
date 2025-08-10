@@ -15,6 +15,8 @@ export interface Sizes {
   unit: string;
 }
 
+
+
 interface Discount {
   discount_id: string;
   name: string;
@@ -84,6 +86,8 @@ export interface CartItem {
 }
 
 
+
+
 export interface whishlishtProps {
   name: string;
   productId: number;
@@ -113,7 +117,7 @@ export interface TrendingProductsProps {
   created_at?: string;
   id?: number;
   product_key?: number;
-  products: ProductsProps;
+  product: NewProductProps;
 }
 
 export interface trendingProductsProps {
@@ -417,4 +421,158 @@ export interface UserInterface {
     phone_verified?: boolean;
     
   };
+}
+
+
+
+// -----------------------------------------------------new-------------------------------------------------//
+
+
+
+export interface NewDiscountProps {
+  discount_id: string;
+  name: string;
+  discount_persent: number;
+  discount_start: string; // ISO date string: "YYYY-MM-DD"
+  discount_end: string; // ISO date string: "YYYY-MM-DD"
+
+}
+
+export interface CartVariant {
+  id: number;
+  sku: string;
+  price: number;
+  stock: number;
+  image_url: Images[];
+  is_active: boolean;
+  products_id: number;
+  discount_key?: string;
+  discounts?: NewDiscountProps;
+  selectedColor: Colors;
+  selectedSize: Sizes;
+}
+
+
+export interface newCartItem {
+  productId: number;
+  productName: string;
+  slug: string;
+  variant: CartVariant;    
+  quantity: number;
+  gender:string
+}
+
+export interface ProductVariant {
+  id: number;
+  sku: string;
+  price: number;
+  sizes: string[]; // These are JSON strings; will need parsing later into Size[]
+  stock: number;
+  colors: string[]; // These are also JSON strings; will need parsing into Color[]
+  image_url: string[]; // Also JSON strings; will be parsed into Image[]
+  is_active: boolean;
+  created_at: string;
+  products_id: number;
+  discount_key?: string;
+  discounts?: NewDiscountProps;
+}
+
+
+export interface newCarouselProductProps {
+  url: string;
+  product: NewProductProps[];
+  css?:string
+}
+
+
+export interface newProductsProps {
+  product: NewProductProps;
+  url?: string;
+  className?:string
+  user?:userinterfce
+   setConfirm?: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export interface NewGridProductProps {
+  data: NewProductProps[];
+  url: string;
+  css?: string;
+  productsCardCss?:string
+}
+
+export interface ProductMainProps{
+  variant?:ProductVariant|null
+  product?:NewProductProps|null
+}
+export interface ProductMainAboutProps{
+  variant:ProductVariant
+  product:NewProductProps
+ onVariantChange:(variant:any)=>void
+}
+
+export interface newAddToCardPopverProps {
+  children: React.ReactNode;
+  currentProduct: NewProductProps;
+  currentVariant:ProductVariant;
+  onVariantChange:(variant:any)=>void
+  addToWhishlistCB:(color:Colors[],size:Sizes[])=>void
+}
+export interface NewProductProps {
+  id: number;
+  name: string;
+  description: string | null;
+  gender: string;
+  materials_used: string;
+  collection_key: number;
+  brand_key: string;
+  is_limited_edition: boolean;
+  is_new_arrival: boolean;
+  seoTitle: string | null;
+  seoDescription: string;
+  created_at: string;
+  slug: string;
+  product_variants: ProductVariant[];
+}
+
+
+
+export interface newBuyComponentProps extends NewProductProps {
+  selectedColor: Colors|null;
+  selectedSize: Sizes|null;
+  quantity: number;
+}
+
+export interface newBuyDailogProps {
+  children: React.ReactNode;
+  product: newBuyComponentProps;
+  selectedVariant:ProductVariant;
+  
+}
+
+export interface  NewForProductsProps{
+  product: newBuyComponentProps;
+  variant:ProductVariant  ;
+  url?: string;
+  className?:string
+  user?:userinterfce
+   setConfirm?: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export interface NewAddressFromProps {
+  product: newBuyComponentProps;
+  variant:ProductVariant;
+  setConfirm: React.Dispatch<React.SetStateAction<any>>;
+  setOrderID: React.Dispatch<React.SetStateAction<any>>;
+  user?:userinterfce
+}
+
+export interface NEwProductsHighlightesProps {
+  product: NewProductProps;
+  HighlighterType: string;
+}
+
+export interface NEwProductsHighlightesDataProps {
+  data: NEwProductsHighlightesProps[];
+  productsCardCss?:string
+
 }

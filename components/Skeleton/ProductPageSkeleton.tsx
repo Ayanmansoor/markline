@@ -6,7 +6,7 @@ import { Skeleton } from '../ui/skeleton'
 function ProductPageSkeleton() {
     return (
       
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 py-10 px-5 lg:px-10">
 
           {/* Left Column: Product Image Gallery Skeleton */}
           <div className="flex flex-col gap-4">

@@ -83,7 +83,7 @@ function OrderplacedSection({orders,handleperform}:ordersprops) {
                         >
                             
                         {
-                              items?.products?.image_url?.map((image: any) => JSON.parse(image))?.map((image, index: number) => (
+                              items?.product_variants?.image_url?.map((image: any) => JSON.parse(image))?.map((image, index: number) => (
                                 <SwiperSlide className='   w-full lg:max-w-[100px] realtive max-h-[250px] md:max-h-[200px] lg:max-h-[100px] relative border' key={index}>
                                   <img  src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className=' w-full  lg:w-full   transition-all duration-500 ease-in-out h-full    object-cover' height={200} width={300} loading='lazy' />
                                 </SwiperSlide>
@@ -92,7 +92,7 @@ function OrderplacedSection({orders,handleperform}:ordersprops) {
                 </Swiper>
                 </div>
             
-            <h2 className='text-primary font-semibold  text-base uppercase line-clamp-2 lg:line-clamp-1 lg:h-fit'>{items.products.name}</h2>
+            <h2 className='text-primary font-semibold  text-base uppercase line-clamp-2 lg:line-clamp-1 lg:h-fit'>{items?.product.name}</h2>
             
             <h2 className=' font-semibold text-base  text-red-500  md:block hidden h-fit'>{items.quantity}</h2>
             <h2 className='text-primary font-semibold h-fit text-base md:block hidden '>{items.final_price}</h2>

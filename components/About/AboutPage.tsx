@@ -2,7 +2,7 @@
 export const dynamic = 'force-dynamic';
 import React from 'react'
 import { useQuery } from 'react-query';
-import { getAllProducts } from '@/Supabase/SupabaseApi';
+import {  getAllProductsWithVariants } from '@/Supabase/SupabaseApi';
 import CategoriesSection from '../Common/CategoriesSection';
 import CarouselProduct from '../Product/CarouselProduct';
 import {
@@ -11,7 +11,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { ProductsProps } from '@/types/interfaces';
+import { NewProductProps, ProductsProps } from '@/types/interfaces';
+import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton';
 
 
 const faqData = [
@@ -46,22 +47,20 @@ const faqData = [
   }
 ];
 
-interface aboutProducts {
-  allproducts: ProductsProps[]
-}
 
-function AboutUsPage({ allproducts }: aboutProducts) {
 
-  // const {
-  //   data: allproducts = [],
-  //   isLoading: isLoadingProducts,
-  //   isError: isErrorProducts,
-  // } = useQuery<any>({
-  //   queryKey: ["products"],
-  //   queryFn: getAllProducts,
-  //   staleTime: 1000 * 60 * 2,
-  //   retry: 2,
-  // });
+function AboutUsPage() {
+
+  const {
+    data: allproducts = [],
+    isLoading: isLoadingProducts,
+    isError: isErrorProducts,
+  } = useQuery<any>({
+    queryKey: ["about-product"],
+    queryFn: getAllProductsWithVariants,
+    staleTime: 1000 * 60 * 2,
+    retry: 2,
+  });
 
 
   return (
@@ -127,22 +126,30 @@ function AboutUsPage({ allproducts }: aboutProducts) {
         </video>
         <p className='w-full relative  text-base md:text-lg  px-3 md:px-10  h-auto py-2 font-medium text-gray-600'>
           <strong className='text-primary text-sm sm:text-base md:text-lg'>History of Markline </strong>
-          Markline Fashion was founded in 1998 in Mumbai with a vision to redefine everyday footwear. What began as a small, passionate venture by our founder has now evolved into a beloved name in the Indian footwear industry.
+          Markline was founded in 1998 in Mumbai with a vision to redefine everyday footwear. What began as a small, passionate venture by our founder has now evolved into a beloved name in the Indian footwear industry.
         </p>
         <p className='w-full relative  text-base md:text-lg  px-3 md:px-10  h-auto py-2 font-medium text-gray-600'>Driven by a commitment to quality, style, and comfort, Markline steadily grew from local recognition to nationwide reach. Over the years, we’ve stayed rooted in our values while stepping forward with innovation — creating shoes that resonate with both trendsetters and traditionalists.</p>
 
       </section>
 
       {
-        allproducts?.length > 0 && (
-
+        allproducts?.length > 0 ?
+        (
           <CategoriesSection title={"Our Products "} url="">
-
-            <CarouselProduct product={allproducts?.slice(0, 10)} url={'product'} css=' sm:max-w-[500px]' />
-
+            <CarouselProduct product={allproducts} url={'product'} css=' sm:max-w-[500px]' />
           </CategoriesSection >
         )
+        :
+            <div className="grid grid-cols-2 py-10 lg:py-20 px-5 lg:px-10 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3   ">
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+          </div>
+        
       }
+
+       
 
       <section className='w-full flex flex-col items-start gap-4  py-10 lg:pt-20  px-3 md:px-10 '>
         <p className='w-full relative text-sm md:text-base  lg:text-lg  h-auto py-2 font-medium text-gray-600'>

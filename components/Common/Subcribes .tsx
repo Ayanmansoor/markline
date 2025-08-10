@@ -50,7 +50,7 @@ function Subcribes () {
 
                         }
                     </span>
-                    <button className='text-base text-white bg-black border border-white  px-10 py-2 hover:bg-white hover:text-primary '>Submit</button>
+                    <button className='text-base text-white bg-black border border-white px-3 md:px-5 lg:px-10 py-2 hover:bg-white hover:text-primary '>Submit</button>
 
                 </form>
                 <p className=' text-center font-medium text-white uppercase text-xs  '>

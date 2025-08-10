@@ -30,6 +30,8 @@ function TrendingPage() {
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
     });
+
+
         
     return (
         <section className='realtive w-full bg-secondary h-auto'>
@@ -54,7 +56,8 @@ function TrendingPage() {
             <CategoriesSection title={"Top Deal On Fasion "} url='' >
                 <div className={` w-full   h-auto grid grid-cols-2   sm:grid-cols-[repeat(auto-fill,minmax(350px,auto))]   bg-secondary   `}>
                     {trending?.map((product, index: number) => (
-                        <ProductCard  url='product'  key={index} product={product.products}  className={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[400px]"}/>
+                        <ProductCard  url='product'  key={index} product={product.product}  className={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[400px]"}/>
+                        // <></>
                     ))}
                 </div>
             </CategoriesSection>
