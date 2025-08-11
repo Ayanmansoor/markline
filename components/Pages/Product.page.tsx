@@ -38,6 +38,8 @@ function ProductPage() {
   });
 
   // Always use useEffect to update selectedVariant after product fetch
+
+
   useEffect(() => {
     if (product?.product_variants?.length > 0) {
       setSelectedVariant(product.product_variants[0]);
@@ -90,9 +92,9 @@ function ProductPage() {
     );
   }
 
-  if (isError || !product) {
-    return <div>Error loading product.</div>;
-  }
+  // if (isError || !product) {
+  //   return <div>Error loading product.</div>;
+  // }
   return (
     <>
 

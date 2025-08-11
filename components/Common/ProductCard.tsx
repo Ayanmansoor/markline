@@ -18,7 +18,7 @@
     const { addToWishlist, removeFromWishlist, wishlist, isProductInWishlist } = useWishlists()
 
 
-  const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(product?.product_variants[0]);
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(product.product_variants[0]);
     const [Stringifycolor, setStringifyColor] = useState<Colors[]>([])
     const [StringifySize, setStringifySize] = useState<Sizes[]>([])
     const [StringifyImages, setStringifyImages] = useState<any[] | undefined>([])
@@ -26,6 +26,10 @@
     const [isInWhishlist, setIsInwhishlist] = useState<boolean>(false)
 
 
+
+    // useEffect(()=>{
+      //   setSelectedVariant(product.product_variants[0])
+      // },[product])
 
 
     useEffect(() => {

@@ -149,7 +149,7 @@ function BuyComponent({ product , variant , user, setConfirm  }: NewForProductsP
     return (
         <>
             <section className='w-full relative grid grid-cols-1 md:grid-cols-[1fr_2fr] items-center  gap-1 h-[320px]'>
-                <div className='w-full relative flex items-center md:items-start flex-row md:flex-col gap-1 px-2 py-1 lg:py-2 border h-full  bg-gray-50 border-gray-300 rounded-md'>
+                <div className='w-full relative flex items-start md:items-start flex-col sm:flex-row md:flex-col gap-1 px-2 py-1 lg:py-2 border h-full  bg-gray-50 border-gray-300 rounded-md'>
                     <Swiper
                         pagination={{
                             dynamicBullets: true,
@@ -170,40 +170,40 @@ function BuyComponent({ product , variant , user, setConfirm  }: NewForProductsP
                     </Swiper>
 
                     <div className='flex  flex-col  items-start justify-between gap-1    '>
-                        <h2 className=' text-lg mt-1  font-medium leading-[1] text-black mb-2  w-full '>{product.name}</h2>
+                        <h2 className=' text-base lg:text-lg mt-1  font-medium leading-[1] text-black mb-2  w-full '>{product.name}</h2>
                     </div>
                 </div>
 
-                <section className='w-full relative h-full items-center flex flex-col justify-center  gap-10 '>
+                <section className='w-full relative h-full items-center flex flex-col justify-center  gap-1 md:gap-10 '>
 
                     <div className='w-full relative h-full flex  flex-col gap-1'>
                        {
                             !variant?.discounts?.discount_persent &&
                             <div className='w-full relative bg-gray-100 py-1 text-balck  grid grid-cols-2  px-10 '>
-                                <p className='text-lg font-medium text-black '>Price :</p>
-                                <p className='text-lg font-medium text-black '>₹{variant.price}</p>
+                                <p className=' text-sm md:text-base lg:text-lg font-medium text-black '>Price :</p>
+                                <p className='text-sm md:text-base lg:text-lg font-medium text-black '>₹{variant.price}</p>
                             </div>
                         }
                         {
                             variant?.discounts?.discount_persent &&
                             <div className='w-full relative bg-gray-100 py-1 text-balck  grid grid-cols-2  px-10 '>
-                                <p className='text-lg font-medium text-black '>Price :</p>
-                                <p className='text-lg font-medium text-black '>₹₹{
+                                <p className='text-sm md:text-base lg:text-lg font-medium text-black '>Price :</p>
+                                <p className='text-sm md:text-base lg:text-lg font-medium text-black '>₹₹{
                                     Math.floor(variant?.price - (variant?.price * (variant?.discounts?.discount_persent / 100)))}</p>
                             </div>
                         }
 
                         <div className='w-full relative bg-gray-100 py-1 text-balck  grid grid-cols-2  px-10 '>
-                            <p className='text-p18 font-medium text-black '>Color :</p>
-                            <p className='text-p18 font-medium text-black '>{product?.selectedColor?.name}</p>
+                            <p className='text-sm md:text-base lg:text-lg font-medium text-black '>Color :</p>
+                            <p className='text-sm md:text-base lg:text-lg font-medium text-black '>{product?.selectedColor?.name}</p>
                         </div>
                         <div className='w-full relative bg-gray-100 py-1 text-balck  grid grid-cols-2  px-10 '>
-                            <p className='text-p18 font-medium text-black '>Size :</p>
-                            <p className='text-p18 font-medium text-black '>{product?.selectedSize?.size}</p>
+                            <p className='text-sm md:text-base lg:text-lg font-medium text-black '>Size :</p>
+                            <p className='text-sm md:text-base lg:text-lg font-medium text-black '>{product?.selectedSize?.size}</p>
                         </div>
                            <div className='w-full relative bg-gray-100 py-1 text-balck  grid grid-cols-2  px-10 '>
-                            <p className='text-lg font-medium text-black '>Quantity :</p>
-                            <p className='text-lg font-medium text-black '>{product.quantity}</p>
+                            <p className='text-sm md:text-base lg:text-lg font-medium text-black '>Quantity :</p>
+                            <p className='text-sm md:text-base lg:text-lg font-medium text-black '>{product.quantity}</p>
                         </div>
                     </div>
 
@@ -224,8 +224,8 @@ function BuyComponent({ product , variant , user, setConfirm  }: NewForProductsP
                         {
                             variant?.discounts?.discount_persent &&
                             < div className='w-full relative  py-1 text-balck  bg-gray-100 items-center grid grid-cols-2  px-10 '>
-                                <p className='text-xl font-semibold text-gray-400 '>Total :</p>
-                                <p className='text-xl font-medium text-black '>₹{Math.floor(variant?.price - (variant?.price * (variant?.discounts?.discount_persent / 100)))}</p>
+                                <p className='text-sm md:text-base lg:text-lg font-semibold text-gray-400 '>Total :</p>
+                                <p className='text-sm md:text-base lg:text-lg font-medium text-black '>₹{Math.floor(variant?.price - (variant?.price * (variant?.discounts?.discount_persent / 100)))}</p>
                             </div>
                         }
 
@@ -233,8 +233,8 @@ function BuyComponent({ product , variant , user, setConfirm  }: NewForProductsP
                             !variant?.discounts?.discount_persent &&
 
                             < div className='w-full relative  py-1 text-balck  bg-gray-100 items-center grid grid-cols-2  px-10 '>
-                                <p className='text-xl font-semibold text-gray-700 '>Total :</p>
-                                <p className='text-xl font-medium text-gray-900 '>₹{variant?.price}</p>
+                                <p className='text-sm md:text-base lg:text-lg font-semibold text-gray-700 '>Total :</p>
+                                <p className='text-sm md:text-base lg:text-lg font-medium text-gray-900 '>₹{variant?.price}</p>
                             </div>
                         }
                     </div>

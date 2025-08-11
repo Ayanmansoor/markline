@@ -184,18 +184,18 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
 
     return (
         <>
-            <div className=' flex items-start gap-5 h-fit relative md:sticky md:top-14  flex-col w-full md:w-[40%] py-5 md:pl-5  lg:pl-10 '>
+            <div className=' flex items-start gap-3 md:gap-5 h-fit relative md:sticky md:top-14  flex-col w-full md:w-[40%] py-5 md:pl-5  lg:pl-10 '>
 
                 <div className='flex items-center justify-between   w-full relative '>
-                    <p className='text-[16px] font-normal items-center gap-1  '>{product?.gender}</p>
-                    <p className='text-[16px] font-medium text-primary ' aria-label='Product For Running'></p>
+                    <p className='  text-sm font-normal items-center gap-1  '>{product?.gender}</p>
+                    <p className='  text-sm font-medium text-primary ' aria-label='Product For Running'></p>
                 </div>
                 <div className='flex flex-col gap-1 w-full relative'>
-                    <h1 className='text-p35 font-bold   uppercase' aria-label='Addidas shoes L1' >{product?.name}</h1>
-                    <p className='text-base font-medium text-primary '>Selected Color : <strong className='text-lg font-semibold'> {selectedColor?.name} </strong></p>
+                    <h1 className=' text-lg md:text-xl lg:text-2xl xl:text-4xl font-bold   uppercase' aria-label='Addidas shoes L1' >{product?.name}</h1>
+                    <p className=' text-sm md:text-base font-medium text-primary '>Selected Color : <strong className='text-lg font-semibold'> {selectedColor?.name} </strong></p>
                 </div>
                 <div className='flex justify-between items-start sm:items-center w-full relative flex-col  sm:flex-row py-3'>
-                    <h2 className='text-p18 font-normal flex items-center gap-2 '>
+                    <h2 className=' text-sm md:text-p18 font-normal flex items-center gap-2 '>
                         {
                             variant?.discounts?.discount_persent ?
                                 <>
@@ -209,7 +209,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                         }
 
                     </h2>
-                    <p className='text-[16px] font-normal '>Includes all taxs</p>
+                    <p className='text-sm font-normal '>Includes all taxs</p>
                 </div>
 
                 <div className='flex items-center   relative flex-col gap-2 w-full '>
@@ -222,10 +222,10 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
 
                     <section className='w-full flex flex-wrap items-center gap-2'>
                         {allColors.map(({ color, image }, index) => (
-                            <section className={` rounded-sm flex-col gap-2  flex items-center   p-3 border border-gray-300  `} key={index}>
+                            <section className={` rounded-sm flex-col gap-1 md:gap-2  flex items-center  p-2 md:p-3 border border-gray-300  `} key={index}>
                                 <div
                                     key={index}
-                                    className={`  h-[100px] w-[100px]  border overflow-hidden  cursor-pointer 
+                                    className={`  h-[70px] md:h-[100px] w-[70px] md:w-[100px]  border overflow-hidden  cursor-pointer 
                              ${selectedColor?.name === color.name ? "border-primary" : "border-gray-300"}`}
                                     onClick={() => handleColourClick(color)}
                                     title={color.name}
@@ -243,7 +243,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                                         />
                                     )}
                                 </div>
-                                <p className='text-base font-medium text-primary line-clamp-2'>{color.name}</p>
+                                <p className=' text-sm md:text-base font-medium text-primary line-clamp-2'>{color.name}</p>
                             </section>
                         ))}
                     </section>
@@ -287,7 +287,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
 
                                 :
                                 <button
-                                    className='w-full bg-white text-primary py-4 border border-black  hover:bg-slate-100'
+                                    className='w-full bg-white text-primary py-2 md:py-4 border border-black  hover:bg-slate-100'
                                     disabled={!selectedColor || !selectedSize}
                                     onClick={handleAddToCart}
                                 >
@@ -301,8 +301,8 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                         {/* <BuyProduct product={{ ...product, selectedColor: productcart.colors.color, selectedSize: productcart.sizes.size, quantity: productcart.quentitys.quentity }}/> */}
                         {/* </AddToCardPopver>       */}
                     </div>
-                    <span className='border py-1     flex items-center justify-center px-5 cursor-pointer group hover:bg-red-200 h-full '>
-                        <FaHeart className={`text-[20px] flex items-center  text-black justify-center cursor-pointer hover:text-red-500    `} />
+                    <span className='border py-1     flex items-center justify-center px-3 md:px-5 cursor-pointer group hover:bg-red-200 h-full '>
+                        <FaHeart className={`  text-[15px] md:text-[20px] flex items-center  text-black justify-center cursor-pointer hover:text-red-500    `} />
                     </span>
                 </div>
 
@@ -328,15 +328,15 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                 </ul> */}
                 <div className="grid grid-cols-3 gap-4 py-6 border-t w-full  border-gray-200">
                     <div className="text-center">
-                        <Truck className=" h-7 lg:h-10 w-5 md:w-7 lg:w-10 mx-auto mb-2 text-gray-500" />
+                        <Truck className=" text-[20px] md:text-[25px] mx-auto mb-2 text-gray-500" />
                         <p className=" text-sm font-semibold sm:font-medium md:text-base lg:text-lg text-primary">Free Shipping</p>
                     </div>
                     <div className="text-center">
-                        <Shield className=" h-7 lg:h-10 w-5 md:w-7 lg:w-10 mx-auto mb-2 text-gray-500" />
+                        <Shield className=" text-[20px] md:text-[25px] mx-auto mb-2 text-gray-500" />
                         <p className=" text-sm font-semibold sm:font-medium md:text-base lg:text-lg  text-primary">Premium Quality</p>
                     </div>
                     <div className="text-center">
-                        <RotateCcw className=" h-7 lg:h-10 w-5 md:w-7 lg:w-10 mx-auto mb-2 text-gray-500" />
+                        <RotateCcw className=" text-[20px] md:text-[25px] mx-auto mb-2 text-gray-500" />
                         <p className=" text-sm font-semibold sm:font-medium md:text-base lg:text-lg text-primary">30-Day Returns</p>
                     </div>
                 </div>

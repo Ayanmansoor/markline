@@ -75,7 +75,7 @@ async function getAllCollectionsBaseOnGender(gender: string) {
 async function getHighlighteProducts(slug: string) {
   const { data: highlighter, error } = await mysupabase
     .from("productsHighlighter")
-    .select("*, product(*)")
+    .select("*, product(* , product)")
     .eq("HighlighterType", slug);
   if (highlighter) {
     return highlighter;
@@ -172,16 +172,18 @@ async function getAllNewCollections() {
 
 async function getProductData(slug: string) {
   try {
-    const { data: product, error } = await mysupabase
-      .from("product")
-      .select(
-        `
-        *,
-        product_variants(*)
-      `
-      )
-      .eq("slug", slug)
-      .single(); // ensures only one product is returned
+
+  const { data: product, error } = await mysupabase
+  .from("product")
+  .select(
+    `
+    *,
+    brand:brands(*),
+    product_variants(*)
+    `
+  )
+  .eq("slug", slug)
+  .single();
 
     if (error) {
       console.error("Supabase error:", error.message);
@@ -407,6 +409,8 @@ async function getAllCollectionWithProducts(gender: string) {
   `
       )
       .eq("gender", gender).eq("is_show",true);
+
+
     if (error) {
       return new Error(error.message);
     }

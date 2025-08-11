@@ -29,16 +29,23 @@ function MegaManu({ children }: { children: React.ReactNode }) {
     });
 
     useEffect(() => {
-        const getslug = collections[0]?.slug
-        console.log(collections, "this is collections")
-        setslug(getslug)
         if (Array.isArray(collections)) {
-            const filtercollection = collections?.filter((item, index) => {
-                return item.gender == gender
-            })
-            setGenderProducts(filtercollection)
+            if (collections?.length > 0) {
+                const firstSlug = collections[0]?.slug;
+                if (firstSlug && firstSlug !== slug) {
+                    setslug(firstSlug);
+                }
+            }
         }
-    }, [collections, gender])
+    }, [collections]); // removed slug and gender from here
+
+    useEffect(() => {
+        if (Array.isArray(collections)) {
+            const filtercollection = collections.filter((item) => item.gender === gender);
+            setGenderProducts(filtercollection);
+        }
+    }, [ collections,gender]);
+
 
     const { data: products = [], isLoading, isError } = useQuery({
         queryKey: ["megamanuslugdata", slug],
@@ -52,10 +59,12 @@ function MegaManu({ children }: { children: React.ReactNode }) {
 
 
     useEffect(() => {
-        if (products) {
-            setProducts(products[0])
+        if (products && products.length > 0) {
+            if (selectProducts?.id !== products[0].id) {
+                setProducts(products[0]);
+            }
         }
-    }, [products])
+    }, [products, selectProducts]);
 
     function selectProductBaseOnCategory(slug: string) {
         const p = products?.find((product) => {
@@ -103,7 +112,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                                     <p
                                         className="uppercase tracking-wider text-primary font-medium border-b py-3 text-[13px] "
                                     >
-
+                                        Product For
                                     </p>
                                     <ul className="mt-3 w-full realtive h-[300px] flex flex-col gap-1  overflow-hidden overflow-y-auto items-start justify-start   " id='style-4'>
                                         <li className={`text-sm  capitalize font-medium hover:bg-gray-100 w-full cursor-pointer  py-1 px-2 flex items-center gap-1 ${gender == "WOMEN" && " bg-gray-100 "}`} onMouseEnter={() => setGender("WOMEN")}>WOMEN</li>

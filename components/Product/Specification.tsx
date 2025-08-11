@@ -10,6 +10,7 @@ import { ProductsDataProps } from '@/types/interfaces'
 
 function Specification({ product }: ProductsDataProps) {
 
+
     return (
         <section className='w-full relative   h-auto grid  grid-cols-1 lg:grid-cols-2  gap-8 bg-secondary px-3 lg:px-10     '>
             <div className='w-full lg:sticky lg:top-14 flex flex-col h-fit '>
