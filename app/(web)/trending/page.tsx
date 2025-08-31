@@ -17,10 +17,10 @@ export const metadata = mergeMetadata({
     title: "Shop Products | Markline",
     description:
       "Browse the full range of Markline products. From stylish footwear to luxury accessories — find your next statement piece.",
-    url: "https://marklinefashion.vercel.app/products",
+    url: "https://shopmarkline.in/products",
   },
   alternates: {
-    canonical: `https://marklinefashion.vercel.app/products`,
+    canonical: `https://shopmarkline.in/products`,
   },
 });
 function page() {

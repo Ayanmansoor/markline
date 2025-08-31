@@ -1,18 +1,12 @@
-import React from 'react'
-
+import { mergeMetadata } from '@/app/layout';
+import GenderPage from '@/components/gender/GenderPage'
 import { getaudience } from '@/Supabase/SupabaseApi';
-import Productspage from '@/components/Products/Products.page';
-
-
-
-
-
-
 import { AudienceProps } from '@/types/interfaces';
+import React from 'react'
 
 
 export async function generateMetadata({ params }) {
-  const audience: AudienceProps | null = await getaudience(`${params.slug}`.toUpperCase());
+  const audience: AudienceProps | null = await getaudience(`${params.group}`.toUpperCase());
 
 
   const audienceName = audience?.seo_title || "Audience";
@@ -36,7 +30,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: `${audienceName} | Markline`,
       description,
-      url: `https://shopmarkline.in/products/${params.slug}`,
+      url: `https://shopmarkline.in/collection/${params.group}`,
       images: [
         {
           alt: audienceName,
@@ -56,7 +50,7 @@ export async function generateMetadata({ params }) {
       description,
     },
     alternates: {
-      canonical: `https://shopmarkline.in/products/${params?.slug}`,
+      canonical: `https://shopmarkline.in/collection/${params?.group}`,
     },
   };
 }
@@ -65,7 +59,7 @@ export async function generateMetadata({ params }) {
 function page() {
   return (
     <>
-      <Productspage />
+      <GenderPage />
     </>
   )
 }

@@ -5,9 +5,9 @@ import React from 'react'
 
 
 export const metadata = mergeMetadata({
-  title: "New Arrivals | Markline – Latest in Luxury Footwear & Accessories",
+  title: "New Arrivals | Markline – Latest Men, Women & Kids Footwear",
   description:
-    "Stay ahead of trends with the latest arrivals at Markline. Shop fresh styles in premium shoes, bags, and more – just landed.",
+    "Shop new arrivals at Markline – discover the latest footwear trends in men’s shoes, women’s heels, sandals, mules & stylish kids shoes. Fresh styles every season.",
   robots: {
     index: true,
     follow: true,
@@ -16,18 +16,20 @@ export const metadata = mergeMetadata({
     "max-video-preview": -1,
   },
   openGraph: {
-    title: "New Arrivals | Markline – Latest in Luxury Footwear & Accessories",
+    title: "New Arrivals | Markline – Latest Men, Women & Kids Footwear",
     description:
-      "Explore the newest additions to Markline’s luxury collection. Discover cutting-edge fashion crafted for elegance and comfort.",
-    url: "https://marklinefashion.vercel.app/new-arrivals",
+      "Explore Markline’s new arrivals – stylish men’s shoes, elegant women’s heels, trendy sandals, chic mules & comfortable kids shoes. Shop the latest footwear today.",
+    url: "https://shopmarkline.in/new-arrivals",
   },
   alternates: {
-    canonical: `https://marklinefashion.vercel.app/new-arrivals`,
+    canonical: "https://shopmarkline.in/new-arrivals",
   },
 });
+
+
 function page() {
   return (
-    <NewArrival/>
+    <NewArrival />
   )
 }
 

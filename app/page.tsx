@@ -1,13 +1,12 @@
 
-import Image from "next/image";
 import HomePage from "@/components/Pages/Home.page";
 import { mergeMetadata } from "./layout";
 
 
 export const metadata = mergeMetadata({
-  title: "Buy Women's & Kids' Footwear Online in India | Markline",
+  title: "Buy Shoes Online in India | Sandals, Heels, Mules & Kids Shoes – Markline",
   description:
-    "Explore stylish women's and kids' footwear at Markline. Shop sandals, heels, sneakers & more online. Shipping across India",
+    "Shop Men’s Shoes, Women’s Sandals, Heels, Mules & Kids Shoes online at Markline. Discover stylish, comfortable & trendy footwear in India with fast delivery.",
   robots: {
     index: true,
     follow: true,
@@ -16,13 +15,13 @@ export const metadata = mergeMetadata({
     "max-video-preview": -1,
   },
   openGraph: {
-    title: "Buy Women's & Kids' Footwear Online in India | Markline",
+    title: "Buy Shoes Online in India | Sandals, Heels, Mules & Kids Shoes – Markline",
     description:
-      "Explore stylish women's and kids' footwear at Markline. Shop sandals, heels, sneakers & more online.  Shipping across India",
-    url: "https://marklinefashion.vercel.app",
+      "Shop Men’s Shoes, Women’s Sandals, Heels, Mules & Kids Shoes online at Markline. Discover stylish, comfortable & trendy footwear in India with fast delivery.",
+    url: "https://shopmarkline.in",
   },
   alternates: {
-    canonical: "https://marklinefashion.vercel.app",
+    canonical: "https://shopmarkline.in",
   },
 });
 

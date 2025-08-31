@@ -1,18 +1,13 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
-import Hero from '../Common/Hero'
 import GridRroduct from '../Home/GridRroduct'
 import ProductFilter from '../Common/ProductFilter'
-import MobFilterSheet from '../Products/MobFilterSheet'
-import { IoFilterOutline } from 'react-icons/io5'
 import { getProductBaseOnCollection, getAllCollections, getAllBanner, getcollection, getAllCollectionsBaseOnGender } from '@/Supabase/SupabaseApi'
 import { useParams } from 'next/navigation'
-import { ProductsProps } from '@/types/interfaces'
+import { Colors, Images, NewProductProps, ProductsProps, ProductVariant, Sizes } from '@/types/interfaces'
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
 import Link from 'next/link'
-import L2Banner from '../Common/L2Banner'
-import { FreeMode, Pagination } from 'swiper/modules';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -21,21 +16,33 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { selectColorAndSizesProps } from '../Products/Products.page'
 
 
-import { HiMiniAdjustmentsHorizontal } from "react-icons/hi2";
+
 
 function CategoryL2page() {
-    const { collection, gender } = useParams()
+    const { collection, group } = useParams()
     const [productShow, setProductShow] = useState(20)
     const [productRangevalue, setPRoductRange] = useState(5000)
-    const [description, setDescription] = useState<string>("")
-    const [filterProducts, setFilterProducts] = useState<ProductsProps[]>()
+    const [filterProducts, setFilterProducts] = useState<NewProductProps[]>()
     const nslug = Array.isArray(collection) ? collection[0] : collection;
-    const gslug = Array.isArray(gender) ? gender[0] : gender;
+    const gslug = Array.isArray(group) ? group[0] : group;
+    const [selectColorAndSizes, setSelectColorAndSizes] = useState<selectColorAndSizesProps>({
+        color: [],
+        size: []
+    })
 
     const { data: products, isLoading, isError } = useQuery<any>({
-        queryKey: ["collectiondatabaseonslug", collection],
+        queryKey: ["collectiondatabaseonslug", nslug],
         enabled: !!collection,
         queryFn: () => getProductBaseOnCollection(nslug),
         staleTime: Infinity,
@@ -63,8 +70,8 @@ function CategoryL2page() {
         isLoading: isLoadingCollections,
         isError: isErrorCollections,
     } = useQuery<any>({
-        queryKey: ["collections", gender],
-        enabled: !!gender,
+        queryKey: ["collections", gslug],
+        enabled: !!group,
         queryFn: () => getAllCollectionsBaseOnGender(gslug),
         staleTime: Infinity,
         refetchOnMount: false,
@@ -73,18 +80,18 @@ function CategoryL2page() {
     });
 
 
-        // const {
-        //     data: HomeBanner = [],
-        //     isLoading: bannerLoading,
-        //     isError: isErrorOnBanner,
-        // } = useQuery<any>({
-        //     queryKey: ["collectionbanner"],
-        //     queryFn: getAllBanner,
-        //     staleTime: Infinity,
-        //     refetchOnMount: false,
-        //     refetchOnWindowFocus: false,
-        //     refetchOnReconnect: false,
-        // });
+    // const {
+    //     data: HomeBanner = [],
+    //     isLoading: bannerLoading,
+    //     isError: isErrorOnBanner,
+    // } = useQuery<any>({
+    //     queryKey: ["collectionbanner"],
+    //     queryFn: getAllBanner,
+    //     staleTime: Infinity,
+    //     refetchOnMount: false,
+    //     refetchOnWindowFocus: false,
+    //     refetchOnReconnect: false,
+    // });
 
 
 
@@ -99,16 +106,75 @@ function CategoryL2page() {
 
     // console.log(collectiondata,'Collection Data meigth be single')
 
-
-
     useEffect(() => {
+        if (!products) return;
 
-        const filterproduct = products?.filter((product) => {
-            return product?.price <= productRangevalue
-        })
-        setFilterProducts(filterproduct)
+        const filtered = products.filter((product: NewProductProps) => {
+            const variants = product?.product_variants || [];
 
-    }, [productRangevalue])
+            // --- PRICE check ---
+            const lowestPrice = variants.length
+                ? Math.min(...variants.map(variant => variant.price || 0))
+                : 0;
+            const matchPrice = lowestPrice <= productRangevalue;
+
+            // --- GENDER check ---
+            const matchGender = gslug
+                ? product.gender === gslug.toUpperCase()
+                : true;
+
+            // --- COLOR check ---
+            const matchColor =
+                !selectColorAndSizes.color?.length ||
+                variants.some(variant => {
+                    let colorArray: Colors[] = [];
+                    if (typeof variant.colors === "string") {
+                        try {
+                            const parsed = JSON.parse(variant.colors);
+                            colorArray = Array.isArray(parsed) ? parsed : [parsed];
+                        } catch {
+                            return false;
+                        }
+                    } else if (Array.isArray(variant.colors)) {
+                        colorArray = variant.colors.map(c =>
+                            typeof c === "string" ? JSON.parse(c) : c
+                        );
+                    }
+
+                    return colorArray.some(c =>
+                        selectColorAndSizes.color?.includes(c.name)
+                    );
+                });
+
+            // --- SIZE check ---
+            const matchSize =
+                !selectColorAndSizes.size?.length ||
+                variants.some(variant => {
+                    let sizeArray: Sizes[] = [];
+                    if (typeof variant.sizes === "string") {
+                        try {
+                            const parsed = JSON.parse(variant.sizes);
+                            sizeArray = Array.isArray(parsed) ? parsed : [parsed];
+                        } catch {
+                            return false;
+                        }
+                    } else if (Array.isArray(variant.sizes)) {
+                        sizeArray = variant.sizes.map(s =>
+                            typeof s === "string" ? JSON.parse(s) : s
+                        );
+                    }
+
+                    return sizeArray.some(s =>
+                        selectColorAndSizes.size?.includes(s.size)
+                    );
+                });
+
+            return matchPrice && matchGender && matchColor && matchSize;
+        });
+
+        setFilterProducts(filtered);
+    }, [products, productRangevalue, gslug, selectColorAndSizes]);
+
 
     function showMoreProducts() {
         if (products?.length >= 20) {
@@ -116,62 +182,128 @@ function CategoryL2page() {
         }
     }
 
+    const { allColors, allSizes } = useMemo(() => {
+        const colorMap = new Map<string, Colors>();
+        const sizeMap = new Map<string, Sizes>();
+
+        products?.forEach((product: any) => {
+            product.product_variants?.forEach((variant: ProductVariant) => {
+                let colorArray: Colors[] = [];
+                let sizeArray: Sizes[] = [];
+
+                // normalize colors
+                if (Array.isArray(variant.colors)) {
+                    colorArray = variant.colors.map((item) =>
+                        typeof item === "string" ? JSON.parse(item) : item
+                    );
+                } else if (typeof variant.colors === "string") {
+                    try {
+                        const parsed = JSON.parse(variant.colors);
+                        colorArray = Array.isArray(parsed) ? parsed : [parsed];
+                    } catch {
+                        colorArray = [];
+                    }
+                }
+
+                // normalize sizes
+                if (Array.isArray(variant.sizes)) {
+                    sizeArray = variant.sizes.map((item) =>
+                        typeof item === "string" ? JSON.parse(item) : item
+                    );
+                } else if (typeof variant.sizes === "string") {
+                    try {
+                        const parsed = JSON.parse(variant.sizes);
+                        sizeArray = Array.isArray(parsed) ? parsed : [parsed];
+                    } catch {
+                        sizeArray = [];
+                    }
+                }
+
+                // add unique colors
+                colorArray.forEach((color) => {
+                    if (color?.name && !colorMap.has(color.name)) {
+                        colorMap.set(color.name, color);
+                    }
+                });
+
+                // add unique sizes
+                sizeArray.forEach((size) => {
+                    if (size?.size && !sizeMap.has(size.size)) {
+                        sizeMap.set(size.size, size);
+                    }
+                });
+            });
+        });
+
+        return {
+            allColors: Array.from(colorMap.values()),
+            allSizes: Array.from(sizeMap.values()),
+        };
+    }, [products]);
+
+
+
+
     return (
         <>
             {/* <L2Banner data={HomeBanner} />/ */}
 
 
-            <div className='flex flex-col gap-1 w-fit  border-gray-300 py-5 lg:py-10 border-b px-3 md:px-10'>
-                <h1 className=" text-base md:text-2xl font-semibold h-auto text-primary capitalize">
-                    {` ${collection} `.split('-').join(' ')}  – Trendy & Comfortable Footwear for Every Step
-                </h1>
-                <p className=' text-sm md:text-base line-clamp-3 font-medium text-primary '>
-                    Step into style with our latest range of {` ${collection} `.split('-').join(' ')}  at Markline. Our {` ${collection} `.split('-').join(' ')} are crafted to provide the perfect blend of fashion and comfort, ensuring you look and feel great all day long. Whether you&apos;re heading to a casual outing or a formal event, our {` ${collection} `.split('-').join(' ')}  are designed to complement every occasion.
-                </p>
+            <Breadcrumb className='w-full relative  md:px-5 lg:px-10'>
+                <BreadcrumbList className='w-full relative h-auto flex items-center py-5 rounded-lg px-3 '>
+                    <BreadcrumbItem >
+                        <BreadcrumbLink href="/Home" className=' text-sm md:text-base lg:text-xl text-primary cursor-pointer'>Home</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink href={`/collections/${gslug}`} className=' text-sm sm:text-base md:text-xl lg:text-2xl text-primary cursor-pointer'>{gslug}</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage className='text-sm sm:text-base md:text-xl lg:text-2xl text-primary cursor-pointer'>{nslug.split('-').join(' ')}</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </Breadcrumb>
 
-            </div>
+            <h1 className=' text-base md:text-xl lg:text-2xl xl:text-3xl font-semibold text-primary capitalize px-3 md:px-5 lg:px-10 '>{nslug.split('-').join(' ')} {`[${products ? products.length : ""}]`}  </h1>
 
-            <section className="w-full min-h-[300px] mt-5 relative grid grid-cols-1  lg:grid-cols-[250px_3fr] 2xl:grid-cols-[0.8fr_3fr] gap-5 px-3 md:px-5 lg:px-5 ">
-                <span className=' hidden h-fit sticky top-20 lg:block bg-white '>
-                    <ProductFilter gender={gslug} collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
+
+            <section className='w-full relative gap-2 items-center px-3 md:px-5 lg:px-10  mt-5  h-auto flex border-b border-gray-400 pb-3  '>
+
+                <Swiper
+                    slidesPerView={'auto'}
+                    className="mySwiper w-full  relative h-auto "
+                >
+                    {
+                        allcollection.map((collec) => (
+                            <SwiperSlide className='max-w-fit  border   px-1  h-auto text-base font-medium rounded-sm' key={collec.slug}>
+                                <Link href={`${collec.slug}`} className={`  ${nslug == collec.slug ? " text-white bg-black " : "bg-white text-primary"} text-sm max-w-fit  relative  px-5 rounded-lg py-3 font-medium `}>{collec.name}</Link>
+                            </SwiperSlide>
+                        ))
+                    }
+                </Swiper>
+            </section>
+
+
+            <section className="w-full min-h-[300px] mt-5 relative  gap-10  bg-gray-200  ">
+                <span className=' flex items-center border-b border-white w-full justify-between h-fit sticky top-20   py-5 px-3 md:px-5 lg:px-10 '>
+                    <ProductFilter gender={gslug} collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} slug={nslug} colors={allColors} sizes={allSizes} SetselectColorAndSizes={setSelectColorAndSizes } />
                 </span>
 
-                <div className="w-full gap-5 pb-10 relative flex flex-col  px-3 lg:px-5">
-
-                    <section className='w-full relative gap-2 items-center  h-auto flex md:hidden '>
-                        <span className='  items-center gap-2  lg:hidden '>
-                            <MobFilterSheet collection={[]} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} >
-                                <HiMiniAdjustmentsHorizontal className='text-[37px] text-foreground cursor-pointer border px-2 rounded-md ' />
-                            </MobFilterSheet>
-                        </span>
-
-                        <Swiper
-                            spaceBetween={3}
-                            slidesPerView={'auto'}
-                            className="mySwiper w-full  relative h-auto "
-                        >
-                            {
-                                allcollection.map((collec) => (
-                                    <SwiperSlide className='max-w-fit  border  px-3 py-1.5   h-auto text-base font-medium rounded-sm' key={collec.slug}>
-                                        <Link href={`${collec.slug}`} className='text-sm max-w-fit  relative  font-medium text-primary'>{collec.name}</Link>
-                                    </SwiperSlide>
-                                ))
-                            }
-                        </Swiper>
-                    </section>
-
-
+                <div className="w-full gap-5  relative flex flex-col  px-3 md:px-5 lg:px-10  pt-10 ">
                     {
                         isLoading ?
-                            <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3   items-start justify-start gap-3 px-5  lg:px-10   ">
+                            <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3  lg:grid-cols-4  items-start justify-start gap-3 px-5  lg:px-10   ">
+                                <ProductCardSkeleton />
                                 <ProductCardSkeleton />
                                 <ProductCardSkeleton />
                                 <ProductCardSkeleton />
                             </div>
                             :
                             products?.length ?
-                                <GridRroduct data={filterProducts ? filterProducts : products} url={'product'} css='grid-cols-2 md:grid-cols-3  ' /> :
-                                <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3   items-start justify-start gap-3 px-5  lg:px-10   ">
+                                <GridRroduct data={filterProducts ? filterProducts : products} url={'product'} css='grid-cols-2 md:grid-cols-3  lg:grid-cols-4 bg-gray-200 ' /> :
+                                <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3  lg:grid-cols-4   items-start justify-start gap-3 px-5  lg:px-10   ">
+                                    <ProductCardSkeleton />
                                     <ProductCardSkeleton />
                                     <ProductCardSkeleton />
                                     <ProductCardSkeleton />

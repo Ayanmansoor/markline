@@ -1,0 +1,3 @@
+CategoryL2page
+GenderPage
+CollcetionPage

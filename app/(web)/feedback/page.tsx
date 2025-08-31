@@ -3,28 +3,28 @@ import FeedbackForm from "@/components/Forms/FeedbackForm";
 import Link from "next/link";
 import React from "react";
 import { BsLinkedin } from "react-icons/bs";
-import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa6";
+import { FaFacebook, FaInstagram, FaPinterest, FaTwitter, FaYoutube } from "react-icons/fa6";
 export const metadata = mergeMetadata({
     title: "Feedback | Markline – We Value Your Opinion",
     description:
-      "Share your thoughts and experiences with Markline. Your feedback helps us improve our luxury fashion offerings and deliver exceptional service.",
+        "Share your thoughts and experiences with Markline. Your feedback helps us improve our luxury fashion offerings and deliver exceptional service.",
     robots: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
     },
     openGraph: {
-      title: "Feedback | Markline – We Value Your Opinion",
-      description:
-        "Let us know how we're doing at Markline. Your feedback ensures we continue offering top-tier fashion and customer satisfaction.",
-      url: "https://marklinefashion.vercel.app/feedback",
+        title: "Feedback | Markline – We Value Your Opinion",
+        description:
+            "Let us know how we're doing at Markline. Your feedback ensures we continue offering top-tier fashion and customer satisfaction.",
+        url: "https://shopmarkline.in/feedback",
     },
     alternates: {
-      canonical: "https://marklinefashion.vercel.app/feedback",
+        canonical: "https://shopmarkline.in/feedback",
     },
-  });
+});
 
 function Feedback() {
     return (
@@ -62,21 +62,21 @@ function Feedback() {
                         <h2 className="w-full text-xl font-medium text-fontPrimary  ">
                             Email :
                         </h2>
-                        <Link href={"/"} className="text-lg font-medium text-fontPrimary">
-                            info.marklinefashion@gmail.com
+                        <Link href={"melto:styemarkline@gmail.com"} className="text-lg font-medium text-fontPrimary">
+                            styemarkline@gmail.com
                         </Link>
                         /
                         <Link
-                            href={"melto:sales.pcdpl@gmail.com"}
+                            href={"melto:styemarkline@gmail.com"}
                             className="text-lg font-medium text-fontPrimary"
                         >
-                            info.marklinefashion@gmail.com
+                            styemarkline@gmail.com
                         </Link>
                     </div>
 
                     <div className="w-full relative flex  flex-wrap items-center gap-5 ">
                         <Link
-                            href={"/"}
+                            href={"https://www.facebook.com/people/Markline/61578047250955"}
                             className="text-p18 font-medium bg-primary rounded-full p-2 text-webtext "
                         >
                             <FaFacebook className="text-white text-[25px]" />
@@ -89,20 +89,20 @@ function Feedback() {
                         </Link>
 
                         <Link
-                            href={"https://www.instagram.com/marklinefashion"}
+                            href={"https://www.instagram.com/marklinefashion/"}
                             target="_blank"
                             className="text-p18 font-medium bg-primary rounded-full p-2 text-webtext "
                         >
                             <FaInstagram className="text-white text-[25px]" />
                         </Link>
                         <Link
-                            href={"/"}
+                            href={"https://www.pinterest.com/Marklinefashion/"}
                             className="text-p18 font-medium bg-primary p-[10px] rounded-full text-webtext "
                         >
-                            <BsLinkedin className="text-[20px] text-white " />
+                            <FaPinterest className="text-[20px] text-white " />
                         </Link>
                         <Link
-                            href={"/"}
+                            href={"https://www.youtube.com/channel/UCCDnKdMSM4abCTRC2lq0IKA"}
                             className="text-p18 font-medium bg-primary p-2 rounded-full text-webtext "
                         >
                             <FaYoutube className="text-[25px] text-white " />

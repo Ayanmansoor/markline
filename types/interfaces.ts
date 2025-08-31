@@ -1,3 +1,4 @@
+import { selectColorAndSizesProps } from "@/components/Products/Products.page";
 import React, { JSX } from "react";
 
 export interface Images {
@@ -14,8 +15,6 @@ export interface Sizes {
   size: string;
   unit: string;
 }
-
-
 
 interface Discount {
   discount_id: string;
@@ -49,7 +48,7 @@ export interface ProductsProps {
   sizes: Sizes[];
   slug: string;
   stock: number;
-  materials_used:string;
+  materials_used: string;
 }
 
 export interface CartProductsProps {
@@ -85,9 +84,6 @@ export interface CartItem {
   discount_key: string;
 }
 
-
-
-
 export interface whishlishtProps {
   name: string;
   productId: number;
@@ -98,7 +94,7 @@ export interface whishlishtProps {
   image_urls?: Images[];
   discounts: Discount;
   discount_key: string;
-  slug:string
+  slug: string;
 }
 
 export interface updateQuantityProps {
@@ -122,16 +118,18 @@ export interface TrendingProductsProps {
 
 export interface trendingProductsProps {
   data: TrendingProductsProps[];
-  productsCardCss?:string
+  productsCardCss?: string;
+  title: string;
+  discription: string;
 }
 
 export interface CategoriesSectionProps {
   children: React.ReactNode;
   title: string;
   url: string;
-  subtitle?:string,
-  urltext?:string
-  isH1?:boolean
+  subtitle?: string;
+  urltext?: string;
+  isH1?: boolean;
 }
 
 export interface HeroProps {
@@ -144,7 +142,7 @@ export interface AddToCardPopverProps {
   currentProduct: ProductsProps;
   colors: Colors[];
   sizes: Sizes[];
-  addToWhishlistCB:(color:Colors[],size:Sizes[])=>void
+  addToWhishlistCB: (color: Colors[], size: Sizes[]) => void;
 }
 
 export interface CollectionCardProps {
@@ -165,7 +163,7 @@ export interface homeBannervalue {
   id: number;
   name: string;
   url: string;
-  gender:string
+  gender: string;
 }
 
 export interface orderData {
@@ -183,7 +181,7 @@ export interface OrderId {
 export interface SheetCartFormProps {
   setConfirm: any;
   setOrderID: any;
-  closeSheet?:()=>void
+  closeSheet?: () => void;
 }
 
 export interface BlogCardProps {
@@ -200,7 +198,6 @@ export interface acceptorderProps {
   data: any;
 }
 
-
 // collection fo props
 
 export interface CollectionsDataProps {
@@ -216,17 +213,23 @@ export interface newCollectionCardProps {
 export interface ProdcutFilterProps {
   collection: CollectionCardProps[];
   children?: React.ReactNode;
-  gender?:string,
+  gender?: string;
   productRangevalue: number;
+  SetselectColorAndSizes: React.Dispatch<
+    React.SetStateAction<selectColorAndSizesProps>
+  >;
+  colors: Colors[];
+  slug?: string;
+  sizes: Sizes[];
   setPRoductRange: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface ProductsDataProps {
   product: ProductsProps;
   url?: string;
-  className?:string
-  user?:userinterfce
-   setConfirm?: React.Dispatch<React.SetStateAction<any>>;
+  className?: string;
+  user?: userinterfce;
+  setConfirm?: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export interface BuyComponentProps extends ProductsProps {
@@ -235,36 +238,35 @@ export interface BuyComponentProps extends ProductsProps {
   quantity: number;
 }
 
-
-export interface  forProductsProps{
-   product: BuyComponentProps;
+export interface forProductsProps {
+  product: BuyComponentProps;
   url?: string;
-  className?:string
-  user?:userinterfce
-   setConfirm?: React.Dispatch<React.SetStateAction<any>>;
+  className?: string;
+  user?: userinterfce;
+  setConfirm?: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export interface AddressFromProps {
   product: ProductsProps;
   setConfirm: React.Dispatch<React.SetStateAction<any>>;
   setOrderID: React.Dispatch<React.SetStateAction<any>>;
-  user?:userinterfce
+  user?: userinterfce;
 }
 
 export interface GridProductProps {
   data: ProductsProps[];
   url: string;
   css?: string;
-  productsCardCss?:string
+  productsCardCss?: string;
 }
 export interface CarouselProductProps {
   url: string;
   product: ProductsProps[];
-  css?:string
+  css?: string;
 }
 
-export interface whishlishtSectionProps{
-  url:string,
+export interface whishlishtSectionProps {
+  url: string;
 }
 
 export interface ColorViewProps {
@@ -291,11 +293,9 @@ export interface BuyProductProps {
   product: BuyComponentProps;
 }
 
-
 export interface ProductsHighlightesDataProps {
   data: ProductsHighlightesProps[];
-  productsCardCss?:string
-
+  productsCardCss?: string;
 }
 
 export interface L2Bannerprop {
@@ -307,55 +307,50 @@ export interface L2Bannerprop {
   slug?: string;
 }
 
-export interface L2DataProps{
-  data:L2Bannerprop[]
+export interface L2DataProps {
+  data: L2Bannerprop[];
 }
 
-
-// 
-export interface SpotlightInterfce{
-  title?:string,
-  description?:string,
-  url?:string,
-  images?:string[]
+//
+export interface SpotlightInterfce {
+  title?: string;
+  description?: string;
+  url?: string;
+  images?: string[];
 }
 
 export interface userinterfce {
-  id?:string
-  email?: string,
-  phone?: string,
+  id?: string;
+  email?: string;
+  phone?: string;
   user_metadata: {
-    email?: string,
-    phone?:string,
-    email_verified?: boolean,
-    phone_verified?: boolean
-  }
-
-
+    email?: string;
+    phone?: string;
+    email_verified?: boolean;
+    phone_verified?: boolean;
+  };
 }
 
-
-export interface States{
-  name:string,
-  state_code:string
+export interface States {
+  name: string;
+  state_code: string;
 }
 
-
-export interface StateComboboxProps{
-  setStateValue:(stateName:string)=>void;
-  errormessage:string
+export interface StateComboboxProps {
+  setStateValue: (stateName: string) => void;
+  errormessage: string;
 }
 
-export interface CityComboboxProps{
-  setCityName:(cityname:string)=>void;
-  statename:string;
-  errormessage:string
+export interface CityComboboxProps {
+  setCityName: (cityname: string) => void;
+  statename: string;
+  errormessage: string;
 }
 
-export interface addressDailogprops{
-      children:React.ReactNode,
-      currentaddress?:AddressProps
-        handleperform?:()=>void
+export interface addressDailogprops {
+  children: React.ReactNode;
+  currentaddress?: AddressProps;
+  handleperform?: () => void;
 }
 
 export interface AddressProps {
@@ -367,10 +362,9 @@ export interface AddressProps {
   pin_code: string;
   full_address: string;
   is_selected?: boolean | null;
-  created_at?: string; 
-  index?:number
-  handleperform?:()=>void
-
+  created_at?: string;
+  index?: number;
+  handleperform?: () => void;
 }
 
 export interface OrderProps {
@@ -391,7 +385,7 @@ export interface OrderProps {
   razorpay_order_id: string | null;
   razorpay_signature: string | null;
   user_id: string;
-  isDelivered: 'PENDING' | 'DELIVERED' | 'CANCELLED'; // assuming possible statuses
+  isDelivered: "PENDING" | "DELIVERED" | "CANCELLED"; // assuming possible statuses
   user_address: number;
 }
 
@@ -407,11 +401,11 @@ export interface BulkOrderProductProps {
   quantity: number;
   discount_amount: number;
   product_key: number;
-  user_id: string|null; // use string | null if it can be null
+  user_id: string | null; // use string | null if it can be null
 }
 
 export interface UserInterface {
-  id:string,
+  id: string;
   email?: string;
   phone?: string;
   user_metadata?: {
@@ -419,15 +413,10 @@ export interface UserInterface {
     email_verified?: boolean;
     phone?: string;
     phone_verified?: boolean;
-    
   };
 }
 
-
-
 // -----------------------------------------------------new-------------------------------------------------//
-
-
 
 export interface NewDiscountProps {
   discount_id: string;
@@ -435,7 +424,6 @@ export interface NewDiscountProps {
   discount_persent: number;
   discount_start: string; // ISO date string: "YYYY-MM-DD"
   discount_end: string; // ISO date string: "YYYY-MM-DD"
-
 }
 
 export interface CartVariant {
@@ -452,14 +440,13 @@ export interface CartVariant {
   selectedSize: Sizes;
 }
 
-
 export interface newCartItem {
   productId: number;
   productName: string;
   slug: string;
-  variant: CartVariant;    
+  variant: CartVariant;
   quantity: number;
-  gender:string
+  gender: string;
 }
 
 export interface ProductVariant {
@@ -477,45 +464,44 @@ export interface ProductVariant {
   discounts?: NewDiscountProps;
 }
 
-
 export interface newCarouselProductProps {
   url: string;
   product: NewProductProps[];
-  css?:string
+  css?: string;
+  productsCardCss?: string;
 }
-
 
 export interface newProductsProps {
   product: NewProductProps;
   url?: string;
-  className?:string
-  user?:userinterfce
-   setConfirm?: React.Dispatch<React.SetStateAction<any>>;
+  className?: string;
+  user?: userinterfce;
+  setConfirm?: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export interface NewGridProductProps {
   data: NewProductProps[];
   url: string;
   css?: string;
-  productsCardCss?:string
+  productsCardCss?: string;
 }
 
-export interface ProductMainProps{
-  variant?:ProductVariant|null
-  product?:NewProductProps|null
+export interface ProductMainProps {
+  variant?: ProductVariant | null;
+  product?: NewProductProps | null;
 }
-export interface ProductMainAboutProps{
-  variant:ProductVariant
-  product:NewProductProps
- onVariantChange:(variant:any)=>void
+export interface ProductMainAboutProps {
+  variant: ProductVariant;
+  product: NewProductProps;
+  onVariantChange: (variant: any) => void;
 }
 
 export interface newAddToCardPopverProps {
   children: React.ReactNode;
   currentProduct: NewProductProps;
-  currentVariant:ProductVariant;
-  onVariantChange:(variant:any)=>void
-  addToWhishlistCB:(color:Colors[],size:Sizes[])=>void
+  currentVariant: ProductVariant;
+  onVariantChange: (variant: any) => void;
+  addToWhishlistCB: (color: Colors[], size: Sizes[]) => void;
 }
 export interface NewProductProps {
   id: number;
@@ -534,36 +520,33 @@ export interface NewProductProps {
   product_variants: ProductVariant[];
 }
 
-
-
 export interface newBuyComponentProps extends NewProductProps {
-  selectedColor: Colors|null;
-  selectedSize: Sizes|null;
+  selectedColor: Colors | null;
+  selectedSize: Sizes | null;
   quantity: number;
 }
 
 export interface newBuyDailogProps {
   children: React.ReactNode;
   product: newBuyComponentProps;
-  selectedVariant:ProductVariant;
-  
+  selectedVariant: ProductVariant;
 }
 
-export interface  NewForProductsProps{
+export interface NewForProductsProps {
   product: newBuyComponentProps;
-  variant:ProductVariant  ;
+  variant: ProductVariant;
   url?: string;
-  className?:string
-  user?:userinterfce
-   setConfirm?: React.Dispatch<React.SetStateAction<any>>;
+  className?: string;
+  user?: userinterfce;
+  setConfirm?: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export interface NewAddressFromProps {
   product: newBuyComponentProps;
-  variant:ProductVariant;
+  variant: ProductVariant;
   setConfirm: React.Dispatch<React.SetStateAction<any>>;
   setOrderID: React.Dispatch<React.SetStateAction<any>>;
-  user?:userinterfce
+  user?: userinterfce;
 }
 
 export interface NEwProductsHighlightesProps {
@@ -573,6 +556,14 @@ export interface NEwProductsHighlightesProps {
 
 export interface NEwProductsHighlightesDataProps {
   data: NEwProductsHighlightesProps[];
-  productsCardCss?:string
+  productsCardCss?: string;
+}
 
+export interface AudienceProps {
+  id: number; // int8
+  name: "men" | "women" | "kids"; // genders enum
+  seo_title: string | null; // text
+  seo_discription: string | null; // text
+  image: string | null; // text (URL of image)
+  created_at: string; // timestamptz (ISO string)
 }

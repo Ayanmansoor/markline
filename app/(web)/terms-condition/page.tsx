@@ -16,10 +16,10 @@ export const metadata = mergeMetadata({
     title: "Terms Condition | Markline",
     description:
       "Discover how Markline ensures timely and reliable shipping. Get details on domestic and international shipping, tracking, and delivery timelines.",
-    url: "https://marklinefashion.vercel.app/terms-condition",
+    url: "https://shopmarkline.in/terms-condition",
   },
   alternates: {
-    canonical: `https://marklinefashion.vercel.app/terms-condition`,
+    canonical: `https://shopmarkline.in/terms-condition`,
   },
 });
 function page() {

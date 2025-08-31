@@ -75,8 +75,8 @@ function CartSheet({ children }: {
             const itemTotal = item?.variant?.price * item.quantity;
             beforeDiscount += itemTotal;
 
-            if (item?.variant.discounts?.discount_persent) {
-                const discountAmount = (itemTotal * item.variant.discounts.discount_persent) / 100;
+            if (item?.variant?.discounts?.discount_persent) {
+                const discountAmount = (itemTotal * item.variant?.discounts.discount_persent) / 100;
                 total += itemTotal - discountAmount;
                 discountSaved += discountAmount;
 
@@ -84,7 +84,7 @@ function CartSheet({ children }: {
                 finalAmount += discountedPrice * item.quantity;
             } else {
                 total += itemTotal;
-                finalAmount += item?.variant.price * item.quantity;
+                finalAmount += item?.variant?.price * item.quantity;
             }
         });
 

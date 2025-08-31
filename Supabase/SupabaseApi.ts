@@ -52,7 +52,33 @@ async function getblog(slug: string) {
 async function getAllCollections() {
   const { data: collections, error } = await mysupabase
     .from("collection")
-    .select("*");
+    .select("*")
+    .eq("type", "category");
+  if (collections) {
+    return collections;
+  } else {
+    return new Error(error.message);
+  }
+}
+
+async function getAllCollectionsBaseOnType(type: string, slug: string) {
+  const { data: collections, error } = await mysupabase
+    .from("collection")
+    .select("*")
+    .eq("type", type)
+    .eq("slug", slug);
+  if (collections) {
+    return collections;
+  } else {
+    return new Error(error.message);
+  }
+}
+
+async function getAllCollectionsBaseOnTypeForSeo(type: string) {
+  const { data: collections, error } = await mysupabase
+    .from("collection")
+    .select("*")
+    .eq("type", type);
   if (collections) {
     return collections;
   } else {
@@ -72,18 +98,81 @@ async function getAllCollectionsBaseOnGender(gender: string) {
   }
 }
 
-async function getHighlighteProducts(slug: string) {
-  const { data: highlighter, error } = await mysupabase
-    .from("productsHighlighter")
-    .select("*, product(* , product)")
-    .eq("HighlighterType", slug);
-  if (highlighter) {
-    return highlighter;
-  } else {
-    return new Error(error.message);
-  }
+async function getHighlighteProducts() {
+  const { data, error } = await mysupabase.from("productsHighlighter").select(`
+      *,
+      product (
+        *,
+        product_variants (*)
+      )
+    `);
+
+  if (error) throw error;
+  return data;
 }
 
+async function getCollectionBaseOnTypeAndOccuation(type: string, slug: string) {
+  const { data, error } = await mysupabase
+    .from("collection")
+    .select(
+      `
+      *,
+      product (
+        *,
+        product_variants (*)
+      )
+    `
+    )
+    .eq("type", type)
+    .eq("slug", slug);
+
+  if (error) {
+    console.error("Error fetching collections:", error);
+    return [];
+  }
+
+  return data;
+}
+
+async function getAllCollectionOccuation() {
+  const { data, error } = await mysupabase
+    .from("collection")
+    .select(
+      `
+      *,
+      product (
+        *,
+        product_variants (*)
+      )
+    `
+    )
+    .eq("type", "occasion");
+
+  if (error) {
+    console.error("Error fetching collections:", error);
+    return [];
+  }
+
+  return data;
+}
+
+async function getHighlighteProductsBaseOnGender(gender: string) {
+  const { data, error } = await mysupabase
+    .from("productsHighlighter")
+    .select(
+      `
+      *,
+      product (
+        *,
+        product_variants (*)
+      )
+    `
+    )
+    .eq("gender", gender);
+
+  if (error) throw error;
+  return data;
+}
 async function getAllBanner() {
   const { data: homebanner, error } = await mysupabase
     .from("HomeBanner")
@@ -134,17 +223,18 @@ async function getAllProductsWithVariants() {
   } catch (error) {}
 }
 
-// async function getAllLimitedEditionProducts() {
-//   const { data: trendings, error } = await mysupabase
-//     .from("products")
-//     .select("*, brands(*)")
-//     .eq("is_limited_edition", true);
-//   if (trendings) {
-//     return trendings;
-//   } else {
-//     return new Error(error.message);
-//   }
-// }
+async function getAllProductsWithVariantsByWithSlug(gender: string) {
+  const { data: products, error } = await mysupabase
+    .from("products")
+    .select("*,discounts(*)")
+    .eq("is_new_arrival", false)
+    .eq("gender", gender.toUpperCase());
+  if (products) {
+    return products;
+  } else {
+    return new Error(error.message);
+  }
+}
 
 async function getAllNewArrivalProducts() {
   const { data: newArrivals, error } = await mysupabase
@@ -172,18 +262,17 @@ async function getAllNewCollections() {
 
 async function getProductData(slug: string) {
   try {
-
-  const { data: product, error } = await mysupabase
-  .from("product")
-  .select(
-    `
+    const { data: product, error } = await mysupabase
+      .from("product")
+      .select(
+        `
     *,
     brand:brands(*),
     product_variants(*)
     `
-  )
-  .eq("slug", slug)
-  .single();
+      )
+      .eq("slug", slug)
+      .single();
 
     if (error) {
       console.error("Supabase error:", error.message);
@@ -408,16 +497,53 @@ async function getAllCollectionWithProducts(gender: string) {
     )
   `
       )
-      .eq("gender", gender).eq("is_show",true);
-
+      .eq("gender", gender)
+      .eq("is_show", true);
 
     if (error) {
       return new Error(error.message);
     }
     return data;
   } catch (error) {
-    console.log(error,"i getting")
+    console.log(error, "i getting");
   }
+}
+async function getaudience(audience: string) {
+  try {
+    const { data, error } = await mysupabase
+      .from("audience")
+      .select("*")
+      .eq("name", audience);
+
+    if (error) {
+      return new Error(error.message);
+    }
+    return data[0];
+  } catch (error) {}
+}
+
+async function getsearchProducts(query: string) {
+  if (!query.trim()) return [];
+
+  const { data, error } = await mysupabase
+    .from("product")
+      .select(
+      `
+      *,
+      product_variants(*)
+    `
+    )
+    .or(
+      `name.ilike.%${query}%,description.ilike.%${query}%,materials_used.ilike.%${query}%,seoTitle.ilike.%${query}%,seoDescription.ilike.%${query}%`
+    )
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("query error:", error);
+    return [];
+  }
+
+  return data ?? [];
 }
 
 export {
@@ -442,9 +568,12 @@ export {
   getCurrentUserOrders,
   updateCurrentUserAddress,
   getSelectedAddress,
-
-
-
   getAllProductsWithVariants,
-  getAllCollectionWithProducts
+  getAllCollectionWithProducts,
+  getAllCollectionsBaseOnType,
+  getCollectionBaseOnTypeAndOccuation,
+  getAllCollectionOccuation,
+  getaudience,
+  getAllCollectionsBaseOnTypeForSeo,
+  getsearchProducts,
 };

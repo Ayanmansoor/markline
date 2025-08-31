@@ -23,7 +23,6 @@ function NewArrival() {
         refetchOnReconnect: false,
     });
 
-    console.log(products, 'this is all product')
 
     return (
         <>
@@ -45,7 +44,8 @@ function NewArrival() {
 
             {
                 isLoading ?
-                    <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4  items-start justify-start gap-3 px-5  lg:px-10   ">
+                    <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5  items-start justify-start gap-3 px-5  lg:px-10   ">
+                        <ProductCardSkeleton />
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />
@@ -58,11 +58,13 @@ function NewArrival() {
                             <CarouselProduct url={'product'} product={products} css=' sm:max-w-[500px]' />
                         </CategoriesSection>
                         :
-                        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4  items-start justify-start gap-3 px-5  lg:px-10   ">
+                        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-start justify-start gap-3 px-5  lg:px-10   ">
                             <ProductCardSkeleton />
                             <ProductCardSkeleton />
                             <ProductCardSkeleton />
                             <ProductCardSkeleton />
+                            <ProductCardSkeleton />
+
                         </div>
             }
 

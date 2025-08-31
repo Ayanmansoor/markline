@@ -9,15 +9,15 @@ import ProductCard from '../Common/ProductCard';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { trendingProductsProps } from '@/types/interfaces';
 
-function  TrendingCarousels({ data ,productsCardCss }: trendingProductsProps) {
+function  TrendingCarousels({ data ,productsCardCss ,title,discription}: trendingProductsProps) {
 
   
   return (
     <section className='relative w-full h-auto bg-black  '>
       <div className='  mx-auto reltive h-fit w-full flex flex-col gap-5   text-secondary pt-5 pb-10 px-3 md:px-5 lg:px-10 '>
         <span className='flex flex-col gap-1'>
-          <h2 className='  text-base md:text-2xl lg:text-3xl font-medium text-white pt-5  uppercase'>Best-Selling Footwear  Customer Favorites at Markline</h2>
-          <p className=' text-xs md:text-base font-medium text-white italic'>Explore the top-rated, most-loved shoes our customers can&apos;t stop talking about.</p>
+          <h2 className='  text-base md:text-2xl xl:text-3xl font-medium text-white pt-5  uppercase'>{title}</h2>
+          <p className=' text-xs md:text-base font-medium text-white italic'></p>
         </span>
 
         <Swiper
@@ -30,29 +30,13 @@ function  TrendingCarousels({ data ,productsCardCss }: trendingProductsProps) {
             disableOnInteraction: false,
           }}
           loop={true}
-          breakpoints={{
-            300: {
-              slidesPerView: 1.8,
-            },
-            400: {
-              slidesPerView: 2,
-            },
-            768: {
-              slidesPerView: 2,
-            },
-            1024: {
-              slidesPerView: 3,
-            },
-            1280: {
-              slidesPerView: 4 ,
-            },
-          }}
+    
 
           modules={[Pagination, Autoplay]}
           className="mySwiper w-full h-full relative py-5 "
         >
           {data?.map((item, index) => (
-            <SwiperSlide className='    sm:max-w-[500px] h-full  bg-slate-50 overflow-hidden relative transition-all duration-500 text-third group' key={index}>
+            <SwiperSlide className='    max-w-[250px] md:max-w-[250px] lg:max-w-[300px] h-full relative bg-secondary ' key={index}>
               <ProductCard product={item.product} url='product' className={productsCardCss} />
             </SwiperSlide>
           ))}

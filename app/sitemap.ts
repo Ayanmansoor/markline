@@ -2,6 +2,7 @@ import {
   getAllBlogs,
   getAllCollections,
   getAllCollectionsBaseOnGender,
+  getAllCollectionsBaseOnTypeForSeo,
   getAllProductsWithVariants,
 } from "@/Supabase/SupabaseApi";
 import { BlogCardProps, ProductsProps } from "@/types/interfaces";
@@ -12,6 +13,9 @@ export default async function sitemap() {
   const womencollections: any = await getAllCollectionsBaseOnGender("WOMEN");
   const mencollections: any = await getAllCollectionsBaseOnGender("MEN");
   const blogs: any = await getAllBlogs();
+  const occasionCollection: any = await getAllCollectionsBaseOnTypeForSeo(
+    "occasion"
+  );
 
   let sitemap = [
     { url: `${NEXT_PUBLIC_BASE_URL}/about-us` },
@@ -29,6 +33,10 @@ export default async function sitemap() {
     { url: `${NEXT_PUBLIC_BASE_URL}/shiping-policy` },
     { url: `${NEXT_PUBLIC_BASE_URL}/trending` },
     { url: `${NEXT_PUBLIC_BASE_URL}/user` },
+
+    { url: `${NEXT_PUBLIC_BASE_URL}/products/women` },
+    { url: `${NEXT_PUBLIC_BASE_URL}/products/men` },
+    { url: `${NEXT_PUBLIC_BASE_URL}/products/kids` },
   ];
 
   if (blogs?.length > 0 && blogs) {
@@ -57,6 +65,14 @@ export default async function sitemap() {
     sitemap = sitemap.concat(
       mencollections.map((collection: ProductsProps) => ({
         url: `${NEXT_PUBLIC_BASE_URL}/collections/men/${collection.slug}`,
+      }))
+    );
+  }
+
+  if (mencollections?.length > 0 && mencollections) {
+    sitemap = sitemap.concat(
+      occasionCollection.map((occasion: ProductsProps) => ({
+        url: `${NEXT_PUBLIC_BASE_URL}/occasion/${occasion.slug}`,
       }))
     );
   }

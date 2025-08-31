@@ -15,8 +15,8 @@ import Link from 'next/link'
 
 function GenderPage() {
 
-    const { gender } = useParams()
-    const nslug = Array.isArray(gender) ? gender[0] : gender;
+    const { group } = useParams()
+    const nslug = Array.isArray(group) ? group[0] : group;
     const finalslug = nslug.toUpperCase()
 
     const {
@@ -33,8 +33,8 @@ function GenderPage() {
     });
 
     const { data: genderCollection, isLoading: isGenderLoading, isError: isGenderDataerror } = useQuery<any>({
-        queryKey: ["gendercollection", gender],
-        enabled: !!gender,
+        queryKey: ["gendercollection", group],
+        enabled: !!group,
         queryFn: () => getCollectionBaseOnGender(finalslug),
         staleTime: Infinity,
         refetchOnMount: false,      // don't refetch when remounting
@@ -55,19 +55,12 @@ function GenderPage() {
         <>
             <Hero bannerImages={HomeBanner} css={" h-[40vh] sm:h-[60vh]"} />
 
-            {/* <CldImage
-                src="https://res.cloudinary.com/demhgityh/image/upload/v1746551239/black-embellished-flip-flops-for-women-2_niiqb7.jpg" 
-                width={600}
-                height={600}
-                alt="Premium Shoe"
-                crop="fill"
-            /> */}
-
+      
             {
 
                 genderCollection?.length > 0 ?
                     <CategoriesSection title={` ${nslug} Footwear Collection, Style, Comfort & Quality`} subtitle={`Explore our curated ${nslug} footwear .`} isH1={true} url="collections" urltext='collections'> 
-                        <Collectionsection collections={genderCollection} url={`collections/${gender}`} />
+                        <Collectionsection collections={genderCollection} url={`collections/${group}`} />
                     </CategoriesSection>
                     :
                     <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-start justify-start gap-3  px-3 lg:px-5 ">

@@ -3,55 +3,35 @@ import React from 'react'
 import { useQuery } from 'react-query'
 import Hero from '../Common/Hero'
 import CategoriesSection from '../Common/CategoriesSection'
-import Collectionsection from '../Home/Collectionsection'
 import GridRroduct from '../Home/GridRroduct'
 import TrendingCarousels from '../Carousels/TrendingCarousels'
 import SecondHero from '../Common/SecondHero'
 import Discount from '../Discounts/Discount'
 import LeatestCollection from '../Collections/LeatestCollection'
 import Image from 'next/image'
-import Link from 'next/link'
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
-import ProductsHighlightes from '../Product/productsHighlightes'
 import MainCollections from '../Home/MainCollections'
-import { CollectionCardProps, NewProductProps } from '@/types/interfaces'
 
 import {
-  getAllCollections,
-  getAllProductsWithVariants,
   getAllTrendingProducts,
   getAllNewArrivalProducts,
-  getAllNewCollections,
-  getHighlighteProducts,
-  getAllCollectionWithProducts
+  getAllCollectionWithProducts,
+  getAllBanner,
+  getAllCollectionOccuation
 } from '@/Supabase/SupabaseApi'
-
-const homebanners = [
-  {
-    image_url: "/banner-ballerina-with-oxford-shoe.png",
-    url: "collections/women/ballerinas",
-    id: 0,
-    name: "",
-    gender: ""
-  },
-  {
-    image_url: "/home-banner-for-collection.webp",
-    url: "/collections/women",
-    id: 0,
-    name: "",
-    gender: ""
-  }
-]
+import CarouselProduct from '../Product/CarouselProduct'
 
 function HomePage() {
-  // --- Queries ---
-  // const { data: collections = [], isLoading: isCollectionsLoading } = useQuery<CollectionCardProps[]>({
-  //   queryKey: ["allCollections"],
-  //   queryFn: getAllCollections,
-  //   staleTime: Infinity,
-  //   refetchOnWindowFocus: false,
-  //   refetchOnReconnect: false
-  // })
+
+
+  const { data: homebanners = [], isLoading: isHomebanners } = useQuery<any>({
+    queryKey: ["homebanners"],
+    queryFn: getAllBanner,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false
+  })
+
 
 
 
@@ -67,26 +47,20 @@ function HomePage() {
     staleTime: Infinity
   })
 
-  // const { data: newCollection = [] } = useQuery<any>({
-  //   queryKey: ["newCollections"],
-  //   queryFn: getAllNewCollections,
-  //   staleTime: Infinity
-  // })
 
-  const { data: casuals = [] } = useQuery<any>({
-    queryKey: ["casualsHighlights"],
-    queryFn: () => getHighlighteProducts("casuals"),
+
+  const { data: occasional = [] } = useQuery<any>({
+    queryKey: ["occasionalcollection"],
+    queryFn: () => getAllCollectionOccuation(),
     staleTime: Infinity
   })
 
-  const { data: wedding = [] } = useQuery<any>({
-    queryKey: ["weddingHighlights"],
-    queryFn: () => getHighlighteProducts("wedding"),
-    staleTime: Infinity
-  })
+  console.log("occational product", occasional)
 
 
-    const { data: collectionWithWomenProducts = [], isLoading: collectionAlongWithLoading, isError: collectionerrorLoading } = useQuery<any>({
+
+
+  const { data: collectionWithWomenProducts = [], isLoading: collectionAlongWithLoading, isError: collectionerrorLoading } = useQuery<any>({
     queryKey: ["collectionWithMenProducts", "WOMEN"], // you can also pass the gender as part of the key
     queryFn: () => getAllCollectionWithProducts("WOMEN"),
     staleTime: Infinity,
@@ -95,7 +69,7 @@ function HomePage() {
     refetchOnReconnect: false,
   });
 
-     const { data: collectionWithMenProducts = [], isLoading: collectionWithMenLoading, isError: collectionWithMenError } = useQuery<any>({
+  const { data: collectionWithMenProducts = [], isLoading: collectionWithMenLoading, isError: collectionWithMenError } = useQuery<any>({
     queryKey: ["collectionWithMenProducts", "MEN"], // you can also pass the gender as part of the key
     queryFn: () => getAllCollectionWithProducts("MEN"),
     staleTime: Infinity,
@@ -116,104 +90,113 @@ function HomePage() {
 
 
 
+
   return (
     <>
       <Hero bannerImages={homebanners} />
       <MainCollections />
-    
-      {/* WOMEN Products */}
+
+
+
+      {occasional?.length > 0 &&
+        occasional.map((item, index) => {
+          return (
+            <CategoriesSection title={item.name} url={`shop-by/occasion/${item.slug}`} urltext='Explore' key={index}>
+              <CarouselProduct url={'product'} product={item.product} />
+            </CategoriesSection>
+          )
+        })
+      }
+
       {collectionAlongWithLoading ? (
-        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 gap-3 px-5 lg:px-10">
-          <ProductCardSkeleton /><ProductCardSkeleton /><ProductCardSkeleton /><ProductCardSkeleton />
+        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10">
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
         </div>
-      ) : (
-        collectionWithWomenProducts.slice(0, 1).map((item,index)=>(
-        <CategoriesSection
-          title={`Women’s Footwear – ${item.name}`}
-          subtitle='Elegant Sandals • Chic Heels • Everyday Flats'
-          url="products/women"
-          urltext="Women's products"
-          key={index}
-        >
-          <GridRroduct
-            data={item.product?.slice(0, 10)}
-            url={'product'}
-            css='grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-            productsCardCss={"h-[200px] sm:h-[350px] md:h-[400px] lg:h-[350px] xl:h-[350px] 2xl:h-[450px]"}
-          />
-        </CategoriesSection>
+      ) : collectionWithWomenProducts?.length > 0 ? (
+        collectionWithWomenProducts.slice(0, 1).map((item, index) => (
+          item?.product?.length > 0 &&
+          <CategoriesSection
+            title={`Women’s Footwear – ${item.name}`}
+            subtitle="Elegant Sandals • Chic Heels • Everyday Flats"
+            url="products/women"
+            urltext="Women's products"
+            key={index}
+          >
+            <CarouselProduct url="product" product={item.product.slice(0, 10)} css=" sm:max-w-[500px]" />
+          </CategoriesSection>
         ))
+      ) : (
+        <></>
       )}
 
-      <section className=' h-[300px] lg:h-[400px] w-full relative '>
-        <Image src={"/home-banner-for-collection.webp"} alt='women banner' height={500} width={500}  className='w-full h-full object-cover '/>
+      {
+        collectionWithMenProducts.length > 0 &&
+        <section className=' h-[300px] lg:h-[400px] w-full relative '>
+          <Image src={"/home-banner-for-collection.webp"} alt='women banner' height={500} width={500} className='w-full h-full object-cover ' />
+        </section>
+      }
 
-      </section>
+
 
       {/* MEN Products */}
       {collectionWithMenLoading ? (
-        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10" >
-          <ProductCardSkeleton /><ProductCardSkeleton /><ProductCardSkeleton /><ProductCardSkeleton />
+        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10">
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
           <ProductCardSkeleton />
         </div>
-      ) : (
-
-        collectionWithMenProducts.slice(0,1).map((item,index)=>(
-        <CategoriesSection
-          title={"Men’s Footwear – Stylish, Comfortable & Durable"}
-          subtitle='Sneakers • Loafers • Formal & Casual Shoes for Men'
-          url="products/men"
-          urltext="Men's products"
-          key={index}
-        >
-          <GridRroduct
-            data={item.product?.slice(0, 10)}
-            url={'product'}
-            css='grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-            productsCardCss={"h-[200px] sm:h-[350px] md:h-[400px] lg:h-[350px] xl:h-[350px] 2xl:h-[450px]"}
-          />
-        </CategoriesSection>
+      ) : collectionWithMenProducts?.length > 0 ? (
+        collectionWithMenProducts.slice(0, 1).map((item, index) => (
+          item?.product?.length > 0 &&
+          <CategoriesSection
+            title={`Men’s Footwear – ${item.name} `}
+            subtitle="Sneakers • Loafers • Formal & Casual Shoes for Men"
+            url="products/men"
+            urltext="Men's products"
+            key={index}
+          >
+            <CarouselProduct url="product" product={item.product.slice(0, 10)} css=" sm:max-w-[500px]" />
+          </CategoriesSection>
         ))
+      ) : (
+        <></>
       )}
 
-      
-      <section className=' h-[300px] lg:h-[400px] w-full relative '>
-        <Image src={"/home-banner-for-collection.webp"} alt='women banner' height={500} width={500}  className='w-full h-full object-cover '/>
 
-      </section>
+      {
+        collectionWithKidsProducts.length > 0 &&
+        <section className=' h-[300px] lg:h-[400px] w-full relative '>
+          <Image src={"/home-banner-for-collection.webp"} alt='women banner' height={500} width={500} className='w-full h-full object-cover ' />
+        </section>
+      }
 
-      {/* Kids Section */}
-      {collectionWithKidsProducts.length > 0 && (
-        collectionWithKidsProducts.map((item,index)=>(
-        <CategoriesSection title={"Kids – Comfort Meets Style"} url="products/kids" urltext="kid's products" key={index}>
-          <GridRroduct
-            data={item.product}
-            url={'product'}
-            css='grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-            productsCardCss={"h-[200px] sm:h-[350px] md:h-[400px] lg:h-[350px] xl:h-[350px] 2xl:h-[450px]"}
-          />
-        </CategoriesSection>
+      {collectionWithKidsProducts?.length > 0 ? (
+        collectionWithKidsProducts.map((item, index) => (
+          <CategoriesSection
+            title={`Kids – ${item.name}`}
+            url="products/kids"
+            urltext="kid's products"
+            key={index}
+          >
+            <CarouselProduct url="product" product={item.product.slice(0, 10)} css=" sm:max-w-[300px]" />
+          </CategoriesSection>
         ))
+      ) : (
+        <></>
       )}
 
       {/* Trending */}
       {trendingProducts?.length > 0 && (
-        <TrendingCarousels data={trendingProducts} productsCardCss={"h-[200px] sm:h-[350px] md:h-[400px] lg:h-[350px] xl:h-[350px] 2xl:h-[450px]"} />
+        <TrendingCarousels title='Best-Selling Footwear  Customer Favorites at Markline' discription='Explore the top-rated, most-loved shoes our customers can&apos;t stop talking about.' data={trendingProducts} productsCardCss={" h-[300px] sm:h-[350px]  lg:h-[350px] xl:h-[350px] 2xl:h-[400px]"} />
       )}
 
-      {/* Casual Highlights */}
-      {casuals?.length > 0 && (
-        <CategoriesSection title={"Everyday Essentials Women's Casual Footwear"}  url={''}>
-          <ProductsHighlightes data={casuals} productsCardCss={"h-[280px] sm:h-[300px] md:h-[280px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
-        </CategoriesSection>
-      )}
 
-      {/* Wedding Highlights */}
-      {wedding?.length > 0 && (
-        <CategoriesSection title={"Markline Collections Products"} url=''>
-          <ProductsHighlightes data={wedding} productsCardCss={"h-[280px] sm:h-[300px] md:h-[280px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
-        </CategoriesSection>
-      )}
 
       <Discount
         title={'Step into the Season'}
@@ -224,7 +207,7 @@ function HomePage() {
 
       {/* New Arrivals */}
       {isNewArrivalLoading ? (
-         <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10" >
+        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10" >
           <ProductCardSkeleton /><ProductCardSkeleton /><ProductCardSkeleton /><ProductCardSkeleton />
           <ProductCardSkeleton />
         </div>

@@ -16,10 +16,10 @@ export const metadata = mergeMetadata({
         title: "Fashion Blog | Markline – Trends, Tips & Style Guides",
         description:
             "Stay up to date with Markline’s blog featuring fashion inspiration, seasonal guides, and tips for styling luxury pieces.",
-        url: "https://marklinefashion.vercel.app/blogs",
+        url: "https://shopmarkline.in/blogs",
     },
     alternates: {
-        canonical: `https://marklinefashion.vercel.app/blogs`,
+        canonical: `https://shopmarkline.in/blogs`,
     },
 });
 function page() {

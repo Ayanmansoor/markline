@@ -20,7 +20,7 @@ export default function MobFilterSheet({ collection ,productRangevalue,setPRoduc
                 <SheetHeader>
                     <SheetTitle className="text-lg font-medium text-foreground pb-3 border-b ">Use Filter </SheetTitle>
                     <SheetDescription className="w-full  h-auto">
-                    <ProductFilter collection={collection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} />
+                    {/* <ProductFilter collection={collection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} /> */}
                     </SheetDescription>
                 </SheetHeader>
             </SheetContent>

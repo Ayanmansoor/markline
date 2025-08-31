@@ -92,9 +92,7 @@ function ProductPage() {
     );
   }
 
-  // if (isError || !product) {
-  //   return <div>Error loading product.</div>;
-  // }
+
   return (
     <>
 
@@ -111,7 +109,7 @@ function ProductPage() {
                 </div>
                 {
                   selectedVariant &&
-                <ProductAbout product={product} variant={selectedVariant} onVariantChange={(variant) => setSelectedVariant(variant)} />
+                  <ProductAbout product={product} variant={selectedVariant} onVariantChange={(variant) => setSelectedVariant(variant)} />
                 }
               </div> : <section className='container  h-[700px] '>
                 <ProductPageSkeleton />
@@ -141,9 +139,9 @@ function ProductPage() {
             <ProductCardSkeleton />
           </div>
           :
-          relatedProducts.length>0 ?
-            <CategoriesSection title={"You may also like  "}  url={'products/women'} urltext='products' >
-              <CarouselProduct url={'product'} product={relatedProducts}  css=' sm:max-w-[500px]' />
+          relatedProducts.length > 0 ?
+            <CategoriesSection title={"You may also like  "} url={'products/women'} urltext='products' >
+              <CarouselProduct url={'product'} product={relatedProducts} css=' sm:max-w-[500px]' />
             </CategoriesSection >
             :
             <div className="grid grid-cols-2 py-10 lg:py-20 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3   px-5 lg:px-10  ">

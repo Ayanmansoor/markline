@@ -2,9 +2,9 @@ import { mergeMetadata } from '@/app/layout';
 import CollcetionPage from '@/components/Collections/Collection.page'
 import React from 'react'
 export const metadata = mergeMetadata({
-  title: "Collections | Markline – Curated Luxury Pieces & Seasonal Must-Haves",
+  title: "Collections - Markline – Men, Women & Kids Footwear Online",
   description:
-    "Discover curated collections from Markline featuring seasonal must-haves, signature styles, and luxury pieces that define elegance and sophistication.",
+    "Explore all footwear collections at Markline – men’s casual shoes, women’s heels, sandals, mules & trendy kids shoes. Shop stylish & comfortable footwear online.",
   robots: {
     index: true,
     follow: true,
@@ -13,13 +13,13 @@ export const metadata = mergeMetadata({
     "max-video-preview": -1,
   },
   openGraph: {
-    title: "Collections | Markline – Curated Luxury Pieces & Seasonal Must-Haves",
+    title: "Collections - Markline – Men, Women & Kids Footwear Online",
     description:
-      "Explore Markline’s exclusive collections of premium fashion essentials. From timeless classics to seasonal trends, elevate your wardrobe today.",
-    url: "https://marklinefashion.vercel.app/collections",
+      "Discover Markline’s footwear collections – stylish men’s casual shoes, elegant women’s heels, trendy sandals, chic mules & comfortable kids shoes.",
+    url: "https://shopmarkline.in/collections",
   },
   alternates: {
-    canonical: "https://marklinefashion.vercel.app/collections",
+    canonical: "https://shopmarkline.in/collections",
   },
 });
 

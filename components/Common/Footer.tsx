@@ -136,7 +136,7 @@ function Footer() {
         </div>
       </section>
 
-      <section className='w-full relative h-auto flex items-center justify-center gap-5 py-2 bottom-10 z-20 '>
+      <section className='md:flex w-full relative h-auto hidden items-center justify-center gap-5 py-2 bottom-10 z-20 '>
         <Link href={'/privacy-policy'} className=' text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Privacy & Policy</Link>
         <Link href={'/terms-condition'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Terms & Conditions</Link>
         <Link href={'/shipping-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Shipping & Return</Link>

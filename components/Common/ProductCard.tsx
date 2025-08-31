@@ -18,7 +18,7 @@
     const { addToWishlist, removeFromWishlist, wishlist, isProductInWishlist } = useWishlists()
 
 
-  const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(product.product_variants[0]);
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(product?.product_variants[0]);
     const [Stringifycolor, setStringifyColor] = useState<Colors[]>([])
     const [StringifySize, setStringifySize] = useState<Sizes[]>([])
     const [StringifyImages, setStringifyImages] = useState<any[] | undefined>([])
@@ -95,7 +95,7 @@
 
         </Link>
         <Link href={`/${url}/${product?.slug}`} className='flex w-full items-start pt-2 justify-between  px-2 gap-0 ' >
-          <h2 className=' text-xs sm:text-sm  md:text-base 2xl:text-xl font-medium  !line-clamp-3   flex items-center gap-1 uppercase  text-black'>{product?.name}</h2>
+          <h2 className=' text-xs sm:text-sm  xl:text-base 2xl:text-xl font-medium  !line-clamp-3   flex items-center gap-1 uppercase  text-black'>{product?.name}</h2>
 
         </Link>
         <section className='w-full relative h-auto  pb-3 py-2 px-2 md:flex-row  flex-col flex  items-start lg:items-center justify-between gap-2'>
@@ -103,14 +103,14 @@
             {
               selectedVariant?.discounts?.discount_persent &&
               <>
-                <p className='text-base md:text-lg font-normal text-black  line-through text-nowrap '>₹ {selectedVariant?.price}</p>
-                <p className=' text-lg md:text-xl  font-medium text-nowrap text-red-400 '>₹{
+                <p className='text-base xl:text-lg font-normal text-black  line-through text-nowrap '>₹ {selectedVariant?.price}</p>
+                <p className='text-base xl:text-lg 2xl:text-xl  font-medium text-nowrap text-red-400 '>₹{
                   Math.floor(selectedVariant?.price - (selectedVariant?.price * (selectedVariant?.discounts?.discount_persent / 100)))}</p>
               </>
             }
             {
               !selectedVariant?.discounts &&
-              <p className=' text-lg lg:text-xl xl:text-2xl  font-semibold text-nowrap text-primary'>₹ {selectedVariant?.price}</p>
+              <p className=' text-base lg:text-lg xl:text-xl 2xl:text-2xl  font-semibold text-nowrap text-primary'>₹ {selectedVariant?.price}</p>
 
             }
 

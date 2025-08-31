@@ -36,29 +36,29 @@ const noto = Noto_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Markline | Elegance in Every Step",
-  description: "Markline brings you luxurious footwear and fashion accessories crafted for elegance, comfort, and confidence. Step into your style with our premium collections.",
-  metadataBase: new URL("https://marklinefashion.vercel.app/"),
+  title: "Markline | Stylish Shoes for Men, Women & Kids Online in India",
+  description: "Markline brings you trendy & comfortable footwear online in India. Shop men’s shoes, women’s sandals, heels, mules & kids shoes with fast delivery.",
+  metadataBase: new URL("https://shopmarkline.in"),
   twitter: {
     card: "summary_large_image",
-    title: "Markline | Luxury Footwear & Accessories",
-    description: "Discover timeless style with Markline – premium shoes, bags, and accessories for modern elegance.",
+    title: "Markline | Stylish Shoes for Men, Women & Kids Online in India",
+    description: "Markline brings you trendy & comfortable footwear online in India. Shop men’s shoes, women’s sandals, heels, mules & kids shoes with fast delivery.",
     images: "/opengraph-image.png",
-    site: "@marklinefashion",
+    site: "@shopmarkline",
   },
   openGraph: {
-    title: "Markline | Elegance in Every Step",
-    description: "Luxury fashion brand offering high-end footwear, bags, and accessories designed to elevate your style with sophistication and flair.",
+    title: "Markline | Stylish Shoes for Men, Women & Kids Online in India",
+    description: "Markline brings you trendy & comfortable footwear online in India. Shop men’s shoes, women’s sandals, heels, mules & kids shoes with fast delivery.",
     images: [
       {
         // new new adsdg
         url: "/opengraph-image.png",
         width: 4800,
         height: 2520,
-        alt: "Markline - Luxury Footwear & Accessories",
+        alt: "Markline | Stylish Shoes for Men, Women & Kids Online in India",
       },
     ],
-    url: "https://marklinefashion.vercel.app/",
+    url: "https://shopmarkline.in/",
     locale: "en_us",
     siteName: "Markline",
   },
@@ -89,7 +89,7 @@ export default function RootLayout({
 }>) {
   return (
     // <html lang="en">
-      
+
     //   <body
     //     className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${noto.variable} antialiased`}
     //   >
@@ -108,7 +108,7 @@ export default function RootLayout({
     //     </Provider>
     //   </body>
     // </html>
-      <html lang="en">
+    <html lang="en">
       <head>
         <script
           dangerouslySetInnerHTML={{
