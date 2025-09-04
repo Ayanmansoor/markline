@@ -39,7 +39,7 @@ function NotFound() {
           :
           allproducts.length>0 ?
             <CategoriesSection title={"You May Explore This"} url={'products/women'} urltext='products' >
-              <CarouselProduct url={'product'} product={allproducts.slice(0,5)} />
+              <CarouselProduct url={'product'} product={allproducts.slice(0,5)}  productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
             </CategoriesSection >
             :
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3 container px-20 ">

@@ -152,7 +152,7 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
     return (
         <Popover >
             <PopoverTrigger className='w-full relative hover:bg-primary hover:text-white h-full'>{children}</PopoverTrigger>
-            <PopoverContent className="flex flex-col gap-2 w-full max-w-[300px] relative h-auto">
+            <PopoverContent className="flex flex-col gap-2 w-full max-w-[250px] md:max-w-[300px] relative h-auto">
                 <section className="w-full h-auto flex flex-col gap-4">
                     {/* Colors Section */}
 
@@ -165,11 +165,11 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
                                     key={color.name}
                                     onClick={() => handleColorChange(color)}
                                     className={cn(
-                                        'p-1 rounded-full border-2  ',
+                                        ' p-0 md:p-1 rounded-full border-2  ',
                                         selectedColor?.name === color.name ? 'border-black' : 'border-transparent'
                                     )}>
                                     <button
-                                        className={`p-5 rounded-full`}
+                                        className={` p-3 md:p-4 lg:p-5 rounded-full`}
                                         style={{ backgroundColor: color.hex }}
                                     />
                                 </span>
@@ -186,7 +186,7 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
                                     key={size.size}
                                     onClick={() => handleSizeChange(size)}
                                     className={cn(
-                                        'px-3 py-1 border rounded',
+                                        ' px-2 md:px-3 py-1 border rounded',
                                         selectedSize?.size === size.size ? 'border-black' : 'border-gray-300'
                                     )}
                                 >

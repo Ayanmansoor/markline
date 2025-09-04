@@ -136,7 +136,7 @@ function AboutUsPage() {
         allproducts?.length > 0 ?
         (
           <CategoriesSection title={"Our Products "} url="">
-            <CarouselProduct product={allproducts} url={'product'} css=' sm:max-w-[500px]' />
+            <CarouselProduct product={allproducts} url={'product'} css=' sm:max-w-[500px]'  productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
           </CategoriesSection >
         )
         :

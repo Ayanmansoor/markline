@@ -76,7 +76,7 @@ function GenderPage() {
                 collectionAlongWithProducts?.length > 0 ?
                 collectionAlongWithProducts.map((item,index)=>(
                     <CategoriesSection title={`${item.name} Footwear Collection for Comfort and Style`} subtitle={`Browse our curated ${nslug} shoes .`} url="products"  urltext={` ${nslug} products`} key={index}>
-                        <GridRroduct data={item.products} url={'product'}  css=' grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'  productsCardCss={" h-[280px] sm:h-[300px] md:h-[350px] lg:h-[390px] xl:h-[450px]"} />
+                        <GridRroduct data={item.products} url={'product'}  css=' grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'   productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
                     </CategoriesSection>
                     ))
                     :

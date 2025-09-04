@@ -102,7 +102,7 @@ function HomePage() {
         occasional.map((item, index) => {
           return (
             <CategoriesSection title={item.name} url={`shop-by/occasion/${item.slug}`} urltext='Explore' key={index}>
-              <CarouselProduct url={'product'} product={item.product} />
+              <CarouselProduct url={'product'} product={item.product} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
             </CategoriesSection>
           )
         })
@@ -126,7 +126,7 @@ function HomePage() {
             urltext="Women's products"
             key={index}
           >
-            <CarouselProduct url="product" product={item.product.slice(0, 10)} css=" sm:max-w-[500px]" />
+            <CarouselProduct url="product" product={item.product.slice(0, 10)} css=" sm:max-w-[500px]" productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
           </CategoriesSection>
         ))
       ) : (
@@ -161,7 +161,7 @@ function HomePage() {
             urltext="Men's products"
             key={index}
           >
-            <CarouselProduct url="product" product={item.product.slice(0, 10)} css=" sm:max-w-[500px]" />
+            <CarouselProduct url="product" product={item.product.slice(0, 10)} css=" sm:max-w-[500px]" productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
           </CategoriesSection>
         ))
       ) : (
@@ -184,7 +184,7 @@ function HomePage() {
             urltext="kid's products"
             key={index}
           >
-            <CarouselProduct url="product" product={item.product.slice(0, 10)} css=" sm:max-w-[300px]" />
+            <CarouselProduct url="product" product={item.product.slice(0, 10)} css=" sm:max-w-[300px]" productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
           </CategoriesSection>
         ))
       ) : (
@@ -193,7 +193,7 @@ function HomePage() {
 
       {/* Trending */}
       {trendingProducts?.length > 0 && (
-        <TrendingCarousels title='Best-Selling Footwear  Customer Favorites at Markline' discription='Explore the top-rated, most-loved shoes our customers can&apos;t stop talking about.' data={trendingProducts} productsCardCss={" h-[300px] sm:h-[350px]  lg:h-[350px] xl:h-[350px] 2xl:h-[400px]"} />
+        <TrendingCarousels title='Best-Selling Footwear  Customer Favorites at Markline' discription='Explore the top-rated, most-loved shoes our customers can&apos;t stop talking about.' data={trendingProducts} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
       )}
 
 

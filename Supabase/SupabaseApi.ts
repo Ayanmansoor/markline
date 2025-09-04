@@ -523,20 +523,33 @@ async function getaudience(audience: string) {
 }
 
 async function getsearchProducts(query: string) {
-  if (!query.trim()) return [];
+  let data, error;
 
-  const { data, error } = await mysupabase
-    .from("product")
+  if (query.trim()) {
+    // If search query exists, filter products
+    ({ data, error } = await mysupabase
+      .from("product")
       .select(
+        `
+        *,
+        product_variants(*)
       `
-      *,
-      product_variants(*)
-    `
-    )
-    .or(
-      `name.ilike.%${query}%,description.ilike.%${query}%,materials_used.ilike.%${query}%,seoTitle.ilike.%${query}%,seoDescription.ilike.%${query}%`
-    )
-    .order("created_at", { ascending: false });
+      )
+      .or(
+        `name.ilike.%${query}%,description.ilike.%${query}%,materials_used.ilike.%${query}%,seoTitle.ilike.%${query}%,seoDescription.ilike.%${query}%`
+      )
+      .order("created_at", { ascending: false }));
+  } else {
+    ({ data, error } = await mysupabase
+      .from("product")
+      .select(
+        `
+        *,
+        product_variants(*)
+      `
+      )
+      .order("created_at", { ascending: false }));
+  }
 
   if (error) {
     console.error("query error:", error);

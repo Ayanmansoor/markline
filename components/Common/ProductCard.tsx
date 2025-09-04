@@ -14,7 +14,7 @@
 
   import { useWishlists } from '@/Contexts/wishlist';
 
-  function ProductCard({ product, url ,className }: newProductsProps) {
+  function  ProductCard({ product, url ,className }: newProductsProps) {
     const { addToWishlist, removeFromWishlist, wishlist, isProductInWishlist } = useWishlists()
 
 
@@ -119,7 +119,7 @@
         </section>
         <div className='w-full relative grid grid-cols-[1fr_auto]  border-gray-300 items-center justify-center '>
           <AddToCardPopver currentVariant={selectedVariant} currentProduct={product}  addToWhishlistCB={addTowishlistproduct}   onVariantChange={(variant) => setSelectedVariant(variant)} >
-            <button className='w-full  bg-primary text-primary text-white relative h-full py-2 lg:py-2.5 flex items-center justify-center text-sm sm:text-base  font-medium    group-border-gray-300'>Add to Cart</button>
+            <button className='w-full  bg-primary text-primary text-white relative h-full py-2 lg:py-2.5 flex items-center justify-center text-xs sm:text-sm md:text-base  font-medium    group-border-gray-300'>Add to Cart</button>
           </AddToCardPopver>
 
           <button className='flex items-center justify-center px-2.5 group h-full group-hover:bg-red-400' onClick={() => addTowishlistproduct(Stringifycolor, StringifySize)} >

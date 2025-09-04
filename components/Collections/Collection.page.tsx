@@ -89,7 +89,7 @@ function CollcetionPage() {
 
       {collections?.length ?
         <CategoriesSection title={"Women's Footwear Collections – Sandals, Flats, Heels & More"} subtitle='Discover elegant sandals, comfy flats, chic heels & stylish mules' url={''} >
-          <Collectionsection collections={collections.filter((item) => item.gender == 'WOMEN')} url={'collections/women'} />
+          <Collectionsection collections={collections.filter((item) => item.gender == 'WOMEN')} url={'collections/women'}  />
         </CategoriesSection> :
         <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4   xl:grid-cols-5 items-start justify-start gap-3 px-5  lg:px-10   ">
           <ProductCardSkeleton />
@@ -137,7 +137,7 @@ function CollcetionPage() {
           item?.product?.length > 0 &&
 
           <CategoriesSection title={`${item.name}`} subtitle='Uncover standout styles handpicked for women—elegant, comfortable, and always in fashion.' url={''} key={index}>
-            <GridRroduct data={item.product} url={'product'} css='grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[350px] md:h-[350px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
+            <GridRroduct data={item.product} url={'product'} css='grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4' productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
           </CategoriesSection>
         ))
       }
@@ -180,7 +180,7 @@ function CollcetionPage() {
         collectionWithMen.map((item, index) => (
           item.product.length > 0 &&
           <CategoriesSection title={`${item.name}`} subtitle={``} url={''} key={index} >
-            <GridRroduct data={item.product} url={'product'} css='grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[350px] md:h-[350px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
+            <GridRroduct data={item.product} url={'product'} css='grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4' productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
           </CategoriesSection>
         ))
       }
@@ -225,7 +225,7 @@ function CollcetionPage() {
         collectionWithkids.map((item, index) => (
           item.product.length > 0 &&
           <CategoriesSection title={`${item.name}`} subtitle={``} url={''} key={index} >
-            <GridRroduct data={item.product} url={'product'} css='grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[350px] md:h-[350px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
+            <GridRroduct data={item.product} url={'product'} css='grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4' productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
           </CategoriesSection>
         ))
       }
