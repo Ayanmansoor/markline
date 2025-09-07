@@ -328,7 +328,7 @@ function CategoryL2page() {
 
                 </div>
             </section>
-            <section className='w-full relative flex flex-col gap-5  px-3 lg:px-5  py-5 lg:py-10'>
+            <section className='w-full relative flex flex-col gap-5  px-3 lg:px-5  pb-10'>
                 <h2 className='  text-lg lg:text-xl font-semibold text-primary'>POPULAR SEARCHES</h2>
 
                 <div className='w-full relative h-auto flex flex-col gap-4'>

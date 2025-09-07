@@ -233,62 +233,63 @@ function CartSheet({ children }: {
                 <SheetHeader>
                     <SheetTitle className="font-medium text-2xl border-b pb-2 text-start">Carts</SheetTitle>
 
+                    <section className='w-full relative h-auto grid grid-cols-1 sm:grid-cols-2 gap-1'>
+                        {
+                            cart.length > 0 ? cart.map((item, index) => (
+                                <div key={index} className='w-full border p-2 rounded-lg relative h-auto flex flex-col md:grid md:grid-cols-[100px_2fr_auto_auto] items-start md:items-center justify-between gap-1'>
 
-                    {
-                        cart.length > 0 ? cart.map((item, index) => (
-                            <div key={index} className='w-full border p-2 rounded-lg relative h-auto flex flex-col md:grid md:grid-cols-[100px_2fr_auto_auto] items-start md:items-center justify-between gap-1'>
+                                    <Swiper pagination={{ dynamicBullets: true }} modules={[Pagination]} className="mySwiper w-full relative h-full">
+                                        {item?.variant?.image_url.map((image, index: number) => (
+                                            <SwiperSlide key={index} className='w-full  h-[100px] md:h-full relative'>
+                                                <img src={image.image_url} alt={image?.name} className='  w-full md:w-full h-[100x] md:max-h-full  object-contain rounded-md border' loading='lazy' />
+                                            </SwiperSlide>
+                                        ))}
+                                    </Swiper>
 
-                                <Swiper pagination={{ dynamicBullets: true }} modules={[Pagination]} className="mySwiper w-full relative h-full">
-                                    {item?.variant?.image_url.map((image, index: number) => (
-                                        <SwiperSlide key={index} className='w-full md:w-[100px] max-h-[150px] extrasmall:max-h-[100px] md:max-h-[100px] relative'>
-                                            <img src={image.image_url} alt={image?.name} className='w-full max-h-full aspect-square object-contain rounded-md border' loading='lazy' />
-                                        </SwiperSlide>
-                                    ))}
-                                </Swiper>
+                                    <button
+                                        className='w-fit absolute -top-1 right-0 bg-black text-white h-auto p-[2px] z-10 cursor-pointer rounded-full'
+                                        onClick={() => removeFromCart({ productId: item.productId, colorName: item?.variant?.selectedColor, size: item?.variant?.selectedSize })}
+                                    >
+                                        <IoIosClose />
+                                    </button>
 
-                                <button
-                                    className='w-fit absolute -top-1 right-0 bg-black text-white h-auto p-[2px] z-10 cursor-pointer rounded-full'
-                                    onClick={() => removeFromCart({ productId: item.productId, colorName: item?.variant?.selectedColor, size: item?.variant?.selectedSize })}
-                                >
-                                    <IoIosClose />
-                                </button>
+                                    <div className='flex flex-col items-start'>
+                                        <h2 className='text-sm text-start font-medium text-foreground line-clamp-2'>{item.productName}</h2>
+                                        <div className='flex items-center gap-2 text-xs text-foreground'>
+                                            <p><strong>Size:</strong> {item.variant?.selectedSize.size} {item.variant?.selectedSize.unit}</p>
+                                            <p><strong>Color:</strong> {item.variant?.selectedColor.name}</p>
+                                        </div>
+                                    </div>
 
-                                <div className='flex flex-col items-start'>
-                                    <h2 className='text-sm font-medium text-foreground line-clamp-2'>{item.productName}</h2>
-                                    <div className='flex items-center gap-2 text-xs text-foreground'>
-                                        <p><strong>Size:</strong> {item.variant?.selectedSize.size} {item.variant?.selectedSize.unit}</p>
-                                        <p><strong>Color:</strong> {item.variant?.selectedColor.name}</p>
+                                    <div className='flex items-center gap-1 justify-between border w-full mt-1 border-gray-400 py-[2px] px-1 rounded-full'>
+                                        <button className='p-[2px] bg-gray-200 rounded-full' onClick={() => {
+                                            if (item) {
+                                                decreaseQuantity(item as newCartItem);
+                                            }
+                                        }}><HiMiniMinusSmall /></button>
+                                        <p className='text-[12px] font-normal'>{item.quantity}</p>
+                                        <button className='p-[2px] bg-gray-200 rounded-full' onClick={() => {
+                                            if (item) {
+                                                increaseQuantity(item as newCartItem);
+                                            }
+                                        }}><BsPlus /></button>
+                                    </div>
+
+                                    <div className='flex flex-col items-start px-2'>
+                                        <h2 className='text-lg font-medium text-foreground'>₹ {item.variant && item?.variant?.price * item.quantity}</h2>
+                                        {item.variant?.discounts?.discount_persent && (
+                                            <p className='text-red-400 line-through text-sm'>{item.variant?.discounts.discount_persent}%</p>
+                                        )}
                                     </div>
                                 </div>
-
-                                <div className='flex items-center gap-1 border border-gray-400 py-[2px] px-1 rounded-full'>
-                                    <button className='p-[2px] bg-gray-200 rounded-full' onClick={() => {
-                                        if (item) {
-                                            decreaseQuantity(item as newCartItem);
-                                        }
-                                    }}><HiMiniMinusSmall /></button>
-                                    <p className='text-[12px] font-normal'>{item.quantity}</p>
-                                    <button className='p-[2px] bg-gray-200 rounded-full' onClick={() => {
-                                        if (item) {
-                                            increaseQuantity(item as newCartItem);
-                                        }
-                                    }}><BsPlus /></button>
+                            )) : (
+                                <div className='text-p20 font-medium py-10 px-5 flex items-center justify-center flex-col text-primary'>
+                                    <ShoppingBag className="h-10 w-10 mx-auto text-gray-400 mb-8" />
+                                    Your cart is empty
                                 </div>
-
-                                <div className='flex flex-col items-start px-2'>
-                                    <h2 className='text-lg font-medium text-foreground'>₹ {item.variant && item?.variant?.price * item.quantity}</h2>
-                                    {item.variant?.discounts?.discount_persent && (
-                                        <p className='text-red-400 line-through text-sm'>{item.variant?.discounts.discount_persent}%</p>
-                                    )}
-                                </div>
-                            </div>
-                        )) : (
-                            <div className='text-p20 font-medium py-10 px-5 flex items-center justify-center flex-col text-primary'>
-                                <ShoppingBag className="h-10 w-10 mx-auto text-gray-400 mb-8" />
-                                Your cart is empty
-                            </div>
-                        )
-                    }
+                            )
+                        }
+                    </section>
 
                     <SheetFooter className='absolute bottom-5 w-full left-0 bg-white '>
                         {

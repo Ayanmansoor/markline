@@ -16,7 +16,7 @@ function CollectionCard({collections,url}:newCollectionCardProps) {
                     <img src={`${item.image_url}`} alt={item.name || ""} className=' w-full  border h-[250px] md:h-[300px]   relative  rounded-md  object-cover hover:scale-[1.010] transition-all duration-100 ' key={index}  loading='lazy' height={300} width={300} />
                 ))
             }
-            <h2 className=' text-sm md:text-base lg:text-lg font-medium  bottom-3 line-clamp-1  text-center w-full  duration-500     z-10   text-primary uppercase px-3 '>
+            <h2 className=' text-xs sm:text-sm md:text-base lg:text-lg font-semibold sm:font-medium  bottom-3 line-clamp-1  text-center w-full  duration-500     z-10   text-primary uppercase px-3 '>
                 {collections.name}
             </h2>
         </Link>
