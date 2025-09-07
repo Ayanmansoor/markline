@@ -11,15 +11,23 @@ import LeatestCollection from '../Collections/LeatestCollection'
 import Image from 'next/image'
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
 import MainCollections from '../Home/MainCollections'
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/pagination';
 
 import {
   getAllTrendingProducts,
   getAllNewArrivalProducts,
   getAllCollectionWithProducts,
   getAllBanner,
-  getAllCollectionOccuation
+  getAllCollectionOccuation,
+  getAllCollections
 } from '@/Supabase/SupabaseApi'
 import CarouselProduct from '../Product/CarouselProduct'
+import MiniCollectionCard from '../Home/MiniCellectionCard'
+import KeyMatric from '../Common/KeyMatric'
 
 function HomePage() {
 
@@ -55,9 +63,18 @@ function HomePage() {
     staleTime: Infinity
   })
 
-  console.log("occational product", occasional)
 
 
+
+
+  const { data: allcollection = [], isLoading: allCollectionLoading, isError: allCollectionError } = useQuery<any>({
+    queryKey: ["allcollection"],
+    queryFn: () => getAllCollections(),
+    staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
 
 
   const { data: collectionWithWomenProducts = [], isLoading: collectionAlongWithLoading, isError: collectionerrorLoading } = useQuery<any>({
@@ -94,6 +111,27 @@ function HomePage() {
   return (
     <>
       <Hero bannerImages={homebanners} />
+      
+      <KeyMatric />
+
+
+      <section className='w-full relative flex-col  gap-5 lg:gap-10 items-start px-3 md:px-5 lg:px-10  mt-8  h-auto flex  pb-3  '>
+        <h1 className=' text-lg md:text-2xl xl:text-3xl font-meidum text-primary '>Shop By Collections</h1>
+        <Swiper
+          slidesPerView={'auto'}
+          className="mySwiper w-full  relative h-auto  "
+        >
+          {
+            allcollection?.length > 0 &&
+            allcollection?.map((collec) => (
+              <SwiperSlide className='max-w-fit  border h-auto text-base   ' key={collec.slug}>
+                <MiniCollectionCard collections={collec} url={`collections/`} />
+              </SwiperSlide>
+            ))
+          }
+        </Swiper>
+      </section>
+
       <MainCollections />
 
 

@@ -12,7 +12,7 @@ function ProductCardSkeleton() {
       {/* Product Card Skeleton */}
       <div className="w-full max-w-sm bg-white rounded-xl overflow-hidden">
         {/* Product Image Skeleton */}
-        <div className="relative w-full aspect-[4/3] bg-gray-200 flex items-center justify-center p-4">
+        <div className="relative w-full aspect-[4/3] bg-white flex items-center justify-center p-4">
           <Skeleton className="w-full h-full rounded-lg" />
         </div>
 

@@ -142,7 +142,7 @@ function ProductFilter({ collection, productRangevalue, setPRoductRange, gender,
                         </PopoverContent>
                     </Popover>
                 </SwiperSlide>
-                <SwiperSlide className='  max-w-fit relative h-auto px-1 lg:px-2'>
+                {/* <SwiperSlide className='  max-w-fit relative h-auto px-1 lg:px-2'>
                     <Popover >
                         <PopoverTrigger className='text-sm md:text-base font-medium text-primary cursor-pointer   items-center gap-2  hidden md:flex'>Discounts
                             <MdKeyboardArrowDown className=" text-[15px] md:text-[20px] text-primary" />
@@ -152,7 +152,7 @@ function ProductFilter({ collection, productRangevalue, setPRoductRange, gender,
                         </PopoverContent>
                     </Popover>
 
-                </SwiperSlide>
+                </SwiperSlide> */}
             </Swiper>
 
 

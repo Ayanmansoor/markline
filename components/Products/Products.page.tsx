@@ -39,6 +39,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import MiniCollectionCard from '../Home/MiniCellectionCard';
 
 
 const data = [
@@ -176,7 +177,6 @@ function Productspage() {
     const { allColors, allSizes } = useMemo(() => {
         const colorMap = new Map<string, Colors>();
         const sizeMap = new Map<string, Sizes>();
-
         allproducts?.forEach((product: any) => {
             product.product_variants?.forEach((variant: ProductVariant) => {
                 let colorArray: Colors[] = [];
@@ -239,7 +239,7 @@ function Productspage() {
         <>
 
 
-            <section className="w-full min-h-[300px] relative  gap-5 px-3  ">
+            <section className="w-full min-h-[300px] relative  gap-5   ">
 
 
 
@@ -262,12 +262,13 @@ function Productspage() {
 
                     <Swiper
                         slidesPerView={'auto'}
-                        className="mySwiper w-full  relative h-auto "
+                        className="mySwiper w-full  relative h-auto  "
                     >
                         {
-                            allcollection.map((collec) => (
-                                <SwiperSlide className='max-w-fit  border      h-auto text-base ' key={collec.slug}>
-                                    <Link href={`/collections/${slug}/${collec.slug}`} className={` px-1 font-medium rounded-sm ${slug == collec.slug ? " text-white bg-black " : "bg-white text-primary"} text-sm max-w-fit  relative  px-5 rounded-lg py-3 font-medium `}>{collec.name}</Link>
+                            allcollection?.length > 0 &&
+                            allcollection?.map((collec) => (
+                                <SwiperSlide className='max-w-fit  border h-auto text-base   ' key={collec.slug}>
+                                    <MiniCollectionCard collections={collec} url={`collections/${productslug}`} />
                                 </SwiperSlide>
                             ))
                         }
@@ -276,7 +277,7 @@ function Productspage() {
 
 
                 <section className="w-full min-h-[300px] mt-5 relative  gap-10  bg-gray-200  ">
-                    <span className=' z-20 bg-gray-200 flex items-center border-b border-white w-full justify-between h-fit sticky top-14   py-5 px-3 md:px-5 lg:px-10 '>
+                    <span className=' z-20 bg-gray-200 flex items-center border-b border-white w-full justify-between h-fit sticky top-10   py-5 px-3 md:px-5 lg:px-10 '>
                         <ProductFilter gender={productslug} collection={productslug ? allcollection.filter((item) => item.gender == productslug.toUpperCase()) : allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} colors={allColors} sizes={allSizes} SetselectColorAndSizes={setSelectColorAndSizes} />
                     </span>
 
@@ -323,18 +324,7 @@ function Productspage() {
                 </div>
 
                 {/* Shoe Type Links */}
-                <div className='w-full relative h-auto flex flex-col gap-4'>
-                    <p className=' text-base font-semibold md:font-medium  text-primary'>Shop By Shoe Type</p>
-                    <div className='w-full flex flex-wrap items-center gap-2'>
-                        {
-                            allcollection.map((item, index) => (
-                                item.gender == `${productslug}`.toUpperCase() &&
-                                <Link href={`/collections/${`${item.gender}`.toLowerCase()}/${item.slug}`} className='text-sm font-medium text-orange-600 border-x px-3 border-primary' key={index}>{item.name}</Link>
-                            ))
-                        }
 
-                    </div>
-                </div>
 
                 {/* Women-Specific Types */}
                 <div className='w-full relative h-auto flex flex-col gap-4'>

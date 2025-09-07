@@ -4,16 +4,26 @@ import { useEffect } from "react";
 import { NextResponse } from "next/server";
 
 async function getAllProductsbygender(gender: string) {
-  const { data: products, error } = await mysupabase
-    .from("products")
-    .select("*,discounts(*)")
-    .eq("is_new_arrival", false)
-    .eq("gender", gender.toUpperCase());
-  if (products) {
-    return products;
-  } else {
-    return new Error(error.message);
+  const { data, error } = await mysupabase
+    .from("product")
+    .select(
+      `
+      *,
+      product_variants (
+        *,
+        discount_key (*)
+      )
+    `
+    )
+    .eq("gender", gender.toUpperCase())
+    .eq("is_new_arrival", false);
+
+  if (error) {
+    console.error("Supabase error:", error);
+    throw new Error(error.message);
   }
+
+  return data;
 }
 
 async function getAllBlogs() {

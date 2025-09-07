@@ -15,15 +15,15 @@ function Collectionsection({ url, collections }: CollectionsDataProps) {
             <div className='w-full relative h-auto flex gap-3 justify-end'>
                 <span
                     onClick={() => swiperRef.current?.slidePrev()}
-                    className="bg-gray-300 rounded-full p-3 cursor-pointer hover:bg-gray-400 transition"
+                    className="bg-gray-300 rounded-full p-2 lg:p-3 cursor-pointer hover:bg-gray-400 transition"
                 >
-                    <IoMdArrowBack className="text-[20px] text-primary" />
+                    <IoMdArrowBack className=" text-[15px] lg:text-[20px] text-primary" />
                 </span>
                 <span
                     onClick={() => swiperRef.current?.slideNext()}
-                    className="bg-gray-300 rounded-full p-3 cursor-pointer hover:bg-gray-400 transition"
+                    className="bg-gray-300 rounded-full p-2 lg:p-3 cursor-pointer hover:bg-gray-400 transition"
                 >
-                    <IoMdArrowForward className="text-[20px] text-primary" />
+                    <IoMdArrowForward className=" text-[15px] lg:text-[20px] text-primary" />
                 </span>
             </div>
             <Swiper

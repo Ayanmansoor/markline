@@ -44,7 +44,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
             const filtercollection = collections.filter((item) => item.gender === gender);
             setGenderProducts(filtercollection);
         }
-    }, [ collections,gender]);
+    }, [gender]);
 
 
     const { data: products = [], isLoading, isError } = useQuery({
@@ -107,7 +107,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                             className="w-10 h-10 bg-white transform rotate-45 absolute top-0 z-0 translate-x-0 transition-transform group-hover:translate-x-[25rem] 2xl:group-hover:translate-x-[32rem] duration-500 ease-in-out rounded-sm"
                         ></div>
                         <div className="relative z-10 flex flex-col gap-10">
-                            <div className="grid grid-cols-[.7fr_.7fr_.7fr_2fr]  gap-6 w-full ">
+                            <div className="grid grid-cols-[.7fr_.7fr_.7fr_2fr] items-start  gap-6 w-full ">
                                 <div>
                                     <p
                                         className="uppercase tracking-wider text-primary font-medium border-b py-3 text-[13px] "

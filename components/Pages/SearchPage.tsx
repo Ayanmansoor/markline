@@ -6,6 +6,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import ProductCardSkeleton from '@/components/Skeleton/ProductCardSkeleton';
 import { getsearchProducts } from '@/Supabase/SupabaseApi';
 import GridRroduct from '@/components/Home/GridRroduct';
+import { MdOutlineArrowBack } from "react-icons/md";
+
+
 function SearchPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -55,10 +58,11 @@ function SearchPage() {
 
     return (
         <section className='w-full relative min-h-screen    bg-gray-200'>
-            <div className='flex flex-col-reverse   md:flex-row border-b border-gray-300 container  h-fit w-full gap-2 py-5  items-center justify-between'>
-                <h1 className='text-lg  w-full font-medium text-primary '>Search : {search}</h1>
+            <div className='flex  border-b border-gray-300 container  h-fit w-full gap-10 py-5  items-center justify-between'>
 
-                <span className='flex items-center self-end  w-full md:min-w-[350px] gap-2 rounded-lg bg-white border border-gray-300'>
+                <MdOutlineArrowBack className='text-[20px] cursor-pointer text-primary  ' onClick={() => router.back()} />
+
+                <span className='flex items-center self-end  w-full max-w-[400px] md:min-w-[350px] gap-2 rounded-lg bg-white border border-gray-300'>
                     <input type="text" placeholder='Search..' className='text-sm w-full cursor-pointer font-medium text-primary px-3 py-3 bg-transparent  ' value={search} onChange={(e) => handleChange(e.target.value)} />
                     <button className='text-base font-medium text-primary cursor-pointer pr-4   pl-4 border-l-gray-200 border-l  '>
                         <CiSearch className='text-[20px] text-primary ' />
