@@ -25,7 +25,7 @@ function AddressCard({state_name,city,pin_code,name,full_address,index,id,user_i
   }
 
   return (
-    <section className={`flex flex-col gap-2 border border-white rounded-lg  p-4 ${is_selected? "bg-gray-200": "bg-white"}  `}>
+    <section className={`flex flex-col gap-2 border border-white rounded-lg  p-4 ${is_selected? "bg-white": "bg-gray-200"}  `}>
       <div className='w-full relative h-auto flex items-center  border-gray-300  border-b justify-between'>
           <h2  className='text-sm font-semibold text-primary  pb-2 w-full flex items-center justify-between'>Address {index}
           </h2>

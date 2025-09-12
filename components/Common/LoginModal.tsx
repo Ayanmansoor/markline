@@ -74,18 +74,18 @@ function LoginModal({ children }: { children: React.ReactNode }) {
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
-            <DialogContent className=" max-w-[calc(100vw-20px)] h-auto  lg:max-h-[500px] p-0 grid grid-cols-1 md:grid-cols-2 items-start gap-1 sm:max-w-[300px] md:max-w-[600px]    xl:max-w-[700px]">
-             
-             <section className=' hidden md:block'>
-                <Swiper pagination={true} modules={[Pagination]} className="mySwiper w-full relative h-full ">
-                    <SwiperSlide className='w-full relative h-auto p-1 '>
-                        <Image src="/markline-fashion.png" alt="" className='w-full relative h-full rounded-sm ' height={400} width={400} />
-                    </SwiperSlide>
-                     <SwiperSlide className='w-full relative h-auto p-1 '>
-                        <Image src="/markline-fashion.png" alt="" className='w-full relative h-full rounded-sm ' height={400} width={400} />
-                    </SwiperSlide>
+            <DialogContent className=" max-w-[calc(100vw-20px)] h-auto rounded-md  lg:max-h-[500px] p-0 grid grid-cols-1 md:grid-cols-2 items-start gap-1 sm:max-w-[300px] md:max-w-[600px]    xl:max-w-[700px]">
 
-                </Swiper>
+                <section className=' hidden md:block'>
+                    <Swiper pagination={true} modules={[Pagination]} className="mySwiper w-full relative h-full ">
+                        <SwiperSlide className='w-full relative h-auto p-1 '>
+                            <Image src="/markline-fashion.png" alt="" className='w-full relative h-full rounded-sm ' height={400} width={400} />
+                        </SwiperSlide>
+                        <SwiperSlide className='w-full relative h-auto p-1 '>
+                            <Image src="/markline-fashion.png" alt="" className='w-full relative h-full rounded-sm ' height={400} width={400} />
+                        </SwiperSlide>
+
+                    </Swiper>
                 </section>
                 <form action="" onSubmit={handleSubmit(onSubmit)} className='w-full py-5 px-5 h-full flex flex-col  gap-3'>
                     <h1 className='text-xl font-lg font-semibold border-b text-start border-primary pb-2  '>Login With Markline</h1>

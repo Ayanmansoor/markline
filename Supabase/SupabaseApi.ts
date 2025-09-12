@@ -569,6 +569,9 @@ async function getsearchProducts(query: string) {
   return data ?? [];
 }
 
+
+
+
 export {
   getAllCollections,
   getAllBanner,

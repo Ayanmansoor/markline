@@ -46,8 +46,8 @@ function OrderplacedSection({orders,handleperform}:ordersprops) {
   
 
   return (
-    <section className='w-full relative h-auto  flex flex-col '>
-        <div className=' hidden md:grid grid-cols-[1fr_1fr_1fr_1fr_1fr_auto] gap-2  w-full relative py-5 border px-10 '>
+    <section className='w-full relative h-auto  flex flex-col max-h-[500px] overflow-y-auto '>
+        <div className=' sticky z-30 top-2  hidden md:grid grid-cols-[1fr_1fr_1fr_1fr_1fr_auto] gap-2  w-full h-fit  py-5 border px-10 '>
             <h2 className='text-base  font-semibold text-gray-600'>Image</h2>
             <h2 className='text-base  font-semibold text-gray-600'>Name</h2>
             <h2 className='text-base  font-semibold text-gray-600'>Quantity</h2>
@@ -57,7 +57,7 @@ function OrderplacedSection({orders,handleperform}:ordersprops) {
             
         </div>
 
-        <section className=' grid grid-cols-2 md:flex flex-col gap-3 h-auto relative  '>
+        <section className=' grid grid-cols-2 md:flex flex-col gap-3   relative  '>
             {
                 
 

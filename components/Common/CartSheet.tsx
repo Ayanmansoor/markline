@@ -241,18 +241,18 @@ function CartSheet({ children }: {
     return (
         <Sheet >
             <SheetTrigger className='w-fit h-fit relative '>{children}</SheetTrigger>
-            <SheetContent side={side} className="py-5 h-[600px]   px-2 max-w-[550px] md:min-w-[550px] sm:h-full  overflow-y-auto" id="style-3">
+            <SheetContent side={side} className="py-5  h-[700px]  px-2 max-w-[550px] md:min-w-[550px] sm:h-full  overflow-y-auto" id="style-3">
                 <SheetHeader>
                     <SheetTitle className="font-medium text-2xl border-b pb-2 text-start">Carts</SheetTitle>
 
-                    <section className='w-full relative max-h-full  overflow-y-auto grid grid-cols-2 md:grid-cols-1 gap-1  '>
+                    <section className='w-full relative max-h-[calc(100vh-500px)]    md:max-h-[calc(100vh-270px)]   overflow-y-auto grid grid-cols-2 md:grid-cols-1 gap-1  '>
                         {
                             cart.length > 0 ? cart.map((item, index) => (
                                 <div key={index} className='w-full border p-2 rounded-lg relative h-auto flex flex-col md:grid md:grid-cols-[100px_2fr_auto_auto] items-start md:items-center justify-between gap-1'>
 
                                     <Swiper pagination={{ dynamicBullets: true }} modules={[Pagination]} className="mySwiper w-full relative h-full">
                                         {item?.variant?.image_url.map((image, index: number) => (
-                                            <SwiperSlide key={index} className='w-full  max-h-[100px] md:max-h-full relative'>
+                                            <SwiperSlide key={index} className='w-full  max-h-[180px] md:max-h-full relative'>
                                                 <img src={image.image_url} alt={image?.name} className='  aspect-square w-full md:w-full h-full md:max-h-full  object-contain rounded-md border' loading='lazy' />
                                             </SwiperSlide>
                                         ))}

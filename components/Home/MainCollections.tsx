@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { HiChevronDown } from "react-icons/hi";
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -6,8 +7,22 @@ import 'swiper/css/pagination';
 import { Autoplay, Mousewheel, Pagination } from "swiper/modules";
 import Link from 'next/link';
 import Image from 'next/image';
+import { useQuery } from 'react-query';
+import { getAllCollectionWithProducts } from '@/Supabase/SupabaseApi';
+
 
 function Filter() {
+
+    const { data: audiances = [], isLoading: audianceLoading, isError: audianceError } = useQuery<any>({
+        queryKey: ["audiances"],
+        queryFn: () => getAllCollectionWithProducts("MEN"),
+        staleTime: Infinity,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+    });
+
+
     return (
         <>
             <section className=' w-full relative bg-secondary gap-2  px-3 md:px-5 lg:px-10  h-auto   items-center hidden md:grid grid-cols-3 justify-center   pt-12   '>

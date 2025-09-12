@@ -95,7 +95,6 @@ function Footer() {
               <Link href={'/collections/men'} >Men</Link>
               <Link href={'/collections/women'} >Women</Link>
               <Link href={'/collections/kids'} >Kids</Link>
-              <Link href={'/trending'} >Gen Z</Link>
               {/* <Link href={'/discount-deals'} >Discount Deals</Link> */}
             </ul>
           </div>

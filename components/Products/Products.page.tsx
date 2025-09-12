@@ -246,11 +246,11 @@ function Productspage() {
                 <Breadcrumb className='w-full relative  md:px-5 lg:px-10'>
                     <BreadcrumbList className='w-full relative h-auto flex items-center py-5 rounded-lg px-3 '>
                         <BreadcrumbItem >
-                            <BreadcrumbLink href="/Home" className=' text-sm md:text-base lg:text-xl text-primary cursor-pointer'>Home</BreadcrumbLink>
+                            <BreadcrumbLink href="/" className=' text-sm md:text-base lg:text-xl text-primary cursor-pointer'>Home</BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink href={`/product/${slug}`} className=' text-sm sm:text-base md:text-xl lg:text-2xl text-primary cursor-pointer'>{slug}</BreadcrumbLink>
+                            <BreadcrumbLink href={`/products/${slug}`} className=' text-sm sm:text-base md:text-xl lg:text-2xl text-primary cursor-pointer'>{slug}</BreadcrumbLink>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>

@@ -60,7 +60,9 @@ function SearchPage() {
         <section className='w-full relative min-h-screen    bg-gray-200'>
             <div className='flex  border-b border-gray-300 container  h-fit w-full gap-10 py-5  items-center justify-between'>
 
-                <MdOutlineArrowBack className='text-[20px] cursor-pointer text-primary  ' onClick={() => router.back()} />
+                <span className='bg-white p-1 rounded-sm cursor-pointer'>
+                    <MdOutlineArrowBack className='text-[20px] cursor-pointer text-primary  ' onClick={() => router.back()} />
+                </span>
 
                 <span className='flex items-center self-end  w-full max-w-[400px] md:min-w-[350px] gap-2 rounded-lg bg-white border border-gray-300'>
                     <input type="text" placeholder='Search..' className='text-sm w-full cursor-pointer font-medium text-primary px-3 py-3 bg-transparent  ' value={search} onChange={(e) => handleChange(e.target.value)} />
