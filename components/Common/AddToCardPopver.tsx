@@ -165,7 +165,7 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
                                     key={color.name}
                                     onClick={() => handleColorChange(color)}
                                     className={cn(
-                                        ' p-0 md:p-1 rounded-full border-2  ',
+                                        ' p-1 rounded-full border-2 flex items-center justify-center ',
                                         selectedColor?.name === color.name ? 'border-black' : 'border-transparent'
                                     )}>
                                     <button
@@ -186,7 +186,7 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
                                     key={size.size}
                                     onClick={() => handleSizeChange(size)}
                                     className={cn(
-                                        ' px-2 md:px-3 py-1 border rounded',
+                                        ' px-2 md:px-3 py-0.5   text-sm lg:text-base md:py-1 border rounded',
                                         selectedSize?.size === size.size ? 'border-black' : 'border-gray-300'
                                     )}
                                 >

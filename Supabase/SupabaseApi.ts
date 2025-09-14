@@ -463,6 +463,27 @@ async function getCurrentUserOrders(userId: string) {
   } catch (error) {}
 }
 
+async function getCurrentUserSingleOrder(userId: string, orderId: string) {
+  try {
+    const { data: orders, error } = await mysupabase
+      .from("orders")
+      .select(" * ,product(*), variant_id(*)")
+      .eq("user_id", userId)
+      .eq("id", orderId);
+    const { data: address, error: addressError } = await mysupabase
+      .from("address")
+      .select(" * ")
+      .eq("user_id", userId);
+    if (error) {
+      return new Error(error.message);
+    }
+    return {
+      orders,
+      address,
+    };
+  } catch (error) {}
+}
+
 async function getSelectedAddress(userId) {
   const { data: address, error } = await mysupabase
     .from("address")
@@ -532,6 +553,17 @@ async function getaudience(audience: string) {
   } catch (error) {}
 }
 
+async function getAllAudience() {
+  try {
+    const { data, error } = await mysupabase.from("audience").select("*");
+
+    if (error) {
+      return new Error(error.message);
+    }
+    return data;
+  } catch (error) {}
+}
+
 async function getsearchProducts(query: string) {
   let data, error;
 
@@ -569,9 +601,6 @@ async function getsearchProducts(query: string) {
   return data ?? [];
 }
 
-
-
-
 export {
   getAllCollections,
   getAllBanner,
@@ -602,4 +631,6 @@ export {
   getaudience,
   getAllCollectionsBaseOnTypeForSeo,
   getsearchProducts,
+  getAllAudience,
+  getCurrentUserSingleOrder,
 };

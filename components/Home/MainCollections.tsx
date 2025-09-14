@@ -8,19 +8,21 @@ import { Autoplay, Mousewheel, Pagination } from "swiper/modules";
 import Link from 'next/link';
 import Image from 'next/image';
 import { useQuery } from 'react-query';
-import { getAllCollectionWithProducts } from '@/Supabase/SupabaseApi';
+import { getAllAudience } from '@/Supabase/SupabaseApi';
 
 
 function Filter() {
 
     const { data: audiances = [], isLoading: audianceLoading, isError: audianceError } = useQuery<any>({
         queryKey: ["audiances"],
-        queryFn: () => getAllCollectionWithProducts("MEN"),
+        queryFn: () => getAllAudience(),
         staleTime: Infinity,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
     });
+
+    console.log(audiances,'this is audiance')
 
 
     return (

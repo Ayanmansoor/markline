@@ -401,6 +401,8 @@ export interface BulkOrderProductProps {
   quantity: number;
   discount_amount: number;
   product_key: number;
+  color:string,
+  size:string,
   user_id: string | null; // use string | null if it can be null
 }
 

@@ -36,7 +36,7 @@ interface productsCart {
 
 
 function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutProps) {
-    const { addToCart, isInCart, updateQuantity,getCartProduct } = useCartContext();
+    const { addToCart, isInCart, updateQuantity, getCartProduct } = useCartContext();
     const { isProductInWishlist } = useWishlists();
 
     /* ---------- local state ------------- */

@@ -163,7 +163,7 @@ function HomePage() {
             urltext="Women's products"
             key={index}
           >
-            <CarouselProduct url="product" product={item.product.slice(0, 10)} css=" sm:max-w-[500px]" productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
+            <CarouselProduct url="product" product={item.product.slice(0, 10)} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
           </CategoriesSection>
         ))
       ) : (
@@ -198,7 +198,7 @@ function HomePage() {
             urltext="Men's products"
             key={index}
           >
-            <CarouselProduct url="product" product={item.product.slice(0, 10)} css=" sm:max-w-[500px]" productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
+            <CarouselProduct url="product" product={item.product.slice(0, 10)} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
           </CategoriesSection>
         ))
       ) : (
@@ -221,7 +221,7 @@ function HomePage() {
             urltext="kid's products"
             key={index}
           >
-            <CarouselProduct url="product" product={item.product.slice(0, 10)} css=" sm:max-w-[300px]" productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
+            <CarouselProduct url="product" product={item.product.slice(0, 10)} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]'/>
           </CategoriesSection>
         ))
       ) : (

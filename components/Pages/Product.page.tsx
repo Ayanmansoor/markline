@@ -37,7 +37,6 @@ function ProductPage() {
     refetchOnReconnect: false,
   });
 
-  // Always use useEffect to update selectedVariant after product fetch
 
 
   useEffect(() => {
