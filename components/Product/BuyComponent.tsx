@@ -16,9 +16,8 @@ import SendMail from '@/lib/SendMailHelper';
 import { toast } from 'sonner';
 
 
-function BuyComponent({ product, variant, user, setConfirm }: NewForProductsProps) {
+function BuyComponent({ product, variant, user, setConfirm, selectedAddress }: NewForProductsProps) {
   const [isSubmittingOrder, setIsSubmittingOrder] = useState(false);
-  const [userAddress, setUserAddress] = useState<AddressProps | null>(null);
   const { executeRecaptcha } = useGoogleReCaptcha();
 
   const productImages = variant?.image_url?.map((obj: any) => JSON.parse(obj));
@@ -31,19 +30,18 @@ function BuyComponent({ product, variant, user, setConfirm }: NewForProductsProp
   }, [product]);
 
 
-  console.log(product, "this is selected  product data ")
 
 
 
 
-  useEffect(() => {
-    if (!user?.id) return;
-    const fetchAddress = async () => {
-      const address = await getSelectedAddress(user.id);
-      setUserAddress(address);
-    };
-    fetchAddress();
-  }, [user]);
+  // useEffect(() => {
+  //   if (!user?.id) return;
+  //   const fetchAddress = async () => {
+  //     const address = await getSelectedAddress(user?.id);
+  //     setUserAddress(address);
+  //   };
+  //   fetchAddress();
+  // }, [user]);
 
   const saveBeforePayment = async () => {
     try {
@@ -58,11 +56,11 @@ function BuyComponent({ product, variant, user, setConfirm }: NewForProductsProp
       const token = await executeRecaptcha();
 
       const orderPayload = {
-        name: userAddress?.name,
-        pin_code: userAddress?.pin_code,
-        state_name: userAddress?.state_name,
-        city: userAddress?.city,
-        full_address: userAddress?.full_address,
+        name: selectedAddress?.name,
+        pin_code: selectedAddress?.pin_code,
+        state_name: selectedAddress?.state_name,
+        city: selectedAddress?.city,
+        full_address: selectedAddress?.full_address,
         email: user?.email,
         phone: user?.phone || user?.user_metadata?.phone || "",
         final_price,
@@ -70,7 +68,7 @@ function BuyComponent({ product, variant, user, setConfirm }: NewForProductsProp
         discount_amount: discountAmount,
         product_key: product.id,
         user_id: user?.id,
-        user_address: userAddress?.id,
+        user_address: selectedAddress?.id,
         variant_id: variant?.id,
         color: JSON.stringify(product?.selectedColor),
         size: JSON.stringify(product?.selectedSize)

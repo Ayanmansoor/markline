@@ -60,11 +60,13 @@ function SheetCartForm({ setConfirm, setOrderID, closeSheet }: SheetCartFormProp
     }, [])
 
     useEffect(() => {
-        if (!currentuser?.id) return;
+        if (currentuser?.id) return;
         const fetchAddress = async () => {
-            const address = await getSelectedAddress(currentuser.id);
-            setUserAddress(address);
-        };
+            if (currentuser?.id) {
+                const address = await getSelectedAddress(currentuser.id);
+                setUserAddress(address);
+            };
+        }
         fetchAddress();
     }, [currentuser]);
 
@@ -135,31 +137,31 @@ function SheetCartForm({ setConfirm, setOrderID, closeSheet }: SheetCartFormProp
                 });
             }
 
-            orders = cart?.map((product: any) => {
-                const final_price = Math.floor(product?.variant?.price - (product?.variant.price * (product?.discounts?.discount_persent / 100)));
-                const discountPrice = product?.variant.price * (product?.discounts?.discount_persent / 100);
+            // orders = cart?.map((product: any) => {
+            //     const final_price = Math.floor(product?.variant?.price - (product?.variant.price * (product?.discounts?.discount_persent / 100)));
+            //     const discountPrice = product?.variant.price * (product?.discounts?.discount_persent / 100);
 
-                return {
-                    name: userAddress?.name,
-                    pin_code: userAddress?.pin_code,
-                    state_name: userAddress?.state_name,
-                    city: userAddress?.city,
-                    full_address: userAddress?.full_address,
-                    email: currentuser?.email,
-                    phone: currentuser?.phone || currentuser?.user_metadata?.phone || "",
-                    user_id: currentuser?.id,
-                    user_address: userAddress?.id,
+            //     return {
+            //         name: userAddress?.name,
+            //         pin_code: userAddress?.pin_code,
+            //         state_name: userAddress?.state_name,
+            //         city: userAddress?.city,
+            //         full_address: userAddress?.full_address,
+            //         email: currentuser?.email,
+            //         phone: currentuser?.phone || currentuser?.user_metadata?.phone || "",
+            //         user_id: currentuser?.id,
+            //         user_address: userAddress?.id,
 
 
-                    final_price: final_price || product.variant.price,
-                    quantity: product?.quantity,
-                    discount_amount: discountPrice || 0,
-                    product_key: product?.productId,
-                    variant_id: product.variant.id,
-                    color: JSON.stringify(product.variant.selectedColor),
-                    size: JSON.stringify(product.variant.selectedSize)
-                };
-            })
+            //         final_price: final_price || product.variant.price,
+            //         quantity: product?.quantity,
+            //         discount_amount: discountPrice || 0,
+            //         product_key: product?.productId,
+            //         variant_id: product.variant.id,
+            //         color: JSON.stringify(product.variant.selectedColor),
+            //         size: JSON.stringify(product.variant.selectedSize)
+            //     };
+            // })
 
 
             const { data } = await axios.post("/api/bulk-place-order", {

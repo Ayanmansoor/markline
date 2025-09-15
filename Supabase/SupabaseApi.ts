@@ -484,7 +484,7 @@ async function getCurrentUserSingleOrder(userId: string, orderId: string) {
   } catch (error) {}
 }
 
-async function getSelectedAddress(userId) {
+async function getSelectedAddress(userId: string | undefined) {
   const { data: address, error } = await mysupabase
     .from("address")
     .select("*")

@@ -29,6 +29,48 @@ import UpdateLocalstorageForOrder from '@/lib/UpdateLocalStorageForOrder';
 import SendMail from '@/lib/SendMailHelper';
 import { ShoppingBag } from 'lucide-react';
 
+interface OrderItem {
+    name: string;
+    pin_code: string;
+    state_name: string;
+    city: string;
+    full_address: string;
+    email: string;
+    phone: string;
+    final_price: number;
+    quantity: number;
+    discount_amount: number;
+    product_key: string;
+    variant_id: string;
+    color: string;
+    size: string;
+}
+
+// Razorpay Types
+interface RazorpayOptions {
+    key: string;
+    amount: number;
+    currency: string;
+    name: string;
+    description: string;
+    order_id: string;
+    image: string;
+    handler: (response: RazorpayResponse) => void;
+    prefill: {
+        name: string;
+        email: string;
+        contact: string;
+    };
+    theme: {
+        color: string;
+    };
+}
+
+interface RazorpayResponse {
+    razorpay_payment_id: string;
+    razorpay_order_id: string;
+    razorpay_signature: string;
+}
 
 function CartSheet({ children }: {
     children: React.ReactNode
@@ -36,40 +78,37 @@ function CartSheet({ children }: {
 }) {
     const { cart, clearCart, updateQuantity, removeFromCart } = useCartContext()
     const [open, setOpen] = useState(false)
-    const [User, setUser] = useState<userinterfce | null>()
     const [isOrderSub, setOrderSub] = useState<boolean>(false)
     const { executeRecaptcha } = useGoogleReCaptcha()
-    const [UserAddress, setUserAddress] = useState<AddressProps | undefined>()
-
-    const [side, setSide] = useState<"right" | "bottom">("right")
-
+    const [currentuser, setUser] = useState<userinterfce | null>(null);
+    const [userAddress, setUserAddress] = useState<AddressProps | null>(null);
+    const [side, setSide] = useState<"right" | "bottom">("right");
+    const [isOpen, setIsOpen] = useState(false);
     useEffect(() => {
         async function getSupabaseUser() {
-            const {
-                data: { user },
-                error,
-            } = await mysupabase.auth.getUser();
-
+            const { data: { user }, error } = await mysupabase.auth.getUser();
             if (user) {
-                const { address }: any = await getSelectedAddress(user.id)
-                console.log(address, 'this this address data')
-                setUserAddress(address)
+                setUser(user);
             }
         }
-        getSupabaseUser()
+        getSupabaseUser();
+    }, []);
 
-
-    }, [])
-
+    useEffect(() => {
+        if (currentuser?.id) {
+            const fetchAddress = async () => {
+                const address = await getSelectedAddress(currentuser.id);
+                setUserAddress(address);
+            };
+            fetchAddress();
+        }
+    }, [currentuser]);
 
     const { totalPrice, totalDiscount, beforeDiscount, total_final_amount } = useMemo(() => {
         let total = 0;
         let discountSaved = 0;
         let beforeDiscount = 0;
         let finalAmount = 0;
-
-
-
 
         cart.forEach((item: any) => {
             const itemTotal = item?.variant?.price * item.quantity;
@@ -95,8 +134,6 @@ function CartSheet({ children }: {
             total_final_amount: finalAmount,
         };
     }, [cart]);
-
-
 
     function increaseQuantity(item: newCartItem) {
         if (!item) return;
@@ -124,55 +161,50 @@ function CartSheet({ children }: {
 
     async function OrdersBeforePayment() {
         try {
-            setOrderSub(true)
+            setOrderSub(true);
+            setIsOpen(true)
             if (!executeRecaptcha) {
-                console.log("token is not generated");
-                setOrderSub(false)
+                setOrderSub(false);
                 return;
             }
 
             const recaptchaToken = await executeRecaptcha()
 
-            const orders = cart?.map((product: any) => {
+            const orders: OrderItem[] = cart?.map((product: any) => {
                 const final_price = Math.floor(product?.variant.price - (product?.variant.price * (product?.variant?.discounts?.discount_persent / 100)));
                 const discountPrice = product?.variant?.price * (product?.variant?.discounts?.discount_persent / 100);
                 return {
-                    name: UserAddress?.name,
-                    pin_code: UserAddress?.pin_code,
-                    state_name: UserAddress?.state_name,
-                    city: UserAddress?.city,
-                    full_address: UserAddress?.full_address,
-                    email: User?.email,
-                    phone: User?.phone || User?.user_metadata.phone || "",
+                    name: userAddress?.name || '',
+                    pin_code: userAddress?.pin_code || '',
+                    state_name: userAddress?.state_name || '',
+                    city: userAddress?.city || '',
+                    full_address: userAddress?.full_address || '',
+                    email: currentuser?.email || '',
+                    phone: currentuser?.phone || currentuser?.user_metadata.phone || '',
                     final_price: final_price || product.variant.price,
                     quantity: product?.quantity,
                     discount_amount: discountPrice || 0,
-                    product_key: product?.productId,
-                    variant_id: product?.variant?.id
+                    product_key: product?.productId || '',
+                    variant_id: product?.variant?.id || '',
+                    color: JSON.stringify(product.variant.selectedColor),
+                    size: JSON.stringify(product.variant.selectedSize)
                 };
             });
-
 
             const { data } = await axios.post("/api/bulk-place-order", {
                 products: orders,
                 recaptchaToken
-            })
+            });
 
-            console.log(data, "to create bulk orders")
-            setOpen(false)
-            await Razorpayment(data.data, UserAddress)
-
-        }
-        catch (error) {
-            console.error("Bulk order submission failed:",);
-            setOrderSub(false)
-
+            setOpen(false);
+            await Razorpayment(data.data, userAddress);
+        } catch (error) {
+            console.error("Bulk order submission failed:", error);
+            setOrderSub(false);
         }
     }
-    async function Razorpayment(orderedData: OrderProps[], UserAddress: AddressProps | undefined) {
 
-
-
+    async function Razorpayment(orderedData: OrderProps[], UserAddress: AddressProps | null) {
         const response = await axios.post('/api/create-order', {
             amount: total_final_amount * 100,
         });
@@ -181,19 +213,20 @@ function CartSheet({ children }: {
             alert('Failed to load Razorpay SDK');
             return;
         }
-        const options = {
-            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+
+        const options: RazorpayOptions = {
+            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '',
             amount: response.data.amount,
             currency: response.data.currency,
             name: "Markline",
             description: "Order description",
             order_id: response.data.id,
             image: "https://res.cloudinary.com/demhgityh/image/upload/v1750353291/markline-checkout-logo_ukrvoi.png",
-            handler: (response) => orderSubmition(response, UserAddress, orderedData),
+            handler: (response: RazorpayResponse) => orderSubmition(response, UserAddress, orderedData),
             prefill: {
-                name: UserAddress?.name,
-                email: User?.email,
-                contact: User?.phone,
+                name: UserAddress?.name || '',
+                email: currentuser?.email || '',
+                contact: currentuser?.phone || '',
             },
             theme: {
                 color: "#084E10",
@@ -203,43 +236,41 @@ function CartSheet({ children }: {
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
     }
-    async function orderSubmition(razorpayresponse, UserAddress: AddressProps | undefined, orderedData: OrderProps[]) {
 
+    async function orderSubmition(razorpayresponse: RazorpayResponse, UserAddress: AddressProps | null, orderedData: OrderProps[]) {
         try {
             const { data } = await axios.post('/api/bulk-update-orders', {
                 OrderedProducts: orderedData,
-                user_id: User?.id,
+                user_id: currentuser?.id,
                 razorpay_payment_id: razorpayresponse.razorpay_payment_id,
                 razorpay_order_id: razorpayresponse.razorpay_order_id,
                 razorpay_signature: razorpayresponse.razorpay_signature,
-            })
-            setOrderSub(false)
-            await UpdateLocalstorageForOrder()
-            clearCart()
+            });
+            setOrderSub(false);
+            await UpdateLocalstorageForOrder();
+            clearCart();
             await SendMail({ data: data.data });
-
-
-        }
-        catch (error) {
-            console.error("Bulk order submission failed:",);
+        } catch (error) {
+            console.error("Bulk order submission failed:", error);
         }
     }
 
     useEffect(() => {
         function handleResize() {
             if (window.innerWidth <= 600) {
-                setSide("bottom")
+                setSide("bottom");
             } else {
-                setSide("right")
+                setSide("right");
             }
         }
-        handleResize() // run on mount
-        window.addEventListener("resize", handleResize)
-        return () => window.removeEventListener("resize", handleResize)
-    }, [])
+        handleResize(); // run on mount
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
 
     return (
-        <Sheet >
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger className='w-fit h-fit relative '>{children}</SheetTrigger>
             <SheetContent side={side} className="py-5  h-[700px]  px-2 max-w-[550px] md:min-w-[550px] sm:h-full  overflow-y-auto" id="style-3">
                 <SheetHeader>
@@ -326,12 +357,12 @@ function CartSheet({ children }: {
                                 </div>
                                 <div className='w-full relative h-auto flex items-start justify-end'>
                                     {
-                                        UserAddress?.id &&
+                                        currentuser?.id && userAddress?.id &&
                                         <button className='w-fit relative h-auto flex items-center  text-sm md:text-base border border-primary px-4 md:px-5 py-2 text-nowrap bg-primary  text-white  font-medium text-primary' disabled={isOrderSub} onClick={OrdersBeforePayment}  >{isOrderSub ? "Just a second..." : "Buy Now"}</button>
 
                                     }
                                     {
-                                        !UserAddress?.id && !UserAddress?.id &&
+                                        !currentuser?.id && !userAddress?.id &&
                                         <CartSheetOderDailog closeSheet={() => { }}>
                                             <button className='w-fit relative h-auto flex items-center  text-sm md:text-base border border-primary px-4 md:px-5 py-2 text-nowrap bg-primary  text-white  font-medium text-primary'>Place Order</button>
                                         </CartSheetOderDailog>
