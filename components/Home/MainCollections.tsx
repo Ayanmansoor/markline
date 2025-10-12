@@ -13,33 +13,34 @@ import { getAllAudience } from '@/Supabase/SupabaseApi';
 
 function Filter() {
 
-    const { data: audiances = [], isLoading: audianceLoading, isError: audianceError } = useQuery<any>({
-        queryKey: ["audiances"],
-        queryFn: () => getAllAudience(),
-        staleTime: Infinity,
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-    });
+    // const { data: audiances = [], isLoading: audianceLoading, isError: audianceError } = useQuery<any>({
+    //     queryKey: ["audiances"],
+    //     queryFn: () => getAllAudience(),
+    //     staleTime: Infinity,
+    //     refetchOnMount: false,
+    //     refetchOnWindowFocus: false,
+    //     refetchOnReconnect: false,
+    // });
 
-    console.log(audiances,'this is audiance')
+    // console.log(audiances,'this is audiance')
 
 
     return (
         <>
-            <section className=' w-full relative bg-secondary gap-2  px-3 md:px-5 lg:px-10  h-auto   items-center hidden md:grid grid-cols-3 justify-center   pt-12   '>
-                <Link href={'/collections/men'} className='w-full relative h-full group '>
+            <section className=' w-full relative bg-secondary gap-2  px-3 md:px-5 lg:px-10  h-auto   items-center hidden sm:grid grid-cols-2 justify-center   pt-12   '>
+                <Link href={'/collections/men'} className='w-full relative h-full  max-h-[400px]  group overflow-hidden'>
                     <div className='flex flex-col gap-1 md:gap-2 items-center z-10 justify-center  absolute top-0 h-full bg-black/20 py-3 px-3 w-full '>
-                        <h2 className=' text-lg md:text-2xl lg:text-3xl xl:text-6xl font-semibold text-white uppercase'>
+                        <h2 className='text-lg md:text-2xl lg:text-3xl xl:text-6xl font-semibold text-white uppercase'>
                             HIM
                         </h2>
                         <Link href={''} className=' text-xsmd:text-sm lg:text-lg  group-hover:underline font-medium text-white '>
                             View All
                         </Link>
+
                     </div>
-                    <Image src={"/menimage.jpg"} alt="for him" height={500} width={500} className='w-full group-hover:scale-[1.01] transition-all duration-100 relative h-auto object-contain' />
+                    <Image src={"/menimage.jpg"} alt="for him" height={500} width={500} className='w-full group-hover:scale-[1.01] transition-all duration-100 relative h-full object-contain' />
                 </Link>
-                <Link href="/collections/women" className='w-full relative h-full  group overflow-hidden'>
+                <Link href="/collections/women" className='w-full relative h-full  max-h-[400px]  group overflow-hidden'>
                     <div className='flex flex-col gap-1 md:gap-2 items-center z-10 justify-center  absolute top-0 h-full bg-black/20 py-3 px-3 w-full '>
                         <h2 className='text-lg md:text-2xl lg:text-3xl xl:text-6xl font-semibold text-white uppercase'>
                             HER
@@ -49,9 +50,9 @@ function Filter() {
                         </Link>
 
                     </div>
-                    <Image src={"/forwomen.png"} alt="Women" height={500} width={500} className='w-full   group-hover:scale-[1.01] transition-all duration-100 relative h-auto object-contain' />
+                    <Image src={"/forwomen.png"} alt="Women" height={500} width={500} className='w-full   group-hover:scale-[1.01] transition-all duration-100 relative h-full object-contain' />
                 </Link>
-                <Link href={"/collections/kids"} className='relative h-full w-full group overflow-hidden'>
+                <Link href={"/collections/kids"} className='relative h-full w-full group max-h-[500px] overflow-hidden col-span-2'>
                     <div className='flex flex-col gap-1 md:gap-2 items-center  z-10 justify-center  absolute top-0 h-full bg-black/20 py-3 px-3 w-full '>
                         <h2 className='text-lg md:text-2xl lg:text-3xl xl:text-6xl font-semibold text-white group-hover:uppercase'>
                             KIDS
@@ -61,10 +62,10 @@ function Filter() {
                         </Link>
 
                     </div>
-                    <Image src={"/kids.jpg"} alt="" height={500} width={500} className='w-full relative h-auto  group-hover:scale-[1.01] transition-all duration-100 object-contain' />
+                    <Image src={"/kids.jpg"} alt="" height={500} width={500} className='w-full relative h-full  group-hover:scale-[1.01] transition-all duration-100 object-contain' />
                 </Link>
             </section>
-            <section className=' w-full relative bg-secondary container  h-auto  items-center justify-center flex  md:hidden px-2  md:px-10   xl:px-20 pt-3    '>
+            <section className=' w-full relative bg-secondary container  h-auto  items-center justify-center flex  sm:hidden px-2  md:px-10   xl:px-20 pt-3    '>
 
 
                 <Swiper

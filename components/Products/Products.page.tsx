@@ -77,10 +77,10 @@ function Productspage() {
 
     const [filterProducts, setFilterProducts] = useState<NewProductProps[]>()
     const {
-        data: allproducts = [],
+        data: allproducts = { data: [] },
         isLoading: isLoadingProducts,
         isError: isErrorProducts,
-    } = useQuery<any>({
+    } = useQuery<{ data: NewProductProps[] }>({
         queryKey: ["products"],
         queryFn: getAllProductsWithVariants,
         staleTime: Infinity,
@@ -90,12 +90,12 @@ function Productspage() {
     });
 
     const {
-        data: allcollection = [],
+        data: allcollection = { data: [] },
         isLoading: isLoadingCollections,
         isError: isErrorCollections,
-    } = useQuery<any>({
+    } = useQuery<{ data: any[] }>({
         queryKey: ["collections"],
-        queryFn: getAllCollections,
+        queryFn: () => getAllCollections("ALL"),
         staleTime: Infinity,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -107,7 +107,7 @@ function Productspage() {
     useEffect(() => {
         if (!allproducts) return;
 
-        const filtered = allproducts.filter((product: NewProductProps) => {
+        const filtered = allproducts.data.filter((product: NewProductProps) => {
             const variants = product?.product_variants || [];
 
             // --- PRICE check ---
@@ -177,7 +177,7 @@ function Productspage() {
     const { allColors, allSizes } = useMemo(() => {
         const colorMap = new Map<string, Colors>();
         const sizeMap = new Map<string, Sizes>();
-        allproducts?.forEach((product: any) => {
+        allproducts?.data.forEach((product: any) => {
             product.product_variants?.forEach((variant: ProductVariant) => {
                 let colorArray: Colors[] = [];
                 let sizeArray: Sizes[] = [];
@@ -255,7 +255,7 @@ function Productspage() {
                     </BreadcrumbList>
                 </Breadcrumb>
 
-                <h1 className=' text-base md:text-xl lg:text-2xl xl:text-3xl font-semibold text-primary capitalize px-3 md:px-5 lg:px-10 '>Products - {productslug} {`${allproducts ? allproducts.length : ""}`}  </h1>
+                <h1 className=' text-base md:text-xl lg:text-2xl xl:text-3xl font-semibold text-primary capitalize px-3 md:px-5 lg:px-10 '>Products - {productslug} {`${allproducts.data ? allproducts.data.length : ""}`}  </h1>
 
 
                 <section className='w-full relative gap-2 items-center px-3 md:px-5 lg:px-10  mt-8  h-auto flex border-b border-gray-400 pb-3  '>
@@ -265,8 +265,8 @@ function Productspage() {
                         className="mySwiper w-full  relative h-auto  "
                     >
                         {
-                            allcollection?.length > 0 &&
-                            allcollection?.map((collec) => (
+                            allcollection?.data.length > 0 &&
+                            allcollection?.data.map((collec) => (
                                 <SwiperSlide className='max-w-fit  border h-auto text-base   ' key={collec.slug}>
                                     <MiniCollectionCard collections={collec} url={`collections/${productslug}`} />
                                 </SwiperSlide>
@@ -278,7 +278,7 @@ function Productspage() {
 
                 <section className="w-full min-h-[300px] mt-5 relative  gap-10  bg-gray-200  ">
                     <span className=' z-20 bg-gray-200 flex items-center border-b border-white w-full justify-between h-fit sticky top-10   py-5 px-3 md:px-5 lg:px-10 '>
-                        <ProductFilter gender={productslug} collection={productslug ? allcollection.filter((item) => item.gender == productslug.toUpperCase()) : allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} colors={allColors} sizes={allSizes} SetselectColorAndSizes={setSelectColorAndSizes} />
+                        <ProductFilter gender={productslug} collection={productslug ? allcollection.data.filter((item) => item.gender == productslug.toUpperCase()) : allcollection.data} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} colors={allColors} sizes={allSizes} SetselectColorAndSizes={setSelectColorAndSizes} />
                     </span>
 
                     <div className="w-full gap-5  relative flex flex-col  px-3 md:px-5 lg:px-10  py-5 md:py-10 ">
@@ -291,8 +291,8 @@ function Productspage() {
                                     <ProductCardSkeleton />
                                 </div>
                                 :
-                                allproducts?.length ?
-                                    <GridRroduct data={filterProducts ? filterProducts : allproducts} url={'product'} css='grid-cols-2 md:grid-cols-3  lg:grid-cols-4 bg-gray-200 ' productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' /> :
+                                allproducts?.data?.length ?
+                                    <GridRroduct data={filterProducts ? filterProducts : allproducts.data} url={'product'} css=' grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 bg-gray-200 ' productsCardCss=' h-[250px]  sm:h-[250px] md:h-[300px] lg:h-[350px]' /> :
                                     <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3  lg:grid-cols-4   items-start justify-start gap-3 px-5  lg:px-10   ">
                                         <ProductCardSkeleton />
                                         <ProductCardSkeleton />
@@ -331,7 +331,7 @@ function Productspage() {
                     <p className='text-sm md:text-base font-semibold md:font-medium  text-primary capitalize'>Shop By {productslug} Shoe Type</p>
                     <div className='w-full flex flex-wrap items-center gap-2'>
                         {
-                            allcollection.map((item, index) => (
+                            allcollection.data.map((item, index) => (
                                 item.gender == `${productslug}`.toUpperCase() &&
                                 <Link href={`/collections/${`${item.gender}`.toLowerCase()}/${item.slug}`} className='text-sm font-medium text-orange-600 border-x px-3 border-primary' key={index}>{item.name}</Link>
                             ))

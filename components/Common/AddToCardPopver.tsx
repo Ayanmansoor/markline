@@ -30,10 +30,13 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
     const { addToCart, isInCart } = useCartContext();
     const [parsedSizes, setParsedSizes] = useState<Sizes[]>([]);
     const [parsedImages, setParsedImages] = useState<Images[]>([]);
-    const [selectedColor, setSelectedColor] = useState<Colors | null>(null);
-    const [selectedSize, setSelectedSize] = useState<Sizes | null>(null);
+    const [selectedColor, setSelectedColor] = useState<Colors>();
+    const [selectedSize, setSelectedSize] = useState<Sizes>();
     const [isItemSelected, setItemSelected] = useState(false)
     const [quantity, setQuantity] = useState<number>(1);
+
+
+    const [issomething, setSomeThingchange] = useState(false)
 
     const allColors: Colors[] = useMemo(() => {
         const colorMap = new Map<string, Colors>();
@@ -83,14 +86,16 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
 
             setParsedSizes(sizes);
             setParsedImages(parsedImages);
-            setSelectedColor(colors?.[0] || null);
-            setSelectedSize(sizes?.[0] || null);
-            const isExist = isInCart({ variantId: currentVariant?.id, colorName: colors[0]?.name, size: sizes[0]?.size })
+            setSelectedColor(colors[0]);
+            setSelectedSize(sizes[0]);
+            const isExist = isInCart({ variantId: currentVariant?.id, colorName: colors[0].name, size: sizes[0].size })
+
             setItemSelected(isExist)
         } catch (e) {
             console.error('Failed to parse variant data:', e);
         }
-    }, [currentVariant, isItemSelected]);
+    }, [currentVariant]);
+
     const handleColorChange = (color: Colors) => {
         setSelectedColor(color);
 
@@ -117,6 +122,14 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
     };
     const handleSizeChange = (size: Sizes) => {
         setSelectedSize(size);
+        setSomeThingchange((prev) => !prev)
+        const isExist = selectedColor
+            ? isInCart({ variantId: currentVariant?.id, colorName: selectedColor?.name, size: size.size })
+            : false;
+        setItemSelected(isExist)
+
+
+
     };
 
     const handleAddToCart = () => {
@@ -145,7 +158,10 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
                 selectedSize,
             },
         };
+
         addToCart(cartItem);
+        setSomeThingchange((prev) => !prev)
+
         toast.success('Added to cart!');
     };
 

@@ -4,7 +4,7 @@ import CategoriesSection from '../Common/CategoriesSection'
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
 import GridRroduct from '../Home/GridRroduct'
 import Discount from '../Discounts/Discount'
-import { getCollectionBaseOnTypeAndOccuation, } from '@/Supabase/SupabaseApi'
+import { getAllCollections, getCollectionBaseOnTypeAndOccuation, } from '@/Supabase/SupabaseApi'
 import { useParams } from 'next/navigation'
 import { useQuery } from 'react-query'
 import Link from 'next/link'
@@ -28,10 +28,10 @@ function Occasions() {
 
 
 
-  const { data: occasionsCollection = [], isLoading: isOccationloading, isError: isOccationerror } = useQuery<any>({
+  const { data: occasionsCollection = { data: [] }, isLoading: isOccationloading, isError: isOccationerror } = useQuery<{ data: any[] }>({
     queryKey: ["occasionslug", occasionslug],
     enabled: !!occasionslug,
-    queryFn: () => getAllCollectionsBaseOnType('occasion', occasionslug),
+    queryFn: () => getAllCollections("ALL"),
     staleTime: Infinity,
     refetchOnMount: false,      // don't refetch when remounting
     refetchOnWindowFocus: false, // don't refetch when window gains focus
@@ -40,7 +40,7 @@ function Occasions() {
 
   const { data: productbaseOnOccasion = [], isLoading: productbaseOnOccasionLoading, isError: productbaseOnOccasionError } = useQuery<any>({
     queryKey: ["getProductsBaseOnTypeAndOccuation", occasionslug],
-    queryFn: () => getCollectionBaseOnTypeAndOccuation('occasion', occasionslug),
+    queryFn: () => getCollectionBaseOnTypeAndOccuation('OCCASION', occasionslug),
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -48,7 +48,6 @@ function Occasions() {
   });
 
 
-  console.log(occasionsCollection, "this is data of ",)
 
 
 
@@ -56,11 +55,11 @@ function Occasions() {
     <>
 
 
-      {occasionsCollection.length >= 0 && occasionsCollection[0]?.banner_image &&
+      {/* {occasionsCollection?.data?.length >= 0 && occasionsCollection?.data[0]?.banner_image &&
         <section className='w-full relative h-[450px] md:h-[500px] lg:h-[600px] 2xl:h-[calc(100vh-100px)] '>
-          <Image src={`${occasionsCollection[0]?.banner_image}`} alt={`${occasionslug}`} height={1300} width={1500} className='w-full relative  h-full object-cover' />
+          <Image src={`${occasionsCollection.data[0]?.banner_image}`} alt={`${occasionslug}`} height={1300} width={1500} className='w-full relative  h-full object-cover' />
         </section>
-      }
+      } */}
 
       <Breadcrumb className='w-full relative  md:px-5 lg:px-10 pt-3'>
         <BreadcrumbList className='w-full relative h-auto flex items-center py-5 rounded-lg px-3 '>
@@ -83,7 +82,7 @@ function Occasions() {
 
         <div className="w-full gap-5  relative flex flex-col  px-3   ">
           {
-            isOccationloading ?
+            productbaseOnOccasionLoading ?
               <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3  lg:grid-cols-4 xl:grid-cols-5 items-start justify-start gap-3 px-5  lg:px-10   ">
                 <ProductCardSkeleton />
                 <ProductCardSkeleton />
@@ -133,8 +132,8 @@ function Occasions() {
           <p className='text-base font-semibold text-primary'>Shop By Shoe Type</p>
           <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
             {
-              occasionsCollection &&
-              occasionsCollection.map((item, index) => (
+              occasionsCollection.data &&
+              occasionsCollection.data.map((item, index) => (
                 <Link href={`/collections/${item.gender}/${item.slug}`} className='text-sm font-semibold text-orange-600  border-l text-primary  px-3 border-primary' key={index}>{item.name}</Link>
               ))
             }

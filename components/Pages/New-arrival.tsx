@@ -5,24 +5,28 @@ import Link from 'next/link'
 import CarouselProduct from '@/components/Product/CarouselProduct'
 import CategoriesSection from '@/components/Common/CategoriesSection'
 import { useQuery } from 'react-query'
-import { getAllNewArrivalProducts } from '@/Supabase/SupabaseApi'
+import { getAllNewArrivalProducts, getAllProductsWithVariants } from '@/Supabase/SupabaseApi'
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
 import SecondHero from '../Common/SecondHero'
+import { NewProductProps } from '@/types/interfaces'
 
 
 
 
 function NewArrival() {
 
-    const { data: products = [], isLoading, isError } = useQuery<any>({
-        queryKey: ["newArrivalProduct"], // Cache per collection
-        queryFn: getAllNewArrivalProducts,
+    const {
+        data: allproducts = { data: [] },
+        isLoading: isLoadingProducts,
+        isError: isErrorProducts,
+    } = useQuery<{ data: NewProductProps[] }>({
+        queryKey: ["products"],
+        queryFn: getAllProductsWithVariants,
         staleTime: Infinity,
-        refetchOnMount: false,      // don't refetch when remounting
-        refetchOnWindowFocus: false, // don't refetch when window gains focus
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
         refetchOnReconnect: false,
     });
-
 
     return (
         <>
@@ -43,7 +47,7 @@ function NewArrival() {
 
 
             {
-                isLoading ?
+                isLoadingProducts ?
                     <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5  items-start justify-start gap-3 px-5  lg:px-10   ">
                         <ProductCardSkeleton />
                         <ProductCardSkeleton />
@@ -52,10 +56,10 @@ function NewArrival() {
                         <ProductCardSkeleton />
                     </div>
                     :
-                    products &&
-                        products.length > 0 ?
+                    allproducts.data &&
+                        allproducts.data.length > 0 ?
                         <CategoriesSection title={"New In – Fresh Picks for You"} url='' >
-                            <CarouselProduct url={'product'} product={products} css='grid-cols-2 md:grid-cols-3  lg:grid-cols-4 bg-gray-200 ' productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
+                            <CarouselProduct url={'product'} product={allproducts.data} css='grid-cols-2 md:grid-cols-3  lg:grid-cols-4 bg-gray-200 ' productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
                         </CategoriesSection>
                         :
                         <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-start justify-start gap-3 px-5  lg:px-10   ">

@@ -105,6 +105,8 @@ function BuyComponent({ product, variant, user, setConfirm, selectedAddress }: N
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: data.amount,
         currency: data.currency,
+        magic: true,
+        one_click_checkout: true,
         name: "Markline",
         description: "Secure Payment",
         order_id: data.id,

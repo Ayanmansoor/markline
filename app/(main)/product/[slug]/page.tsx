@@ -9,7 +9,8 @@ export async function generateMetadata({ params }) {
 
   const productName = product?.name || "Product";
   const description = product.seoDescription || product.description || "Discover elegant women's accessories at Markline.";
-  const imageUrl = JSON.parse(product.image_url?.[0] || '{}')?.image_url || "https://marklinefashion.com/default.jpg";
+  const imageUrl = JSON.parse(product.product_variants[0].image_url?.[0] || '{}')?.image_url || "https://marklinefashion.com/default.jpg";
+
 
   return {
     title: `${productName} | Markline`,
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: productName,
       description,
-      url: `https://shopmarkline.in/products/${params.slug}`,
+      url: `https://shopmarkline.in/product/${params.slug}`,
       images: [
         {
           url: imageUrl,
@@ -40,7 +41,7 @@ export async function generateMetadata({ params }) {
       images: [imageUrl],
     },
     alternates: {
-      canonical: `https://shopmarkline.in/products/${params.slug}`,
+      canonical: `https://shopmarkline.in/product/${params.slug}`,
     },
   };
 }

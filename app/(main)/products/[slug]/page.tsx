@@ -37,11 +37,6 @@ export async function generateMetadata({ params }) {
       title: `${audienceName} | Markline`,
       description,
       url: `https://shopmarkline.in/products/${params.slug}`,
-      images: [
-        {
-          alt: audienceName,
-        },
-      ],
     },
     robots: {
       index: true,

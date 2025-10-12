@@ -37,7 +37,7 @@ function Collectionsection({ url, collections }: CollectionsDataProps) {
             >
                 {
                     collections?.map((item: CollectionCardProps, index: number) => (
-                        <SwiperSlide className=' max-w-[250px] sm:max-w-[300px] md:max-w-[300px] lg:max-w-[300px] xl:max-w-[300px] h-full relative rounded-lg bg-secondary border border-gray-300     ' key={index} >
+                        <SwiperSlide className=' max-w-[230px] sm:max-w-[260px] md:max-w-[330px] lg:max-w-[330px] xl:max-w-[330px] h-full relative rounded-lg bg-secondary border border-gray-300     ' key={index} >
                             <CollectionCard collections={item} url={url} />
                         </SwiperSlide>
                     ))

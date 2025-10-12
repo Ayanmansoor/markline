@@ -19,9 +19,9 @@ function MegaManu({ children }: { children: React.ReactNode }) {
     const [allGenderProducts, setGenderProducts] = useState<any>()
 
 
-    const { data: collections = [], isLoading: collectionloading, isError: collectionerror } = useQuery({
+    const { data: collections = { data: [] }, isLoading: collectionloading, isError: collectionerror } = useQuery<{ data: any[] }>({
         queryKey: ["megamanucollections"],
-        queryFn: getAllCollections,
+        queryFn: () => getAllCollections('ALL'),
         staleTime: Infinity,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -29,22 +29,22 @@ function MegaManu({ children }: { children: React.ReactNode }) {
     });
 
     useEffect(() => {
-        if (Array.isArray(collections)) {
-            if (collections?.length > 0) {
-                const firstSlug = collections[0]?.slug;
-                if (firstSlug && firstSlug !== slug) {
+        if (Array.isArray(collections.data)) {
+            if (collections?.data?.length > 0) {
+                const firstSlug = collections.data[0]?.slug;
+                if (firstSlug) {
                     setslug(firstSlug);
                 }
             }
         }
-    }, [collections,slug]); // removed slug and gender from here
+    }, [collections, slug]); // removed slug and gender from here
 
     useEffect(() => {
-        if (Array.isArray(collections)) {
-            const filtercollection = collections.filter((item) => item.gender === gender);
+        if (Array.isArray(collections.data)) {
+            const filtercollection = collections.data.filter((item) => item.gender === gender);
             setGenderProducts(filtercollection);
         }
-    }, [gender]);
+    }, [gender, slug]);
 
 
     const { data: products = [], isLoading, isError } = useQuery({
@@ -73,16 +73,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
         setProducts(p)
     }
 
-    // useEffect(()=>{
 
-    //     const  filterCollection =collections?.filter((item:any,index)=>{
-    //         console.log(item,"this is gender value")
-    //         return item.gender==gender
-    //     })
-    //     setGenderProducts(filterCollection)
-    //     console.log(filterCollection)
-
-    // },[collections])
 
 
     return (
@@ -94,27 +85,27 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                     aria-haspopup="true"
                 >
                     {children}
-                    <MdKeyboardArrowDown className='text-[20px] ' />
+
                 </button>
                 <div
-                    className="absolute -left-[400px] 2xl:-left-[500px]  top-3 transition group-hover:translate-y-5 translate-y-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-500 ease-in-out group-hover:transform z-50 min-w-[1000px] 2xl:min-w-[1200px] flex flex-col gap-5 transform"
+                    className="absolute  -left-10 top-5 transition group-hover:translate-y-5 translate-y-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-500 ease-in-out group-hover:transform z-50 min-w-[calc(100vw-100px)] 2xl:min-w-[calc(100vw-100px)] flex flex-col gap-5 transform"
 
                 >
                     <div
                         className="relative top-6 p-6 bg-white rounded-xl shadow-xl w-full"
                     >
                         <div
-                            className="w-10 h-10 bg-white transform rotate-45 absolute top-0 z-0 translate-x-0 transition-transform group-hover:translate-x-[25rem] 2xl:group-hover:translate-x-[32rem] duration-500 ease-in-out rounded-sm"
+                            className="w-10 h-5 bg-white transform rotate-45 absolute top-0 z-0 translate-x-0 transition-transform group-hover:translate-x-[5rem] 2xl:group-hover:translate-x-[2rem] duration-500 ease-in-out rounded-sm"
                         ></div>
                         <div className="relative z-10 flex flex-col gap-10">
-                            <div className="grid grid-cols-[.7fr_.7fr_.7fr_2fr] items-start  gap-6 w-full ">
+                            <div className="grid grid-cols-[.7fr_.7fr_.7fr_2fr] items-start justify-start gap-6 w-full ">
                                 <div>
                                     <p
                                         className="uppercase tracking-wider text-primary font-medium border-b py-3 text-[13px] "
                                     >
                                         Product For
                                     </p>
-                                    <ul className="mt-3 w-full realtive h-[300px] flex flex-col gap-1  overflow-hidden overflow-y-auto items-start justify-start   " id='style-4'>
+                                    <ul className=" w-full realtive h-[300px] flex flex-col gap-1  overflow-hidden overflow-y-auto items-start justify-start   " id='style-4'>
                                         <li className={`text-sm  capitalize font-medium hover:bg-gray-100 w-full cursor-pointer  py-1 px-2 flex items-center gap-1 ${gender == "WOMEN" && " bg-gray-100 "}`} onMouseEnter={() => setGender("WOMEN")}>WOMEN</li>
                                         <li className={`text-sm  capitalize font-medium hover:bg-gray-100  w-full  cursor-pointer  py-1 px-2 flex items-center gap-1 ${gender == "MEN" && "bg-gray-100 "}`} onMouseEnter={() => setGender("MEN")}>MEN</li>
                                         <li className={`text-sm  capitalize font-medium hover:bg-gray-100  w-full  cursor-pointer  py-1 px-2 flex items-center gap-1 ${gender == "KIDS" && "bg-gray-100 "}`} onMouseEnter={() => setGender("KIDS")}>KIDS</li>
@@ -164,7 +155,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                                         Products
                                     </p>
 
-                                    <ul className="mt-4 text-[15px] grid grid-cols-3 xl:grid-cols-3 h-[300px] gap-2  items-start justify-start overflow-hidden overflow-y-auto">
+                                    <ul className="mt-4 text-[15px] w-full relative grid grid-cols-3 2xl:grid-cols-4 h-[300px] gap-2  items-start justify-start overflow-hidden overflow-y-auto">
                                         {
                                             isLoading ?
                                                 <>

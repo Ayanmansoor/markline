@@ -2,7 +2,7 @@
 export const dynamic = 'force-dynamic';
 import React from 'react'
 import { useQuery } from 'react-query';
-import {  getAllProductsWithVariants } from '@/Supabase/SupabaseApi';
+import { getAllProductsWithVariants } from '@/Supabase/SupabaseApi';
 import CategoriesSection from '../Common/CategoriesSection';
 import CarouselProduct from '../Product/CarouselProduct';
 import {
@@ -52,15 +52,18 @@ const faqData = [
 function AboutUsPage() {
 
   const {
-    data: allproducts = [],
+    data: allproducts = { data: [] },
     isLoading: isLoadingProducts,
     isError: isErrorProducts,
-  } = useQuery<any>({
-    queryKey: ["about-product"],
+  } = useQuery<{ data: NewProductProps[] }>({
+    queryKey: ["products"],
     queryFn: getAllProductsWithVariants,
-    staleTime: 1000 * 60 * 2,
-    retry: 2,
+    staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
+
 
 
   return (
@@ -68,52 +71,52 @@ function AboutUsPage() {
       <section className='w-full flex flex-col items-start gap-4  py-10 lg:py-20 px-3 md:px-10 '>
 
         <h1 className=' text-2xl md:text-3xl lg:text-5xl text-center w-full h-auto py-3 font-medium text-primary uppercase'>Markline</h1>
-        
-         <p className='w-full relative  text-sm sm:text-base md:text-lg  h-auto py-2 font-medium text-gray-600'>
+
+        <p className='w-full relative  text-sm sm:text-base md:text-lg  h-auto py-2 font-medium text-gray-600'>
           <strong className='text-primary text-lg'>About Markline </strong>
           At Markline, we believe that every step you take should speak volumes — about your confidence, your style, and your story. Founded with a passion for blending timeless elegance with everyday comfort, Markline is more than a footwear brand — it&apos;s a statement of individuality and purpose.
         </p>
         <p className='w-full relative  text-sm sm:text-base md:text-lg  h-auto  font-medium text-gray-600'>
-        We saw a world where people had to choose between premium quality and wearability. So we created Markline to bridge that gap — offering footwear that doesn&apos;t just follow fashion, but elevates it. From clean, urban silhouettes to refined finishes and breathable comfort, every pair is made to move with you.
+          We saw a world where people had to choose between premium quality and wearability. So we created Markline to bridge that gap — offering footwear that doesn&apos;t just follow fashion, but elevates it. From clean, urban silhouettes to refined finishes and breathable comfort, every pair is made to move with you.
         </p>
-         <p className='w-full relative  text-sm sm:text-base md:text-lg  h-auto  font-medium text-gray-600'>
-       Our collections are designed for the modern lifestyle — versatile enough for city streets, meetings, or weekend escapes. Whether you&apos;re stepping into new beginnings or embracing everyday hustle, Markline walks with you, offering the confidence to stand out and the comfort to keep going.
+        <p className='w-full relative  text-sm sm:text-base md:text-lg  h-auto  font-medium text-gray-600'>
+          Our collections are designed for the modern lifestyle — versatile enough for city streets, meetings, or weekend escapes. Whether you&apos;re stepping into new beginnings or embracing everyday hustle, Markline walks with you, offering the confidence to stand out and the comfort to keep going.
 
         </p>
 
-         <p className='w-full relative  text-sm sm:text-base md:text-lg  h-auto  font-medium text-gray-600'>
-        We are committed to responsible craftsmanship, thoughtful design, and a forward-thinking approach to fashion. Every pair is a reflection of our values: quality without compromise, design with soul, and comfort you can count on.
+        <p className='w-full relative  text-sm sm:text-base md:text-lg  h-auto  font-medium text-gray-600'>
+          We are committed to responsible craftsmanship, thoughtful design, and a forward-thinking approach to fashion. Every pair is a reflection of our values: quality without compromise, design with soul, and comfort you can count on.
         </p>
-        
-         <p className='w-full relative flex flex-col gap-1  text-sm sm:text-base md:text-lg  h-auto  font-medium text-gray-600'>
-           At Markline, we don&apos;t just make shoes —
-           <strong className='text-lg font-semibold text-primary'>we help you mark your way.</strong>
+
+        <p className='w-full relative flex flex-col gap-1  text-sm sm:text-base md:text-lg  h-auto  font-medium text-gray-600'>
+          At Markline, we don&apos;t just make shoes —
+          <strong className='text-lg font-semibold text-primary'>we help you mark your way.</strong>
         </p>
-        
-        
-        
-        
-        
+
+
+
+
+
         <p className='w-full relative  text-sm sm:text-base md:text-lg  h-auto py-2 font-medium text-gray-600'>
           <strong className='text-primary text-lg'>Story Of  Markline  </strong>
           In a world of fast fashion and fleeting trends, Markline was born with a simple yet bold vision — to craft footwear that brings together timeless style, lasting comfort, and everyday versatility.
         </p>
         <p className='w-full relative  text-sm sm:text-base md:text-lg  h-auto  font-medium text-gray-600'>
-         In a world of fast fashion and fleeting trends, Markline was born with a simple yet bold vision — to craft footwear that brings together timeless style, lasting comfort, and everyday versatility.
+          In a world of fast fashion and fleeting trends, Markline was born with a simple yet bold vision — to craft footwear that brings together timeless style, lasting comfort, and everyday versatility.
         </p>
 
         <p className='w-full relative  text-sm sm:text-base md:text-lg  h-auto  font-medium text-gray-600'>
-       We design for the modern lifestyle — for people who move fast, think bold, and live with intention. Our shoes are made not just to complete a look, but to carry a story — whether it&apos;s walking into your first job, owning the street in your city, or finding confidence in your own skin.
+          We design for the modern lifestyle — for people who move fast, think bold, and live with intention. Our shoes are made not just to complete a look, but to carry a story — whether it&apos;s walking into your first job, owning the street in your city, or finding confidence in your own skin.
         </p>
 
-            <p className='w-full relative  text-sm sm:text-base md:text-lg  h-auto  font-medium text-gray-600'>
-       With a focus on quality materials, conscious design, and a commitment to comfort, Markline shoes are built for the journey — not just the destination. We believe that style should be effortless, comfort should be non-negotiable, and every step you take should be a reflection of who you are.
+        <p className='w-full relative  text-sm sm:text-base md:text-lg  h-auto  font-medium text-gray-600'>
+          With a focus on quality materials, conscious design, and a commitment to comfort, Markline shoes are built for the journey — not just the destination. We believe that style should be effortless, comfort should be non-negotiable, and every step you take should be a reflection of who you are.
         </p>
 
-               <p className='w-full relative  text-sm sm:text-base md:text-lg  h-auto  font-medium text-gray-600'>
-                 Markline is more than footwear. It&apos;s a movement of individuals who choose to walk their path with purpose.
-                 <strong>Mark your way.</strong>
-               </p>
+        <p className='w-full relative  text-sm sm:text-base md:text-lg  h-auto  font-medium text-gray-600'>
+          Markline is more than footwear. It&apos;s a movement of individuals who choose to walk their path with purpose.
+          <strong>Mark your way.</strong>
+        </p>
 
 
 
@@ -133,34 +136,34 @@ function AboutUsPage() {
       </section>
 
       {
-        allproducts?.length > 0 ?
-        (
-          <CategoriesSection title={"Our Products "} url="">
-            <CarouselProduct product={allproducts} url={'product'} css=' sm:max-w-[500px]'  productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
-          </CategoriesSection >
-        )
-        :
-            <div className="grid grid-cols-2 py-10 lg:py-20 px-5 lg:px-10 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3   ">
+        allproducts?.data.length > 0 ?
+          (
+            <CategoriesSection title={"Our Products "} url="">
+              <CarouselProduct product={allproducts.data} url={'product'} css=' sm:max-w-[500px]' productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
+            </CategoriesSection >
+          )
+          :
+          <div className="grid grid-cols-2 py-10 lg:py-20 px-5 lg:px-10 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3   ">
             <ProductCardSkeleton />
             <ProductCardSkeleton />
             <ProductCardSkeleton />
             <ProductCardSkeleton />
           </div>
-        
+
       }
 
-       
+
 
       <section className='w-full flex flex-col items-start gap-4  py-10 lg:pt-20  px-3 md:px-10 '>
         <p className='w-full relative text-sm md:text-base  lg:text-lg  h-auto py-2 font-medium text-gray-600'>
           <strong className='text-primary text-lg'>Our Vision </strong>
-         At Markline, our mission is to craft high-quality, stylish, and comfortable footwear that empowers individuals to express their identity. We are committed to delivering timeless designs, embracing sustainability, and staying rooted in the evolving needs of our customers.
+          At Markline, our mission is to craft high-quality, stylish, and comfortable footwear that empowers individuals to express their identity. We are committed to delivering timeless designs, embracing sustainability, and staying rooted in the evolving needs of our customers.
         </p>
       </section>
       <section className='w-full flex flex-col items-start gap-4  pb-10 px-3 md:px-10 '>
         <p className='w-full relative  text-sm md:text-base  lg:text-lg  h-auto py-2 font-medium text-gray-600'>
           <strong className='text-primary text-base md:text-lg'>Our Mission </strong>
-        At Markline, we craft premium, stylish, and comfortable footwear that empowers every individual to express themselves with confidence. We’re committed to timeless design, sustainable choices, and staying in tune with the ever-evolving lives of our customers.
+          At Markline, we craft premium, stylish, and comfortable footwear that empowers every individual to express themselves with confidence. We’re committed to timeless design, sustainable choices, and staying in tune with the ever-evolving lives of our customers.
         </p>
       </section>
 

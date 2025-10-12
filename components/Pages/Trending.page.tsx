@@ -22,7 +22,7 @@ function TrendingPage() {
     });
 
 
-    const { data: trending, isLoading: trendingloading, isError: trendingerror } = useQuery<any>({
+    const { data: trending=[], isLoading: trendingloading, isError: trendingerror } = useQuery<any>({
         queryKey: ["trendingproducts"],
         queryFn: getAllTrendingProducts,
         staleTime: Infinity,
@@ -37,7 +37,7 @@ function TrendingPage() {
         <section className='realtive w-full bg-secondary h-auto'>
             {
                 collectionBanner &&
-                <Hero bannerImages={collectionBanner} css='  h-auto lg:[300px] lg:max-h-auto max-h-[300px] xl:h-[400px] 2xl:h-[500px]' />
+                <Hero bannerImages={collectionBanner} css='  h-auto lg:[300px] lg:max-h-auto max-h-[300px] xl:h-[400px] 2xl:h-[100vh]' />
             }
 
 
@@ -52,14 +52,17 @@ function TrendingPage() {
                 </div>
             </section>
 
+            {
+                trending.length > 0 &&
+                <CategoriesSection title={"Top Deal On Fasion "} url='' >
+                    <div className={` w-full   h-auto grid grid-cols-2   sm:grid-cols-[repeat(auto-fill,minmax(350px,auto))]   bg-secondary   `}>
+                        {trending?.map((product, index: number) => (
+                            <ProductCard url='product' key={index} product={product.product} className={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[400px]"} />
+                        ))}
+                    </div>
+                </CategoriesSection>
+            }
 
-            <CategoriesSection title={"Top Deal On Fasion "} url='' >
-                <div className={` w-full   h-auto grid grid-cols-2   sm:grid-cols-[repeat(auto-fill,minmax(350px,auto))]   bg-secondary   `}>
-                    {trending?.map((product, index: number) => (
-                        <ProductCard url='product' key={index} product={product.product} className={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[400px]"} />
-                    ))}
-                </div>
-            </CategoriesSection>
 
 
         </section>

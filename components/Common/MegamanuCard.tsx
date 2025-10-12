@@ -12,7 +12,7 @@ function MegamanuCard({product,slug,name}:Megamanudata) {
 
     const productImage:any = product?.image_url?.map((image:any) => JSON.parse(image))
     return (
-        <Link href={`/product/${slug}`} className=' max-w-fit relative h-auto flex flex-col  items-center gap-1 p-2 bg-gray-50 rounded-md '>
+        <Link href={`/product/${slug}`} className=' border border-gray-200 max-w-fit relative h-auto flex flex-col  items-center gap-1 p-2 bg-gray-50 rounded-md '>
             {
                 <img src={productImage[1]?.image_url} alt={name} height={400} width={500} className='h-[130px] w-[300px] rounded-md border' loading='lazy'/>
             }

@@ -48,18 +48,7 @@ function GenderPage() {
         color: [],
         size: []
     })
-    // const {
-    //     data: HomeBanner = [],
-    //     isLoading: bannerLoading,
-    //     isError: isErrorOnBanner,
-    // } = useQuery<any>({
-    //     queryKey: ["collectionbanner"],
-    //     queryFn: getAllBanner,
-    //     staleTime: Infinity,
-    //     refetchOnMount: false,
-    //     refetchOnWindowFocus: false,
-    //     refetchOnReconnect: false,
-    // });
+
 
     const { data: genderCollection = [], isLoading: isGenderLoading, isError: isGenderDataerror } = useQuery<any>({
         queryKey: ["gendercollection", group],
@@ -71,7 +60,7 @@ function GenderPage() {
         refetchOnReconnect: false,
     });
 
-    const { data: getallproductbaseongender = [], isLoading: collectionAlongWithLoading, isError: collectionerrorLoading } = useQuery<any>({
+    const { data: getallproductbaseongender = { data: [] }, isLoading: collectionAlongWithLoading, isError: collectionerrorLoading } = useQuery<{ data: NewProductProps[] }>({
         queryKey: ["getallproductbaseongender", "WOMEN"],
         queryFn: () => getAllProductsbygender(`${finalslug}`.toUpperCase()),
         staleTime: Infinity,
@@ -81,10 +70,12 @@ function GenderPage() {
     });
 
 
-    useEffect(() => {
-        if (!getallproductbaseongender) return;
+    console.log(genderCollection, "this is all collection ")
 
-        const filtered = getallproductbaseongender.filter((product: NewProductProps) => {
+    useEffect(() => {
+        if (!getallproductbaseongender.data) return;
+
+        const filtered = getallproductbaseongender.data.filter((product: NewProductProps) => {
             const variants = product?.product_variants || [];
 
             // --- PRICE check ---
@@ -155,7 +146,7 @@ function GenderPage() {
         const colorMap = new Map<string, Colors>();
         const sizeMap = new Map<string, Sizes>();
 
-        getallproductbaseongender?.forEach((product: any) => {
+        getallproductbaseongender.data?.forEach((product: any) => {
             product.product_variants?.forEach((variant: ProductVariant) => {
                 let colorArray: Colors[] = [];
                 let sizeArray: Sizes[] = [];
@@ -235,7 +226,7 @@ function GenderPage() {
                     </BreadcrumbList>
                 </Breadcrumb>
 
-                <h1 className=' text-base md:text-xl lg:text-2xl xl:text-3xl font-semibold text-primary capitalize px-3 md:px-5 lg:px-10 '>Products - {productslug} {`${getallproductbaseongender ? getallproductbaseongender.length : ""}`}  </h1>
+                <h1 className=' text-base md:text-xl lg:text-2xl xl:text-3xl font-semibold text-primary capitalize px-3 md:px-5 lg:px-10 '>Products - {productslug} {`${getallproductbaseongender.data ? getallproductbaseongender.data.length : ""}`}  </h1>
 
 
                 <section className='w-full relative gap-2 items-center px-3 md:px-5 lg:px-10  mt-8  h-auto flex border-b border-gray-400 pb-3  '>
@@ -245,10 +236,10 @@ function GenderPage() {
                         className="mySwiper w-full  relative h-auto  "
                     >
                         {
-                            genderCollection?.length > 0 &&
-                            genderCollection?.map((collec) => (
+                            genderCollection?.data?.length > 0 &&
+                            genderCollection?.data?.map((collec) => (
                                 <SwiperSlide className='max-w-fit  border h-auto text-base   ' key={collec.slug}>
-                                    <MiniCollectionCard collections={collec} url={`collections/${nslug}`} />
+                                    <MiniCollectionCard collections={collec} url={`${nslug}`} />
                                 </SwiperSlide>
                             ))
                         }
@@ -258,7 +249,7 @@ function GenderPage() {
 
                 <section className="w-full min-h-[300px] mt-5 relative  gap-10  bg-gray-200  ">
                     <span className=' z-20 bg-gray-200 flex items-center border-b border-white w-full justify-between h-fit sticky top-12   py-5 px-3 md:px-5 lg:px-10 '>
-                        <ProductFilter gender={productslug} collection={productslug ? getallproductbaseongender.filter((item) => item.gender == productslug.toUpperCase()) : getallproductbaseongender} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} colors={allColors} sizes={allSizes} SetselectColorAndSizes={setSelectColorAndSizes} />
+                        <ProductFilter gender={productslug} collection={productslug && genderCollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} colors={allColors} sizes={allSizes} SetselectColorAndSizes={setSelectColorAndSizes} />
                     </span>
 
                     <div className="w-full gap-5  relative flex flex-col  px-3 md:px-5 lg:px-10  py-5 lg:py-10 ">
@@ -271,8 +262,8 @@ function GenderPage() {
                                     <ProductCardSkeleton />
                                 </div>
                                 :
-                                getallproductbaseongender?.length ?
-                                    <GridRroduct data={filterProducts ? filterProducts : getallproductbaseongender} url={'product'} css='grid-cols-2 md:grid-cols-3  lg:grid-cols-4 bg-gray-200 ' productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' /> :
+                                getallproductbaseongender.data?.length ?
+                                    <GridRroduct data={filterProducts ? filterProducts : getallproductbaseongender.data} url={'product'} css=' grid-cols-2 md:grid-cols-3  xl:grid-cols-4 bg-gray-200 ' productsCardCss=' h-[250px]  sm:h-[300px] md:h-[300px] lg:h-[350px]' /> :
                                     <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3  lg:grid-cols-4   items-start justify-start gap-3 px-5  lg:px-10   ">
                                         <ProductCardSkeleton />
                                         <ProductCardSkeleton />
@@ -314,7 +305,7 @@ function GenderPage() {
                     <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
                         {
                             genderCollection &&
-                            genderCollection.map((item, index) => (
+                            genderCollection?.data?.map((item, index) => (
                                 <Link href={`/collections/${item.gender}/${item.slug}`.toLowerCase()} className='text-xs sm:text-sm font-semibold text-orange-600  border-l text-primary  px-3 border-primary' key={index}>{item.name}</Link>
                             ))
                         }

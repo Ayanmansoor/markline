@@ -1,30 +1,9 @@
 import { ProductsProps } from "@/types/interfaces";
 import { mysupabase } from "./SupabaseConfig";
-import { useEffect } from "react";
-import { NextResponse } from "next/server";
+import axios from "axios";
 
-async function getAllProductsbygender(gender: string) {
-  const { data, error } = await mysupabase
-    .from("product")
-    .select(
-      `
-      *,
-      product_variants (
-        *,
-        discount_key (*)
-      )
-    `
-    )
-    .eq("gender", gender.toUpperCase())
-    .eq("is_new_arrival", false);
 
-  if (error) {
-    console.error("Supabase error:", error);
-    throw new Error(error.message);
-  }
 
-  return data;
-}
 
 async function getAllBlogs() {
   try {
@@ -34,7 +13,7 @@ async function getAllBlogs() {
     } else {
       return new Error(error.message);
     }
-  } catch (error) {}
+  } catch (error) { }
 }
 
 async function getblog(slug: string) {
@@ -55,18 +34,6 @@ async function getblog(slug: string) {
       }
     }
   } catch (error: any) {
-    return new Error(error.message);
-  }
-}
-
-async function getAllCollections() {
-  const { data: collections, error } = await mysupabase
-    .from("collection")
-    .select("*")
-    .eq("type", "category");
-  if (collections) {
-    return collections;
-  } else {
     return new Error(error.message);
   }
 }
@@ -166,23 +133,6 @@ async function getAllCollectionOccuation() {
   return data;
 }
 
-async function getHighlighteProductsBaseOnGender(gender: string) {
-  const { data, error } = await mysupabase
-    .from("productsHighlighter")
-    .select(
-      `
-      *,
-      product (
-        *,
-        product_variants (*)
-      )
-    `
-    )
-    .eq("gender", gender);
-
-  if (error) throw error;
-  return data;
-}
 async function getAllBanner() {
   const { data: homebanner, error } = await mysupabase
     .from("HomeBanner")
@@ -218,33 +168,9 @@ async function getAllTrendingProducts() {
   }
 }
 
-async function getAllProductsWithVariants() {
-  try {
-    const { data, error } = await mysupabase.from("product").select(`
-    *,
-    product_variants(*)
-  `);
 
-    if (data) {
-      return data;
-    } else {
-      return new Error(error.message);
-    }
-  } catch (error) {}
-}
 
-async function getAllProductsWithVariantsByWithSlug(gender: string) {
-  const { data: products, error } = await mysupabase
-    .from("products")
-    .select("*,discounts(*)")
-    .eq("is_new_arrival", false)
-    .eq("gender", gender.toUpperCase());
-  if (products) {
-    return products;
-  } else {
-    return new Error(error.message);
-  }
-}
+
 
 async function getAllNewArrivalProducts() {
   const { data: newArrivals, error } = await mysupabase
@@ -426,20 +352,7 @@ async function getcollection(slug: string) {
   }
   return collection;
 }
-async function getCollectionBaseOnGender(gender: string) {
-  if (!gender) {
-    return null;
-  }
-  const { data: genderCollections, error } = await mysupabase
-    .from("collection")
-    .select("*")
-    .eq("gender", gender);
 
-  if (error) {
-    return new Error(error.message);
-  }
-  return genderCollections;
-}
 
 // post request
 
@@ -460,7 +373,7 @@ async function getCurrentUserOrders(userId: string) {
       orders,
       address,
     };
-  } catch (error) {}
+  } catch (error) { }
 }
 
 async function getCurrentUserSingleOrder(userId: string, orderId: string) {
@@ -481,7 +394,7 @@ async function getCurrentUserSingleOrder(userId: string, orderId: string) {
       orders,
       address,
     };
-  } catch (error) {}
+  } catch (error) { }
 }
 
 async function getSelectedAddress(userId: string | undefined) {
@@ -510,7 +423,7 @@ async function updateCurrentUserAddress(userId: string, updatedAddress: any) {
       return new Error(error.message);
     }
     return data;
-  } catch (error) {}
+  } catch (error) { }
 }
 
 // new
@@ -550,7 +463,7 @@ async function getaudience(audience: string) {
       return new Error(error.message);
     }
     return data[0];
-  } catch (error) {}
+  } catch (error) { }
 }
 
 async function getAllAudience() {
@@ -561,7 +474,7 @@ async function getAllAudience() {
       return new Error(error.message);
     }
     return data;
-  } catch (error) {}
+  } catch (error) { }
 }
 
 async function getsearchProducts(query: string) {
@@ -601,8 +514,98 @@ async function getsearchProducts(query: string) {
   return data ?? [];
 }
 
+
+
+
+
+
+
+const fetchGroupOfProducts = async () => {
+  try {
+    const response = await axios.get("/api/main/group-of-products");
+
+
+    return response.data;
+  } catch (error) {
+    console.log(error, 'this is errror ')
+    throw new Error("Failed to fetch groups of products");
+  }
+};
+
+
+async function getAllProductsWithVariants() {
+  try {
+    const response = await axios.get("/api/main/getProducts");
+    return response.data;
+  } catch (error) {
+    console.log(error, 'this is errror ')
+    throw new Error("Failed to fetch groups of products");
+  }
+}
+
+async function getAllCollections(type: string) {
+  try {
+    const response = await axios.get(`/api/main/collections?type=${type}`);
+
+
+    return response.data;
+  } catch (error) {
+    console.log(error, 'this is errror ')
+    throw new Error("Failed to fetch groups of products");
+  }
+}
+
+
+async function getAllProductsbygender(gender: string) {
+  try {
+    const response = await axios.get(`/api/main/getProducts/${gender}`);
+
+
+    return response.data;
+  } catch (error) {
+    console.log(error, 'this is errror ')
+    throw new Error("Failed to fetch groups of products");
+  }
+}
+
+async function getCollectionBaseOnGender(gender: string) {
+  try {
+    const response = await axios.get(`/api/main/collections/${gender}`);
+
+
+    return response.data;
+  } catch (error) {
+    console.log(error, 'this is errror ')
+    throw new Error("Failed to fetch groups of products");
+  }
+}
+async function getProductDataSitemap() {
+  try {
+    const { data: product, error } = await mysupabase
+      .from("product")
+      .select(
+        `
+    *,
+    brand:brands(*),
+    product_variants(*)
+    `
+      )
+
+    if (error) {
+      console.error("Supabase error:", error.message);
+      return null;
+    }
+
+    return product;
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return null;
+  }
+}
+
+
+
 export {
-  getAllCollections,
   getAllBanner,
   getAllTrendingProducts,
   getAllNewArrivalProducts,
@@ -618,12 +621,10 @@ export {
   getCollectionBaseOnGender,
   getBannerBaseonSlug,
   getCollectionBannerBaseOnGender,
-  getAllProductsbygender,
   getAllCollectionsBaseOnGender,
   getCurrentUserOrders,
   updateCurrentUserAddress,
   getSelectedAddress,
-  getAllProductsWithVariants,
   getAllCollectionWithProducts,
   getAllCollectionsBaseOnType,
   getCollectionBaseOnTypeAndOccuation,
@@ -633,4 +634,16 @@ export {
   getsearchProducts,
   getAllAudience,
   getCurrentUserSingleOrder,
+
+
+
+
+
+
+  // actuall api code
+  getAllProductsbygender,
+  getAllCollections,
+  getAllProductsWithVariants,
+  fetchGroupOfProducts,
+  getProductDataSitemap
 };

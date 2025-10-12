@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import GridRroduct from '../Home/GridRroduct'
 import ProductFilter from '../Common/ProductFilter'
-import { getProductBaseOnCollection, getAllCollections, getAllBanner, getcollection, getAllCollectionsBaseOnGender } from '@/Supabase/SupabaseApi'
+import { getProductBaseOnCollection, getAllCollections, getAllBanner, getcollection, getAllCollectionsBaseOnGender, getCollectionBaseOnGender } from '@/Supabase/SupabaseApi'
 import { useParams } from 'next/navigation'
 import { Colors, Images, NewProductProps, ProductsProps, ProductVariant, Sizes } from '@/types/interfaces'
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
@@ -53,27 +53,13 @@ function CategoryL2page() {
     });
 
 
-    // const {
-    //     data: allcollection = [],
-    //     isLoading: isLoadingCollections,
-    //     isError: isErrorCollections,
-    // } = useQuery<any>({
-    //     queryKey: ["collections"],
-    //     queryFn: getAllCollections,
-    //     staleTime: Infinity,
-    //     refetchOnMount: false,      // don't refetch when remounting
-    //     refetchOnWindowFocus: false, // don't refetch when window gains focus
-    //     refetchOnReconnect: false,
-    // });
 
-    const {
-        data: allcollection = [],
-        isLoading: isLoadingCollections,
-        isError: isErrorCollections,
-    } = useQuery<any>({
-        queryKey: ["collections", gslug],
+
+
+    const { data: genderCollection = { data: [] }, isLoading: isGenderLoading, isError: isGenderDataerror } = useQuery<{ data: any[] }>({
+        queryKey: ["gendercollection", group],
         enabled: !!group,
-        queryFn: () => getAllCollectionsBaseOnGender(gslug),
+        queryFn: () => getCollectionBaseOnGender(`${gslug}`.toUpperCase()),
         staleTime: Infinity,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -81,31 +67,7 @@ function CategoryL2page() {
     });
 
 
-    // const {
-    //     data: HomeBanner = [],
-    //     isLoading: bannerLoading,
-    //     isError: isErrorOnBanner,
-    // } = useQuery<any>({
-    //     queryKey: ["collectionbanner"],
-    //     queryFn: getAllBanner,
-    //     staleTime: Infinity,
-    //     refetchOnMount: false,
-    //     refetchOnWindowFocus: false,
-    //     refetchOnReconnect: false,
-    // });
 
-
-
-
-    // const { data: collectiondata , isLoading:collectionLoading, isError:collectionError } = useQuery<any>({
-    //     queryKey: ["collection", slug],
-    //     enabled: !!slug,
-    //     queryFn: () => getcollection(nslug),
-    //     staleTime: 10 * 60 * 1000, // 2 minutes caching
-    // });
-
-
-    // console.log(collectiondata,'Collection Data meigth be single')
 
     useEffect(() => {
         if (!products) return;
@@ -269,21 +231,17 @@ function CategoryL2page() {
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-
             <h1 className=' text-base md:text-xl lg:text-2xl xl:text-3xl font-semibold text-primary capitalize px-3 md:px-5 lg:px-10 '>{nslug.split('-').join(' ')}-{`${products ? products.length : ""}`}  </h1>
-
-
             <section className='w-full relative gap-2 items-center px-3 md:px-5 lg:px-10  mt-8  h-auto flex border-b border-gray-400 pb-3  '>
-
                 <Swiper
                     slidesPerView={'auto'}
                     className="mySwiper w-full  relative h-auto  "
                 >
                     {
-                        allcollection?.length > 0 &&
-                        allcollection?.map((collec) => (
+                        genderCollection?.data?.length > 0 &&
+                        genderCollection?.data?.map((collec) => (
                             <SwiperSlide className='max-w-fit  border h-auto text-base   ' key={collec.slug}>
-                                <MiniCollectionCard collections={collec} url={`collections/${nslug}`} />
+                                <MiniCollectionCard collections={collec} url={`${gslug}`} />
                             </SwiperSlide>
                         ))
                     }
@@ -293,7 +251,7 @@ function CategoryL2page() {
 
             <section className="w-full min-h-[300px] mt-5 relative  gap-10  bg-gray-200  ">
                 <span className=' flex items-center border-b border-white w-full justify-between h-fit sticky top-20   py-5 px-3 md:px-5 lg:px-10 '>
-                    <ProductFilter gender={gslug} collection={allcollection} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} slug={nslug} colors={allColors} sizes={allSizes} SetselectColorAndSizes={setSelectColorAndSizes} />
+                    <ProductFilter gender={gslug} collection={genderCollection.data} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} slug={nslug} colors={allColors} sizes={allSizes} SetselectColorAndSizes={setSelectColorAndSizes} />
                 </span>
 
                 <div className="w-full gap-5  relative flex flex-col   md:px-5 lg:px-10 pt-3 md:pt-5 lg:pt-10 ">
@@ -343,12 +301,12 @@ function CategoryL2page() {
                 <div className='w-full relative h-auto flex flex-col gap-4'>
                     <p className='text-base font-semibold text-primary'>Shop By Shoe Type</p>
                     <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
-                        {
-                            allcollection &&
-                            allcollection.map((item, index) => (
+                        {/* {
+                            genderCollection &&
+                            genderCollection?.map((item, index) => (
                                 <Link href={`/collections/${item.gender}/${item.slug}`.toLowerCase()} className='text-xs sm:text-sm font-semibold text-orange-600  border-l text-primary  px-3 border-primary' key={index}>{item.name}</Link>
                             ))
-                        }
+                        } */}
 
                     </div>
                 </div>

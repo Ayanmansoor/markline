@@ -23,12 +23,12 @@ function SideBarNew() {
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-                <li className='h-fit w-fit relative rounded-sm p-[1px] block lg:hidden ' onClick={() => setOpen(true)}>
+                <li className='h-fit w-fit relative rounded-sm p-[1px]  ' onClick={() => setOpen(true)}>
                     <RxHamburgerMenu className='text-primary text-[30px]' />
                 </li>
             </SheetTrigger>
             
-            <SheetContent className='p-0 py-5 '>
+            <SheetContent className='p-0 py-5 ' side="left">
                 <SheetTitle className='text-xl font-medium text-primary italic px-2  border-b  py-2 '>Markline</SheetTitle>
                 <ul className='w-full relative flex flex-col gap-2 items-start py-10 justify-start px-2 h-[100vh]'>
                     <Link href="/" onClick={handleClose} className="text-xl px-2 py-1 cursor-pointer text-primary font-medium border   flex items-center justify-between gap-0 w-full">Home

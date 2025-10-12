@@ -42,7 +42,7 @@ function LeatestCollection({ url }: { url: string }) {
                             slidesPerView: 2,
                         },
                         999: {
-                            slidesPerView: 3,
+                            slidesPerView: 6,
                         }
                     }}
                     modules={[Pagination]}
@@ -50,7 +50,7 @@ function LeatestCollection({ url }: { url: string }) {
                 >
                     <SwiperSlide className=' max-w-full relative h-full px-1 '>
                         <Link href={'/collection/women/mule'} className='w-full relative h-full '>
-                            <video src="/advertise-one.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
+                            <video src="/advertise-one.mp4" className='w-full relative h-full object-contain object-bottom' poster='' autoPlay loop muted ></video>
                         </Link>
                     </SwiperSlide>
                     

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -14,7 +14,20 @@ import { useWishlists } from '@/Contexts/wishlist'
 import WihlistCardSection from '../Product/WihlistCardSection'
 import Hero from '../Common/Hero'
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
+import ProductFilter from '../Common/ProductFilter'
+import { Colors, NewProductProps, ProductsDataProps, ProductVariant, Sizes } from '@/types/interfaces'
+import { selectColorAndSizesProps } from '../Products/Products.page'
+import MainCollections from '../Home/MainCollections'
 function CollcetionPage() {
+
+  const [productRangevalue, setPRoductRange] = useState(5000)
+  const [filterProducts, setFilterProducts] = useState<NewProductProps[]>()
+
+  const [selectColorAndSizes, setSelectColorAndSizes] = useState<selectColorAndSizesProps>({
+    color: [],
+    size: []
+  })
+
 
 
   const { data: collectionBanner = [], isLoading: bannerloading, isError: bannererror } = useQuery({
@@ -26,18 +39,18 @@ function CollcetionPage() {
     refetchOnReconnect: false,
   });
 
-  const { data: products = [], isLoading: productloading, isError: producterror } = useQuery<any>({
-    queryKey: ["products"],
-    queryFn: getAllProductsWithVariants,
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-  });
+  // const { data: products = { data: [] }, isLoading: productloading, isError: producterror } = useQuery<{ data: NewProductProps[] }>({
+  //   queryKey: ["products"],
+  //   queryFn: getAllProductsWithVariants,
+  //   staleTime: Infinity,
+  //   refetchOnMount: false,
+  //   refetchOnWindowFocus: false,
+  //   refetchOnReconnect: false,
+  // });
 
-  const { data: collections = [], isLoading: collectionloading, isError: collectionerror } = useQuery<any>({
+  const { data: collections = { data: [] }, isLoading: collectionloading, isError: collectionerror } = useQuery<{ data: any }>({
     queryKey: ["collections"],
-    queryFn: getAllCollections,
+    queryFn: () => getAllCollections("ALL"),
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -45,34 +58,132 @@ function CollcetionPage() {
   });
 
 
-  const { data: collectionAlongWithProducts = [], isLoading: collectionAlongWithLoading, isError: collectionerrorLoading } = useQuery<any>({
-    queryKey: ["collectionAlongWithProducts", "WOMEN"], // you can also pass the gender as part of the key
-    queryFn: () => getAllCollectionWithProducts("WOMEN"),
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-  });
 
-  const { data: collectionWithMen = [], isLoading: collectionWithMenLoading, isError: collectionWithisError } = useQuery<any>({
-    queryKey: ["collectionWithMen", "MEN"], // you can also pass the gender as part of the key
-    queryFn: () => getAllCollectionWithProducts("MEN"),
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-  });
+  // useEffect(() => {
+  //   if (!products.data) return;
 
-  const { data: collectionWithkids = [], isLoading: collectionWithLoading, isError: collectionWithKidsisError } = useQuery<any>({
-    queryKey: ["collectionWithkids", "KIDS"], // you can also pass the gender as part of the key
-    queryFn: () => getAllCollectionWithProducts("KIDS"),
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-  });
+  //   const filtered = products?.data?.filter((product: NewProductProps) => {
+  //     const variants = product?.product_variants || [];
+
+  //     // --- PRICE check ---
+  //     const lowestPrice = variants.length
+  //       ? Math.min(...variants.map(variant => variant.price || 0))
+  //       : 0;
+  //     const matchPrice = lowestPrice <= productRangevalue;
 
 
+
+  //     // --- COLOR check ---
+  //     const matchColor =
+  //       !selectColorAndSizes.color?.length ||
+  //       variants.some(variant => {
+  //         let colorArray: Colors[] = [];
+  //         if (typeof variant.colors === "string") {
+  //           try {
+  //             const parsed = JSON.parse(variant.colors);
+  //             colorArray = Array.isArray(parsed) ? parsed : [parsed];
+  //           } catch {
+  //             return false;
+  //           }
+  //         } else if (Array.isArray(variant.colors)) {
+  //           colorArray = variant.colors.map(c =>
+  //             typeof c === "string" ? JSON.parse(c) : c
+  //           );
+  //         }
+
+  //         return colorArray.some(c =>
+  //           selectColorAndSizes.color?.includes(c.name)
+  //         );
+  //       });
+
+  //     // --- SIZE check ---
+  //     const matchSize =
+  //       !selectColorAndSizes.size?.length ||
+  //       variants.some(variant => {
+  //         let sizeArray: Sizes[] = [];
+  //         if (typeof variant.sizes === "string") {
+  //           try {
+  //             const parsed = JSON.parse(variant.sizes);
+  //             sizeArray = Array.isArray(parsed) ? parsed : [parsed];
+  //           } catch {
+  //             return false;
+  //           }
+  //         } else if (Array.isArray(variant.sizes)) {
+  //           sizeArray = variant.sizes.map(s =>
+  //             typeof s === "string" ? JSON.parse(s) : s
+  //           );
+  //         }
+
+  //         return sizeArray.some(s =>
+  //           selectColorAndSizes.size?.includes(s.size)
+  //         );
+  //       });
+
+  //     return matchPrice && matchColor && matchSize;
+  //   });
+
+  //   setFilterProducts(filtered);
+  // }, [productRangevalue, products, selectColorAndSizes]);
+
+
+  // const { allColors, allSizes } = useMemo(() => {
+  //   const colorMap = new Map<string, Colors>();
+  //   const sizeMap = new Map<string, Sizes>();
+
+  //   products?.data.forEach((product: NewProductProps) => {
+  //     product?.product_variants?.forEach((variant: ProductVariant) => {
+  //       let colorArray: Colors[] = [];
+  //       let sizeArray: Sizes[] = [];
+
+  //       // normalize colors
+  //       if (Array.isArray(variant.colors)) {
+  //         colorArray = variant.colors.map((item) =>
+  //           typeof item === "string" ? JSON.parse(item) : item
+  //         );
+  //       } else if (typeof variant.colors === "string") {
+  //         try {
+  //           const parsed = JSON.parse(variant.colors);
+  //           colorArray = Array.isArray(parsed) ? parsed : [parsed];
+  //         } catch {
+  //           colorArray = [];
+  //         }
+  //       }
+
+  //       // normalize sizes
+  //       if (Array.isArray(variant.sizes)) {
+  //         sizeArray = variant.sizes.map((item) =>
+  //           typeof item === "string" ? JSON.parse(item) : item
+  //         );
+  //       } else if (typeof variant.sizes === "string") {
+  //         try {
+  //           const parsed = JSON.parse(variant.sizes);
+  //           sizeArray = Array.isArray(parsed) ? parsed : [parsed];
+  //         } catch {
+  //           sizeArray = [];
+  //         }
+  //       }
+
+  //       // add unique colors
+  //       colorArray.forEach((color) => {
+  //         if (color?.name && !colorMap.has(color.name)) {
+  //           colorMap.set(color.name, color);
+  //         }
+  //       });
+
+  //       // add unique sizes
+  //       sizeArray.forEach((size) => {
+  //         if (size?.size && !sizeMap.has(size.size)) {
+  //           sizeMap.set(size.size, size);
+  //         }
+  //       });
+  //     });
+  //   });
+
+  //   return {
+  //     allColors: Array.from(colorMap.values()),
+  //     allSizes: Array.from(sizeMap.values()),
+  //   };
+  // }, [products]);
 
 
 
@@ -83,13 +194,14 @@ function CollcetionPage() {
     <>
       {
         collectionBanner &&
-        <Hero bannerImages={collectionBanner} css=' h-auto h-[250px]  lg:h-[400px] xl:h-[500px]' />
+        <Hero bannerImages={collectionBanner} css=' h-auto h-[250px]  lg:h-[400px] xl:h-[100vh]' />
       }
+      
+      <MainCollections />
 
-
-      {collections?.length ?
+      {collections?.data?.length ?
         <CategoriesSection title={"Women's Footwear Collections – Sandals, Flats, Heels & More"} subtitle='Discover elegant sandals, comfy flats, chic heels & stylish mules' url={''} >
-          <Collectionsection collections={collections.filter((item) => item.gender == 'WOMEN')} url={'collections/women'}  />
+          <Collectionsection collections={collections?.data?.filter((item) => item.gender == 'WOMEN')} url={'collections/women'} />
         </CategoriesSection> :
         <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4   xl:grid-cols-5 items-start justify-start gap-3 px-5  lg:px-10   ">
           <ProductCardSkeleton />
@@ -101,152 +213,46 @@ function CollcetionPage() {
       }
 
 
-      {/* <section className='bg-white py-10'>
-        <div className='   sm:h-[350px] relative flex flex-col-reverse sm:grid py-5  lg:py-10 grid-cols-1 sm:grid-cols-[1fr_1fr]  gap-3 sm:gap-1 px-3 lg:px-10  '>
-          <div className='w-full relative flex flex-col justify-center items-start gap-1'>
-            <p className='text-base font-medium text-primary'>Running</p>
-            <h2 className='text-2xl font-semibold '>Experience True Craftsmanship</h2>
-            <p className='text-base font-medium '>Explore our exclusive categories where every piece is a reflection of superior craftsmanship and timeless style. From elegant silhouettes to modern essentials, Markline offers collections designed to elevate your wardrobe with purpose and precision.</p>
-          </div>
-          <div className='w-full relative h-full ' >
-            <img src="/collectionsection.png" alt="Markline || Markline || buy online" className='w-full relative sm:absolute  h-full object-cover ' height={500} width={400} loading='lazy' />
-          </div>
+
+
+      {/* <section className="w-full min-h-[300px] mt-5 relative  gap-10  bg-gray-200  ">
+        <span className=' z-20 bg-gray-200 flex items-center border-b border-white w-full justify-between h-fit sticky top-12   py-5 px-3 md:px-5 lg:px-10 '>
+          <ProductFilter collection={[]} productRangevalue={productRangevalue} setPRoductRange={setPRoductRange} colors={allColors} sizes={allSizes} SetselectColorAndSizes={setSelectColorAndSizes} />
+        </span>
+
+        <div className="w-full gap-5  relative flex flex-col  px-3 md:px-5 lg:px-10  py-5 lg:py-10 ">
+          {
+            productloading ?
+              <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3  lg:grid-cols-4  items-start justify-start gap-3 px-5  lg:px-10   ">
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+              </div>
+              :
+              products?.data?.length ?
+                <GridRroduct data={filterProducts ? filterProducts : products.data} url={'product'} css=' grid-cols-2 md:grid-cols-3  xl:grid-cols-4 bg-gray-200 ' productsCardCss=' h-[220px]  sm:h-[290px] md:h-[300px] lg:h-[350px]' /> :
+                <div className="grid grid-cols-2 py-5 lg:py-10 sm:grid-cols-3  lg:grid-cols-4   items-start justify-start gap-3 px-5  lg:px-10   ">
+                  <ProductCardSkeleton />
+                  <ProductCardSkeleton />
+                  <ProductCardSkeleton />
+                  <ProductCardSkeleton />
+                </div>
+          }
+
+
+
 
         </div>
       </section> */}
-      <Link href='/collections/women' className='w-full relative max-h-[450px] 2xl:max-h-[500px] flex group overflow-hidden '>
-        <Image src="/men-collection.jpeg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
-        <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
-          <span className='w-fit relative h-auto flex flex-col items-center gap-3'>
-            <h2 className=' text-base sm:text-xl md:text-xl lg:text-[40px] font-medium text-white'>WOMEN&apos;S</h2>
-            <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-center font-medium text-white'></p>
-
-          </span>
-        </div>
-      </Link>
 
 
 
-
-
-
-      {
-
-        collectionAlongWithProducts?.length > 0 &&
-        collectionAlongWithProducts.map((item, index) => (
-          item?.product?.length > 0 &&
-
-          <CategoriesSection title={`${item.name}`} subtitle='Uncover standout styles handpicked for women—elegant, comfortable, and always in fashion.' url={''} key={index}>
-            <GridRroduct data={item.product} url={'product'} css='grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4' productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
-          </CategoriesSection>
-        ))
-      }
-
-
-
-      {
-        collectionWithMen?.length > 0 &&
-        <Link href='/collections/men' className='w-full relative h-auto flex group  max-h-[450px] 2xl:max-h-[500px] overflow-hidden '>
-          <Image src="/women-collection.jpg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
-          <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
-            <span className='w-fit relative h-auto flex flex-col items-center gap-2'>
-              <h2 className=' text-base sm:text-xl md:text-xl lg:text-[40px] font-medium text-white'>MEN&apos;S</h2>
-              <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-center font-medium text-white'></p>
-            </span>
-          </div>
-        </Link>
-      }
-
-
-
-      {/* {
-        products?.length > 0 ? <CategoriesSection title={"Finely Crafted Footwear for the Modern Gentleman"} url={''} subtitle="Explore our premium selection of men's shoes—from polished oxfords and sleek loafers to rugged boots and smart sneakers—designed to elevate every step with timeless sophistication." >
-          <GridRroduct data={products.filter((product) => product.gender == 'MEN')} url={'product'} css=' grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' productsCardCss={" h-[220px] sm:h-[300px] md:h-[250px] lg:h-[300px] xl:h-[350px] 2xl:h-[450px]"} />
-        </CategoriesSection> :
-          <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5  items-start justify-start gap-3 px-5  lg:px-10   ">
-            <ProductCardSkeleton />
-            <ProductCardSkeleton />
-            <ProductCardSkeleton />
-            <ProductCardSkeleton />
-            <ProductCardSkeleton />
-          </div>
-      } */}
-
-
-
-      {
-
-        collectionWithMen?.length > 0 &&
-        collectionWithMen.map((item, index) => (
-          item.product.length > 0 &&
-          <CategoriesSection title={`${item.name}`} subtitle={``} url={''} key={index} >
-            <GridRroduct data={item.product} url={'product'} css='grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4' productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
-          </CategoriesSection>
-        ))
-      }
-
-      {
-        collectionWithkids?.length > 0 && 
-        <Link href='/collections/kids' className='w-full relative h-auto flex group  max-h-[450px] 2xl:max-h-[500px] overflow-hidden '>
-          <Image src="/kids-collection.jpg" alt='wedding ready women collection ' height={400} width={500} className='border group-hover:scale-[1.01] duration-75 transition-all ease-in-out  w-full relative h-full' />
-          <div className='flex flex-col items-center justify-center bg-black/30 gap-1 h-full w-full absolute z-20 '>
-            <span className='w-fit relative h-auto flex flex-col items-center gap-2'>
-              <h2 className=' text-base sm:text-xl md:text-xl lg:text-[40px] font-medium text-white'>KID&apos;S</h2>
-              <p className=' text-xs sm:text-sm md:text-base   lg:text-lg underline self-center font-medium text-white'></p>
-            </span>
-          </div>
-        </Link>
-      }
-
-
-      {collections?.filter((item) => item.gender == 'KIDS')?.length ? <CategoriesSection title={"Kids Footwear Collection for Comfort & Style"} subtitle='From playful sneakers and durable school shoes to cute sandals and fun slip-ons, Markline’s kids collection blends comfort and vibrant design, trusted by parents for every big and small step.' url={''} >
-        <Collectionsection collections={collections.filter((item) => item.gender == 'KIDS')} url={'collections'} />
-      </CategoriesSection> :
-        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5  items-start justify-start gap-3 px-5  lg:px-10   ">
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-        </div>
-
-      }
-
-
-
-
-
-
-
-
-      {
-
-        collectionWithkids?.length > 0 &&
-        collectionWithkids.map((item, index) => (
-          item.product.length > 0 &&
-          <CategoriesSection title={`${item.name}`} subtitle={``} url={''} key={index} >
-            <GridRroduct data={item.product} url={'product'} css='grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4' productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
-          </CategoriesSection>
-        ))
-      }
-
-
-      {/* {
-        wishlist.length > 0 &&
-        <CategoriesSection title={"Your Whishlist Products "} url={'products'} >
-          <WihlistCardSection url={'products'} />
-        </CategoriesSection >
-      } */}
 
 
       <Discount title='Spotlight on Style' description='Step into the spotlight with Markline’s curated highlights—handpicked just for you. From sleek sandals and elegant flats to chic heels and playful toe-rings, our featured collection combines comfort, design, and everyday flair. Shop standout styles that elevate every outfit with effortless grace.' url='/' />
 
-      {/* {newArrivals
-        newArrivals.length > 0 &&
-        <CategoriesSection title={"Latest at Markline"} url="newarrivals" urltext='New Arrivals' >
-          <SecondHero categoryName={"Shoes"} data={newArrivals} />
-        </CategoriesSection>
-      } */}
+
 
       <section className='w-full relative flex flex-col gap-5    py-10  px-3 lg:px-10'>
         <h2 className='     text-lg  font-medium text-primary'>POPULAR SEARCHES</h2>

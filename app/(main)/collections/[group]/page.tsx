@@ -30,7 +30,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: `${audienceName} | Markline`,
       description,
-      url: `https://shopmarkline.in/collection/${params.group}`,
+      url: `https://shopmarkline.in/collections/${params.group}`,
       images: [
         {
           alt: audienceName,
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }) {
       description,
     },
     alternates: {
-      canonical: `https://shopmarkline.in/collection/${params?.group}`,
+      canonical: `https://shopmarkline.in/collections/${params?.group}`,
     },
   };
 }

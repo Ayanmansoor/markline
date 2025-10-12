@@ -276,7 +276,7 @@ function CartSheet({ children }: {
                 <SheetHeader>
                     <SheetTitle className="font-medium text-2xl border-b pb-2 text-start">Carts</SheetTitle>
 
-                    <section className='w-full relative max-h-[calc(100vh-500px)]    md:max-h-[calc(100vh-270px)]   overflow-y-auto grid grid-cols-2 md:grid-cols-1 gap-1  '>
+                    <section className='w-full relative max-h-[calc(100vh-250px)]    md:max-h-[calc(100vh-270px)]   overflow-y-auto grid grid-cols-2 md:grid-cols-1 gap-1  '>
                         {
                             cart.length > 0 ? cart.map((item, index) => (
                                 <div key={index} className='w-full border p-2 rounded-lg relative h-auto flex flex-col md:grid md:grid-cols-[100px_2fr_auto_auto] items-start md:items-center justify-between gap-1'>

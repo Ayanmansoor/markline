@@ -23,11 +23,13 @@ import {
   getAllCollectionWithProducts,
   getAllBanner,
   getAllCollectionOccuation,
-  getAllCollections
+  getAllCollections,
+  fetchGroupOfProducts
 } from '@/Supabase/SupabaseApi'
 import CarouselProduct from '../Product/CarouselProduct'
 import MiniCollectionCard from '../Home/MiniCellectionCard'
 import KeyMatric from '../Common/KeyMatric'
+import { newProductsProps } from '@/types/interfaces'
 
 function HomePage() {
 
@@ -43,33 +45,27 @@ function HomePage() {
 
 
 
-  const { data: trendingProducts = [], isLoading: isTrendingLoading } = useQuery<any>({
-    queryKey: ["trendingProducts"],
-    queryFn: getAllTrendingProducts,
-    staleTime: Infinity
-  })
+  // const { data: trendingProducts = [], isLoading: isTrendingLoading } = useQuery<any>({
+  //   queryKey: ["trendingProducts"],
+  //   queryFn: getAllTrendingProducts,
+  //   staleTime: Infinity
+  // })
 
-  const { data: newArrivals = [], isLoading: isNewArrivalLoading } = useQuery<any>({
-    queryKey: ["newArrivals"],
-    queryFn: getAllNewArrivalProducts,
-    staleTime: Infinity
-  })
-
-
-
-  const { data: occasional = [] } = useQuery<any>({
-    queryKey: ["occasionalcollection"],
-    queryFn: () => getAllCollectionOccuation(),
-    staleTime: Infinity
-  })
+  // const { data: newArrivals = [], isLoading: isNewArrivalLoading } = useQuery<any>({
+  //   queryKey: ["newArrivals"],
+  //   queryFn: getAllNewArrivalProducts,
+  //   staleTime: Infinity
+  // })
 
 
 
 
 
-  const { data: allcollection = [], isLoading: allCollectionLoading, isError: allCollectionError } = useQuery<any>({
+
+
+  const { data: allcollection = { data: [] }, isLoading: allCollectionLoading, isError: allCollectionError } = useQuery<{ data: any[] }>({
     queryKey: ["allcollection"],
-    queryFn: () => getAllCollections(),
+    queryFn: () => getAllCollections("ALL"),
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -77,32 +73,15 @@ function HomePage() {
   });
 
 
-  const { data: collectionWithWomenProducts = [], isLoading: collectionAlongWithLoading, isError: collectionerrorLoading } = useQuery<any>({
-    queryKey: ["collectionWithMenProducts", "WOMEN"], // you can also pass the gender as part of the key
-    queryFn: () => getAllCollectionWithProducts("WOMEN"),
+  const { data: groupOfProducts = { data: [] }, isLoading: isLoading, isError: iserror } = useQuery<{ data: newProductsProps[] }>({
+    queryKey: ["groupOfProducts"],
+    queryFn: () => fetchGroupOfProducts(),
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
 
-  const { data: collectionWithMenProducts = [], isLoading: collectionWithMenLoading, isError: collectionWithMenError } = useQuery<any>({
-    queryKey: ["collectionWithMenProducts", "MEN"], // you can also pass the gender as part of the key
-    queryFn: () => getAllCollectionWithProducts("MEN"),
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-  });
-
-  const { data: collectionWithKidsProducts = [], isLoading: collectionWithKidsLoading, isError: collectionWithKidsError } = useQuery<any>({
-    queryKey: ["collectionWithMenProducts", "KIDS"], // you can also pass the gender as part of the key
-    queryFn: () => getAllCollectionWithProducts("KIDS"),
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-  });
 
 
 
@@ -110,7 +89,7 @@ function HomePage() {
   return (
     <>
       <Hero bannerImages={homebanners} />
-      
+
       <KeyMatric />
 
 
@@ -121,8 +100,8 @@ function HomePage() {
           className="mySwiper w-full  relative h-auto  "
         >
           {
-            allcollection?.length > 0 &&
-            allcollection?.map((collec) => (
+            allcollection?.data.length > 0 &&
+            allcollection?.data?.map((collec) => (
               <SwiperSlide className='max-w-fit  border h-auto text-base   ' key={collec.slug}>
                 <MiniCollectionCard collections={collec} url={`collections/`} />
               </SwiperSlide>
@@ -135,7 +114,7 @@ function HomePage() {
 
 
 
-      {occasional?.length > 0 &&
+      {/* {occasional?.length > 0 &&
         occasional.map((item, index) => {
           return (
             <CategoriesSection title={item.name} url={`shop-by/occasion/${item.slug}`} urltext='Explore' key={index}>
@@ -143,9 +122,9 @@ function HomePage() {
             </CategoriesSection>
           )
         })
-      }
+      } */}
 
-      {collectionAlongWithLoading ? (
+      {/* {collectionAlongWithLoading ? (
         <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10">
           <ProductCardSkeleton />
           <ProductCardSkeleton />
@@ -168,19 +147,13 @@ function HomePage() {
         ))
       ) : (
         <></>
-      )}
-
-      {
-        collectionWithMenProducts.length > 0 &&
-        <section className=' h-[300px] lg:h-[400px] w-full relative '>
-          <Image src={"/home-banner-for-collection.webp"} alt='women banner' height={500} width={500} className='w-full h-full object-cover ' />
-        </section>
-      }
+      )} */}
 
 
 
-      {/* MEN Products */}
-      {collectionWithMenLoading ? (
+
+
+      {isLoading ? (
         <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10">
           <ProductCardSkeleton />
           <ProductCardSkeleton />
@@ -188,17 +161,17 @@ function HomePage() {
           <ProductCardSkeleton />
           <ProductCardSkeleton />
         </div>
-      ) : collectionWithMenProducts?.length > 0 ? (
-        collectionWithMenProducts.slice(0, 1).map((item, index) => (
-          item?.product?.length > 0 &&
+      ) : groupOfProducts?.data?.length > 0 ? (
+        groupOfProducts?.data?.slice(0, 2)?.map((item: any, index: number) => (
+          item.products?.length > 0 &&
           <CategoriesSection
-            title={`Men’s Footwear – ${item.name} `}
-            subtitle="Sneakers • Loafers • Formal & Casual Shoes for Men"
-            url="products/men"
-            urltext="Men's products"
+            title={`${item?.heading} `}
+            subtitle={`${item?.discription}`}
+            url={`${item?.url}`}
+            urltext={`${item?.urlText}`}
             key={index}
           >
-            <CarouselProduct url="product" product={item.product.slice(0, 10)} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
+            <CarouselProduct url="product" product={item.products.slice(0, 10)} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
           </CategoriesSection>
         ))
       ) : (
@@ -206,32 +179,37 @@ function HomePage() {
       )}
 
 
-      {
-        collectionWithKidsProducts.length > 0 &&
-        <section className=' h-[300px] lg:h-[400px] w-full relative '>
-          <Image src={"/home-banner-for-collection.webp"} alt='women banner' height={500} width={500} className='w-full h-full object-cover ' />
-        </section>
-      }
-
-      {collectionWithKidsProducts?.length > 0 ? (
-        collectionWithKidsProducts.map((item, index) => (
+      {isLoading ? (
+        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10">
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+        </div>
+      ) : groupOfProducts?.data?.length > 0 ? (
+        groupOfProducts?.data?.slice(2, 4)?.map((item: any, index: number) => (
+          item.products?.length > 0 &&
           <CategoriesSection
-            title={`Kids – ${item.name}`}
-            url="products/kids"
-            urltext="kid's products"
+            title={`${item?.heading} `}
+            subtitle={`${item?.discription}`}
+            url={`${item?.url}`}
+            urltext={`${item?.urlText}`}
             key={index}
           >
-            <CarouselProduct url="product" product={item.product.slice(0, 10)} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]'/>
+            <CarouselProduct url="product" product={item.products.slice(0, 10)} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
           </CategoriesSection>
         ))
       ) : (
         <></>
       )}
+
+
 
       {/* Trending */}
-      {trendingProducts?.length > 0 && (
+      {/* {trendingProducts?.length > 0 && (
         <TrendingCarousels title='Best-Selling Footwear  Customer Favorites at Markline' discription='Explore the top-rated, most-loved shoes our customers can&apos;t stop talking about.' data={trendingProducts} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
-      )}
+      )} */}
 
 
 
@@ -243,7 +221,7 @@ function HomePage() {
       />
 
       {/* New Arrivals */}
-      {isNewArrivalLoading ? (
+      {/* {isNewArrivalLoading ? (
         <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10" >
           <ProductCardSkeleton /><ProductCardSkeleton /><ProductCardSkeleton /><ProductCardSkeleton />
           <ProductCardSkeleton />
@@ -252,7 +230,7 @@ function HomePage() {
         <CategoriesSection title={"Step into the Season's Newest Trends"} url="new-arrivals" urltext='new-arrivals'>
           <SecondHero categoryName={"Shoes"} data={newArrivals} />
         </CategoriesSection>
-      )}
+      )} */}
 
       <LeatestCollection url={'collections'} />
     </>

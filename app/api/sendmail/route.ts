@@ -105,7 +105,7 @@ export async function POST(req: Request) {
       state,
       pin,
       finalPrice,
-    } :SendEmailPayload = body;
+    }: SendEmailPayload = body;
 
     if (!email || !name || !orderId || !productNames || !quantity) {
       return NextResponse.json(
@@ -185,7 +185,7 @@ export async function POST(req: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Email sending failed:",);
+    console.error("Email sending failed:", error,);
     return NextResponse.json(
       { error: "Failed to send emails" },
       { status: 500 }

@@ -4,18 +4,20 @@ import {
   getAllCollectionsBaseOnGender,
   getAllCollectionsBaseOnTypeForSeo,
   getAllProductsWithVariants,
+  getProductDataSitemap,
 } from "@/Supabase/SupabaseApi";
 import { BlogCardProps, ProductsProps } from "@/types/interfaces";
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default async function sitemap() {
-  const products: any = await getAllProductsWithVariants();
+  const data: any = await getProductDataSitemap();
   const womencollections: any = await getAllCollectionsBaseOnGender("WOMEN");
   const mencollections: any = await getAllCollectionsBaseOnGender("MEN");
   const blogs: any = await getAllBlogs();
   const occasionCollection: any = await getAllCollectionsBaseOnTypeForSeo(
     "occasion"
   );
+
 
   let sitemap = [
     { url: `${NEXT_PUBLIC_BASE_URL}/about-us` },
@@ -46,9 +48,9 @@ export default async function sitemap() {
       }))
     );
   }
-  if (products?.length > 0 && products) {
+  if (data?.length > 0 && data) {
     sitemap = sitemap.concat(
-      products.map((product: ProductsProps) => ({
+      data.map((product: ProductsProps) => ({
         url: `${NEXT_PUBLIC_BASE_URL}/product/${product.slug}`,
       }))
     );
@@ -69,13 +71,13 @@ export default async function sitemap() {
     );
   }
 
-  if (mencollections?.length > 0 && mencollections) {
-    sitemap = sitemap.concat(
-      occasionCollection.map((occasion: ProductsProps) => ({
-        url: `${NEXT_PUBLIC_BASE_URL}/occasion/${occasion.slug}`,
-      }))
-    );
-  }
+  // if (mencollections?.length > 0 && mencollections) {
+  //   sitemap = sitemap.concat(
+  //     occasionCollection.map((occasion: ProductsProps) => ({
+  //       url: `${NEXT_PUBLIC_BASE_URL}/occasion/${occasion.slug}`,
+  //     }))
+  //   );
+  // }
 
   return sitemap;
 }
