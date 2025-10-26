@@ -292,7 +292,7 @@ function Productspage() {
                                 </div>
                                 :
                                 allproducts?.data?.length ?
-                                    <GridRroduct data={filterProducts ? filterProducts : allproducts.data} url={'product'} css=' grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 bg-gray-200 ' productsCardCss=' h-[250px]  sm:h-[250px] md:h-[300px] lg:h-[350px]' /> :
+                                    <GridRroduct data={filterProducts ? filterProducts : allproducts.data} url={'product'} css=' grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-200 ' productsCardCss=' h-[250px]  sm:h-[250px] md:h-[300px] lg:h-[400px]' /> :
                                     <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3  lg:grid-cols-4   items-start justify-start gap-3 px-5  lg:px-10   ">
                                         <ProductCardSkeleton />
                                         <ProductCardSkeleton />

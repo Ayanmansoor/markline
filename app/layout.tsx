@@ -12,6 +12,7 @@ import Subcribes from "@/components/Common/Subcribes ";
 import Head from 'next/head';
 import OrderConfirmed from "@/components/Common/OrderConfirm";
 import { Toaster } from "@/components/ui/sonner";
+import Header from "@/components/Common/Header";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -135,6 +136,7 @@ export default function RootLayout({
         <Provider>
           <WishlistProvider>
             <CartProvider>
+              <Header />
               <Navbar />
               {children}
               <Subcribes />

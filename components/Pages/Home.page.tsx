@@ -1,28 +1,17 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useQuery } from 'react-query'
 import Hero from '../Common/Hero'
 import CategoriesSection from '../Common/CategoriesSection'
-import GridRroduct from '../Home/GridRroduct'
-import TrendingCarousels from '../Carousels/TrendingCarousels'
-import SecondHero from '../Common/SecondHero'
 import Discount from '../Discounts/Discount'
 import LeatestCollection from '../Collections/LeatestCollection'
-import Image from 'next/image'
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
 import MainCollections from '../Home/MainCollections'
-import { Swiper, SwiperSlide } from 'swiper/react';
-
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
-
 import {
-  getAllTrendingProducts,
-  getAllNewArrivalProducts,
-  getAllCollectionWithProducts,
   getAllBanner,
-  getAllCollectionOccuation,
   getAllCollections,
   fetchGroupOfProducts
 } from '@/Supabase/SupabaseApi'
@@ -30,8 +19,17 @@ import CarouselProduct from '../Product/CarouselProduct'
 import MiniCollectionCard from '../Home/MiniCellectionCard'
 import KeyMatric from '../Common/KeyMatric'
 import { newProductsProps } from '@/types/interfaces'
+import CollectionCard from '../Home/CollectionCard'
+import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
 
 function HomePage() {
+
+  const [selected, setSelected] = useState("women")
+
+  const handleSelect = (option: string) => {
+    setSelected(option)
+  }
 
 
   const { data: homebanners = [], isLoading: isHomebanners } = useQuery<any>({
@@ -75,7 +73,7 @@ function HomePage() {
 
   const { data: groupOfProducts = { data: [] }, isLoading: isLoading, isError: iserror } = useQuery<{ data: newProductsProps[] }>({
     queryKey: ["groupOfProducts"],
-    queryFn: () => fetchGroupOfProducts(),
+    queryFn: () => fetchGroupOfProducts("ALL"),
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -84,7 +82,7 @@ function HomePage() {
 
 
 
-
+  console.log(groupOfProducts,"this is gruop of product")
 
   return (
     <>
@@ -93,24 +91,7 @@ function HomePage() {
       <KeyMatric />
 
 
-      <section className='w-full relative flex-col  gap-5 lg:gap-10 items-start px-3 md:px-5 lg:px-10  mt-8  h-auto flex  pb-3  '>
-        <h1 className=' text-lg md:text-2xl xl:text-3xl font-meidum text-primary '>Shop By Collections</h1>
-        <Swiper
-          slidesPerView={'auto'}
-          className="mySwiper w-full  relative h-auto  "
-        >
-          {
-            allcollection?.data.length > 0 &&
-            allcollection?.data?.map((collec) => (
-              <SwiperSlide className='max-w-fit  border h-auto text-base   ' key={collec.slug}>
-                <MiniCollectionCard collections={collec} url={`collections/`} />
-              </SwiperSlide>
-            ))
-          }
-        </Swiper>
-      </section>
 
-      <MainCollections />
 
 
 
@@ -150,6 +131,60 @@ function HomePage() {
       )} */}
 
 
+      <section className='w-full  relative flex-col gap-5  2xl:gap-10 items-start px-3 md:px-5 lg:px-10 mt-7 lg:mt-10 h-auto flex pb-3'>
+        <h1 className='text-lg md:text-2xl xl:text-3xl font-semibold text-primary'>
+          Shop By Collections
+        </h1>
+
+        <div className='flex self-center justify-self-center rounded-md w-fit gap-2 items-center justify-center relative'>
+          {["women", "men", "kids"].map((option) => (
+            <button
+              key={option}
+              onClick={() => handleSelect(option)}
+              className={` px-4 md:px-4 py-1 lg:px-8 lg:py-2 rounded-full border-2 font-medium transition-all ${selected === option
+                ? "bg-foreground text-background border-foreground"
+                : "border-foreground text-foreground hover:bg-muted"
+                }`}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+
+        <section className='w-full relative h-auto gap-3 md:gap-5 xl:gap-5 2xl:gap-5 grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
+          {allcollection?.data?.length > 0 ? (
+            allcollection.data
+              .filter((col) => col?.gender?.toLowerCase() === selected.toLowerCase()).slice(0, 6)
+              .map((collec, index) => (
+                <CollectionCard
+                  key={collec.id || index}
+                  collections={collec}
+                  url='collections/'
+                  imageClass='    md:h-[280px] lg:h-[300px] xl:h-[380px] w-full border object-cover relative rounded-md transition-all duration-100'
+                  className='relative h-auto xl:h-[450px] w-full rounded-md bg-gray-200 cursor-pointer group flex flex-col items-start justify-center gap-4 p-1 md:p-3'
+                />
+              ))
+          ) : (
+            <div className="col-span-full text-center text-muted-foreground py-10">
+              Loading collections...
+            </div>
+          )}
+
+          {/* Fallback if selected tab has no results */}
+          {allcollection?.data?.filter(
+            (col) => col?.gender?.toLowerCase() === selected.toLowerCase()
+          ).length === 0 && (
+              <div className="col-span-full text-center text-muted-foreground py-10">
+                No collections found for <strong>{selected}</strong>.
+              </div>
+            )}
+
+
+        </section>
+        <Link href={"/collections"} className='text-base px-5 md:px-5  py-2 lg:py-3 rounded-full self-center justify-self-center relative font-medium text-white flex items-center justify-center gap-2 bg-primary cursor-pointer'>View  <ArrowUpRight height={20} className='text-white ' /></Link>
+
+      </section>
+      <MainCollections />
 
 
 

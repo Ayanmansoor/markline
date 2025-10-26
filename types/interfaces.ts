@@ -208,6 +208,8 @@ export interface CollectionsDataProps {
 export interface newCollectionCardProps {
   collections: CollectionCardProps;
   url: string;
+  className?: string
+  imageClass?:string
 }
 
 export interface ProdcutFilterProps {

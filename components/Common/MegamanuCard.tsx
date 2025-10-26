@@ -2,19 +2,19 @@ import React from 'react'
 import Link from 'next/link'
 import { ProductsDataProps, ProductVariant } from '@/types/interfaces'
 
-interface Megamanudata{
-    product:ProductVariant,
-    slug:string
-    name:string
+interface Megamanudata {
+    product: ProductVariant,
+    slug: string
+    name: string
 }
 
-function MegamanuCard({product,slug,name}:Megamanudata) {
+function MegamanuCard({ product, slug, name }: Megamanudata) {
 
-    const productImage:any = product?.image_url?.map((image:any) => JSON.parse(image))
+    const productImage: any = product?.image_url?.map((image: any) => JSON.parse(image))
     return (
         <Link href={`/product/${slug}`} className=' border border-gray-200 max-w-fit relative h-auto flex flex-col  items-center gap-1 p-2 bg-gray-50 rounded-md '>
             {
-                <img src={productImage[1]?.image_url} alt={name} height={400} width={500} className='h-[130px] w-[300px] rounded-md border' loading='lazy'/>
+                <img src={`${productImage[1]?.image_url}` || "/"} alt={name} height={400} width={500} className='h-[170px] w-[260px] rounded-md border' loading='lazy' />
             }
 
             <p className='text-sm text-start font-medium text-primary line-clamp-2'>{name}</p>

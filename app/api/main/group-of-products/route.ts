@@ -4,7 +4,20 @@ import { mysupabase } from "@/Supabase/SupabaseConfig";
 
 export async function GET(req: NextRequest) {
     try {
-        const groupType = "ALL";
+        const groupType = req.nextUrl.searchParams.get("type")
+        console.log({ groupType });
+
+        if (!groupType) {
+            return NextResponse.json(
+                {
+                    valid: false,
+                    message: "Invalid or missing 'type' parameter. Allowed values: ALL, NEW, LIMITED"
+                },
+                { status: 400 }
+            );
+        }
+
+
 
         //     const { data, error } = await mysupabase
         //         .from("product")
@@ -19,7 +32,8 @@ export async function GET(req: NextRequest) {
         //     )
         //   `)
         //         .eq("grouptype.type", groupType);
-        const { data, error } = await mysupabase
+
+        let query = mysupabase
             .from("group")
             .select(`
                 id,
@@ -29,11 +43,18 @@ export async function GET(req: NextRequest) {
                 url,
                 urlText,
                 products:product (
-                *,
-                product_variants (*)
+                    *,
+                    product_variants (*)
                 )
             `);
-        // Handle query error
+
+        // Apply filter only if type is not ALL
+        if (groupType) {
+            query = query.eq("type", groupType);
+        }
+
+        const { data, error } = await query;
+
         if (error) {
             console.error("Supabase error:", error);
             return NextResponse.json(

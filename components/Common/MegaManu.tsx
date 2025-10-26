@@ -4,10 +4,10 @@ import React, { useEffect, useState } from 'react'
 import MegamanuCard from './MegamanuCard';
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useQuery } from 'react-query';
-import { getAllCollections, getProductBaseOnCollection } from '@/Supabase/SupabaseApi';
+import { fetchGroupOfProducts, getAllCollections, getProductBaseOnCollection } from '@/Supabase/SupabaseApi';
 import Link from 'next/link';
 import MegaManuCarSkeleton from '../Skeleton/MegaManuCarSkeleton';
-import { NewProductProps, ProductVariant } from '@/types/interfaces';
+import { NewProductProps, newProductsProps, ProductVariant } from '@/types/interfaces';
 import { Skeleton } from '../ui/skeleton';
 
 
@@ -47,10 +47,38 @@ function MegaManu({ children }: { children: React.ReactNode }) {
     }, [gender, slug]);
 
 
-    const { data: products = [], isLoading, isError } = useQuery({
-        queryKey: ["megamanuslugdata", slug],
-        enabled: !!slug,
-        queryFn: () => getProductBaseOnCollection(slug),
+    // const { data: products = [], isLoading, isError } = useQuery({
+    //     queryKey: ["megamanuslugdata", slug],
+    //     enabled: !!slug,
+    //     queryFn: () => getProductBaseOnCollection(slug),
+    //     staleTime: Infinity,
+    //     refetchOnMount: false,
+    //     refetchOnWindowFocus: false,
+    //     refetchOnReconnect: false,
+    // });
+
+
+
+
+    // useEffect(() => {
+    //     if (products && products.length > 0) {
+    //         if (selectProducts?.id !== products[0].id) {
+    //             setProducts(products[0]);
+    //         }
+    //     }
+    // }, [products, selectProducts]);
+
+    // function selectProductBaseOnCategory(slug: string) {
+    //     const p = products?.find((product) => {
+    //         if (product.slug == slug) return product;
+    //     })
+    //     setProducts(p)
+    // }
+
+
+    const { data: groupOfProducts = { data: [] }, isLoading: isLoading, isError: iserror } = useQuery<{ data: newProductsProps[] }>({
+        queryKey: ["groupOfProducts"],
+        queryFn: () => fetchGroupOfProducts("BEST_SELLER"),
         staleTime: Infinity,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -58,22 +86,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
     });
 
 
-    useEffect(() => {
-        if (products && products.length > 0) {
-            if (selectProducts?.id !== products[0].id) {
-                setProducts(products[0]);
-            }
-        }
-    }, [products, selectProducts]);
-
-    function selectProductBaseOnCategory(slug: string) {
-        const p = products?.find((product) => {
-            if (product.slug == slug) return product;
-        })
-        setProducts(p)
-    }
-
-
+    console.log(groupOfProducts.data, "thjs is ")
 
 
     return (
@@ -88,17 +101,17 @@ function MegaManu({ children }: { children: React.ReactNode }) {
 
                 </button>
                 <div
-                    className="absolute  -left-10 top-5 transition group-hover:translate-y-5 translate-y-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-500 ease-in-out group-hover:transform z-50 min-w-[calc(100vw-100px)] 2xl:min-w-[calc(100vw-100px)] flex flex-col gap-5 transform"
+                    className="absolute  -left-36 top-5 transition group-hover:translate-y-5 translate-y-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-500 ease-in-out group-hover:transform z-50 min-w-[calc(100vw-100px)] 2xl:min-w-[calc(100vw-100px)] flex flex-col gap-5 transform"
 
                 >
                     <div
                         className="relative top-6 p-6 bg-white rounded-xl shadow-xl w-full"
                     >
                         <div
-                            className="w-10 h-5 bg-white transform rotate-45 absolute top-0 z-0 translate-x-0 transition-transform group-hover:translate-x-[5rem] 2xl:group-hover:translate-x-[2rem] duration-500 ease-in-out rounded-sm"
+                            className="w-10 h-5 bg-white transform rotate-45 absolute top-0 z-0 translate-x-0 transition-transform group-hover:translate-x-[14rem] 2xl:group-hover:translate-x-[14rem] duration-500 ease-in-out rounded-sm"
                         ></div>
                         <div className="relative z-10 flex flex-col gap-10">
-                            <div className="grid grid-cols-[.7fr_.7fr_.7fr_2fr] items-start justify-start gap-6 w-full ">
+                            <div className="grid grid-cols-[.7fr_.7fr_2fr] items-start justify-start gap-6 w-full ">
                                 <div>
                                     <p
                                         className="uppercase tracking-wider text-primary font-medium border-b py-3 text-[13px] "
@@ -127,35 +140,15 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                                         }
                                     </ul>
                                 </div>
+
                                 <div>
                                     <p
-                                        className="uppercase tracking-wider line-clamp-1 text-primary font-medium border-b pb-2 text-[13px]"
+                                        className="uppercase w-full relative tracking-wider text-primary font-medium border-b pb-2 text-[13px]"
                                     >
-                                        Products - {slug}
-                                    </p>
-                                    <ul className="mt-3 w-full realtive h-[300px] flex flex-col gap-1  overflow-hidden overflow-y-auto  " id='style-4'>
-                                        {
-                                            products &&
-                                                products?.length > 0 ?
-                                                products?.map((item, index) => (
-                                                    <Link href={`/product/${item.slug}`.toLowerCase()} className={`text-sm  capitalize font-medium hover:bg-gray-100  cursor-pointer  py-1 px-2 flex items-center gap-1 ${selectProducts?.slug == item.slug ? "bg-gray-100" : "bg-transparent"} `} key={index} onMouseEnter={() => selectProductBaseOnCategory(item.slug)} >
-                                                        {item.name}
-                                                    </Link>
-                                                ))
-                                                :
-                                                <Skeleton className="h-5   max-w-full " />
-
-                                        }
-                                    </ul>
-                                </div>
-                                <div>
-                                    <p
-                                        className="uppercase tracking-wider text-primary font-medium border-b pb-2 text-[13px]"
-                                    >
-                                        Products
+                                        Best Seller&apos;s
                                     </p>
 
-                                    <ul className="mt-4 text-[15px] w-full relative grid grid-cols-3 2xl:grid-cols-4 h-[300px] gap-2  items-start justify-start overflow-hidden overflow-y-auto">
+                                    <ul className="mt-4 text-[15px] w-full relative grid grid-cols-3 2xl:grid-cols-5 h-[300px] gap-2  items-start justify-start overflow-hidden overflow-y-auto">
                                         {
                                             isLoading ?
                                                 <>
@@ -166,11 +159,28 @@ function MegaManu({ children }: { children: React.ReactNode }) {
 
                                                 </>
                                                 :
-                                                products && products?.length > 0 ?
-                                                    selectProducts?.product_variants?.map((product: ProductVariant, index) => (
-                                                        <MegamanuCard product={product} key={index} slug={selectProducts.slug} name={selectProducts.slug} />
+                                                groupOfProducts?.data?.length > 0 ? (
+                                                    groupOfProducts?.data?.map((item: any, index: number) => (
+                                                        item.products?.length > 0 &&
+                                                        item.products.map((product: any, index) => (
+                                                            <MegamanuCard
+                                                                product={product.product_variants[0]}
+                                                                key={`${index}`}
+                                                                slug={product.slug}
+                                                                name={product.name}
+                                                            />
+                                                        ))
+
+
                                                     ))
+                                                )
+
+
+
+
                                                     :
+
+
                                                     <>
                                                         <MegaManuCarSkeleton />
                                                         <MegaManuCarSkeleton />
@@ -187,9 +197,11 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                         </div>
                     </div>
                 </div>
-            </li>
+            </li >
         </>
     )
 }
 
 export default MegaManu
+
+//  

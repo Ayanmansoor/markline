@@ -18,6 +18,8 @@ import ProductFilter from '../Common/ProductFilter'
 import { Colors, NewProductProps, ProductsDataProps, ProductVariant, Sizes } from '@/types/interfaces'
 import { selectColorAndSizesProps } from '../Products/Products.page'
 import MainCollections from '../Home/MainCollections'
+import CollectionCard from '../Home/CollectionCard'
+import { ArrowUpRight } from 'lucide-react'
 function CollcetionPage() {
 
   const [productRangevalue, setPRoductRange] = useState(5000)
@@ -28,7 +30,11 @@ function CollcetionPage() {
     size: []
   })
 
+  const [selected, setSelected] = useState("women")
 
+  const handleSelect = (option: string) => {
+    setSelected(option)
+  }
 
   const { data: collectionBanner = [], isLoading: bannerloading, isError: bannererror } = useQuery({
     queryKey: ["collectionBanner"],
@@ -39,14 +45,7 @@ function CollcetionPage() {
     refetchOnReconnect: false,
   });
 
-  // const { data: products = { data: [] }, isLoading: productloading, isError: producterror } = useQuery<{ data: NewProductProps[] }>({
-  //   queryKey: ["products"],
-  //   queryFn: getAllProductsWithVariants,
-  //   staleTime: Infinity,
-  //   refetchOnMount: false,
-  //   refetchOnWindowFocus: false,
-  //   refetchOnReconnect: false,
-  // });
+
 
   const { data: collections = { data: [] }, isLoading: collectionloading, isError: collectionerror } = useQuery<{ data: any }>({
     queryKey: ["collections"],
@@ -59,135 +58,6 @@ function CollcetionPage() {
 
 
 
-  // useEffect(() => {
-  //   if (!products.data) return;
-
-  //   const filtered = products?.data?.filter((product: NewProductProps) => {
-  //     const variants = product?.product_variants || [];
-
-  //     // --- PRICE check ---
-  //     const lowestPrice = variants.length
-  //       ? Math.min(...variants.map(variant => variant.price || 0))
-  //       : 0;
-  //     const matchPrice = lowestPrice <= productRangevalue;
-
-
-
-  //     // --- COLOR check ---
-  //     const matchColor =
-  //       !selectColorAndSizes.color?.length ||
-  //       variants.some(variant => {
-  //         let colorArray: Colors[] = [];
-  //         if (typeof variant.colors === "string") {
-  //           try {
-  //             const parsed = JSON.parse(variant.colors);
-  //             colorArray = Array.isArray(parsed) ? parsed : [parsed];
-  //           } catch {
-  //             return false;
-  //           }
-  //         } else if (Array.isArray(variant.colors)) {
-  //           colorArray = variant.colors.map(c =>
-  //             typeof c === "string" ? JSON.parse(c) : c
-  //           );
-  //         }
-
-  //         return colorArray.some(c =>
-  //           selectColorAndSizes.color?.includes(c.name)
-  //         );
-  //       });
-
-  //     // --- SIZE check ---
-  //     const matchSize =
-  //       !selectColorAndSizes.size?.length ||
-  //       variants.some(variant => {
-  //         let sizeArray: Sizes[] = [];
-  //         if (typeof variant.sizes === "string") {
-  //           try {
-  //             const parsed = JSON.parse(variant.sizes);
-  //             sizeArray = Array.isArray(parsed) ? parsed : [parsed];
-  //           } catch {
-  //             return false;
-  //           }
-  //         } else if (Array.isArray(variant.sizes)) {
-  //           sizeArray = variant.sizes.map(s =>
-  //             typeof s === "string" ? JSON.parse(s) : s
-  //           );
-  //         }
-
-  //         return sizeArray.some(s =>
-  //           selectColorAndSizes.size?.includes(s.size)
-  //         );
-  //       });
-
-  //     return matchPrice && matchColor && matchSize;
-  //   });
-
-  //   setFilterProducts(filtered);
-  // }, [productRangevalue, products, selectColorAndSizes]);
-
-
-  // const { allColors, allSizes } = useMemo(() => {
-  //   const colorMap = new Map<string, Colors>();
-  //   const sizeMap = new Map<string, Sizes>();
-
-  //   products?.data.forEach((product: NewProductProps) => {
-  //     product?.product_variants?.forEach((variant: ProductVariant) => {
-  //       let colorArray: Colors[] = [];
-  //       let sizeArray: Sizes[] = [];
-
-  //       // normalize colors
-  //       if (Array.isArray(variant.colors)) {
-  //         colorArray = variant.colors.map((item) =>
-  //           typeof item === "string" ? JSON.parse(item) : item
-  //         );
-  //       } else if (typeof variant.colors === "string") {
-  //         try {
-  //           const parsed = JSON.parse(variant.colors);
-  //           colorArray = Array.isArray(parsed) ? parsed : [parsed];
-  //         } catch {
-  //           colorArray = [];
-  //         }
-  //       }
-
-  //       // normalize sizes
-  //       if (Array.isArray(variant.sizes)) {
-  //         sizeArray = variant.sizes.map((item) =>
-  //           typeof item === "string" ? JSON.parse(item) : item
-  //         );
-  //       } else if (typeof variant.sizes === "string") {
-  //         try {
-  //           const parsed = JSON.parse(variant.sizes);
-  //           sizeArray = Array.isArray(parsed) ? parsed : [parsed];
-  //         } catch {
-  //           sizeArray = [];
-  //         }
-  //       }
-
-  //       // add unique colors
-  //       colorArray.forEach((color) => {
-  //         if (color?.name && !colorMap.has(color.name)) {
-  //           colorMap.set(color.name, color);
-  //         }
-  //       });
-
-  //       // add unique sizes
-  //       sizeArray.forEach((size) => {
-  //         if (size?.size && !sizeMap.has(size.size)) {
-  //           sizeMap.set(size.size, size);
-  //         }
-  //       });
-  //     });
-  //   });
-
-  //   return {
-  //     allColors: Array.from(colorMap.values()),
-  //     allSizes: Array.from(sizeMap.values()),
-  //   };
-  // }, [products]);
-
-
-
-
 
 
   return (
@@ -196,13 +66,68 @@ function CollcetionPage() {
         collectionBanner &&
         <Hero bannerImages={collectionBanner} css=' h-auto h-[250px]  lg:h-[400px] xl:h-[100vh]' />
       }
-      
+
       <MainCollections />
+      {/* <Collectionsection collections={collections?.data?.filter((item) => item.gender == 'WOMEN')} url={'collections/women'} /> */}
 
       {collections?.data?.length ?
-        <CategoriesSection title={"Women's Footwear Collections – Sandals, Flats, Heels & More"} subtitle='Discover elegant sandals, comfy flats, chic heels & stylish mules' url={''} >
-          <Collectionsection collections={collections?.data?.filter((item) => item.gender == 'WOMEN')} url={'collections/women'} />
-        </CategoriesSection> :
+        < section className='w-full  relative flex-col gap-5 mb-10 2xl:gap-10 items-start px-3 md:px-5 lg:px-10 mt-7 lg:mt-10 h-auto flex pb-3'>
+          <div className='flex flex-col gap-1 relative '>
+            <h1 className='text-lg md:text-2xl xl:text-3xl font-semibold text-primary'>
+              Women&apos;s Footwear Collections – Sandals, Flats, Heels & More
+            </h1>
+            <p className='text-lg font-medium text-primary  '>Discover elegant sandals, comfy flats, chic heels & stylish mules</p>
+          </div>
+
+          <div className='flex self-center justify-self-center rounded-md w-fit gap-2 items-center justify-center relative'>
+            {["women", "men", "kids"].map((option) => (
+              <button
+                key={option}
+                onClick={() => handleSelect(option)}
+                className={` px-4 md:px-4 py-1 lg:px-8 lg:py-2 rounded-full border-2 font-medium transition-all ${selected === option
+                  ? "bg-foreground text-background border-foreground"
+                  : "border-foreground text-foreground hover:bg-muted"
+                  }`}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+
+          <section className='w-full relative h-auto gap-3 md:gap-5 xl:gap-5 2xl:gap-5 grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
+            {collections?.data?.length > 0 ? (
+              collections.data
+                .filter((col) => col?.gender?.toLowerCase() === selected.toLowerCase()).slice(0, 6)
+                .map((collec, index) => (
+                  <CollectionCard
+                    key={collec.id || index}
+                    collections={collec}
+                    url='collections/'
+                    imageClass='    md:h-[280px] lg:h-[300px] xl:h-[380px] w-full border object-cover relative rounded-md transition-all duration-100'
+                    className='relative h-auto xl:h-[450px] w-full rounded-md bg-gray-200 cursor-pointer group flex flex-col items-start justify-center gap-4 p-1 md:p-3'
+                  />
+                ))
+            ) : (
+              <div className="col-span-full text-center text-muted-foreground py-10">
+                Loading collections...
+              </div>
+            )}
+
+            {/* Fallback if selected tab has no results */}
+            {collections?.data?.filter(
+              (col) => col?.gender?.toLowerCase() === selected.toLowerCase()
+            ).length === 0 && (
+                <div className="col-span-full text-center text-muted-foreground py-10">
+                  No collections found for <strong>{selected}</strong>.
+                </div>
+              )}
+
+
+          </section>
+          <Link href={"/collections"} className='text-base px-5 md:px-7  py-2 lg:py-2 rounded-full self-center justify-self-center relative font-medium text-white flex items-center justify-center gap-2 bg-primary cursor-pointer'>View  <ArrowUpRight height={20} className='text-white ' /></Link>
+
+        </section >
+        :
         <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4   xl:grid-cols-5 items-start justify-start gap-3 px-5  lg:px-10   ">
           <ProductCardSkeleton />
           <ProductCardSkeleton />

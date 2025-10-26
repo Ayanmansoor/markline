@@ -1,10 +1,10 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import CategoriesSection from '../Common/CategoriesSection'
 import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
 import GridRroduct from '../Home/GridRroduct'
 import Discount from '../Discounts/Discount'
-import { getAllCollections, getCollectionBaseOnTypeAndOccuation, } from '@/Supabase/SupabaseApi'
+import { fetchGroupOfProducts, getAllCollections, getCollectionBaseOnTypeAndOccuation, } from '@/Supabase/SupabaseApi'
 import { useParams } from 'next/navigation'
 import { useQuery } from 'react-query'
 import Link from 'next/link'
@@ -19,12 +19,22 @@ import {
 } from "@/components/ui/breadcrumb"
 
 import Image from 'next/image'
+import { Colors, NewProductProps, newProductsProps, Sizes } from '@/types/interfaces'
+import CarouselProduct from '../Product/CarouselProduct'
+import { selectColorAndSizesProps } from '../Products/Products.page'
+import ProductFilter from '../Common/ProductFilter'
 
 function Occasions() {
-
-  const { collection } = useParams()
-  const occasionslug = Array.isArray(collection) ? collection[0] : collection;
   const [productRangevalue, setPRoductRange] = useState(5000)
+  const [filterProducts, setFilterProducts] = useState<NewProductProps[]>()
+
+  const [selectColorAndSizes, setSelectColorAndSizes] = useState<selectColorAndSizesProps>({
+    color: [],
+    size: []
+  })
+
+  const { occasion } = useParams()
+  const occasionslug = Array.isArray(occasion) ? occasion[0] : occasion;
 
 
 
@@ -38,17 +48,153 @@ function Occasions() {
     refetchOnReconnect: false,
   });
 
-  const { data: productbaseOnOccasion = [], isLoading: productbaseOnOccasionLoading, isError: productbaseOnOccasionError } = useQuery<any>({
-    queryKey: ["getProductsBaseOnTypeAndOccuation", occasionslug],
-    queryFn: () => getCollectionBaseOnTypeAndOccuation('OCCASION', occasionslug),
+  const { data: groupOfProducts = { data: [] }, isLoading: isLoading, isError: iserror } = useQuery<{ data: any[] }>({
+    queryKey: ["groupOfProducts"],
+    queryFn: () => fetchGroupOfProducts("BEST_SELLER"),
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
 
+  console.log("occasionsCollection products", groupOfProducts)
 
 
+  const flatProducts = useMemo(() => {
+    const groups = groupOfProducts?.data || [];
+    const allProducts: NewProductProps[] = [];
+
+    groups.forEach(group => {
+      group.products.forEach(product => {
+        allProducts.push(product);
+      });
+    });
+
+    return allProducts;
+  }, [groupOfProducts]);
+  useEffect(() => {
+    if (!flatProducts) return;
+
+    const filtered = flatProducts.filter((product: NewProductProps) => {
+      const variants = product?.product_variants || [];
+
+      // PRICE
+      const lowestPrice = variants.length
+        ? Math.min(...variants.map(variant => variant.price || 0))
+        : 0;
+      const matchPrice = lowestPrice <= productRangevalue;
+
+
+      // COLOR
+      const matchColor =
+        !selectColorAndSizes.color?.length ||
+        variants.some(variant => {
+          let colorArray: Colors[] = [];
+
+          if (typeof variant.colors === "string") {
+            try {
+              const parsed = JSON.parse(variant.colors);
+              colorArray = Array.isArray(parsed) ? parsed : [parsed];
+            } catch {
+              return false;
+            }
+          } else if (Array.isArray(variant.colors)) {
+            colorArray = variant.colors.map(c =>
+              typeof c === "string" ? JSON.parse(c) : c
+            );
+          }
+
+          return colorArray.some(c =>
+            selectColorAndSizes.color?.includes(c.name)
+          );
+        });
+
+      // SIZE
+      const matchSize =
+        !selectColorAndSizes.size?.length ||
+        variants.some(variant => {
+          let sizeArray: Sizes[] = [];
+
+          if (typeof variant.sizes === "string") {
+            try {
+              const parsed = JSON.parse(variant.sizes);
+              sizeArray = Array.isArray(parsed) ? parsed : [parsed];
+            } catch {
+              return false;
+            }
+          } else if (Array.isArray(variant.sizes)) {
+            sizeArray = variant.sizes.map(s =>
+              typeof s === "string" ? JSON.parse(s) : s
+            );
+          }
+
+          return sizeArray.some(s =>
+            selectColorAndSizes.size?.includes(s.size)
+          );
+        });
+
+      return matchPrice && matchColor && matchSize;
+    });
+
+    setFilterProducts(filtered);
+  }, [flatProducts, productRangevalue, selectColorAndSizes]);
+  const { allColors, allSizes } = useMemo(() => {
+    const colorMap = new Map<string, Colors>();
+    const sizeMap = new Map<string, Sizes>();
+
+    flatProducts.forEach(product => {
+      product.product_variants?.forEach(variant => {
+        let colorArray: Colors[] = [];
+        let sizeArray: Sizes[] = [];
+
+        // COLORS
+        if (Array.isArray(variant.colors)) {
+          colorArray = variant.colors.map(item =>
+            typeof item === "string" ? JSON.parse(item) : item
+          );
+        } else if (typeof variant.colors === "string") {
+          try {
+            const parsed = JSON.parse(variant.colors);
+            colorArray = Array.isArray(parsed) ? parsed : [parsed];
+          } catch {
+            colorArray = [];
+          }
+        }
+
+        // SIZES
+        if (Array.isArray(variant.sizes)) {
+          sizeArray = variant.sizes.map(item =>
+            typeof item === "string" ? JSON.parse(item) : item
+          );
+        } else if (typeof variant.sizes === "string") {
+          try {
+            const parsed = JSON.parse(variant.sizes);
+            sizeArray = Array.isArray(parsed) ? parsed : [parsed];
+          } catch {
+            sizeArray = [];
+          }
+        }
+
+        // Add to maps
+        colorArray.forEach(color => {
+          if (color?.name && !colorMap.has(color.name)) {
+            colorMap.set(color.name, color);
+          }
+        });
+
+        sizeArray.forEach(size => {
+          if (size?.size && !sizeMap.has(size.size)) {
+            sizeMap.set(size.size, size);
+          }
+        });
+      });
+    });
+
+    return {
+      allColors: Array.from(colorMap.values()),
+      allSizes: Array.from(sizeMap.values()),
+    };
+  }, [flatProducts]);
 
 
   return (
@@ -77,42 +223,40 @@ function Occasions() {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <section className="w-full min-h-[300px]  relative  gap-10  bg-gray-200  ">
 
 
-        <div className="w-full gap-5  relative flex flex-col  px-3   ">
-          {
-            productbaseOnOccasionLoading ?
-              <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3  lg:grid-cols-4 xl:grid-cols-5 items-start justify-start gap-3 px-5  lg:px-10   ">
-                <ProductCardSkeleton />
-                <ProductCardSkeleton />
-                <ProductCardSkeleton />
-                <ProductCardSkeleton />
-                <ProductCardSkeleton />
-              </div>
-              :
-              productbaseOnOccasion?.length &&
-              productbaseOnOccasion.map((item, index) => (
-                <CategoriesSection title={item?.name} subtitle={item?.description} url={''} key={index} isH1={true}>
+      <section className="w-full min-h-[300px] mt-5 relative  gap-10  bg-gray-200  ">
+        <span className=' flex items-center border-b border-white w-full justify-between h-fit sticky top-16 z-30 bg-white  py-5 px-3 md:px-5 lg:px-10 '>
+          <ProductFilter
+            gender={''}
+            collection={[]}
+            productRangevalue={productRangevalue}
+            setPRoductRange={setPRoductRange}
+            slug={""}
+            colors={allColors}
+            sizes={allSizes}
+            SetselectColorAndSizes={setSelectColorAndSizes}
+          />
 
-                  <GridRroduct data={item.product} url={'product'} css='grid-cols-2 md:grid-cols-3  lg:grid-cols-4 bg-gray-200 ' key={index} />
-                </CategoriesSection>
-              ))
-          }
+        </span>
+        {isLoading ? (
+          <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-10">
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+          </div>
+        ) : groupOfProducts?.data?.length > 0 ? (
+          groupOfProducts?.data?.map((item: any, index: number) => (
+            item.products?.length > 0 &&
+            <GridRroduct data={item.products} url={'product'} css='grid-cols-2 md:grid-cols-3 px-5 md:px-10 py-10  lg:grid-cols-4 bg-gray-200  ' productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[350px] xl:h-[400px]' key={index} />
+          ))
+        ) : (
+          <></>
+        )}
 
-
-          <section className='w-full relative h-auto flex items-end justify-end pt-10 '>
-            {/* {
-              products?.length >= productShow && <button className='w-fit relative h-auto text-base font-medium border cursor-pointer px-3 py-2  bg-primary text-white ' onClick={showMoreProducts}>
-                Show More
-              </button>
-            } */}
-
-          </section>
-
-        </div>
-      </section>
-
+      </section >
 
 
       <Discount title={`Spotlight ${occasionslug} Footwear: Featured Styles You'll Love`} description={`Explore our top picks from the ${occasionslug} collection—curated for quality, comfort, and on‑trend appeal. Whether it's chic sandals, cozy sneakers, or elegant dress shoes, these standout styles are designed to elevate your everyday wardrobe.`} url='' />

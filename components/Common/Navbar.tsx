@@ -12,6 +12,7 @@ import { useCartContext } from '@/Contexts/Cart.context'
 import NavUser from './NavUser'
 import { CiSearch } from 'react-icons/ci'
 import { MdKeyboardArrowDown } from 'react-icons/md'
+import CummonMegaManu from './CummonMegaManu'
 
 function Navbar() {
 
@@ -40,31 +41,37 @@ function Navbar() {
         <nav className='sticky  w-full h-fit bg-transparent top-0 z-50 bg-white'>
             <section className={`  py-3 flex items-center justify-between gap-1 text-third px-3 md:px-5 bg-white`}>
 
-                <ul className={` items-center gap-3 relative md:gap-5 xl:gap-5 flex  text-primary `}>
-                    {/* <Link href={"/products/women"} className="bg-transparent font-medium  p-0 text-base xl:text-base">WOMEN</Link>
-                    <Link href={"/products/men"} className="bg-transparent font-medium  p-0 text-base xl:text-base">MEN</Link> */}
-                    <SideBarNew />
-                    <span className='lg:block hidden'>
+                <ul className={` items-center gap-2 relative md:gap-3  flex  text-primary `}>
+                    <Link href={'/'} className={` text-3xl md:text-3xl lg:text-4xl font-semibold md:font-semibold   text-primary  `}>MARKLINE</Link>
+
+                    <span className='lg:block hidden  ml-2'>
                         <MegaManu>
-                            <Link href={"/collections"} className={`font-semibold  text-base xl:text-lg flex items-center gap-2   text-primary `}>COLLECTIONS <MdKeyboardArrowDown className={`text-[20px] text-primary `} /></Link>
+                            <Link href={"/collections"} className={`font-semibold  text-sm xl:text-sm flex items-center gap-2   text-primary `}>COLLECTIONS <MdKeyboardArrowDown className={`text-[20px] text-primary `} /></Link>
                         </MegaManu>
                     </span>
+                    <CummonMegaManu urlProps='women'>
+                        <Link href={"/products/women"} className={`font-semibold  text-sm xl:text-sm flex items-center gap-2   text-primary `}>WOMEN</Link>
+                    </CummonMegaManu>
+                    <CummonMegaManu urlProps='men'>
+                        <Link href={"/products/men"} className={`font-semibold  text-sm xl:text-sm flex items-center gap-2   text-primary `}>MEN</Link>
+                    </CummonMegaManu >
 
-                    {/* <Link href={"/about-us"} className="bg-transparent font-medium p-0  text-base xl:text-base">ABOUT US</Link>
-                    <Link href={"/new-arrivals"} className="bg-transparent font-medium p-0     text-base xl:text-base px-3">NEW ARRIVALS</Link> */}
+                    <Link href={"/products/new-arrivals"} className={`font-semibold   lg:flex hidden text-sm xl:text-sm  items-center gap-2   text-primary `}>NEW</Link>
+
+
+
                 </ul>
-                <Link href={'/'} className={` text-3xl md:text-4xl lg:text-5xl font-semibold md:font-semibold   text-primary  `}>MARKLINE</Link>
 
                 <ul className='flex items-center gap-2 sm:gap-4'>
                     {
                         path != 'search' &&
-                        <CiSearch className='text-[30px] cursor-pointer' onClick={(es) => route.push("/search")} />
+                        <CiSearch className=' text-[25px] xl:text-[30px] cursor-pointer' onClick={(es) => route.push("/search")} />
                     }
 
                     <li className='flex gap-1 items-center text-p18 font-medium cursor-pointer'>
                         <CartSheet>
                             <section className='relative h-auto w-auto'>
-                                <PiShoppingCartLight className='text-[30px] text-primary' />
+                                <PiShoppingCartLight className=' text-[25px] xl:text-[30px] text-primary' />
                                 {
                                     cart.length > 0 &&
                                     <p className='p-1 h-fit rounded-full text-[12px] leading-[0.6] absolute -top-2 -right-1 flex items-center justify-center w-fit font-normal bg-gray-800 text-white'>{cart?.length}</p>
@@ -74,6 +81,8 @@ function Navbar() {
                     </li>
 
                     <NavUser />
+                    <SideBarNew />
+
                 </ul>
             </section>
         </nav>

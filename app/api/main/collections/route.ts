@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
         const searchparam = req.nextUrl.searchParams.get("type")
         console.log({ searchparam });
 
-        if (!searchparam || !allowedTypes.includes(searchparam)) {
+        if (!searchparam) {
             return NextResponse.json(
                 {
                     valid: false,
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
         const { data: collections, error } = await mysupabase
             .from("collection")
             .select("*")
-            .eq("type", "ALL");
+            .eq("type", searchparam );
 
         if (error) {
             console.error("Supabase error:", error);

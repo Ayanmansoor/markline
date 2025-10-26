@@ -25,11 +25,11 @@ function NavUser() {
             {
                 isUser ?
                     <Link href={'/user'}>
-                        <PiUserCircleThin className='text-[35px]  cursor-pointer' />
+                        <PiUserCircleThin className=' text-[25px] xl:text-[35px]  cursor-pointer' />
                     </Link>
                     :
                     <LoginModal>
-                        <PiUserCircleThin className='text-[35px] cursor-pointer ' />
+                        <PiUserCircleThin className='text-[25px] xl:text-[35px] cursor-pointer ' />
                     </LoginModal>
             }
         </div>

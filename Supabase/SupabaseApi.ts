@@ -520,9 +520,9 @@ async function getsearchProducts(query: string) {
 
 
 
-const fetchGroupOfProducts = async () => {
+const fetchGroupOfProducts = async (type?: string) => {
   try {
-    const response = await axios.get("/api/main/group-of-products");
+    const response = await axios.get(`/api/main/group-of-products?type=${type}`);
 
 
     return response.data;
