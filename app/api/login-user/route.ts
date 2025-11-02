@@ -6,7 +6,7 @@ import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 
 export async function POST(req: NextRequest) {
-  const { email, token } = await req.json();
+  const { email, token, phone } = await req.json();
 
   if (!email || !token) {
     return NextResponse.json({ error: "Email or Token is missing" }, { status: 400 });
@@ -35,14 +35,15 @@ export async function POST(req: NextRequest) {
     );
   }
 
-    const { error } = await mysupabase.auth.signInWithOtp({
-            email,
-            options: {
-               emailRedirectTo: `${req.headers.get("origin")}/auth/callback`
-            }
-    })
+  const { error } = await mysupabase.auth.signInWithOtp({
+    email,
+    phone,
+    options: {
+      emailRedirectTo: `${req.headers.get("origin")}/auth/callback`
+    }
+  })
 
-   if (error) {
+  if (error) {
     return NextResponse.json(
       { error: error.message || "Something went wrong to send link" },
       { status: error.status }

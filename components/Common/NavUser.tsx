@@ -4,6 +4,7 @@ import LoginModal from './LoginModal';
 import { mysupabase } from '@/Supabase/SupabaseConfig';
 import Link from 'next/link';
 import { PiUserCircleThin } from "react-icons/pi";
+import { User } from 'lucide-react';
 function NavUser() {
     const [isUser, setUser] = useState<any>()
 
@@ -25,11 +26,11 @@ function NavUser() {
             {
                 isUser ?
                     <Link href={'/user'}>
-                        <PiUserCircleThin className=' text-[25px] xl:text-[35px]  cursor-pointer' />
+                        <User height={25} className='   cursor-pointer' />
                     </Link>
                     :
                     <LoginModal>
-                        <PiUserCircleThin className='text-[25px] xl:text-[35px] cursor-pointer ' />
+                        <User height={25} className=' cursor-pointer ' />
                     </LoginModal>
             }
         </div>

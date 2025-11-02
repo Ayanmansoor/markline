@@ -95,7 +95,7 @@
 
         </Link>
         <Link href={`/${url}/${product?.slug}`} className='flex w-full items-start pt-2 justify-between  px-2 gap-0 ' >
-          <h2 className=' text-xs sm:text-sm  xl:text-base 2xl:text-xl font-medium  !line-clamp-3   flex items-center gap-1 uppercase  text-black'>{product?.name}</h2>
+          <h2 className=' text-[11px] md:text-sm  xl:text-base 2xl:text-xl font-medium  !line-clamp-3   flex items-center gap-1 uppercase  text-black'>{product?.name}</h2>
 
         </Link>
         <section className='w-full relative h-auto  pb-3 py-2 px-2 md:flex-row  flex-col flex  items-start lg:items-center justify-between gap-2'>

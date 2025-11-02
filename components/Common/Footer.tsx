@@ -53,10 +53,10 @@ function Footer() {
 
       <section className='w-full relative h-[450px] md:flex hidden  flex-col gap-1 container text-white py-10 pb-56 px-5 md:px-10  '>
         <div className=' w-full h-full grid   z-20 grid-cols-4 lg:grid-cols-5 gap-5  '>
-          
-           <div className='relative h-auto  '>
+
+          <div className='relative h-auto  '>
             <h2 className='text-p20 font-medium mb-4 border-b pr-5  w-fit '>
-             Pages
+              Pages
             </h2>
             <ul className='flex items-start flex-col text-base justify-start gap-2'>
               <Link href={'/new-arrivals'} >New Arrived</Link>
@@ -66,13 +66,13 @@ function Footer() {
               <Link href={'/products/men'} >Proudcts Men&apos;s</Link>
               <Link href={'/products/women'} >Proudcts Women&apos;s</Link>
 
-            
+
             </ul>
           </div>
 
           <div className='relative h-auto  '>
             <h2 className='text-p20 font-medium mb-4 border-b pr-5  w-fit '>
-               About Company
+              About Company
             </h2>
             <ul className='flex items-start flex-col text-base justify-start gap-2'>
               <Link href={'/about-us'} >About us</Link>
@@ -106,10 +106,10 @@ function Footer() {
 
             </h2>
             <ul className='flex items-start flex-col text-base  justify-start gap-3'>
-              <Link href={"https://www.instagram.com/marklinefashion/"} target='_blank' rel='noreferrer noindex' className='flex items-center gap-1 group '><RiInstagramFill  className='text-[20px] group-hover:text-red-300' /> Instagram</Link>
-              <Link href={"https://www.facebook.com/people/Markline/61578047250955"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaFacebook  className='text-[20px] group-hover:text-red-300' /> Facebook</Link>
+              <Link href={"https://www.instagram.com/marklinefashion/"} target='_blank' rel='noreferrer noindex' className='flex items-center gap-1 group '><RiInstagramFill className='text-[20px] group-hover:text-red-300' /> Instagram</Link>
+              <Link href={"https://www.facebook.com/people/Markline/61578047250955"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaFacebook className='text-[20px] group-hover:text-red-300' /> Facebook</Link>
               <Link href={"https://www.pinterest.com/Marklinefashion/"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaPinterest className='text-[20px] group-hover:text-red-300' />Pinterest</Link>
-              <Link href={"https://www.youtube.com/channel/UCCDnKdMSM4abCTRC2lq0IKA"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaYoutube  className='text-[20px] group-hover:text-red-300' />YouTube</Link>
+              <Link href={"https://www.youtube.com/channel/UCCDnKdMSM4abCTRC2lq0IKA"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaYoutube className='text-[20px] group-hover:text-red-300' />YouTube</Link>
             </ul>
           </div>
 
@@ -126,11 +126,11 @@ function Footer() {
             <div className='flex flex-col gap-1 mt-6'>
               <h2 className='text-base font-semibold text-white'>Payment We accept:</h2>
               <img src="/paymnet-bar.jpg" alt="Markline || Markline || buy online" height={400} width={400} className='py-1 h-[50px] w-fit object-contain' />
-            </div> 
+            </div>
 
           </div>
 
-      
+
 
         </div>
       </section>
@@ -139,18 +139,19 @@ function Footer() {
         <Link href={'/privacy-policy'} className=' text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Privacy & Policy</Link>
         <Link href={'/terms-condition'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Terms & Conditions</Link>
         <Link href={'/shipping-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Shipping & Return</Link>
+        <Link href="/makline-order-tracker" className='text-xs md:text-sm cursor-pointer hover:underline font-medium text-white '>Order Tracker</Link>  
         <Link href={'/claim-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Product Claim Policy </Link>
       </section>
 
       <div className='w-full relative bottom-32 z-0   h-auto  hidden  md:flex leading-[1.1] items-center  opacity-10  uppercase font-semibold text-footerfont justify-center -mt-28 text-gray-100 bg-clip-text left-0 right-0 '>
-        markline 
+        markline
       </div>
 
 
 
       <div className='container px-5   mx-auto h-auto relative  md:px-10  py-10 bg-secondary block sm:hidden   xl:px-20 '>\
 
-         <Accordion type="single" collapsible className=' text-third hover:no-underline'>
+        <Accordion type="single" collapsible className=' text-third hover:no-underline'>
           <AccordionItem value="item-1" className="hover:no-underline">
             <AccordionTrigger className='hover:no-underline  text-primary'>Pages</AccordionTrigger>
             <AccordionContent >
@@ -165,7 +166,7 @@ function Footer() {
                   <Link href={'/tranding'} className='text-primary' >Trending</Link>
                   <Link href={'/collections/women'} className='text-primary' >Women&apos;s Collections</Link>
                   <Link href={'/collections/men'} className='text-primary' >Men&apos;s Collections</Link>
-          
+
                 </ul>
               </div>
             </AccordionContent>
@@ -182,12 +183,14 @@ function Footer() {
                 <hr className='mt-1  text-primary' />
 
                 <ul className='flex items-start mt-2 flex-col text-base justify-start gap-2 text-primary'>
-                         <Link href={'/about-us'} className='text-primary' >About us</Link>
+                  <Link href={'/about-us'} className='text-primary' >About us</Link>
                   <Link href={'/privacy-policy'} className=' text-base lg:text-lg font-meidum text-primary cursor-pointer '>Privacy & Policy</Link>
                   <Link href={'/terms-condition'} className='text-base lg:text-lg font-meidum text-primary cursor-pointer '>Terms & Conditions</Link>
                   <Link href={'/shipping-policy'} className='text-base lg:text-lg font-meidum text-primary cursor-pointer '>Shipping & Return</Link>
                   <Link href={'/claim-policy'} className='text-base lg:text-lg font-meidum text-primary cursor-pointer '>Product Claim Policy </Link>
+                  <Link href="/makline-order-tracker" className='text-xs md:text-sm cursor-pointer hover:underline font-medium text-white '>Order Tracker</Link>
                   <Link href={'/about-us'} className='text-primary' >FAQ</Link>
+
                 </ul>
               </div>
             </AccordionContent>

@@ -62,7 +62,7 @@ function BuyDailog({ children, product, selectedVariant }: newBuyDailogProps) {
             const fetchAddress = async () => {
                 const address = await getSelectedAddress(currentuser?.id);
                 setUserAddress(address);
-                console.log(address,"tjos sldfjsldf")
+                console.log(address, "tjos sldfjsldf")
 
             };
             fetchAddress();

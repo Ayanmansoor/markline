@@ -11,7 +11,7 @@ export default function KeyMatric() {
                 <p className="text-sm md:text-base text-primary">
                     We are mindful of what we create and how it shapes the world around us. With a focus on circularity and transparency, we&apos;re crafting a future that&apos;s better than yesterday.
                 </p>
-                <div className="mt-4 text-xl font-bold tracking-widest text-gray-800 uppercase">
+                <div className="mt-4 text-xl italic font-bold tracking-widest text-gray-800 uppercase">
                     MARKLINE
                 </div>
             </div>

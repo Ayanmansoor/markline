@@ -272,11 +272,11 @@ function CartSheet({ children }: {
     return (
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger className='w-fit h-fit relative '>{children}</SheetTrigger>
-            <SheetContent side={side} className="py-5  h-[700px]  px-2 max-w-[550px] md:min-w-[550px] sm:h-full  overflow-y-auto" id="style-3">
+            <SheetContent side={side} className=" py-2  h-[600px]  px-2 max-w-[550px] md:min-w-[550px] sm:h-full  overflow-y-auto md:rounded-none rounded-t-lg" id="style-3">
                 <SheetHeader>
-                    <SheetTitle className="font-medium text-2xl border-b pb-2 text-start">Carts</SheetTitle>
+                    <SheetTitle className="font-medium text-lg md:text-xl  lg:text-2xl border-b pb-2 text-start">Carts</SheetTitle>
 
-                    <section className='w-full relative max-h-[calc(100vh-250px)]    md:max-h-[calc(100vh-270px)]   overflow-y-auto grid grid-cols-2 md:grid-cols-1 gap-1  '>
+                    <section className='w-full relative max-h-[calc(100vh-400px)]  mb-40  md:max-h-[calc(100vh-270px)]   overflow-y-auto grid grid-cols-2 md:grid-cols-1 gap-1  '>
                         {
                             cart.length > 0 ? cart.map((item, index) => (
                                 <div key={index} className='w-full border p-2 rounded-lg relative h-auto flex flex-col md:grid md:grid-cols-[100px_2fr_auto_auto] items-start md:items-center justify-between gap-1'>
@@ -290,7 +290,7 @@ function CartSheet({ children }: {
                                     </Swiper>
 
                                     <button
-                                        className='w-fit absolute -top-1 right-0 bg-black text-white h-auto p-[2px] z-10 cursor-pointer rounded-full'
+                                        className='w-fit absolute -top-1 right-0 bg-black text-white h-auto p-[2px] z-20 cursor-pointer rounded-full'
                                         onClick={() => removeFromCart({ productId: item.productId, colorName: item?.variant?.selectedColor, size: item?.variant?.selectedSize })}
                                     >
                                         <IoIosClose />
@@ -334,45 +334,49 @@ function CartSheet({ children }: {
                         }
                     </section>
 
-                    <section className='absolute bottom-5 w-full left-0 bg-white '>
-                        {
-                            totalPrice > 0 &&
-                            <section className='w-full relative z-30 p-3 h-fit  flex flex-col gap-2 border bg-white  '>
-                                <h2 className='text-base font-semibold text-primary text-start'>After Discount</h2>
-                                <span className='w-full relative h-auto bg-gray-100 flex items-center  justify-center px-3 py-1'>
-                                    <p className='text-base w-full font-medium text-foreground '>Total </p>
-                                    <p className='text-lg font-medium text-primary w-full'>₹ {beforeDiscount}</p>
-                                </span>
-                                {
-                                    totalDiscount < 0 &&
-                                    <span className='w-full relative h-auto  flex items-center  justify-center px-3 py-1 '>
-                                        <p className=' text-sm w-full font-medium text-foreground '>Discount</p>
-                                        <p className='text-sm text-red-400 line-through font-medium text-primary w-full '>₹ {Math.floor(totalDiscount)}</p>
+                    <SheetFooter className='bottom-0'>
+
+                        <section className=' w-full left-0 bg-white '>
+                            {
+                                totalPrice > 0 &&
+                                <section className='w-full relative z-30 p-3 h-fit  flex flex-col gap-2 border bg-white  '>
+                                    <h2 className='text-base font-semibold text-primary text-start'>After Discount</h2>
+                                    <span className='w-full relative h-auto bg-gray-100 flex items-center  justify-center px-3 py-1'>
+                                        <p className='text-base w-full font-medium text-foreground '>Total </p>
+                                        <p className='text-lg font-medium text-primary w-full'>₹ {beforeDiscount}</p>
                                     </span>
-                                }
-
-                                <div className='w-fulll border-t pt-2  relative h-auto px-3 flex items-center justify-between'>
-                                    <p className='text-sm sm:text-base md:text-lg font-medium w-full text-primary'>Price To Pay</p>
-                                    <p className='text-lg font-medium text-primary w-full'>₹ {Math.floor(totalPrice)}</p>
-                                </div>
-                                <div className='w-full relative h-auto flex items-start justify-end'>
                                     {
-                                        currentuser?.id && userAddress?.id &&
-                                        <button className='w-fit relative h-auto flex items-center  text-sm md:text-base border border-primary px-4 md:px-5 py-2 text-nowrap bg-primary  text-white  font-medium text-primary' disabled={isOrderSub} onClick={OrdersBeforePayment}  >{isOrderSub ? "Just a second..." : "Buy Now"}</button>
-
-                                    }
-                                    {
-                                        !currentuser?.id && !userAddress?.id &&
-                                        <CartSheetOderDailog closeSheet={() => { }}>
-                                            <button className='w-fit relative h-auto flex items-center  text-sm md:text-base border border-primary px-4 md:px-5 py-2 text-nowrap bg-primary  text-white  font-medium text-primary'>Place Order</button>
-                                        </CartSheetOderDailog>
+                                        totalDiscount < 0 &&
+                                        <span className='w-full relative h-auto  flex items-center  justify-center px-3 py-1 '>
+                                            <p className=' text-sm w-full font-medium text-foreground '>Discount</p>
+                                            <p className='text-sm text-red-400 line-through font-medium text-primary w-full '>₹ {Math.floor(totalDiscount)}</p>
+                                        </span>
                                     }
 
-                                </div>
+                                    <div className='w-fulll border-t pt-2  relative h-auto px-3 flex items-center justify-between'>
+                                        <p className='text-sm sm:text-base md:text-lg font-medium w-full text-primary'>Price To Pay</p>
+                                        <p className='text-lg font-medium text-primary w-full'>₹ {Math.floor(totalPrice)}</p>
+                                    </div>
+                                    <div className='w-full relative h-auto flex items-start justify-end'>
+                                        {
+                                            currentuser?.id && userAddress?.id &&
+                                            <button className='w-fit relative h-auto flex items-center  text-sm md:text-base border border-primary px-4 md:px-5 py-2 text-nowrap bg-primary  text-white  font-medium text-primary' disabled={isOrderSub} onClick={OrdersBeforePayment}  >{isOrderSub ? "Just a second..." : "Buy Now"}</button>
 
-                            </section>
-                        }
-                    </section>
+                                        }
+                                        {
+                                            !currentuser?.id && !userAddress?.id &&
+                                            <CartSheetOderDailog closeSheet={() => { }}>
+                                                <button className='w-fit relative h-auto flex items-center rounded-md text-sm md:text-base border border-primary px-4 md:px-5 py-2 text-nowrap bg-primary  text-white  font-medium text-primary'>Place Order</button>
+                                            </CartSheetOderDailog>
+                                        }
+
+                                    </div>
+
+                                </section>
+                            }
+                        </section>
+                    </SheetFooter>
+
 
                 </SheetHeader>
             </SheetContent>

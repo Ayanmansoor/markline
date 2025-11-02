@@ -5,7 +5,7 @@ import { useEffect ,useState} from "react"
 
 import { CityComboboxProps } from "@/types/interfaces"
 
-export function CityNameCombobox({setCityName,errormessage,statename}:CityComboboxProps) {
+export function CityNameCombobox({setCityName,errormessage,statename,selectcity}:CityComboboxProps) {
   const [Cities,setCities]=useState<string[]>([])
   
 
@@ -32,7 +32,7 @@ export function CityNameCombobox({setCityName,errormessage,statename}:CityCombob
         <>
                  <div className='w-full relative h-auto flex flex-col gap-1  '>
                     <label htmlFor="" className='text-sm font-medium text-gray-600'>City Name *</label>
-                    <select  className="wnd-full text-sm font-normal text-gray-500 relative h-auto py-[7px] border border-gray-200 px-2 rounded-lg" onChange={cityname}>
+                    <select  value={selectcity || ""} className="wnd-full text-sm font-normal text-gray-500 relative h-auto py-[7px] border border-gray-200 px-2 rounded-lg" onChange={cityname}>
                         <option  className="text-base text-gray-200 rounded-md" selected>Select Your City</option>
                         {
                           Cities.map((city,index)=>(

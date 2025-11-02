@@ -28,7 +28,7 @@ function Filter() {
 
     return (
         <>
-            <section className=' w-full relative bg-secondary gap-2  px-3 md:px-5 lg:px-10  h-auto   items-center hidden sm:grid grid-cols-2 justify-center   pt-12   '>
+            <section className=' w-full relative bg-secondary gap-2  px-3 md:px-5 lg:px-10  h-auto   items-center grid grid-cols-2 justify-center   pt-12   '>
                 <Link href={'/collections/men'} className='w-full relative h-full  max-h-[500px]  group overflow-hidden'>
                     <div className='flex flex-col gap-1 md:gap-2 items-center z-10 justify-center  absolute top-0 h-full bg-black/20 py-3 px-3 w-full '>
                         <h2 className='text-lg md:text-2xl lg:text-3xl xl:text-6xl font-semibold text-white uppercase'>
@@ -53,7 +53,7 @@ function Filter() {
                     </div>
                     <Image src={"/forwomen.png"} alt="Women" height={500} width={500} className='w-full   group-hover:scale-[1.01] transition-all duration-100 relative h-full object-contain' />
                 </Link>
-                <Link href={"/collections/kids"} className='relative h-full w-full group max-h-[500px] overflow-hidden col-span-2'>
+                <Link href={"/collections/kids"} className='relative h-full w-full group max-h-[300px] lg:max-h-[500px] overflow-hidden col-span-2'>
                     <div className='flex flex-col gap-1 md:gap-2 items-center  z-10 justify-center  absolute top-0 h-full bg-black/20 py-3 px-3 w-full '>
                         <h2 className='text-lg md:text-2xl lg:text-3xl xl:text-6xl font-semibold text-white group-hover:uppercase'>
                             KIDS
@@ -66,7 +66,7 @@ function Filter() {
                     <Image src={"/kids.jpg"} alt="" height={500} width={500} className='w-full relative h-full  group-hover:scale-[1.01] transition-all duration-100 object-contain' />
                 </Link>
             </section>
-            <section className=' w-full py-5 relative bg-secondary container  h-auto  items-center justify-center flex  sm:hidden px-2  md:px-10   xl:px-20 pt-3   flex-col gap-5  '>
+            {/* <section className=' w-full py-5 relative bg-secondary container  h-auto  items-center justify-center flex  sm:hidden px-2  md:px-10   xl:px-20 pt-3   flex-col gap-5  '>
 
 
                 <Swiper
@@ -123,11 +123,11 @@ function Filter() {
 
 
 
-                <Link href={"/collections"} className='text-base px-5 md:px-5  py-2 lg:py-3 rounded-full self-center justify-self-center relative font-medium text-white flex items-center justify-center gap-2 bg-primary cursor-pointer'>View  <ArrowUpRight height={20} className='text-white ' /></Link>
+                <Link href={"/collections"} className=' text-xs md:text-base px-3 md:px-5  py-1 lg:py-3 rounded-full self-center justify-self-center relative font-medium text-white flex items-center justify-center gap-2 bg-primary cursor-pointer'>View  <ArrowUpRight  className='text-white  text-[10px] md:text-[20px]' /></Link>
 
 
 
-            </section>
+            </section> */}
         </>
     )
 }

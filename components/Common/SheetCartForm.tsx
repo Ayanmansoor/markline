@@ -22,6 +22,8 @@ const addressFromSchema = z.object({
     state_name: z.string().min(2, "State name is required"),
     city: z.string().min(2, "City name is required"),
     full_address: z.string().min(5, "Address must be at least 5 characters"),
+    latitude: z.number().optional(),
+    longitude: z.number().optional(),
 })
 
 
@@ -40,10 +42,69 @@ import { getSelectedAddress } from '@/Supabase/SupabaseApi'
 function SheetCartForm({ setConfirm, setOrderID, closeSheet }: SheetCartFormProps) {
     const { cart, clearCart } = useCartContext()
     const [isOrderSub, setOrderSub] = useState<boolean>(false)
+    const [loadingPincode, setLoadingPincode] = useState(false)
 
     const { executeRecaptcha } = useGoogleReCaptcha()
     const [currentuser, setUser] = useState<userinterfce>();
     const [userAddress, setUserAddress] = useState<AddressProps | null>(null);
+    const {
+        register,
+        watch,
+        handleSubmit,
+        formState: { errors },
+        setValue,
+    } = useForm<orderForm>({
+        resolver: zodResolver(addressFromSchema),
+    })
+    useEffect(() => {
+        if (!navigator.geolocation) {
+            console.log("Geolocation is not supported by this browser.");
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                setValue("latitude", latitude);
+                setValue("longitude", longitude);
+                console.log("Captured Location:", latitude, longitude);
+            },
+            (error) => {
+                console.warn("User denied location or error fetching location:", error);
+            }
+        );
+    }, [setValue]);
+
+
+    useEffect(() => {
+        const fetchCityAndState = async () => {
+            if (watch().pin_code && watch().pin_code.length === 6) {
+                try {
+                    setLoadingPincode(true);
+                    const res = await axios.get(`https://api.postalpincode.in/pincode/${watch().pin_code}`);
+                    const data = res.data[0];
+
+                    if (data.Status === 'Success' && data.PostOffice && data.PostOffice.length > 0) {
+                        const { District, State } = data.PostOffice[0];
+                        setValue('city', District);
+                        setValue('state_name', State);
+                        toast.success(`Auto-filled city: ${District}, state: ${State}`);
+                    } else {
+                        toast.error('Invalid Pincode or no data found');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    toast.error('Failed to fetch location from pincode');
+                } finally {
+                    setLoadingPincode(false);
+                }
+            }
+        };
+
+        fetchCityAndState();
+    }, [watch().pin_code, setValue]);
+
+
 
     useEffect(() => {
         async function getSupabaseUser() {
@@ -71,13 +132,7 @@ function SheetCartForm({ setConfirm, setOrderID, closeSheet }: SheetCartFormProp
     }, [currentuser]);
 
 
-    const { register, watch, handleSubmit, reset, formState: {
-        errors
-    }, setValue, setFocus, getValues, getFieldState } = useForm<orderForm>(
-        {
-            resolver: zodResolver(addressFromSchema)
-        }
-    )
+
 
     const { total_final_amount } = useMemo(() => {
         const total_final_amount = cart.reduce((accu, product) => {
@@ -330,17 +385,29 @@ function SheetCartForm({ setConfirm, setOrderID, closeSheet }: SheetCartFormProp
                     <p className='text-xs font-medium text-red-400'>{errors.phone?.message}</p>
                 }
             </div>
-
-            <StateCombobox setStateValue={setStateValue} errormessage={errors.state_name && errors?.state_name.message || ""} />
-            <CityNameCombobox setCityName={setCityValue} errormessage={errors.city && errors.city.message || ""} statename={watch().state_name} />
-            <div className='w-full relative h-auto flex flex-col gap-1'>
-                <label htmlFor="" className='text-sm font-medium text-gray-600'>Pin code *</label>
-                <input type="text" className='w-full relative h-auto px-3 py-2 rounded-lg border text-sm font-normal text-gray-800  ' placeholder=' Enter Your Pin Code ' {...register("pin_code")} />
-                {
-                    errors?.pin_code &&
-                    <p className='text-xs font-medium text-red-400'>{errors?.pin_code?.message}</p>
-                }
+            <div className="w-full flex flex-col gap-1">
+                <label className="text-sm font-medium text-gray-600">Pin code *</label>
+                <input
+                    type="text"
+                    className="w-full px-3 py-2 rounded-lg border text-sm"
+                    placeholder="Enter Your Pin Code"
+                    {...register('pin_code')}
+                />
+                {loadingPincode && <p className="text-xs text-blue-400">Fetching location...</p>}
+                {errors?.pin_code && <p className="text-xs text-red-400">{errors.pin_code?.message}</p>}
             </div>
+            <StateCombobox
+                setStateValue={setStateValue}
+                errormessage={errors.state_name && errors.state_name.message || ""}
+                selectedState={watch('state_name')}
+            />
+            <CityNameCombobox
+                setCityName={setCityValue}
+                errormessage={errors.city && errors.city.message || ""}
+                statename={watch('state_name')}
+                selectcity={watch('city')}
+            />
+
             <div className='w-full relative h-auto flex flex-col gap-1 col-span-2'>
                 <label htmlFor="" className='text-sm font-medium text-gray-600'>Full Address *</label>
                 <textarea rows={3} className='w-full relative h-auto px-3 py-2 rounded-lg border text-sm font-normal text-gray-800 ' placeholder=' Enter Your City Name ' {...register("full_address")} ></textarea>

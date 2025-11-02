@@ -23,6 +23,16 @@ import CollectionCard from '../Home/CollectionCard'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/pagination';
+
+
+
+
 function HomePage() {
 
   const [selected, setSelected] = useState("women")
@@ -82,18 +92,51 @@ function HomePage() {
 
 
 
-  console.log(groupOfProducts,"this is gruop of product")
+  console.log(groupOfProducts, "this is gruop of product")
 
   return (
     <>
+
+
+
+      <section className='w-full   relative gap-2 items-center px-3 md:px-5 lg:px-10   py-3  h-auto  flex lg:hidden border-b border-gray-400   '>
+
+        <Swiper
+          slidesPerView={'auto'}
+          spaceBetween={12}
+
+          className="mySwiper w-full  relative  "
+        >
+
+          <SwiperSlide className='max-w-fit  border h-auto text-base border-black  rounded-full overflow-hidden ' >
+            <Link href={'/collections/men'}>
+              <img src="/block-heel-mules-for-women-5.jpeg" alt="Men collection" height={200} width={200} className='max-h-[70px] max-w-[70px]  border border-gray-100' />
+            </Link>
+
+          </SwiperSlide>
+
+          <SwiperSlide className='max-w-fit  border h-auto text-base border-black  rounded-full overflow-hidden ' >
+            <Link href={'/collections/women'}>
+              <img src="/court-vision.png" alt="Men collection" height={200} width={200} className='max-h-[70px] max-w-[70px]  border border-gray-100' />
+            </Link>
+          </SwiperSlide>
+          <SwiperSlide className='max-w-fit  border h-auto text-base border-black  rounded-full overflow-hidden ' >
+            <Link href={'/collections/kids'}>
+              <img src="/court-vision.png" alt="kids collection" height={200} width={200} className='max-h-[70px] max-w-[70px] rounded-full border border-gray-100' />
+            </Link>
+          </SwiperSlide>
+          <SwiperSlide className='max-w-fit  border h-auto text-base border-black  rounded-full overflow-hidden ' >
+            <Link href={'/collections/best-seller'}>
+              <img src="/court-vision.png" alt=" markline best seller" height={200} width={200} className='max-h-[70px] max-w-[70px] rounded-full border border-gray-100' />
+            </Link>
+          </SwiperSlide>
+
+
+        </Swiper>
+      </section >
+
+
       <Hero bannerImages={homebanners} />
-
-      <KeyMatric />
-
-
-
-
-
 
       {/* {occasional?.length > 0 &&
         occasional.map((item, index) => {
@@ -161,7 +204,7 @@ function HomePage() {
                   collections={collec}
                   url='collections/'
                   imageClass='    md:h-[280px] lg:h-[300px] xl:h-[380px] w-full border object-cover relative rounded-md transition-all duration-100'
-                  className='relative h-auto xl:h-[450px] w-full rounded-md bg-gray-200 cursor-pointer group flex flex-col items-start justify-center gap-4 p-1 md:p-3'
+                  className='relative h-auto xl:h-[400px] w-full rounded-md bg-gray-200 cursor-pointer group flex flex-col items-start justify-center gap-4 p-1 md:p-3'
                 />
               ))
           ) : (
@@ -181,63 +224,68 @@ function HomePage() {
 
 
         </section>
-        <Link href={"/collections"} className='text-base px-5 md:px-5  py-2 lg:py-3 rounded-full self-center justify-self-center relative font-medium text-white flex items-center justify-center gap-2 bg-primary cursor-pointer'>View  <ArrowUpRight height={20} className='text-white ' /></Link>
+        <Link href={"/collections"} className=' text-xs md:text-base px-3 md:px-5  py-1 lg:py-3 rounded-full self-center justify-self-center relative font-medium text-white flex items-center justify-center gap-2 bg-primary cursor-pointer'>View  <ArrowUpRight className='text-white  text-[10px] md:text-[20px]' /></Link>
 
       </section>
       <MainCollections />
 
 
 
-      {isLoading ? (
-        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10">
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-        </div>
-      ) : groupOfProducts?.data?.length > 0 ? (
-        groupOfProducts?.data?.slice(0, 2)?.map((item: any, index: number) => (
-          item.products?.length > 0 &&
-          <CategoriesSection
-            title={`${item?.heading} `}
-            subtitle={`${item?.discription}`}
-            url={`${item?.url}`}
-            urltext={`${item?.urlText}`}
-            key={index}
-          >
-            <CarouselProduct url="product" product={item.products.slice(0, 10)} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
-          </CategoriesSection>
-        ))
-      ) : (
-        <></>
-      )}
+      {
+        isLoading ? (
+          <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10">
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+          </div>
+        ) : groupOfProducts?.data?.length > 0 ? (
+          groupOfProducts?.data?.slice(0, 2)?.map((item: any, index: number) => (
+            item.products?.length > 0 &&
+            <CategoriesSection
+              title={`${item?.heading} `}
+              subtitle={`${item?.discription}`}
+              url={`${item?.url}`}
+              urltext={`${item?.urlText}`}
+              key={index}
+            >
+              <CarouselProduct url="product" product={item.products.slice(0, 10)} productsCardCss=' h-[200px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
+            </CategoriesSection>
+          ))
+        ) : (
+          <></>
+        )
+      }
 
+      <KeyMatric />
 
-      {isLoading ? (
-        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10">
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-        </div>
-      ) : groupOfProducts?.data?.length > 0 ? (
-        groupOfProducts?.data?.slice(2, 4)?.map((item: any, index: number) => (
-          item.products?.length > 0 &&
-          <CategoriesSection
-            title={`${item?.heading} `}
-            subtitle={`${item?.discription}`}
-            url={`${item?.url}`}
-            urltext={`${item?.urlText}`}
-            key={index}
-          >
-            <CarouselProduct url="product" product={item.products.slice(0, 10)} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
-          </CategoriesSection>
-        ))
-      ) : (
-        <></>
-      )}
+      {
+        isLoading ? (
+          <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10">
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+          </div>
+        ) : groupOfProducts?.data?.length > 0 ? (
+          groupOfProducts?.data?.slice(2, 4)?.map((item: any, index: number) => (
+            item.products?.length > 0 &&
+            <CategoriesSection
+              title={`${item?.heading} `}
+              subtitle={`${item?.discription}`}
+              url={`${item?.url}`}
+              urltext={`${item?.urlText}`}
+              key={index}
+            >
+              <CarouselProduct url="product" product={item.products.slice(0, 10)} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
+            </CategoriesSection>
+          ))
+        ) : (
+          <></>
+        )
+      }
 
 
 

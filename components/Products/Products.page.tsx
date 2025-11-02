@@ -292,7 +292,7 @@ function Productspage() {
                                 </div>
                                 :
                                 allproducts?.data?.length ?
-                                    <GridRroduct data={filterProducts ? filterProducts : allproducts.data} url={'product'} css=' grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-200 ' productsCardCss=' h-[250px]  sm:h-[250px] md:h-[300px] lg:h-[400px]' /> :
+                                    <GridRroduct data={filterProducts ? filterProducts : allproducts.data} url={'product'} css=' grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-200 ' productsCardCss=' h-[200px]  sm:h-[250px] md:h-[300px] lg:h-[400px]' /> :
                                     <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3  lg:grid-cols-4   items-start justify-start gap-3 px-5  lg:px-10   ">
                                         <ProductCardSkeleton />
                                         <ProductCardSkeleton />
@@ -317,9 +317,9 @@ function Productspage() {
                 <div className='w-full relative h-auto flex flex-col gap-4'>
                     <p className='text-sm md:text-base font-semibold md:font-medium text-primary'>Shop Shoes By Gender</p>
                     <div className='w-full flex flex-wrap items-center gap-2'>
-                        <Link href='/collections/men' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Men Shoes</Link>
-                        <Link href='/collections/women' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Women Shoes</Link>
-                        <Link href='/collections/kids' className='text-sm font-medium text-orange-600 border-x px-3 border-primary'>Kids Shoes</Link>
+                        <Link href='/collections/men' className=' text-[11px] sm:text-xs md:text-sm  font-medium    px-3 border-primary'>Men Shoes</Link>
+                        <Link href='/collections/women' className=' text-[11px] sm:text-xs md:text-sm  font-medium  border-l px-3 border-primary'>Women Shoes</Link>
+                        <Link href='/collections/kids' className=' text-[11px] sm:text-xs md:text-sm  font-medium  border-l px-3 border-primary'>Kids Shoes</Link>
                     </div>
                 </div>
 
@@ -333,7 +333,7 @@ function Productspage() {
                         {
                             allcollection.data.map((item, index) => (
                                 item.gender == `${productslug}`.toUpperCase() &&
-                                <Link href={`/collections/${`${item.gender}`.toLowerCase()}/${item.slug}`} className='text-sm font-medium text-orange-600 border-x px-3 border-primary' key={index}>{item.name}</Link>
+                                <Link href={`/collections/${`${item.gender}`.toLowerCase()}/${item.slug}`} className=' text-[11px] sm:text-xs md:text-sm  font-medium  border-r border-x px-3 border-primary' key={index}>{item.name}</Link>
                             ))
                         }
                     </div>
@@ -343,7 +343,7 @@ function Productspage() {
                 <div className=' py-10 flex flex-col gap-10 no-scrollbar    overflow-y-auto  '>
                     <section>
                         <h2 className='text-sm md:text-base  font-semibold mb-4'>Explore Footwear for Everyone</h2>
-                        <p className='text-gray-700 text-sm '>
+                        <p className='text-gray-700  text-[11px] sm:text-xs md:text-sm '>
                             From playful kicks for kids to fashion-forward styles for GenZ, timeless classics for men, and elegant essentials for women,
                             our diverse collection ensures that everyone finds their perfect fit. We combine comfort, quality, and the latest trends
                             to create a seamless experience for every step of life.
@@ -352,7 +352,7 @@ function Productspage() {
 
                     <section>
                         <h2 className=' text-sm md:text-base  font-semibold mb-4'>Types of Footwear by Gender</h2>
-                        <ul className='list-disc list-inside text-gray-700 space-y-2 text-xs md:text-sm  '>
+                        <ul className='list-disc list-inside text-gray-700 space-y-2  text-[11px] sm:text-xs md:text-sm  '>
                             <li><strong>For Men:</strong> Versatile lace-ups, loafers, ethnic mojaris, and street-ready sneakers for every occasion.</li>
                             <li><strong>For Women:</strong> Elegant heels, trendy flats, ethnic Kolhapuris, and comfy slip-ons—where style meets comfort.</li>
                             <li><strong>For Kids:</strong> Fun, flexible, and durable shoes like velcro sneakers and sporty sandals built for adventure.</li>
@@ -362,7 +362,7 @@ function Productspage() {
 
                     <section>
                         <h2 className='text-sm md:text-base  font-semibold mb-4'>How to Choose the Right Shoes</h2>
-                        <ul className='list-disc list-inside text-gray-700 space-y-2 text-xs md:text-sm '>
+                        <ul className='list-disc list-inside text-gray-700 space-y-2  text-[11px] sm:text-xs md:text-sm '>
                             <li><strong>Age & Style:</strong> Opt for designs that fit the age group—playful for kids, expressive for GenZ, versatile for adults.</li>
                             <li><strong>Occasion:</strong> Match your footwear to your lifestyle—casual, formal, or festive.</li>
                             <li><strong>Fit & Comfort:</strong> Use sizing guides and reviews. Look for arch support and padded soles.</li>
@@ -373,7 +373,7 @@ function Productspage() {
 
                     <section>
                         <h2 className='text-sm md:text-base  font-semibold mb-4'>Footwear Trends for All</h2>
-                        <ul className='list-disc list-inside text-gray-700 space-y-2 text-xs md:text-sm '>
+                        <ul className='list-disc list-inside text-gray-700 space-y-2  text-[11px] sm:text-xs md:text-sm '>
                             <li><strong>Bold Soles:</strong> Platforms and thick soles dominate the streets and runways.</li>
                             <li><strong>Pastel Tones & Neutrals:</strong> Understated hues that work across outfits and age groups.</li>
                             <li><strong>Retro Revivals:</strong> Mary Janes, moccasins, and high-tops making a bold comeback.</li>
@@ -384,7 +384,7 @@ function Productspage() {
 
                     <section>
                         <h2 className='text-sm md:text-base  font-semibold mb-4'>Why Quality Footwear Matters</h2>
-                        <ul className='list-disc list-inside text-gray-700 space-y-2 text-xs md:text-sm'>
+                        <ul className='list-disc list-inside text-gray-700 space-y-2  text-[11px] sm:text-xs md:text-sm'>
                             <li><strong>Comfort:</strong> Well-made shoes reduce fatigue and make walking a breeze.</li>
                             <li><strong>Durability:</strong> Quality craftsmanship means less frequent replacements.</li>
                             <li><strong>Foot Health:</strong> Good fit and cushioning prevent heel pain and blisters.</li>

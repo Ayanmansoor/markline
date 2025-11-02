@@ -209,7 +209,7 @@ export interface newCollectionCardProps {
   collections: CollectionCardProps;
   url: string;
   className?: string
-  imageClass?:string
+  imageClass?: string
 }
 
 export interface ProdcutFilterProps {
@@ -341,12 +341,14 @@ export interface States {
 export interface StateComboboxProps {
   setStateValue: (stateName: string) => void;
   errormessage: string;
+  selectedState: string
 }
 
 export interface CityComboboxProps {
   setCityName: (cityname: string) => void;
   statename: string;
   errormessage: string;
+  selectcity: string
 }
 
 export interface addressDailogprops {
@@ -552,6 +554,7 @@ export interface NewAddressFromProps {
   setConfirm: React.Dispatch<React.SetStateAction<any>>;
   setOrderID: React.Dispatch<React.SetStateAction<any>>;
   user?: userinterfce;
+  
 }
 
 export interface NEwProductsHighlightesProps {
