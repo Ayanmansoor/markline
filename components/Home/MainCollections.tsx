@@ -1,0 +1,138 @@
+'use client'
+import React from 'react'
+import { HiChevronDown } from "react-icons/hi";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Autoplay, Mousewheel, Pagination } from "swiper/modules";
+import Link from 'next/link';
+import Image from 'next/image';
+import { useQuery } from 'react-query';
+import { getAllAudience } from '@/Supabase/SupabaseApi';
+import { ArrowUpRight } from 'lucide-react';
+
+
+function Filter() {
+
+    // const { data: audiances = [], isLoading: audianceLoading, isError: audianceError } = useQuery<any>({
+    //     queryKey: ["audiances"],
+    //     queryFn: () => getAllAudience(),
+    //     staleTime: Infinity,
+    //     refetchOnMount: false,
+    //     refetchOnWindowFocus: false,
+    //     refetchOnReconnect: false,
+    // });
+
+    // console.log(audiances,'this is audiance')
+
+
+    return (
+        <>
+            <section className='flex flex-col gap-5 w-full relative text-start px-5 lg:px-10 xl:px-20 2xl:px-40  pt-12 '>
+                <h1 className='text-lg md:text-2xl xl:text-3xl font-semibold text-primary pb-2  uppercase'>Discover Your Style</h1>
+                <div className=' w-full relative bg-secondary gap-2 h-auto   items-center grid grid-cols-2 justify-center    '>
+                    <Link href={'/collections/men'} className='w-full relative h-full  max-h-[500px]  group overflow-hidden'>
+                        <div className='flex flex-col gap-1 md:gap-2 items-center z-10 justify-center  absolute top-0 h-full bg-black/20 py-3 px-3 w-full '>
+                            <h2 className='text-lg md:text-2xl lg:text-3xl xl:text-6xl font-semibold text-white uppercase'>
+                                HIM
+                            </h2>
+                            <Link href={''} className=' text-xsmd:text-sm lg:text-lg  group-hover:underline font-medium text-white '>
+                                View All
+                            </Link>
+
+                        </div>
+                        <Image src={"/menimage.jpg"} alt="for him" height={500} width={500} className='w-full group-hover:scale-[1.01] transition-all duration-100 relative h-full object-contain' />
+                    </Link>
+                    <Link href="/collections/women" className='w-full relative h-full  max-h-[500px]  group overflow-hidden'>
+                        <div className='flex flex-col gap-1 md:gap-2 items-center z-10 justify-center  absolute top-0 h-full bg-black/20 py-3 px-3 w-full '>
+                            <h2 className='text-lg md:text-2xl lg:text-3xl xl:text-6xl font-semibold text-white uppercase'>
+                                HER
+                            </h2>
+                            <Link href={''} className=' text-xsmd:text-sm lg:text-lg  group-hover:underline font-medium text-white '>
+                                View All
+                            </Link>
+
+                        </div>
+                        <Image src={"/forwomen.png"} alt="Women" height={500} width={500} className='w-full   group-hover:scale-[1.01] transition-all duration-100 relative h-full object-contain' />
+                    </Link>
+                    <Link href={"/collections/kids"} className='relative h-full w-full group max-h-[300px] lg:max-h-[500px] overflow-hidden col-span-2'>
+                        <div className='flex flex-col gap-1 md:gap-2 items-center  z-10 justify-center  absolute top-0 h-full bg-black/20 py-3 px-3 w-full '>
+                            <h2 className='text-lg md:text-2xl lg:text-3xl xl:text-6xl font-semibold text-white group-hover:uppercase'>
+                                KIDS
+                            </h2>
+                            <Link href={''} className=' text-xsmd:text-sm lg:text-lg  group-hover:underline font-medium text-white '>
+                                View All
+                            </Link>
+
+                        </div>
+                        <Image src={"/kids.jpg"} alt="" height={500} width={500} className='w-full relative h-full  group-hover:scale-[1.01] transition-all duration-100 object-contain' />
+                    </Link>
+                </div>
+            </section>
+            {/* <section className=' w-full py-5 relative bg-secondary container  h-auto  items-center justify-center flex  sm:hidden px-2  md:px-10   xl:px-20 pt-3   flex-col gap-5  '>
+
+
+                <Swiper
+                    slidesPerView={'auto'}
+
+                    modules={[Pagination]}
+                    className="mySwiper w-full relative "
+                >
+
+                    <SwiperSlide className='max-w-fit relative h-auto px-1 md:px-2'>
+                        <Link href={'/collections/men'} className='w-full relative h-full group '>
+                            <div className='flex flex-col gap-1 md:gap-2 items-center z-10 justify-center  absolute top-0 h-full bg-black/20 py-3 px-3 w-full '>
+                                <h2 className=' text-lg md:text-2xl lg:text-3xl xl:text-6xl font-semibold text-white uppercase'>
+                                    HIM
+                                </h2>
+                                <Link href={''} className=' text-xs md:text-sm lg:text-lg  group-hover:underline font-medium text-white '>
+                                    View All
+                                </Link>
+                            </div>
+                            <Image src={"/menimage.jpg"} alt="for him" height={500} width={500} className='w-full group-hover:scale-[1.01] transition-all duration-100 relative max-h-[250px] md:max-h-[400px] lg:max-h-[500px] object-contain' />
+                        </Link>
+                    </SwiperSlide>
+
+                    <SwiperSlide className='max-w-fit relative h-auto  px-1 md:px-2'>
+                        <Link href="/collections/women" className='w-full relative h-full  group overflow-hidden'>
+                            <div className='flex flex-col gap-1 md:gap-2 items-center z-10 justify-center  absolute top-0 h-full bg-black/20 py-3 px-3 w-full '>
+                                <h2 className='text-lg md:text-2xl lg:text-3xl xl:text-6xl font-semibold text-white uppercase'>
+                                    HER
+                                </h2>
+                                <Link href={''} className=' text-xs md:text-sm lg:text-lg   group-hover:underline font-medium text-white '>
+                                    View All
+                                </Link>
+
+                            </div>
+                            <Image src={"/forwomen.png"} alt="Women" height={500} width={500} className='w-full   group-hover:scale-[1.01] transition-all duration-100 relative max-h-[250px] md:max-h-[400px] lg:max-h-[500px]  object-contain' />
+                        </Link>
+                    </SwiperSlide>
+                    <SwiperSlide className='max-w-fit relative h-auto  px-1 md:px-2'>
+                        <Link href={"/collections/kids"} className='relative h-full w-full group overflow-hidden'>
+                            <div className='flex flex-col gap-1 md:gap-2 items-center  z-10 justify-center  absolute top-0 h-full bg-black/20 py-3 px-3 w-full '>
+                                <h2 className='text-lg md:text-2xl lg:text-3xl xl:text-6xl font-semibold text-white group-hover:uppercase'>
+                                    KIDS
+                                </h2>
+                                <Link href={''} className=' text-xs md:text-sm lg:text-lg  group-hover:underline font-medium text-white '>
+                                    View All
+                                </Link>
+
+                            </div>
+                            <Image src={"/kids.jpg"} alt="" height={500} width={500} className='w-full relative max-h-[250px] md:max-h-[400px] lg:max-h-[500px]  group-hover:scale-[1.01] transition-all duration-100 object-contain' />
+                        </Link>
+                    </SwiperSlide>
+
+                </Swiper>
+
+
+
+                <Link href={"/collections"} className=' text-xs md:text-base px-3 md:px-5  py-1 lg:py-3 rounded-full self-center justify-self-center relative font-medium text-white flex items-center justify-center gap-2 bg-primary cursor-pointer'>View  <ArrowUpRight  className='text-white  text-[10px] md:text-[20px]' /></Link>
+
+
+
+            </section> */}
+        </>
+    )
+}
+
+export default Filter
