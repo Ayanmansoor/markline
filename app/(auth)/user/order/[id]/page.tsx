@@ -58,7 +58,7 @@ export default function OrderPage() {
                 if (userError) throw userError;
 
                 if (user) {
-                    const { orders }: any = await getCurrentUserSingleOrder(user.id, orderid);
+                    const { orders }: any = await getCurrentUserSingleOrder(user.id, orderid||"");
 
                     console.log(orders, 'this is order id',)
                     setOrders(orders);
@@ -85,7 +85,6 @@ export default function OrderPage() {
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
     });
-
     const getStepStatus = (status: string) => {
         switch (status) {
             case "DELIVERED":

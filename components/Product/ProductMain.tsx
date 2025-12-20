@@ -18,7 +18,6 @@ import '@fancyapps/ui/dist/fancybox/fancybox.css';
 function ProductMain({ variant }: ProductMainProps) {
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
 
-
     const [side, setSide] = useState<'vertical' | 'horizontal'>('vertical');
 
     useEffect(() => {

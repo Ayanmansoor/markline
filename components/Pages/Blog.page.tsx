@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 
 function BlogPage() {
     const { slug } = useParams()
-    const blogslug = Array.isArray(slug) ? slug[0] : slug;
+    const blogslug : any = Array.isArray(slug) ? slug[0] : slug;
     const route=useRouter()
 
     const {
