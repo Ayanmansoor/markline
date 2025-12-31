@@ -238,7 +238,7 @@ function Productspage() {
       allColors: Array.from(colorMap.values()),
       allSizes: Array.from(sizeMap.values()),
     };
-  }, [allproducts]);
+  }, [slug ,allproducts]);
 
   if (isLoadingProducts || isLoadingCollections)
     return <div className="w-full relative h-[60vh] container  py-10  "></div>;
@@ -300,8 +300,8 @@ function Productspage() {
               collection={
                 productslug
                   ? allcollection.data.filter(
-                      (item) => item.gender == productslug.toUpperCase()
-                    )
+                    (item) => item.gender == productslug.toUpperCase()
+                  )
                   : allcollection.data
               }
               productRangevalue={productRangevalue}
@@ -325,7 +325,7 @@ function Productspage() {
                 data={filterProducts ? filterProducts : allproducts.data}
                 url={"product"}
                 css=" grid-cols-2 md:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-200  gap-2 lg:gap-3"
-                productsCardCss=" h-[200px]  sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
+                productsCardCss=" h-[170px] aspect-square md:aspect-auto  sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
               />
             ) : (
               <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3  lg:grid-cols-4   items-start justify-start gap-3 px-5  lg:px-10   ">
@@ -389,9 +389,8 @@ function Productspage() {
               (item, index) =>
                 item.gender == `${productslug}`.toUpperCase() && (
                   <Link
-                    href={`/collections/${`${item.gender}`.toLowerCase()}/${
-                      item.slug
-                    }`}
+                    href={`/collections/${`${item.gender}`.toLowerCase()}/${item.slug
+                      }`}
                     className=" text-[11px] sm:text-xs md:text-sm  font-medium  border-r border-x px-3 border-primary"
                     key={index}
                   >

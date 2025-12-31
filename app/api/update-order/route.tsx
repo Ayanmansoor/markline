@@ -44,14 +44,12 @@ export async function POST(req: NextRequest) {
 
 
     if (error) {
-      console.log(error, "this is product data")
 
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, updated: data }, { status: 200 });
   } catch (error) {
-    console.log(error, "this is product data")
     return NextResponse.json(
       { success: false, error: "Server error", details: String(error) },
       { status: 500 }

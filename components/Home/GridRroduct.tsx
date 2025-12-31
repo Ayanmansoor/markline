@@ -5,7 +5,6 @@ import { GridProductProps, NewGridProductProps } from "@/types/interfaces";
 import { ProductsProps } from "@/types/interfaces";
 
 function GridRroduct({ data, url, css, productsCardCss }: NewGridProductProps) {
-  console.log(data, "this is product");
 
   return (
     <div

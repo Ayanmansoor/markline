@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
             `);
 
         // Apply filter only if type is not ALL
-        if (groupType) {
+        if (groupType!=="ALL") {
             query = query.eq("type", groupType);
         }
 

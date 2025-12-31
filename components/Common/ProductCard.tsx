@@ -136,11 +136,11 @@ function ProductCard({ product, url, className }: newProductsProps) {
       try {
         const variantColors: Colors[] = Array.isArray(variant.colors)
           ? variant.colors.map((item) =>
-              typeof item === "string" ? JSON.parse(item) : item
-            )
+            typeof item === "string" ? JSON.parse(item) : item
+          )
           : typeof variant.colors === "string"
-          ? JSON.parse(variant.colors)
-          : [];
+            ? JSON.parse(variant.colors)
+            : [];
         return variantColors.some((c) => c.name === color.name);
       } catch (error) {
         console.error("Error parsing variant colors:", error);
@@ -182,11 +182,10 @@ function ProductCard({ product, url, className }: newProductsProps) {
                   <img
                     src={`${image?.image_url}` || ""}
                     alt={`${image.name} - markline `}
-                    className={`w-full   transition-all duration-100 ease-in-out object-contain sm:object-cover hover:scale-[1.010]  ${
-                      className
-                        ? className
-                        : " h-[260px] sm:h-[300px] md:h-[250px] lg:h-[350px] xl:h-[400px]"
-                    } `}
+                    className={`w-full   transition-all duration-100 ease-in-out object-contain sm:object-cover hover:scale-[1.010]  ${className
+                      ? className
+                      : " h-[260px] sm:h-[300px] md:h-[250px] lg:h-[350px] xl:h-[400px]"
+                      } `}
                     height={200}
                     width={300}
                     loading="lazy"
@@ -195,16 +194,15 @@ function ProductCard({ product, url, className }: newProductsProps) {
               ))}
           </Swiper>
           {selectedVariant?.discounts?.discount_persent && (
-            <p className="text-xs font-bold text-green-600 absolute top-2 z-10 left-3 bg-green-100 w-fit px-2 py-0.5 rounded-full mt-1">
+            <p className=" text-[11px] md:text-xs font-bold text-green-600 absolute top-2 z-10 left-2 md:left-3 bg-green-100 w-fit px-2 py-0.5 rounded-full mt-1">
               {selectedVariant?.discounts?.discount_persent}% OFF
             </p>
           )}
         </Link>
         <button className="absolute top-3 right-3 bg-gray-200 border border-gray-200 p-1 md:p-2  rounded-full z-20">
           <FaHeart
-            className={` text-[10px] sm:text-[16px] md:text-[20px] flex items-center    text-black justify-center cursor-pointer group group-hover:text-red-500  ${
-              isInWhishlist && "text-red-500"
-            }  `}
+            className={` text-[10px] sm:text-[16px] md:text-[20px] flex items-center    text-black justify-center cursor-pointer group group-hover:text-red-500  ${isInWhishlist && "text-red-500"
+              }  `}
             onClick={() => addTowishlistproduct(Stringifycolor, StringifySize)}
           />
         </button>
@@ -223,11 +221,10 @@ function ProductCard({ product, url, className }: newProductsProps) {
           <span
             key={index}
             onClick={() => handleColorChange(color)}
-            className={` h-[20px] md:h-[30px] w-[20px] md:w-[30px] rounded-full border-2 p-1  cursor-pointer  ${
-              selectedColor?.name == color.name
-                ? "border-gray-700"
-                : "border-gray-300"
-            }`}
+            className={` h-[20px] md:h-[30px] w-[20px] md:w-[30px] rounded-full border-2 p-1  cursor-pointer  ${selectedColor?.name == color.name
+              ? "border-gray-700"
+              : "border-gray-300"
+              }`}
             style={{
               backgroundColor: color.hex,
             }}

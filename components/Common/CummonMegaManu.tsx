@@ -106,7 +106,6 @@ function CummonMegaManu({ children, urlProps }: CommonMegaManuProps) {
                       const images = collec.image_urls?.map(
                         (obj: any, index: number) => JSON.parse(obj)
                       )[0];
-                      console.log(images, "dsfkjshdflksdjfhlsdkfzDs");
                       return (
                         <Link
                           href={`/collections/${collec.slug}`}

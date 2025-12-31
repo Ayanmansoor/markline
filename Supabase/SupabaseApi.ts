@@ -10,7 +10,7 @@ async function getAllBlogs() {
     } else {
       return new Error(error.message);
     }
-  } catch (error) {}
+  } catch (error) { }
 }
 
 async function getblog(slug: string) {
@@ -321,7 +321,10 @@ async function getRelatedProducts(product: ProductsProps, slug: string) {
     .select(
       `
       *,
-      product_variants(*)
+      product_variants(
+        *,
+          discounts:discount_key (*)
+      )
     `
     )
     .or(
@@ -373,7 +376,7 @@ async function getCurrentUserOrders(userId: string) {
       orders,
       address,
     };
-  } catch (error) {}
+  } catch (error) { }
 }
 
 async function getCurrentUserSingleOrder(userId: string, orderId: string) {
@@ -390,7 +393,7 @@ async function getCurrentUserSingleOrder(userId: string, orderId: string) {
     return {
       orders,
     };
-  } catch (error) {}
+  } catch (error) { }
 }
 
 async function getSelectedAddress(userId: string | undefined) {
@@ -419,7 +422,7 @@ async function updateCurrentUserAddress(userId: string, updatedAddress: any) {
       return new Error(error.message);
     }
     return data;
-  } catch (error) {}
+  } catch (error) { }
 }
 
 // new
@@ -459,7 +462,7 @@ async function getaudience(audience: string) {
       return new Error(error.message);
     }
     return data[0];
-  } catch (error) {}
+  } catch (error) { }
 }
 
 async function getAllAudience() {
@@ -470,7 +473,7 @@ async function getAllAudience() {
       return new Error(error.message);
     }
     return data;
-  } catch (error) {}
+  } catch (error) { }
 }
 
 async function getsearchProducts(query: string) {

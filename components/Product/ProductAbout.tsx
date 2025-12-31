@@ -49,32 +49,77 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
     const [qty, setQty] = useState(1);
 
     /* ---------- all unique colours from every variant --------- */
+    // const allColors = useMemo(() => {
+    //     const colorMap = new Map<string, { color: Colors; image: Images | null }>();
+
+    //     product?.product_variants.forEach(v => {
+    //         const colors: Colors[] = Array.isArray(v.colors)
+    //             ? v.colors.map((c: any) => (typeof c === 'string' ? JSON.parse(c) : c))
+    //             : typeof v.colors === 'string'
+    //                 ? JSON.parse(v.colors)
+    //                 : [];
+
+    //         const images: Images[] = Array.isArray(v.image_url)
+    //             ? v.image_url.map((i: any) => (typeof i === 'string' ? JSON.parse(i) : i))
+    //             : [];
+
+    //         colors.forEach((c: Colors) => {
+    //             if (!colorMap.has(c.name)) {
+    //                 colorMap.set(c.name, {
+    //                     color: c,
+    //                     image: images[0] ?? null, // take the first image of this variant
+    //                 });
+    //             }
+    //         });
+    //     });
+
+    //     return Array.from(colorMap.values());
+    // }, [product]);
+
     const allColors = useMemo(() => {
         const colorMap = new Map<string, { color: Colors; image: Images | null }>();
 
-        product?.product_variants.forEach(v => {
-            const colors: Colors[] = Array.isArray(v.colors)
-                ? v.colors.map((c: any) => (typeof c === 'string' ? JSON.parse(c) : c))
-                : typeof v.colors === 'string'
-                    ? JSON.parse(v.colors)
-                    : [];
+        // ✅ collect ALL images from ALL variants first
+        const allImages: Images[] = [];
 
-            const images: Images[] = Array.isArray(v.image_url)
-                ? v.image_url.map((i: any) => (typeof i === 'string' ? JSON.parse(i) : i))
+        product?.product_variants.forEach((v) => {
+            if (Array.isArray(v.image_url)) {
+                v.image_url.forEach((i: any) => {
+                    try {
+                        allImages.push(typeof i === "string" ? JSON.parse(i) : i);
+                    } catch { }
+                });
+            }
+        });
+
+        // ✅ now map colors to images globally
+        product?.product_variants.forEach((v) => {
+            const colors: Colors[] = Array.isArray(v.colors)
+                ? v.colors.map((c: any) =>
+                    typeof c === "string" ? JSON.parse(c) : c
+                )
                 : [];
 
-            colors.forEach((c: Colors) => {
-                if (!colorMap.has(c.name)) {
-                    colorMap.set(c.name, {
-                        color: c,
-                        image: images[0] ?? null, // take the first image of this variant
-                    });
-                }
+            colors.forEach((color: any) => {
+                if (colorMap.has(color.name)) return;
+
+                const matchedImage =
+                    allImages.find(
+                        (img:any) =>
+                            img?.color?.toLowerCase() === color.name.toLowerCase()
+                    ) ?? null;
+
+                colorMap.set(color.name, {
+                    color,
+                    image: matchedImage,
+                });
             });
         });
 
         return Array.from(colorMap.values());
     }, [product]);
+
+    console.log(product?.product_variants, "this is is all variant data")
 
     /* ---------- whenever current variant changes --------- */
     useEffect(() => {
@@ -319,7 +364,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
 
                 <div className='w-full relative flex items-start flex-col  justify-between gap-3'>
                     <p className='text-base font-semibold  mt-3 mb-3'>
-                        Estd. Delivery by 7 February
+                        Estd. Delivery by 7 working days
                     </p>
 
                     <img src="/checkout-image.png" alt="checkout image" height={400} width={400} className="w-full realtive h-auto " />
@@ -342,15 +387,15 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                 <div className="grid grid-cols-3 gap-4 py-6 border-t w-full  border-gray-200">
                     <div className="text-center">
                         <Truck className=" text-[20px] md:text-[25px] mx-auto mb-2 text-gray-500" />
-                        <p className=" text-sm font-semibold sm:font-medium md:text-base lg:text-lg text-primary">Free Shipping</p>
+                        <p className=" text-sm font-semibold sm:font-medium   text-primary">Free Shipping</p>
                     </div>
                     <div className="text-center">
                         <Shield className=" text-[20px] md:text-[25px] mx-auto mb-2 text-gray-500" />
-                        <p className=" text-sm font-semibold sm:font-medium md:text-base lg:text-lg  text-primary">Premium Quality</p>
+                        <p className=" text-sm font-semibold sm:font-medium    text-primary">Premium Quality</p>
                     </div>
                     <div className="text-center">
                         <RotateCcw className=" text-[20px] md:text-[25px] mx-auto mb-2 text-gray-500" />
-                        <p className=" text-sm font-semibold sm:font-medium md:text-base lg:text-lg text-primary">30-Day Returns</p>
+                        <p className=" text-sm font-semibold sm:font-medium   text-primary">30-Day Returns</p>
                     </div>
                 </div>
 

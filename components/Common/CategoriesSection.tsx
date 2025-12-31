@@ -10,9 +10,9 @@ function CategoriesSection({ children, title, url, urltext, subtitle, isH1 }: Ca
                 <span className='flex flex-col gap-1 '>
                     {
                         isH1 ?
-                            <h1 className='    text-lg md:text-2xl xl:text-3xl self-start  font-medium   w-fit  uppercase   '>{title}</h1>
+                            <h1 className='     text-lg   md:text-2xl xl:text-3xl self-start  font-medium   w-fit  uppercase   '>{title}</h1>
                             :
-                            <h2 className='     text-lg md:text-2xl xl:text-3xl  font-medium     uppercase self-start   w-fit  '>{title}</h2>
+                            <h2 className='   text-lg md:text-2xl xl:text-3xl  font-medium     uppercase self-start   w-fit  '>{title}</h2>
                     }
                     {
                         subtitle &&
@@ -22,7 +22,7 @@ function CategoriesSection({ children, title, url, urltext, subtitle, isH1 }: Ca
                 </span>
                 {
                     url &&
-                    <Link href={`/${url}`} className=' text-sm xl:text-lg w-fit self-end  font-medium text-foreground flex items-center gap-1 capitalize' >{urltext} <GoArrowUpRight className='text-[20px] ' /> </Link>
+                    <Link href={`/${url}`} className='text-xs sm:text-sm xl:text-lg w-fit self-end  font-medium text-foreground flex items-center gap-1 capitalize' >{urltext} <GoArrowUpRight className='text-[20px] ' /> </Link>
                 }
             </div>
             <section className='w-full relative h-auto bg-transparent  '>

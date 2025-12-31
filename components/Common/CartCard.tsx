@@ -115,27 +115,27 @@ function CartCard({ data }: any) {
                     pagination={{
                         dynamicBullets: true
                     }}
-                    className="mySwiper max-w-[150px]  realtive max-h-[200px] md:max-h-[150px]"
+                    className="mySwiper max-w-[100px] md:max-w-[150px]  realtive max-h-[200px] md:max-h-[150px]"
                 >
 
                     {
                         StringifyImages &&
                         StringifyImages?.map((image, index: number) => (
-                            <SwiperSlide className=' max-w-[150px] rounded-lg max-h-[200px] md:max-h-[120px] relative border overflow-hidden' key={index}>
+                            <SwiperSlide className=' max-w-[100px] md:max-w-[150px] rounded-lg max-h-[200px] md:max-h-[120px] relative border overflow-hidden' key={index}>
                                 <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className={` aspect-square  w-full transition-all duration-100 ease-in-out object-contain sm:object-cover hover:scale-[1.010] max-h-[220px] sm:max-h-[150px]  `} height={200} width={300} loading='lazy' />
                             </SwiperSlide>
                         ))
                     }
                 </Swiper>
                 <span className='flex flex-col gap-1'>
-                    <h2 className=' text-lg md:text-lg max-w-[350px] font-semibold text-gray-800 line-clamp-2'>
+                    <h2 className='text-xs md:text-lg lg:text-lg max-w-[350px] font-semibold text-gray-800 line-clamp-2'>
                         {data?.productName}
                     </h2>
                     <ul className=' flex-col sm:flex-row flex items-start sm:items-center gap-1 justify-start  '>
-                        <li className='text-sm font-medium text-primary'>
+                        <li className=' text-xs md:text-sm font-medium text-primary'>
                             Size :  {data?.variant?.selectedSize?.size}
                         </li>
-                        <li className='text-sm font-medium text-primary'>
+                        <li className='text-xs md:text-sm font-medium text-primary'>
                             Color: {data?.variant?.selectedColor?.name}
                         </li>
                     </ul>

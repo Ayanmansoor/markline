@@ -16,7 +16,7 @@ export async function GET(req: NextRequest, context: { params: { gender: string 
                 *,
                 product_variants (
                     *,
-                    discount_key (*)
+                   discounts:discount_key (*)
                 )
                 `
             )

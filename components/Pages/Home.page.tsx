@@ -65,7 +65,7 @@ function HomePage() {
     isLoading: isLoading,
     isError: iserror,
   } = useQuery<{ data: newProductsProps[] }>({
-    queryKey: ["groupOfProducts"],
+    queryKey: ["groupOfProductshome"],
     queryFn: () => fetchGroupOfProducts("ALL"),
     staleTime: Infinity,
     refetchOnMount: false,
@@ -165,9 +165,9 @@ function HomePage() {
       ) : (
         <></>
       )} */}
-      <MainCollections />
 
-      <section className="w-full  relative flex-col gap-5  2xl:gap-10 items-start  mt-7 lg:mt-10 h-auto flex pb-3 px-5 lg:px-10 xl:px-20 2xl:px-40 py-5 lg:py-10">
+
+    <section className="w-full  relative flex-col gap-5  2xl:gap-10 items-start  mt-7 lg:mt-10 h-auto flex pb-3 px-5 lg:px-10 xl:px-20 2xl:px-40 py-5 lg:py-10">
         <h1 className="text-lg md:text-2xl xl:text-3xl font-semibold text-primary uppercase">
           Shop By Collections
         </h1>
@@ -178,8 +178,8 @@ function HomePage() {
               key={option}
               onClick={() => handleSelect(option)}
               className={` px-4 md:px-4  py-1 lg:px-10 lg:py- border-2 rounded-full font-medium transition-all ${selected === option
-                  ? "bg-foreground text-background border-foreground"
-                  : "border-foreground text-foreground hover:bg-muted"
+                ? "bg-foreground text-background border-foreground"
+                : "border-foreground text-foreground hover:bg-muted"
                 }`}
             >
               {option}
@@ -188,19 +188,21 @@ function HomePage() {
         </div>
 
         <Swiper
-          slidesPerView={4}
           breakpoints={{
-            320: {
-              slidesPerView: 1.2,
+            0: {
+              slidesPerView: 1.3, // mobile
             },
-            480: {
-              slidesPerView: 3,
+            640: {
+              slidesPerView: 2, // tablet
             },
-            580: {
-              slidesPerView: 3,
+            780: {
+              slidesPerView: 3, // small desktop
             },
-            740: {
-              slidesPerView: 4,
+            1024: {
+              slidesPerView: 3, // small desktop
+            },
+            1280: {
+              slidesPerView: 4, // full desktop
             },
           }}
           modules={[Autoplay]}
@@ -250,6 +252,11 @@ function HomePage() {
         <ArrowUpRight className="text-white group-hover:text-primary text-[10px] md:text-[20px]" />
       </Link>
 
+
+
+      <MainCollections />
+
+  
       {isLoading ? (
         <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10 xl:px-20 2xl:px-40">
           <ProductCardSkeleton />
@@ -284,7 +291,7 @@ function HomePage() {
       <KeyMatric />
 
       {isLoading ? (
-        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10 xl:px-20 2xl:px-40">
+        <div className="grid grid-cols-2  py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10 xl:px-20 2xl:px-40">
           <ProductCardSkeleton />
           <ProductCardSkeleton />
           <ProductCardSkeleton />
@@ -305,7 +312,7 @@ function HomePage() {
                 <CarouselProduct
                   url="product"
                   product={item.products.slice(0, 10)}
-                  productsCardCss=" h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]"
+                  productsCardCss=" h-[250px]  aspect-square md:aspect-auto  sm:h-[300px] md:h-[350px] lg:h-[400px]"
                 />
               </CategoriesSection>
             )
