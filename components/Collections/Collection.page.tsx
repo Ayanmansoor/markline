@@ -89,10 +89,10 @@ function CollcetionPage() {
       {collections?.data?.length ? (
         <section className="w-full  relative flex-col gap-5 mb-10 2xl:gap-10 items-start  mt-7 lg:mt-10 h-auto flex pb-3  px-5 lg:px-10 xl:px-20 2xl:px-40 pt-5 lg:pt-10 ">
           <div className="flex flex-col gap-1 relative ">
-            <h1 className="text-lg md:text-2xl xl:text-3xl font-semibold text-primary">
+            <h1 className=" text-base sm:text-lg md:text-2xl xl:text-3xl font-semibold text-primary">
               Women&apos;s Footwear Collections – Sandals, Flats, Heels & More
             </h1>
-            <p className="text-lg font-medium text-primary  ">
+            <p className=" text-xs sm:text-base md:text-lg font-medium text-primary  ">
               Discover elegant sandals, comfy flats, chic heels & stylish mules
             </p>
           </div>
@@ -102,18 +102,17 @@ function CollcetionPage() {
               <button
                 key={option}
                 onClick={() => handleSelect(option)}
-                className={` px-4 md:px-4  py-1 lg:px-10 lg:py- rounded-full border-2 font-medium transition-all ${
-                  selected === option
+                className={` px-4 md:px-4  py-1 lg:px-10 lg:py- rounded-full border-2 font-medium transition-all ${selected === option
                     ? "bg-foreground text-background border-foreground"
                     : "border-foreground text-foreground hover:bg-muted"
-                }`}
+                  }`}
               >
                 {option}
               </button>
             ))}
           </div>
 
-          <section className="w-full relative h-auto gap-3 md:gap-5 xl:gap-5 2xl:gap-5 grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+          <section className="w-full relative h-auto gap-3 md:gap-5 xl:gap-5 2xl:gap-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
             {collections?.data?.length > 0 ? (
               collections.data
                 .filter(
@@ -138,10 +137,10 @@ function CollcetionPage() {
             {collections?.data?.filter(
               (col) => col?.gender?.toLowerCase() === selected.toLowerCase()
             ).length === 0 && (
-              <div className="col-span-full text-center text-muted-foreground py-10">
-                No collections found for <strong>{selected}</strong>.
-              </div>
-            )}
+                <div className="col-span-full text-center text-muted-foreground py-10">
+                  No collections found for <strong>{selected}</strong>.
+                </div>
+              )}
           </section>
         </section>
       ) : (

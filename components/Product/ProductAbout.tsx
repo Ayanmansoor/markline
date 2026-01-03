@@ -22,7 +22,9 @@ import { RotateCcw, Shield, Truck } from 'lucide-react';
 import { HiMiniMinusSmall } from 'react-icons/hi2';
 import CustomReview from '../Common/CustomReview';
 import { SizeChartModal } from '../Common/SizeChartModal';
+import WhatsAppButton from '../Common/WhatsAppButton';
 
+import { usePathname } from 'next/navigation';
 interface productsCart {
     colors: {
         color: colorProps
@@ -40,7 +42,7 @@ interface productsCart {
 function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutProps) {
     const { addToCart, isInCart, updateQuantity, getCartProduct } = useCartContext();
     const { isProductInWishlist } = useWishlists();
-
+    const pathname = usePathname();
     /* ---------- local state ------------- */
     const [parsedImages, setParsedImages] = useState<Images[]>([]);
     const [parsedSizes, setParsedSizes] = useState<Sizes[]>([]);
@@ -105,7 +107,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
 
                 const matchedImage =
                     allImages.find(
-                        (img:any) =>
+                        (img: any) =>
                             img?.color?.toLowerCase() === color.name.toLowerCase()
                     ) ?? null;
 
@@ -119,7 +121,6 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
         return Array.from(colorMap.values());
     }, [product]);
 
-    console.log(product?.product_variants, "this is is all variant data")
 
     /* ---------- whenever current variant changes --------- */
     useEffect(() => {
@@ -175,6 +176,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
             productName: product?.name,
             slug: product?.slug,
             gender: product?.gender,
+            url: `${pathname}`,
             quantity: qty,
             variant: {
                 ...variant,
@@ -343,7 +345,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
 
                                 :
                                 <button
-                                    className='w-full bg-white text-primary py-2 md:py-4 border border-black  hover:bg-slate-100'
+                                    className='w-full text-sm    bg-white text-primary py-2 md:py-4 border border-black  hover:bg-slate-100'
                                     disabled={!selectedColor || !selectedSize}
                                     onClick={handleAddToCart}
                                 >
@@ -351,15 +353,14 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                                 </button>
                         }
 
-                        <BuyDailog product={{ ...product, selectedColor: selectedColor, selectedSize: selectedSize, quantity: qty }} selectedVariant={variant}>
+                        {/* <BuyDailog product={{ ...product, selectedColor: selectedColor, selectedSize: selectedSize, quantity: qty }} selectedVariant={variant}>
                             <button disabled={selectedColor?.name && selectedSize?.size ? false : true} className=' w-full relative  xl:px-5 py-2 md:py-4 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' >Buy Now</button>
-                        </BuyDailog>
+                        </BuyDailog> */}
+                        <WhatsAppButton product={product} variant={variant} />
                         {/* <BuyProduct product={{ ...product, selectedColor: productcart.colors.color, selectedSize: productcart.sizes.size, quantity: productcart.quentitys.quentity }}/> */}
                         {/* </AddToCardPopver>       */}
                     </div>
-                    <span className='border py-1     flex items-center justify-center px-3 md:px-5 cursor-pointer group hover:bg-red-200 h-full '>
-                        <FaHeart className={`  text-[15px] md:text-[20px] flex items-center  text-black justify-center cursor-pointer hover:text-red-500    `} />
-                    </span>
+                    
                 </div>
 
                 <div className='w-full relative flex items-start flex-col  justify-between gap-3'>

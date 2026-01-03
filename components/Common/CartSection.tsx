@@ -82,7 +82,7 @@ function CartSection() {
 
 
     return (
-        <section className='grid grid-cols-1 lg:grid-cols-[2fr_.7fr] gap-5 items-start justify-between px-5 xl:px-10 2xl:px-40 py-10'>
+        <section className='grid grid-cols-1  gap-5 items-start justify-between px-5 xl:px-10 2xl:px-40 py-10'>
 
             <section className=' flex flex-col gap-10 lg:gap-20 '>
 
@@ -163,15 +163,15 @@ function CartSection() {
                 </div>
 
             </section>
-
+            {/* 
             <div className='w-full sticky top-20 h-fit  flex flex-col gap-5 bg-white '>
-                {/* <Applycoupon setCouponValue={setCoupon} /> */}
+                <Applycoupon setCouponValue={setCoupon} />
                 <Checkout
                     totalMrp={totalOriginalPrice}
                     totaldiscount={totalDiscountAmount}
                     totalPrice={finalCartTotal} coupondiscount={0} />
 
-            </div>
+            </div> */}
 
 
 

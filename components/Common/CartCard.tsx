@@ -16,6 +16,8 @@ import {
 import { Images, newCartItem, useCartContext } from '@/Contexts/Cart.context';
 import { Trash } from 'lucide-react';
 import Link from 'next/link';
+import WhatsAppButton from './WhatsAppButton';
+import WhatsAppCartButton from './CartWhatsAppbutton';
 // import { CartItemProps } from '@/types/Interface'
 // import { BASE_URL } from '@/config/config'
 // import { useCartContext } from '@/context/ProductContext'
@@ -107,6 +109,8 @@ function CartCard({ data }: any) {
         removeFromCart({ productId: id, colorName: colorName, size: size })
     }
 
+    console.log(data, "this is card data")
+
     return (
         <Link href={`/product/${data.slug}`} className='w-full relative h-fit border rounded-lg   flex-col sm:flex-row flex items-center justify-between gap-2  p-2 md:p-1 pb-4 sm:border-b border-gray-300 '>
             <div className='flex flex-col sm:flex-row items-start sm:items-center w-full sm:w-fit  gap-3  '>
@@ -128,7 +132,7 @@ function CartCard({ data }: any) {
                     }
                 </Swiper>
                 <span className='flex flex-col gap-1'>
-                    <h2 className='text-xs md:text-lg lg:text-lg max-w-[350px] font-semibold text-gray-800 line-clamp-2'>
+                    <h2 className='text-xs md:text-lg lg:text-lg max-w-[350px] font-semibold text-gray-800 line-clamp-5 md:line-clamp-2'>
                         {data?.productName}
                     </h2>
                     <ul className=' flex-col sm:flex-row flex items-start sm:items-center gap-1 justify-start  '>
@@ -160,19 +164,21 @@ function CartCard({ data }: any) {
                     </h2>
 
                 </div>
-                <Select onValueChange={(newValue) => handleQuantityChange(data, parseInt(newValue))}>
-                    <SelectTrigger className=" w-full sm:w-[120px] font-semibold text-base text-text-primary border-gray-200 border ">
-                        <SelectValue className='' placeholder={`Qty : ${data?.quantity}`} />
-                    </SelectTrigger>
-                    <SelectContent >
-                        {
-                            [...Array(5)].map((item, index) => (
-                                <SelectItem value={`${index + 1}`} key={index} className={` ${index + 1 == data?.quantity && "bg-gray-200"} `} >{index + 1}</SelectItem>
-                            ))
-                        }
-                    </SelectContent>
-                </Select>
-
+                <section className='w-full sm:w-fit relative flex flex-col sm:flex-row gap-1 sm:gap-3 items-center'>
+                    <Select onValueChange={(newValue) => handleQuantityChange(data, parseInt(newValue))}>
+                        <SelectTrigger className=" w-full sm:w-[120px] font-semibold text-base text-text-primary border-gray-200 border ">
+                            <SelectValue className='placeholder:text-xs' placeholder={`Qty : ${data?.quantity}`} />
+                        </SelectTrigger>
+                        <SelectContent className='w-full sm:w-[120px]' >
+                            {
+                                [...Array(5)].map((item, index) => (
+                                    <SelectItem value={`${index + 1}`} key={index} className={` ${index + 1 == data?.quantity && "bg-gray-200"} `} >{index + 1}</SelectItem>
+                                ))
+                            }
+                        </SelectContent>
+                    </Select>
+                    <WhatsAppCartButton cartItem={data} />
+                </section>
                 <Trash height={20} className=" cursor-pointer text-red-500" onClick={() => removecat(data?.productId, data?.variant?.selectedColor, data?.variant?.selectedSize)} />
             </div>
         </Link>

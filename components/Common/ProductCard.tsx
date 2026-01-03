@@ -216,24 +216,50 @@ function ProductCard({ product, url, className }: newProductsProps) {
           {product?.name}
         </h2>
       </Link>
-      <div className="flex items-center w-full relative h-auto gap-2 md:py-2 py-0 pt-0 md:pt-3 ">
-        {allColors?.map((color, index) => (
-          <span
-            key={index}
-            onClick={() => handleColorChange(color)}
-            className={` h-[20px] md:h-[30px] w-[20px] md:w-[30px] rounded-full border-2 p-1  cursor-pointer  ${selectedColor?.name == color.name
-              ? "border-gray-700"
-              : "border-gray-300"
-              }`}
-            style={{
-              backgroundColor: color.hex,
-            }}
-          />
-        ))}
+      <div className="flex items-center w-full relative h-auto gap-2 md:py-2 py-0 pt-0 md:pt-3 justify-between">
+
+        <div className="w-fit flex gap-2">
+          {allColors?.slice(0, 3).map((color, index) => (
+            <span
+              key={index}
+              onClick={() => handleColorChange(color)}
+              className={` h-[20px] md:h-[30px] w-[20px] md:w-[30px] rounded-full border-2 p-1  cursor-pointer  ${selectedColor?.name == color.name
+                ? "border-gray-700"
+                : "border-gray-300"
+                }`}
+              style={{
+                backgroundColor: color.hex,
+              }}
+            />
+          ))}
+        </div>
+        {selectedVariant?.discounts?.discount_persent && (
+          <div className=" flex items-center lg:flex-row flex-col justify-center gap-1 md:gap-2">
+            <p className="text-base w-fit md:text-sm  xl:text-xl  font-medium  !line-clamp-3   flex items-center gap-1 uppercase  text-black">
+              ₹
+              {(() => {
+                const price = selectedVariant?.price || 0;
+                const discount =
+                  selectedVariant?.discounts?.discount_persent || 0;
+                const discountAmount = Math.round((price * discount) / 100);
+                return price - discountAmount;
+              })()}
+            </p>
+            <p className="  font-normal text-red-500  line-through text-nowrap flex w-fit text-xs lg:text-sm  xl:text-base ">
+              ₹ {selectedVariant?.price}
+            </p>
+          </div>
+        )}
+        {!selectedVariant?.discounts && (
+
+            <p className=" text-base md:text-sm   xl:text-xl  font-medium  w-auto !line-clamp-3  text-nowrap flex  justify-center items-center gap-1 uppercase  text-black">
+              ₹ {selectedVariant?.price}
+            </p>
+        )}
       </div>
       <section className="w-full relative h-auto  pb-3 py-0 md:py-2  md:flex-row  flex-col flex  items-start lg:items-center justify-end gap-2 px-1">
         <div className="w-full relative flex  flex-col-reverse md:flex-row items-start md:items-center  justify-between   gap-2 pt-1">
-          <AddToCardPopver
+          {/* <AddToCardPopver
             selectedColors={selectedColor}
             currentVariant={selectedVariant}
             currentProduct={product}
@@ -243,30 +269,10 @@ function ProductCard({ product, url, className }: newProductsProps) {
             <button className=" w-full md:w-fit px-3 md:px-4 2xl:px-4   bg-primary text-primary text-white relative h-full py-2 lg:py-2.5   flex items-center justify-center text-xs lg:text-xs   font-medium    group-border-gray-300">
               ADD TO CART
             </button>
-          </AddToCardPopver>
+          </AddToCardPopver> */}
 
-          {selectedVariant?.discounts?.discount_persent && (
-            <div className=" flex items-center justify-center gap-2">
-              <p className="text-base md:text-sm  xl:text-xl  font-medium  !line-clamp-3   flex items-center gap-1 uppercase  text-black">
-                ₹
-                {(() => {
-                  const price = selectedVariant?.price || 0;
-                  const discount =
-                    selectedVariant?.discounts?.discount_persent || 0;
-                  const discountAmount = Math.round((price * discount) / 100);
-                  return price - discountAmount;
-                })()}
-              </p>
-              <p className="  font-normal text-red-500  line-through text-nowrap  text-xs lg:text-sm  xl:text-base ">
-                ₹ {selectedVariant?.price}
-              </p>
-            </div>
-          )}
-          {!selectedVariant?.discounts && (
-            <p className=" text-sm md:text-base lg:text-lg xl:text-lg  font-semibold text-nowrap text-primary">
-              ₹ {selectedVariant?.price}
-            </p>
-          )}
+
+
         </div>
       </section>
     </section>

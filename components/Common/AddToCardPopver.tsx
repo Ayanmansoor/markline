@@ -12,6 +12,7 @@ import { Colors as colorProps, Sizes as sizeProps } from '@/types/interfaces';
 import { useCartContext } from '@/Contexts/Cart.context';
 import { useWishlists } from '@/Contexts/wishlist';
 import { toast } from 'sonner';
+import { usePathname } from 'next/navigation';
 
 interface productsCart {
     colors: {
@@ -34,7 +35,7 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
     const [selectedSize, setSelectedSize] = useState<Sizes>();
     const [isItemSelected, setItemSelected] = useState(false)
     // const [quantity, setQuantity] = useState<number>(1);
-
+    const pathname = usePathname();
 
     const [issomething, setSomeThingchange] = useState(false)
 
@@ -144,6 +145,7 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
             slug: currentProduct.slug,
             gender: currentProduct.gender,
             quantity: 1,
+            url: `${pathname}`,
             variant: {
                 id: currentVariant.id,
                 sku: currentVariant.sku,

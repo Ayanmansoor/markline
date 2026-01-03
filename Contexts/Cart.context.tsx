@@ -54,6 +54,7 @@ export interface newCartItem {
   slug: string;
   variant: CartVariant;
   quantity: number;
+  url: string;
   gender: string;
 }
 
@@ -66,7 +67,7 @@ interface CartContextProps {
   updateQuantity: ({ productId, colorName, size, quantity }: { productId: number, colorName: Colors, size: Sizes, quantity: number }) => void;
   clearCart: () => void;
   isInCart: ({ variantId, colorName, size }: { variantId: number, colorName: string, size: string }) => boolean;
-  getCartProduct: ({variantId,colorName,size,}: {variantId: number;colorName: string;size: string;}) => newCartItem | undefined;
+  getCartProduct: ({ variantId, colorName, size, }: { variantId: number; colorName: string; size: string; }) => newCartItem | undefined;
 }
 
 // --- Context Creation ---

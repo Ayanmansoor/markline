@@ -13,6 +13,7 @@ import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
+import { SlSocialPintarest } from 'react-icons/sl';
 
 const subscribeSchema = z.object({
   email: z.string().email()
@@ -106,10 +107,9 @@ function Footer() {
 
             </h2>
             <ul className='flex items-start flex-col text-base  justify-start gap-3'>
-              <Link href={"https://www.instagram.com/marklinefashion/"} target='_blank' rel='noreferrer noindex' className='flex items-center gap-1 group '><RiInstagramFill className='text-[20px] group-hover:text-red-300' /> Instagram</Link>
-              <Link href={"https://www.facebook.com/people/Markline/61578047250955"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaFacebook className='text-[20px] group-hover:text-red-300' /> Facebook</Link>
-              <Link href={"https://www.pinterest.com/Marklinefashion/"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaPinterest className='text-[20px] group-hover:text-red-300' />Pinterest</Link>
-              <Link href={"https://www.youtube.com/channel/UCCDnKdMSM4abCTRC2lq0IKA"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaYoutube className='text-[20px] group-hover:text-red-300' />YouTube</Link>
+              <Link href={"https://www.instagram.com/shopmarkline"} target='_blank' rel='noreferrer noindex' className='flex items-center gap-1 group '><RiInstagramFill className='text-[20px] group-hover:text-red-300' /> Instagram</Link>
+              <Link href={"https://www.facebook.com/shopmarkline"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaFacebook className='text-[20px] group-hover:text-red-300' /> Facebook</Link>
+              <Link href={"https://in.pinterest.com/shopmarkline"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'><FaPinterest className='text-[20px] group-hover:text-red-300' />Pinterest</Link>
             </ul>
           </div>
 
@@ -139,7 +139,6 @@ function Footer() {
         <Link href={'/privacy-policy'} className=' text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Privacy & Policy</Link>
         <Link href={'/terms-condition'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Terms & Conditions</Link>
         <Link href={'/shipping-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Shipping & Return</Link>
-        <Link href="/makline-order-tracker" className='text-xs md:text-sm cursor-pointer hover:underline font-medium text-white '>Order Tracker</Link>
         <Link href={'/claim-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Product Claim Policy </Link>
       </section>
 
@@ -162,8 +161,7 @@ function Footer() {
                 <ul className='flex items-start mt-2 flex-col text-base justify-start gap-2 text-primary'>
                   <Link href={'/'} className='text-primary'  >Home</Link>
                   <Link href={'/new-arrivals'} className='text-primary'  >New Arrived</Link>
-                  <Link href={'/products'} className='text-primary'  >Proudcts</Link>
-                  <Link href={'/tranding'} className='text-primary' >Trending</Link>
+                  <Link href={'/products/women'} className='text-primary'  >Proudcts</Link>
                   <Link href={'/collections/women'} className='text-primary' >Women&apos;s Collections</Link>
                   <Link href={'/collections/men'} className='text-primary' >Men&apos;s Collections</Link>
 
@@ -188,7 +186,6 @@ function Footer() {
                   <Link href={'/terms-condition'} className='text-base lg:text-lg font-meidum text-primary cursor-pointer '>Terms & Conditions</Link>
                   <Link href={'/shipping-policy'} className='text-base lg:text-lg font-meidum text-primary cursor-pointer '>Shipping & Return</Link>
                   <Link href={'/claim-policy'} className='text-base lg:text-lg font-meidum text-primary cursor-pointer '>Product Claim Policy </Link>
-                  <Link href="/makline-order-tracker" className='text-xs md:text-sm cursor-pointer hover:underline font-medium text-white '>Order Tracker</Link>
                   <Link href={'/about-us'} className='text-primary' >FAQ</Link>
 
                 </ul>
@@ -208,9 +205,9 @@ function Footer() {
                 <hr className='mt-1' />
 
                 <ul className='flex items-start flex-col mt-2  text-base justify-start gap-2  text-primary'>
-                  <Link href="/gender/MEN" className='text-primary' >Man</Link>
-                  <Link href="/gender/WOMEN" className='text-primary' >Women</Link>
-                  <Link href='/gender/KIDS' className='text-primary' >kids</Link>
+                  <Link href="/collections/men" className='text-primary' >Man</Link>
+                  <Link href="/collections/women" className='text-primary' >Women</Link>
+                  <Link href='/collections/kids' className='text-primary' >kids</Link>
                   {/* <Link href="/gender/trending" className='text-primary' >Trending</Link> */}
 
                 </ul>
@@ -224,9 +221,17 @@ function Footer() {
         <p className='text-p20 font-light text-third text-center text-primary '>Follow Us</p>
         <hr className='w-full absolute top-8 text-primary ' />
         <div className=' container mx-auto h-auto px-20 py-3 flex justify-center items-center gap-5'>
-          <PiFacebookLogo className='text-[35px] rounded-2xl text-primary p-1 bg-third' />
-          <PiInstagramLogoThin className='text-[35px] rounded-2xl text-primary p-1 bg-third' />
-          <RiTwitterXLine className='text-[35px] rounded-2xl text-primary p-1 bg-third' />
+          <Link href={"https://www.instagram.com/shopmarkline"} target='_blank' rel='noreferrer noindex' className='flex items-center gap-1 group '>
+            <PiInstagramLogoThin className='text-[35px] rounded-2xl text-primary p-1 bg-third' />
+
+          </Link>
+          <Link href={"https://www.facebook.com/shopmarkline"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'>
+            <PiFacebookLogo className='text-[35px] rounded-2xl text-primary p-1 bg-third' />
+
+          </Link>
+          <Link href={"https://in.pinterest.com/shopmarkline"} rel='noreferrer noindex' target='_blank' className='flex items-center gap-1'>
+            <SlSocialPintarest className='text-[35px] rounded-2xl text-primary p-1 bg-third' />
+          </Link>
         </div>
       </div>
 
