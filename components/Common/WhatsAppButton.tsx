@@ -20,16 +20,16 @@ const WhatsAppButton = ({ product, variant }: WhatsAppButtonProps) => {
 
         // 3. Construct the message
         // Note: Placing the URL at the end helps WhatsApp generate the preview box
-        const message = `*Product Inquiry*
-                --------------------------
-                *Item:* ${product.name}
-                *SKU:* ${variant.sku}
-                *Color:* ${colorData.name}
-                *Price:* ₹${variant.price}
-                *Quantity* : ${1}
-
-                I would like to know more about this product:
-                ${currentUrl}`;
+        const message = `
+        *Product Inquiry*
+        --------------------------
+        *Item:* ${product.name}
+        *SKU:* ${variant.sku}
+        *Color:* ${colorData.name}
+        *Price:* ₹${variant.price}
+        *Quantity* : ${1}
+        I would like to know more about this product:
+        ${currentUrl}`;
 
         const encodedMessage = encodeURIComponent(message);
         const whatsappUrl = `https://wa.me/${adminPhoneNumber}?text=${encodedMessage}`;

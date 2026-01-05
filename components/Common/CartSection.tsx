@@ -108,7 +108,7 @@ function CartSection() {
                                 <CartCard key={index} data={item} />
                             ))
                         ) : (
-                            <div className='text-base  border border-gray-300   font-medium text-primary text-center py-5 rounded-lg px-2'>
+                            <div className='text-base  border border-gray-300 col-span-2   font-medium text-primary text-center py-5 rounded-lg px-2'>
                                 Cart is empty
                             </div>
                         )}

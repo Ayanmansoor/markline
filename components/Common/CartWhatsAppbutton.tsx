@@ -21,19 +21,18 @@ const WhatsAppCartButton = ({ cartItem }: WhatsAppCartButtonProps) => {
         const totalAmount = variant.price * quantity;
 
         // Build a structured, professional order message
-        const message = `*CART ENQUIRY*
-            --------------------------
-            *Product:* ${productName}
-            *SKU:* ${variant.sku}
-            *Size:* ${variant.selectedSize.size} (${variant.selectedSize.unit})
-            *Color:* ${variant.selectedColor.name}
-            *Quantity:* ${quantity}
-            *Price per unit:* ₹${variant.price}
-            *Total:* ₹${totalAmount}
-
-            *View Product:*
-            ${productUrl}`;
-
+        const message = `
+        *CART ENQUIRY*
+        --------------------------
+        *Product:* ${productName}
+        *SKU:* ${variant.sku}
+        *Size:* ${variant.selectedSize.size} (${variant.selectedSize.unit})
+        *Color:* ${variant.selectedColor.name}
+        *Quantity:* ${quantity}
+        *Price per unit:* ₹${variant.price}
+        *Total:* ₹${totalAmount}
+        *View Product:*
+        ${productUrl}`;
         const whatsappUrl = `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent(message)}`;
 
         window.open(whatsappUrl, '_blank', 'noopener,noreferrer');

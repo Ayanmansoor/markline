@@ -231,7 +231,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
         }
     }
 
-    console.log(variant, "this is my current varaint i have ")
+    // console.log(variant, "this is my current varaint i have ")
 
     return (
         <>
