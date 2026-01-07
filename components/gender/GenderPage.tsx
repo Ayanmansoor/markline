@@ -65,7 +65,7 @@ function GenderPage() {
   } = useQuery<any>({
     queryKey: ["gendercollection", group],
     enabled: !!group,
-    queryFn: () => getCollectionBaseOnGender(finalslug||""),
+    queryFn: () => getCollectionBaseOnGender(finalslug || ""),
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -258,14 +258,18 @@ function GenderPage() {
           </BreadcrumbList>
         </Breadcrumb>
 
-        <h1 className=" text-base md:text-xl lg:text-2xl xl:text-3xl font-semibold text-primary capitalize  px-5 lg:px-10 xl:px-20 2xl:px-40 ">
-          Products - {productslug}{" "}
-          {`${
-            getallproductbaseongender.data
+        <div className="flex flex-col gap-2 px-5 lg:px-10 xl:px-20 2xl:px-40 ">
+          <h1 className=" text-base md:text-xl lg:text-2xl xl:text-3xl font-semibold text-primary capitalize   ">
+            Products - {productslug}{" "}
+            {`${getallproductbaseongender.data
               ? getallproductbaseongender.data.length
               : ""
-          }`}{" "}
-        </h1>
+              }`}{" "}
+          </h1>
+          <p className="text-gray-700 text-sm md:text-base">
+            Shop comfortable and stylish {productslug} footwear online in India, designed for daily wear, office use, festive occasions, and casual outings.
+          </p>
+        </div>
 
         <section className="w-full relative gap-2 items-center   mt-8  h-auto flex border-b border-gray-400 pb-3  px-5 lg:px-10 xl:px-20 2xl:px-40  ">
           <Swiper
@@ -314,7 +318,7 @@ function GenderPage() {
                 }
                 url={"product"}
                 css=" gap-2 grid-cols-2 md:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-200 "
-               productsCardCss=" h-[170px] aspect-square md:aspect-auto  sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
+                productsCardCss=" h-[170px] aspect-square md:aspect-auto  sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
               />
             ) : (
               <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3  lg:grid-cols-4   items-start justify-start gap-3 px-5  lg:px-10   ">
@@ -362,12 +366,7 @@ function GenderPage() {
             >
               Kids Shoes
             </Link>
-            <Link
-              href={"/collections/best-sellers"}
-              className=" text-[11px] sm:text-sm font-semibold text-orange-600 border-r  text-primary   px-3 border-primary "
-            >
-              Best Seller
-            </Link>
+
           </div>
         </div>
         <div className="w-full relative h-auto flex flex-col gap-4">
@@ -433,132 +432,106 @@ function GenderPage() {
         </div>
 
         <div className=" py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto ">
+          {/* Intro Section */}
           <section>
-            <h2 className=" text-md md:text-lg lg:text-xl  font-semibold mb-4">
-              Explore Footwear for Everyone
+            <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-2">
+              Shop Stylish & Comfortable {productslug} Footwear Online in India
             </h2>
             <p className="text-gray-700 text-[11px] md:text-sm lg:text-base">
-              From playful kicks for kids to fashion-forward styles for GenZ,
-              timeless classics for men, and elegant essentials for women, our
-              diverse collection ensures that everyone finds their perfect fit.
-              We combine comfort, quality, and the latest trends to create a
-              seamless experience for every step of life.
+              Discover thoughtfully designed {productslug?.toLowerCase()} footwear at Markline that blends comfort, style,
+              durability, and everyday usability. From daily wear essentials to festive footwear,
+              office styles, college casuals, travel-friendly pairs, and special occasion looks —
+              every pair is crafted for real lifestyles with lasting comfort and trend-led design.
             </p>
           </section>
 
+          {/* Explore Section */}
           <section>
-            <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-4">
-              Types of Footwear by Gender
+            <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-2">
+              Explore {productslug} Shoes for Every Occasion
+            </h2>
+            <p className="text-gray-700 text-[11px] md:text-sm lg:text-base">
+              Whether it’s work, celebrations, casual outings, school, playtime, or everyday routine,
+              Markline offers versatile {productslug?.toLowerCase()} footwear that keeps you comfortable and confident
+              all day. Designed for Indian lifestyle, comfort needs, and fashion expectations —
+              our collection supports every move effortlessly.
+            </p>
+          </section>
+
+          {/* Types Section */}
+          <section>
+            <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-2">
+              Types of {productslug} Footwear Available Online
             </h2>
             <ul className="list-disc list-inside text-gray-700 space-y-2 text-[11px] md:text-sm lg:text-base">
-              <li>
-                <strong>For Men:</strong> Discover versatile lace-ups, loafers,
-                ethnic mojaris, and street-ready sneakers designed for daily
-                grind and weekend style.
-              </li>
-              <li>
-                <strong>For Women:</strong> Choose from elegant heels, trendy
-                flats, ethnic kolhapuris, and comfy slip-ons—perfectly balancing
-                fashion and comfort.
-              </li>
-              <li>
-                <strong>For Kids:</strong> Fun, flexible, and durable shoes
-                tailored for growing feet. Explore velcro sneakers, sandals, and
-                colorful sports shoes that keep up with their energy.
-              </li>
-              <li>
-                <strong>For GenZ:</strong> Bold, expressive footwear like chunky
-                sneakers, graphic slip-ons, and trend-led sandals that match
-                their ever-evolving fashion sense.
-              </li>
+              <li><strong>Daily Wear Footwear:</strong> Lightweight, easy-to-wear and comfortable designs</li>
+              <li><strong>Casual & Trend Styles:</strong> Fashion-forward footwear for outings and lifestyle looks</li>
+              <li><strong>Office & Formal Shoes:</strong> Polished and elegant footwear for a refined appearance</li>
+              <li><strong>Festive & Wedding Footwear:</strong> Stylish pairs crafted for celebrations</li>
+              <li><strong>Outdoor & Travel Friendly:</strong> Supportive and durable footwear for long wear</li>
             </ul>
           </section>
 
+          {/* Choosing Guide */}
           <section>
-            <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-4">
-              How to Choose the Right Shoes
+            <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-2">
+              How to Choose the Right {productslug} Footwear
             </h2>
             <ul className="list-disc list-inside text-gray-700 space-y-2 text-[11px] md:text-sm lg:text-base">
-              <li>
-                <strong>Age & Style:</strong> Select age-appropriate
-                designs—functional and playful for kids, expressive for GenZ,
-                and versatile for adults.
-              </li>
-              <li>
-                <strong>Occasion:</strong> From casual outings to formal events,
-                choose shoes that match your lifestyle and schedule.
-              </li>
-              <li>
-                <strong>Fit & Comfort:</strong> Always check sizing charts and
-                customer reviews. Comfort features like arch support and padded
-                soles are a must.
-              </li>
-              <li>
-                <strong>Material:</strong> Leather for durability, mesh for
-                breathability, and canvas or synthetics for affordability and
-                flair.
-              </li>
-              <li>
-                <strong>Wear Frequency:</strong> For frequent use, invest in
-                supportive, durable shoes. For style rotation, consider lighter
-                designs.
-              </li>
+              <li><strong>Purpose:</strong> Pick shoes based on daily wear, office use, ethnic wear or casual outings</li>
+              <li><strong>Comfort:</strong> Choose cushioned soles and soft-lining constructions</li>
+              <li><strong>Material:</strong> Breathable and durable materials ensure long-lasting comfort</li>
+              <li><strong>Fit:</strong> Always select the right size to support better posture and walking ease</li>
+              <li><strong>Style Preference:</strong> Neutral classics or modern trendy silhouettes</li>
             </ul>
           </section>
 
+          {/* Trending */}
           <section>
-            <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-4">
-              Footwear Trends for All
+            <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-2">
+              Trending {productslug} Footwear in India
             </h2>
             <ul className="list-disc list-inside text-gray-700 space-y-2 text-[11px] md:text-sm lg:text-base">
-              <li>
-                <strong>Bold Soles:</strong> Platform sneakers and boots are
-                popular across ages and genders.
-              </li>
-              <li>
-                <strong>Pastel Tones & Neutrals:</strong> Universally flattering
-                hues dominating this season.
-              </li>
-              <li>
-                <strong>Retro Revivals:</strong> Styles like Mary Janes and
-                high-top sneakers are making a fashionable comeback.
-              </li>
-              <li>
-                <strong>Tech Comfort:</strong> Cushioned footbeds and
-                lightweight designs for all-day wear.
-              </li>
-              <li>
-                <strong>Ethnic Fusion:</strong> Traditional designs reimagined
-                for modern wardrobes.
-              </li>
+              <li>Lightweight cushioned footwear for daily comfort</li>
+              <li>Neutral tones like beige, tan, black along with trend colors</li>
+              <li>Stylish yet practical silhouettes for lifestyle needs</li>
+              <li>Modern designs with comfortable builds</li>
+              <li>Indian outfit-friendly elegant styles</li>
             </ul>
           </section>
 
+          {/* Why Markline */}
           <section>
-            <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-4">
-              Why Quality Footwear Matters
+            <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-2">
+              Why Buy {productslug} Footwear from Markline?
             </h2>
             <ul className="list-disc list-inside text-gray-700 space-y-2 text-[11px] md:text-sm lg:text-base">
-              <li>
-                <strong>Comfort:</strong> Supportive construction makes walking
-                and standing easier for all ages.
-              </li>
-              <li>
-                <strong>Durability:</strong> Long-lasting shoes reduce waste and
-                frequent replacement costs.
-              </li>
-              <li>
-                <strong>Foot Health:</strong> Proper fit and cushioning prevent
-                common issues like heel pain and blisters.
-              </li>
-              <li>
-                <strong>Confidence:</strong> Stylish shoes that feel good can
-                uplift your entire outfit and mood.
-              </li>
+              <li>Comfort-focused & lifestyle-friendly designs</li>
+              <li>Stylish yet wearable for daily to special occasions</li>
+              <li>Quality craftsmanship and reliable build</li>
+              <li>Designed considering Indian comfort needs</li>
+              <li>Free Shipping + Easy Exchange Policy</li>
             </ul>
           </section>
+
+          {/* SEO Closing */}
+          <section>
+            <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-2">
+              Buy {productslug} Footwear Online in India
+            </h2>
+            <p className="text-gray-700 text-[11px] md:text-sm lg:text-base">
+              Shop Markline’s exclusive {productslug?.toLowerCase()} footwear collection online and find the perfect pair
+              that brings comfort, style, and long-lasting quality together. From everyday classics to
+              fashionable styles — Markline ensures every step feels confident and effortless.
+            </p>
+          </section>
+
         </div>
+
+
       </section>
+
+
     </>
   );
 }

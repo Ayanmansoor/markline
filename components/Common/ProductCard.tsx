@@ -194,25 +194,25 @@ function ProductCard({ product, url, className }: newProductsProps) {
               ))}
           </Swiper>
           {selectedVariant?.discounts?.discount_persent && (
-            <p className=" text-[11px] md:text-xs font-bold text-green-600 absolute top-2 z-10 left-2 md:left-3 bg-green-100 w-fit px-2 py-0.5 rounded-full mt-1">
+            <p className=" text-[8px] md:text-xs font-bold text-green-600 absolute top-2 z-10 left-2 md:left-3 bg-green-100 w-fit px-1.5 sm:px-2 py-0.5 rounded-full mt-1">
               {selectedVariant?.discounts?.discount_persent}% OFF
             </p>
           )}
         </Link>
-        <button className="absolute top-3 right-3 bg-gray-200 border border-gray-200 p-1 md:p-2  rounded-full z-20">
+        {/* <button className="absolute top-3 right-3 bg-gray-200 border border-gray-200 p-1 md:p-2  rounded-full z-20">
           <FaHeart
             className={` text-[10px] sm:text-[16px] md:text-[20px] flex items-center    text-black justify-center cursor-pointer group group-hover:text-red-500  ${isInWhishlist && "text-red-500"
               }  `}
             onClick={() => addTowishlistproduct(Stringifycolor, StringifySize)}
           />
-        </button>
+        </button> */}
       </span>
 
       <Link
         href={`/${url}/${product?.slug}`}
         className="flex w-full items-start pt-2 justify-start min-h-[50px]   gap-0 "
       >
-        <h2 className=" text-[11px] md:text-sm  xl:text-base 2xl:text-base font-medium  !line-clamp-3   flex items-center gap-1 uppercase   text-black">
+        <h2 className=" text-[11px] md:text-sm  xl:text-base 2xl:text-base font-medium !line-clamp-2 md:!line-clamp-3   flex items-center gap-1 uppercase   text-black">
           {product?.name}
         </h2>
       </Link>

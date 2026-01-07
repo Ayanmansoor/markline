@@ -61,7 +61,7 @@ function CategoryL2page() {
   } = useQuery<any>({
     queryKey: ["collectiondatabaseonslug", nslug],
     enabled: !!collection,
-    queryFn: () => getProductBaseOnCollection(nslug||""),
+    queryFn: () => getProductBaseOnCollection(nslug || ""),
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -256,9 +256,17 @@ function CategoryL2page() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <h1 className=" text-base md:text-xl lg:text-2xl xl:text-3xl font-semibold text-primary pb-4 pt-4 capitalize px-5 lg:px-10 xl:px-20 2xl:px-40">
-        {nslug?.split("-").join(" ")}{" "}
-      </h1>
+
+      <div className="flex flex-col gap-2 w-full relative  px-5 lg:px-10 xl:px-20 2xl:px-40 pb-4 pt-4">
+        <h1 className=" text-xl md:text-xl lg:text-2xl xl:text-3xl font-semibold text-primary  capitalize ">
+          {nslug?.split("-").join(" ")}{" "}
+        </h1>
+        <p className=" text-xs md:text-base font-medium text-primary  line-clamp-2">
+          Discover comfortable, stylish and lightweight {gslug?.toLowerCase()} {nslug?.toLowerCase()} designed for everyday wear in India.
+          Perfect for office, casual outings, festive occasions and daily comfort with durable quality you can trust.
+        </p>
+      </div>
+
       {/* <section className='w-full relative gap-2 items-center px-3 md:px-5 lg:px-10  mt-8  h-auto flex border-b border-gray-400 pb-3  '>
                 <Swiper
                     slidesPerView={'auto'}
@@ -304,7 +312,7 @@ function CategoryL2page() {
               data={filterProducts ? filterProducts : products}
               url={"product"}
               css=" grid-cols-2 md:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-200  gap-2 lg:gap-3"
-              productsCardCss=" h-[200px]  sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
+              productsCardCss=" h-[150px]  sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
             />
           ) : (
             <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3  lg:grid-cols-4   items-start justify-start gap-3 px-2 md:px-5  lg:px-10   ">
@@ -327,225 +335,125 @@ function CategoryL2page() {
           </section>
         </div>
       </section>
-      <section className="w-full relative flex flex-col gap-5  py-10  pb-10 px-5 lg:px-10 xl:px-20 2xl:px-40">
-        <h2 className="  text-base lg:text-lg  font-semibold text-primary">
+
+
+
+
+      <section className="w-full relative flex flex-col gap-5 py-10 pb-10 px-5 lg:px-10 xl:px-20 2xl:px-40">
+
+        <h2 className="text-base lg:text-lg font-semibold text-primary">
           POPULAR SEARCHES
         </h2>
 
+        {/* GENDER SECTION */}
         <div className="w-full relative h-auto flex flex-col gap-4">
-          <p className="text-base font-semibold text-primary">
-            Shop Shoes By Gender
-          </p>
-          <div className="w-full relative h-auto flex flex-wrap items-center gap-2">
-            <Link
-              href={"/collections/men"}
-              className=" text-xs sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary "
-            >
+          <p className="text-base font-semibold text-primary">Shop Shoes By Gender</p>
+
+          <div className="w-full flex flex-wrap items-center gap-2">
+            <Link href="/collections/men" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">
               Men Shoes
             </Link>
-            <Link
-              href={"/collections/women"}
-              className=" text-xs sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary "
-            >
+            <Link href="/collections/women" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">
               Women Shoes
             </Link>
-            <Link
-              href={"/collections/kids"}
-              className=" text-xs sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary "
-            >
+            <Link href="/collections/kids" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">
               Kids Shoes
             </Link>
-            <Link
-              href={"/collections/girls"}
-              className=" text-xs sm:text-sm font-semibold text-orange-600 border-r border-l text-primary   px-3 border-primary "
-            >
-              Grils Shoes
-            </Link>
           </div>
         </div>
+
+        {/* CATEGORY SECTION */}
         <div className="w-full relative h-auto flex flex-col gap-4">
-          <p className="text-base font-semibold text-primary">
-            Shop By Shoe Type
-          </p>
-          <div className="w-full relative h-auto flex flex-wrap items-center gap-2">
-            {/* {
-                            genderCollection &&
-                            genderCollection?.map((item, index) => (
-                                <Link href={`/collections/${item.gender}/${item.slug}`.toLowerCase()} className='text-xs sm:text-sm font-semibold text-orange-600  border-l text-primary  px-3 border-primary' key={index}>{item.name}</Link>
-                            ))
-                        } */}
+          <p className="text-base font-semibold text-primary">Shop By Shoe Type</p>
+          <div className="w-full flex flex-wrap items-center gap-2">
+            {/* dynamically map your categories */}
           </div>
         </div>
 
-        <div className="w-full relative h-auto flex flex-col gap-2">
-          <p className="text-base font-semibold text-primary">
-            Shop By Women Shoe Type
-          </p>
-          <div className="w-full relative h-auto flex flex-wrap items-center gap-2">
-            <Link
-              href="/collections/women/wedding-specials"
-              className="text-xs sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary"
-            >
-              Women Wedding Specials
-            </Link>
-            <Link
-              href={"/collections/women/sandals"}
-              className="text-xs sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary"
-            >
-              Women Sandals
-            </Link>
-            <Link
-              href={"/collections/women/flats"}
-              className="text-xs sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary"
-            >
-              Women Flats
-            </Link>
-            <Link
-              href={"/collections/women/Thongs sandels"}
-              className="text-xs sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary"
-            >
-              Women Thongs sandels
-            </Link>
-            <Link
-              href={"/collections/women/ballerinas"}
-              className="text-xs sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary"
-            >
-              Women Ballerinas
-            </Link>
-            <Link
-              href={"/collections/women/mules"}
-              className="text-xs sm:text-sm font-semibold text-orange-600 border-r border-l text-primary   px-3 border-primary"
-            >
-              Women Mule
-            </Link>
+        {/* WOMEN CATEGORY LINKS (KEEP) */}
+        <div className="w-full relative flex flex-col gap-2">
+          <p className="text-base font-semibold text-primary">Shop By Women Shoe Type</p>
+          <div className="w-full flex flex-wrap items-center gap-2">
+            <Link href="/collections/women/wedding-specials" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Wedding Specials</Link>
+            <Link href="/collections/women/sandals" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Sandals</Link>
+            <Link href="/collections/women/flats" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Flats</Link>
+            <Link href="/collections/women/thongs" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Thong Sandals</Link>
+            <Link href="/collections/women/ballerinas" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Ballerinas</Link>
+            <Link href="/collections/women/mules" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Mules</Link>
           </div>
         </div>
 
-        <div className=" py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto ">
+        {/* ---------------------- */}
+        {/* SEO CONTENT SECTION */}
+        {/* ---------------------- */}
+
+        <div className="py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto">
+
           <section>
-            <h2 className=" text-md md:text-lg lg:text-xl  font-semibold mb-4">
-              Explore Footwear for Everyone
+            <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-4">
+              Shop Comfortable & Stylish {gslug} {nslug} Online in India
             </h2>
+
             <p className="text-gray-700 text-xs md:text-sm lg:text-base">
-              From playful kicks for kids to fashion-forward styles for GenZ,
-              timeless classics for men, and elegant essentials for women, our
-              diverse collection ensures that everyone finds their perfect fit.
-              We combine comfort, quality, and the latest trends to create a
-              seamless experience for every step of life.
+              Explore a thoughtfully crafted collection of comfortable, elegant and
+              stylish {gslug?.toLowerCase()} {nslug?.toLowerCase()} online in India at Markline.
+              Designed for the Indian lifestyle, these footwear options are ideal for
+              daily wear, office use, festive occasions, casual outings and travel.
+              Each pair blends supportive cushioning, durability, lightweight feel and
+              modern style to give you all–day comfort with a refined look.
+              Whether you want fashionable everyday footwear or classy occasion wear,
+              Markline brings designs that perfectly match your outfit and lifestyle needs.
             </p>
           </section>
 
           <section>
             <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-4">
-              Types of Footwear by Gender
+              Why Choose Markline {gslug} {nslug}?
             </h2>
             <ul className="list-disc list-inside text-gray-700 space-y-2 text-xs md:text-sm lg:text-base">
-              <li>
-                <strong>For Men:</strong> Discover versatile lace-ups, loafers,
-                ethnic mojaris, and street-ready sneakers designed for daily
-                grind and weekend style.
-              </li>
-              <li>
-                <strong>For Women:</strong> Choose from elegant heels, trendy
-                flats, ethnic kolhapuris, and comfy slip-ons—perfectly balancing
-                fashion and comfort.
-              </li>
-              <li>
-                <strong>For Kids:</strong> Fun, flexible, and durable shoes
-                tailored for growing feet. Explore velcro sneakers, sandals, and
-                colorful sports shoes that keep up with their energy.
-              </li>
-              <li>
-                <strong>For GenZ:</strong> Bold, expressive footwear like chunky
-                sneakers, graphic slip-ons, and trend-led sandals that match
-                their ever-evolving fashion sense.
-              </li>
+              <li><strong>Indian Comfort Fit:</strong> Built to suit Indian foot shape & weather</li>
+              <li><strong>Daily Wear Friendly:</strong> Lightweight, durable and long-lasting</li>
+              <li><strong>Trendy & Stylish:</strong> Fashion-forward designs loved across India</li>
+              <li><strong>Affordable Premium:</strong> Luxury feel without premium pricing</li>
+              <li><strong>Quality Materials:</strong> Soft cushioning, strong grip & smooth finish</li>
             </ul>
           </section>
 
           <section>
             <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-4">
-              How to Choose the Right Shoes
+              Perfect for Every Indian Occasion
             </h2>
             <ul className="list-disc list-inside text-gray-700 space-y-2 text-xs md:text-sm lg:text-base">
-              <li>
-                <strong>Age & Style:</strong> Select age-appropriate
-                designs—functional and playful for kids, expressive for GenZ,
-                and versatile for adults.
-              </li>
-              <li>
-                <strong>Occasion:</strong> From casual outings to formal events,
-                choose shoes that match your lifestyle and schedule.
-              </li>
-              <li>
-                <strong>Fit & Comfort:</strong> Always check sizing charts and
-                customer reviews. Comfort features like arch support and padded
-                soles are a must.
-              </li>
-              <li>
-                <strong>Material:</strong> Leather for durability, mesh for
-                breathability, and canvas or synthetics for affordability and
-                flair.
-              </li>
-              <li>
-                <strong>Wear Frequency:</strong> For frequent use, invest in
-                supportive, durable shoes. For style rotation, consider lighter
-                designs.
-              </li>
+              <li>Daily wear & office routine</li>
+              <li>Festivals, weddings & celebrations</li>
+              <li>Casual outings, travel & shopping</li>
+              <li>College, parties & lifestyle fashion</li>
             </ul>
           </section>
 
           <section>
             <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-4">
-              Footwear Trends for All
+              Trending {gslug} {nslug} in India
             </h2>
             <ul className="list-disc list-inside text-gray-700 space-y-2 text-xs md:text-sm lg:text-base">
-              <li>
-                <strong>Bold Soles:</strong> Platform sneakers and boots are
-                popular across ages and genders.
-              </li>
-              <li>
-                <strong>Pastel Tones & Neutrals:</strong> Universally flattering
-                hues dominating this season.
-              </li>
-              <li>
-                <strong>Retro Revivals:</strong> Styles like Mary Janes and
-                high-top sneakers are making a fashionable comeback.
-              </li>
-              <li>
-                <strong>Tech Comfort:</strong> Cushioned footbeds and
-                lightweight designs for all-day wear.
-              </li>
-              <li>
-                <strong>Ethnic Fusion:</strong> Traditional designs reimagined
-                for modern wardrobes.
-              </li>
+              <li>Comfortable daily wear {nslug?.toLowerCase()}</li>
+              <li>Stylish & fashionable {gslug?.toLowerCase()} footwear India</li>
+              <li>Lightweight cushioned {nslug?.toLowerCase()} for all-day comfort</li>
+              <li>Premium design at affordable prices</li>
             </ul>
           </section>
 
           <section>
             <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-4">
-              Why Quality Footwear Matters
+              Buy {gslug} {nslug} Online in India
             </h2>
-            <ul className="list-disc list-inside text-gray-700 space-y-2 text-xs md:text-sm lg:text-base">
-              <li>
-                <strong>Comfort:</strong> Supportive construction makes walking
-                and standing easier for all ages.
-              </li>
-              <li>
-                <strong>Durability:</strong> Long-lasting shoes reduce waste and
-                frequent replacement costs.
-              </li>
-              <li>
-                <strong>Foot Health:</strong> Proper fit and cushioning prevent
-                common issues like heel pain and blisters.
-              </li>
-              <li>
-                <strong>Confidence:</strong> Stylish shoes that feel good can
-                uplift your entire outfit and mood.
-              </li>
-            </ul>
+            <p className="text-gray-700 text-xs md:text-sm lg:text-base">
+              Shop 100% genuine, high-quality {gslug?.toLowerCase()} {gslug?.toLowerCase()} online at Markline.
+              Enjoy smooth shopping, fast India-wide delivery, secure payments, and premium comfort footwear
+              designed for everyday Indian lifestyle. Step into style, comfort and confidence with Markline.
+            </p>
           </section>
+
         </div>
       </section>
     </>

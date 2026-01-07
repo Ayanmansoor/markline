@@ -230,7 +230,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                     Best Seller&apos;s
                   </p>
 
-                  <ul className="mt-4 text-[15px] w-full relative grid grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 h-[300px] gap-2  items-start justify-start overflow-hidden overflow-y-auto">
+                  <ul className="mt-4 text-[15px] w-full relative grid grid-cols-2 2xl:grid-cols-4 3xl:grid-cols-4 h-[300px] gap-2  items-start justify-start overflow-hidden overflow-y-auto">
                     {isLoading ? (
                       <>
                         <MegaManuCarSkeleton />
@@ -239,7 +239,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                         <MegaManuCarSkeleton />
                       </>
                     ) : groupOfProducts?.data?.length > 0 ? (
-                      groupOfProducts?.data?.map(
+                      groupOfProducts?.data?.slice(0,5).map(
                         (item: any, index: number) =>
                           item.products?.length > 0 &&
                           item.products.map((product: any, index) => (
