@@ -79,7 +79,6 @@ function CollcetionPage() {
       {collectionBanner && (
         <Hero
           bannerImages={collectionBanner}
-          css=" h-auto h-[250px]  lg:h-[400px] xl:h-[100vh]"
         />
       )}
 

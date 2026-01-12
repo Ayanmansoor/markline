@@ -16,7 +16,7 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "raw.githubusercontent.com",
-        pathname: "/Ayan7949/image/refs/heads/main/images/**",
+        pathname: "/Ayandev1/image/refs/heads/main/images/**",
       },
       {
         protocol: "https",
@@ -31,7 +31,7 @@ const nextConfig = {
       {
         source: "/products",
         destination: "/products/women",
-        permanent: true, 
+        permanent: true,
       },
     ];
   },

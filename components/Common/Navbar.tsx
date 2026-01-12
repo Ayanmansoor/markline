@@ -63,7 +63,7 @@ function Navbar() {
                         <Link href={"/products/men"} className={`font-semibold  text-sm xl:text-sm flex items-center gap-2   text-primary `}>MEN</Link>
                     </CummonMegaManu >
 
-                    <Link href={"/products/new-arrivals"} className={`font-semibold   lg:flex hidden text-sm xl:text-sm  items-center gap-2   text-primary `}>NEW</Link>
+                    <Link href={"/new-arrivals"} className={`font-semibold   lg:flex hidden text-sm xl:text-sm  items-center gap-2   text-primary `}>NEW</Link>
 
 
 

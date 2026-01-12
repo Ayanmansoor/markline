@@ -49,18 +49,18 @@ function LeatestCollection({ url }: { url: string }) {
                     className="mySwiper w-full relative h-full"
                 >
                     <SwiperSlide className=' max-w-full relative h-full px-1 '>
-                        <Link href={'/collection/women/mule'} className='w-full relative h-full '>
+                        <Link href={'/collections/women'} className='w-full relative h-full '>
                             <video src="/advertise-one.mp4" className='w-full relative h-full object-contain object-bottom' poster='' autoPlay loop muted ></video>
                         </Link>
                     </SwiperSlide>
                     
                     <SwiperSlide className='max-w-full relative h-full    px-1'>
-                        <Link href={'/collection/men'}  className='w-full relative h-full '>
+                        <Link href={'/collections/men'}  className='w-full relative h-full '>
                             <video src="/men-product.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
                         </Link>
                     </SwiperSlide>
                     <SwiperSlide className='max-w-full relative h-full  px-1 hidden md:block '>
-                        <Link href={'/collection/women/mule'}  className='w-full relative h-full '>
+                        <Link href={'/collections/women'}  className='w-full relative h-full '>
 
                             <video src="/advertise-one.mp4" className='w-full relative h-full object-contain object-bottom' autoPlay loop muted ></video>
                         </Link>

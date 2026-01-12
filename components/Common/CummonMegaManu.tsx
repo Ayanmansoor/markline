@@ -15,9 +15,9 @@ import MiniCollectionCard from "../Home/MiniCellectionCard";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 const MENU_ITEMS = [
-  { label: "Best Selling", icon: true, link: "/collection/women" },
+  { label: "Best Selling", icon: true, link: "/shop-by/best-seller" },
 
-  { label: "All Products", icon: true, link: "/products" },
+  { label: "All Products", icon: true, link: "/products/women" },
 ];
 
 interface CommonMegaManuProps {

@@ -25,6 +25,7 @@ import { SizeChartModal } from '../Common/SizeChartModal';
 import WhatsAppButton from '../Common/WhatsAppButton';
 
 import { usePathname } from 'next/navigation';
+import { getDiscountedPrice } from '@/lib/getDiscountedPrice';
 interface productsCart {
     colors: {
         color: colorProps
@@ -252,10 +253,17 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                         {
                             variant?.discounts?.discount_persent ?
                                 <>
-                                    <p className=' text-2xl lg:text-3xl  xl:text-4xl  font-semibold text-nowrap text-primary '>₹{
-                                        Math.floor(variant?.price - (variant?.price * (variant?.discounts?.discount_persent / 100)))}</p>
-                                    <p className='text-xl md:text-2xl  font-normal text-red-400 line-through text-nowrap '>₹ {variant?.price}</p>
+                                    <p className=' text-2xl lg:text-3xl  xl:text-4xl  font-semibold text-nowrap text-primary '>
 
+                                        ₹ {getDiscountedPrice(
+                                            variant?.price,
+                                            variant?.discounts?.discount_persent
+                                        )}
+                                    </p>
+                                    <p className='text-xl md:text-2xl  font-normal text-red-400 line-through text-nowrap '>₹ {variant?.price}</p>
+                                    <p className="  font-normal rounded-full px-3 py-1 bg-green-600 border border-green-900 text-nowrap flex w-fit text-xs  text-white">
+                                       - {variant?.discounts?.discount_persent} %
+                                    </p>
                                 </>
                                 :
                                 <p className='text-2xl lg:text-4xl  font-medium text-nowrap text-black'>₹ {variant?.price}</p>
@@ -360,7 +368,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                         {/* <BuyProduct product={{ ...product, selectedColor: productcart.colors.color, selectedSize: productcart.sizes.size, quantity: productcart.quentitys.quentity }}/> */}
                         {/* </AddToCardPopver>       */}
                     </div>
-                    
+
                 </div>
 
                 <div className='w-full relative flex items-start flex-col  justify-between gap-3'>

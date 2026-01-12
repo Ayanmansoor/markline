@@ -21,6 +21,7 @@ import AddToCardPopver from "./AddToCardPopver";
 
 import { useWishlists } from "@/Contexts/wishlist";
 import { Plus } from "lucide-react";
+import { getDiscountedPrice } from "@/lib/getDiscountedPrice";
 
 function ProductCard({ product, url, className }: newProductsProps) {
   const { addToWishlist, removeFromWishlist, wishlist, isProductInWishlist } =
@@ -233,28 +234,28 @@ function ProductCard({ product, url, className }: newProductsProps) {
             />
           ))}
         </div>
+
         {selectedVariant?.discounts?.discount_persent && (
           <div className=" flex items-center lg:flex-row flex-col justify-center gap-1 md:gap-2">
             <p className="text-base w-fit md:text-sm  xl:text-xl  font-medium  !line-clamp-3   flex items-center gap-1 uppercase  text-black">
-              ₹
-              {(() => {
-                const price = selectedVariant?.price || 0;
-                const discount =
-                  selectedVariant?.discounts?.discount_persent || 0;
-                const discountAmount = Math.round((price * discount) / 100);
-                return price - discountAmount;
-              })()}
+              ₹ {getDiscountedPrice(
+                selectedVariant?.price,
+                selectedVariant?.discounts?.discount_persent
+              )}
             </p>
             <p className="  font-normal text-red-500  line-through text-nowrap flex w-fit text-xs lg:text-sm  xl:text-base ">
               ₹ {selectedVariant?.price}
             </p>
+
+            
           </div>
         )}
+
         {!selectedVariant?.discounts && (
 
-            <p className=" text-base md:text-sm   xl:text-xl  font-medium  w-auto !line-clamp-3  text-nowrap flex  justify-center items-center gap-1 uppercase  text-black">
-              ₹ {selectedVariant?.price}
-            </p>
+          <p className=" text-base md:text-sm   xl:text-xl  font-medium  w-auto !line-clamp-3  text-nowrap flex  justify-center items-center gap-1 uppercase  text-black">
+            ₹ {selectedVariant?.price}
+          </p>
         )}
       </div>
       <section className="w-full relative h-auto  pb-3 py-0 md:py-2  md:flex-row  flex-col flex  items-start lg:items-center justify-end gap-2 px-1">

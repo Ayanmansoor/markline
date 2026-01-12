@@ -57,7 +57,7 @@ function Occasions() {
     refetchOnReconnect: false,
   });
 
-  console.log("occasionsCollection products", groupOfProducts)
+
 
 
   const flatProducts = useMemo(() => {
@@ -207,18 +207,18 @@ function Occasions() {
         </section>
       } */}
 
-      <Breadcrumb className='w-full relative  md:px-5 lg:px-10 pt-3'>
+      <Breadcrumb className='w-full relative  px-5 lg:px-10 xl:px-20 2xl:px-40 pt-3'>
         <BreadcrumbList className='w-full relative h-auto flex items-center py-5 rounded-lg px-3 '>
           <BreadcrumbItem >
-            <BreadcrumbLink href="/Home" className=' text-sm md:text-base lg:text-xl text-primary cursor-pointer'>Home</BreadcrumbLink>
+            <BreadcrumbLink href="/Home" className=' text-sm  text-primary cursor-pointer'>Home</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href={`/collections/shop-by`} className=' text-sm sm:text-base md:text-xl lg:text-2xl text-primary cursor-pointer'>Shop By</BreadcrumbLink>
+            <BreadcrumbLink href={`/collections/shop-by`} className=' text-sm sm:text-base  text-primary cursor-pointer'>Shop By</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage className='text-sm sm:text-base md:text-xl lg:text-2xl text-primary cursor-pointer capitalize'>{`${occasionslug}`.split('-').join(' ')}</BreadcrumbPage>
+            <BreadcrumbPage className='text-sm sm:text-base text-primary cursor-pointer capitalize'>{`${occasionslug}`.split('-').join(' ')}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -226,7 +226,7 @@ function Occasions() {
 
 
       <section className="w-full min-h-[300px] mt-5 relative  gap-10  bg-gray-200  ">
-        <span className=' flex items-center border-b border-white w-full justify-between h-fit sticky top-16 z-30 bg-white  py-5 px-3 md:px-5 lg:px-10 '>
+        <span className=' flex items-center border-b border-white w-full justify-between h-fit sticky top-16 z-30 bg-white  py-5 px-5 lg:px-10 xl:px-20 2xl:px-40      '>
           <ProductFilter
             gender={''}
             collection={[]}
@@ -240,7 +240,7 @@ function Occasions() {
 
         </span>
         {isLoading ? (
-          <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-10">
+          <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10 xl:px-20 2xl:px-40   ">
             <ProductCardSkeleton />
             <ProductCardSkeleton />
             <ProductCardSkeleton />
@@ -250,7 +250,7 @@ function Occasions() {
         ) : groupOfProducts?.data?.length > 0 ? (
           groupOfProducts?.data?.map((item: any, index: number) => (
             item.products?.length > 0 &&
-            <GridRroduct data={item.products} url={'product'} css='grid-cols-2 md:grid-cols-3 px-5 md:px-10 py-10  lg:grid-cols-4 bg-gray-200  ' productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[350px] xl:h-[400px]' key={index} />
+            <GridRroduct data={item.products} url={'product'} css='grid-cols-2 md:grid-cols-3 px-5 md:px-10 py-10  gap-5 lg:grid-cols-4 bg-gray-200  px-5 lg:px-10 xl:px-20 2xl:px-40     ' productsCardCss=' h-[160px]  sm:h-[300px] md:h-[350px] lg:h-[350px] xl:h-[400px]' key={index} />
           ))
         ) : (
           <></>
