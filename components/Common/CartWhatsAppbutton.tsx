@@ -29,6 +29,7 @@ const WhatsAppCartButton = ({ cartItem }: WhatsAppCartButtonProps) => {
         *Size:* ${variant.selectedSize.size} (${variant.selectedSize.unit})
         *Color:* ${variant.selectedColor.name}
         *Quantity:* ${quantity}
+        *Discoutns* : ${variant?.discounts?.discount_persent}
         *Price per unit:* ₹${variant.price}
         *Total:* ₹${totalAmount}
         *View Product:*

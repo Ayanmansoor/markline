@@ -28,6 +28,7 @@ const WhatsAppButton = ({ product, variant }: WhatsAppButtonProps) => {
         *Color:* ${colorData.name}
         *Price:* ₹${variant.price}
         *Quantity* : ${1}
+        *Discoutns* : ${variant?.discounts?.discount_persent}
         I would like to know more about this product:
         ${currentUrl}`;
 
