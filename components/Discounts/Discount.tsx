@@ -37,9 +37,9 @@ function Discount({ title, description, url, images }: SpotlightInterfce) {
                             modules={[Autoplay]}
                             className="mySwiper w-full border bg-black border-black relative h-full flex"
                         >
-                            <SwiperSlide className='max-w-[100px] lg:max-w-[200px] h-full relative flex items-center justify-center'>
+                            {/* <SwiperSlide className='max-w-[100px] lg:max-w-[200px] h-full relative flex items-center justify-center'>
                                 <img src="/discount-image.jpeg" height={400} width={400} className='w-full cursor-pointer relative h-full object-cover ' alt="Markline || Markline || buy online" loading='lazy' />
-                            </SwiperSlide>
+                            </SwiperSlide> */}
                             {/* <SwiperSlide className='max-w-[100px] lg:max-w-[200px] h-full relative flex items-center justify-center'>
                                 <img src="/silver-embellished-wedge-heel-Thongs sandels-for-women-2.jpeg" height={400} width={400} className='w-full relative h-full cursor-pointer object-cover ' alt="Markline || Markline || buy online" loading='lazy' />
                             </SwiperSlide>

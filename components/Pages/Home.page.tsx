@@ -167,7 +167,7 @@ function HomePage() {
       )} */}
 
 
-    <section className="w-full  relative flex-col gap-5  2xl:gap-10 items-start  mt-7 lg:mt-10 h-auto flex pb-3 px-5 lg:px-10 xl:px-20 2xl:px-40 py-5 lg:py-10">
+      <section className="w-full  relative flex-col gap-5  2xl:gap-10 items-start  mt-7 lg:mt-10 h-auto flex pb-3 px-5 lg:px-10 xl:px-20 2xl:px-40 py-5 lg:py-10">
         <h1 className="text-lg md:text-2xl xl:text-3xl font-semibold text-primary uppercase">
           Shop By Collections
         </h1>
@@ -256,7 +256,7 @@ function HomePage() {
 
       <MainCollections />
 
-  
+
       {isLoading ? (
         <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10 xl:px-20 2xl:px-40">
           <ProductCardSkeleton />

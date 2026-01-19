@@ -10,7 +10,7 @@ function CollectionCard({ collections, url, className, imageClass }: newCollecti
 
 
     return (
-        <Link href={`/${url}/${collections.slug}`} className={`   ${className ? className : "w-full overflow-hidden max-h-[260px] lg:max-h-[470px] h-full      cursor-pointer relative group  flex flex-col items-start justify-center gap-4 p-1 "}  `}>
+        <Link href={`/${url}${collections.slug}`} className={`   ${className ? className : "w-full overflow-hidden max-h-[260px] lg:max-h-[470px] h-full      cursor-pointer relative group  flex flex-col items-start justify-center gap-4 p-1 "}  `}>
             {
                 images?.map((item, index) => (
                     <img src={`${item.image_url}`} alt={item.name || ""} className={` ${imageClass ? imageClass : "w-full  border h-full object-cover   relative  rounded-md   transition-all duration-100 "}  `} key={index} loading='lazy' height={300} width={300} />
