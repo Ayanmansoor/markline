@@ -1,14 +1,15 @@
 import { NewProductProps, ProductVariant } from '@/types/interfaces';
 import React from 'react';
-
+import { getDiscountedPrice } from '@/lib/getDiscountedPrice';
 interface WhatsAppButtonProps {
     variant: ProductVariant;
     product: NewProductProps;
+
 }
 
 const WhatsAppButton = ({ product, variant }: WhatsAppButtonProps) => {
     const adminPhoneNumber = "919769020660";
-
+    const productPrice = getDiscountedPrice(variant?.price, variant?.discounts?.discount_persent)
     const handleWhatsAppOrder = () => {
         // 1. Get the current URL (important for the link preview box)
         const currentUrl = typeof window !== "undefined" ? window.location.href : "";
@@ -26,9 +27,9 @@ const WhatsAppButton = ({ product, variant }: WhatsAppButtonProps) => {
         *Item:* ${product.name}
         *SKU:* ${variant.sku}
         *Color:* ${colorData.name}
-        *Price:* ₹${variant.price}
+        *Price:* ₹${productPrice}
         *Quantity* : ${1}
-        *Discoutns* : ${variant?.discounts?.discount_persent}
+        *Discoutns* : ${variant?.discounts?.discount_persent} %
         I would like to know more about this product:
         ${currentUrl}`;
 

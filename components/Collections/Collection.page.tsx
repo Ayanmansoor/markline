@@ -82,7 +82,7 @@ function CollcetionPage() {
         />
       )}
 
-      <MainCollections />
+      {/* <MainCollections /> */}
       {/* <Collectionsection collections={collections?.data?.filter((item) => item.gender == 'WOMEN')} url={'collections/women'} /> */}
 
       {collections?.data?.length ? (

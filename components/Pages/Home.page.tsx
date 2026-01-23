@@ -96,36 +96,47 @@ function HomePage() {
     // },
   ];
 
+  console.log(allcollection)
   return (
     <>
       <section className="w-full relative gap-2 items-center px-3 md:px-5 lg:px-10 py-3 h-auto flex lg:hidden border-b border-gray-300">
         <Swiper
-          slidesPerView={"auto"}
+          slidesPerView="auto"
           spaceBetween={12}
           className="w-full mySwiper"
         >
-          {categories.map((cat, index) => (
-            <SwiperSlide
-              key={index}
-              className="max-w-fit max-h-fit rounded-full relative cursor-pointer"
-            >
-              <Link
-                href={cat.link}
-                className="h-fit w-fit relative rounded-full overflow-hidden flex flex-col items-center"
+          {allcollection?.map((collection) => {
+            // Parse image_urls (first image)
+            const imageData = collection?.image_urls?.[0]
+              ? JSON.parse(collection?.image_urls?.[0])
+              : null;
+
+            return (
+              <SwiperSlide
+                key={collection.id}
+                className="max-w-fit max-h-fit rounded-full relative cursor-pointer"
               >
-                <img
-                  src={cat.img}
-                  alt={cat.name}
-                  height={80}
-                  width={80}
-                  className="object-cover aspect-square h-[70px] w-[70px] rounded-full border border-gray-300"
-                />
-                <p className="text-xs mt-1 font-medium text-center">
-                  {cat.name}
-                </p>
-              </Link>
-            </SwiperSlide>
-          ))}
+                <Link
+                  href={`/collection/${collection.slug}`}
+                  className="h-fit w-fit relative  overflow-hidden flex flex-col items-center"
+                >
+                  {imageData?.image_url && (
+                    <img
+                      src={imageData?.image_url}
+                      alt={imageData?.name || collection?.name}
+                      height={80}
+                      width={80}
+                      className="object-cover aspect-square h-[85px] w-[85px] object-bottom rounded-full border border-gray-300"
+                    />
+                  )}
+
+                  <p className="text-xs mt-1 font-medium text-center">
+                    {collection?.name?.split(" ")?.[0]}
+                  </p>
+                </Link>
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       </section>
 
@@ -254,7 +265,7 @@ function HomePage() {
 
 
 
-      <MainCollections />
+      {/* <MainCollections /> */}
 
 
       {isLoading ? (

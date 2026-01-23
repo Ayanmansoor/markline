@@ -1,4 +1,5 @@
 import { newCartItem } from '@/Contexts/Cart.context';
+import { getDiscountedPrice } from '@/lib/getDiscountedPrice';
 import { CartItem } from '@/types/interfaces';
 import React from 'react';
 
@@ -18,8 +19,9 @@ const WhatsAppCartButton = ({ cartItem }: WhatsAppCartButtonProps) => {
         const productUrl = `https://shopmarkline.in/product/${slug}`;
 
         // Calculate total for this specific item
-        const totalAmount = variant.price * quantity;
+        const productrpice = getDiscountedPrice(variant?.price, variant?.discounts?.discount_persent)
 
+        const totalAmount = productrpice * quantity;
         // Build a structured, professional order message
         const message = `
         *CART ENQUIRY*
@@ -29,8 +31,8 @@ const WhatsAppCartButton = ({ cartItem }: WhatsAppCartButtonProps) => {
         *Size:* ${variant.selectedSize.size} (${variant.selectedSize.unit})
         *Color:* ${variant.selectedColor.name}
         *Quantity:* ${quantity}
-        *Discoutns* : ${variant?.discounts?.discount_persent}
-        *Price per unit:* ₹${variant.price}
+        *Discoutns* : ${variant?.discounts?.discount_persent} %
+        *Price per unit:* ₹ ${productrpice}
         *Total:* ₹${totalAmount}
         *View Product:*
         ${productUrl}`;
