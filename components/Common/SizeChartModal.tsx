@@ -9,21 +9,27 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import { PencilRuler, Ruler } from "lucide-react"
 
 export function SizeChartModal() {
     const [open, setOpen] = useState(false)
 
     return (
+
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <button className="text-sm underline hover:text-primary font-semibold">
+                <button className="text-sm  text-green-600 font-semibold flex items-center  gap-3">
                     View Size Chart
+                    <PencilRuler size={20} className="text-green-600" />
                 </button>
             </DialogTrigger>
 
             <DialogContent className="max-w-[90vw] md:max-w-xl p-0">
                 <DialogHeader className="p-4 pb-2">
-                    <DialogTitle>Size Chart</DialogTitle>
+                    <DialogTitle className="flex items-center gap-6"> Size Chart
+
+                        <PencilRuler size={25} className="text-gray-600" />
+                    </DialogTitle>
                 </DialogHeader>
 
                 {/* Image Container */}

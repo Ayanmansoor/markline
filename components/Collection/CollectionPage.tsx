@@ -339,53 +339,9 @@ function CategoryL2page() {
 
 
 
-      <section className="w-full relative flex flex-col gap-5 py-10 pb-10 px-5 lg:px-10 xl:px-20 2xl:px-40">
+      <section className="w-full relative flex flex-col gap-5 py-5 pb-10 px-5 lg:px-10 xl:px-20 2xl:px-40">
 
-        <h2 className="text-base lg:text-lg font-semibold text-primary">
-          POPULAR SEARCHES
-        </h2>
 
-        {/* GENDER SECTION */}
-        <div className="w-full relative h-auto flex flex-col gap-4">
-          <p className="text-base font-semibold text-primary">Shop Shoes By Gender</p>
-
-          <div className="w-full flex flex-wrap items-center gap-2">
-            <Link href="/collections/men" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">
-              Men Shoes
-            </Link>
-            <Link href="/collections/women" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">
-              Women Shoes
-            </Link>
-            <Link href="/collections/kids" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">
-              Kids Shoes
-            </Link>
-          </div>
-        </div>
-
-        {/* CATEGORY SECTION */}
-        <div className="w-full relative h-auto flex flex-col gap-4">
-          <p className="text-base font-semibold text-primary">Shop By Shoe Type</p>
-          <div className="w-full flex flex-wrap items-center gap-2">
-            {/* dynamically map your categories */}
-          </div>
-        </div>
-
-        {/* WOMEN CATEGORY LINKS (KEEP) */}
-        <div className="w-full relative flex flex-col gap-2">
-          <p className="text-base font-semibold text-primary">Shop By Women Shoe Type</p>
-          <div className="w-full flex flex-wrap items-center gap-2">
-            <Link href="/collections/women/wedding-specials" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Wedding Specials</Link>
-            <Link href="/collections/women/sandals" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Sandals</Link>
-            <Link href="/collections/women/flats" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Flats</Link>
-            <Link href="/collections/women/thongs" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Thong Sandals</Link>
-            <Link href="/collections/women/ballerinas" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Ballerinas</Link>
-            <Link href="/collections/women/mules" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Mules</Link>
-          </div>
-        </div>
-
-        {/* ---------------------- */}
-        {/* SEO CONTENT SECTION */}
-        {/* ---------------------- */}
 
         <div className="py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto">
 
@@ -453,7 +409,51 @@ function CategoryL2page() {
               designed for everyday Indian lifestyle. Step into style, comfort and confidence with Markline.
             </p>
           </section>
+          <h2 className="text-base lg:text-lg font-semibold text-primary">
+            POPULAR SEARCHES
+          </h2>
 
+          {/* GENDER SECTION */}
+          <div className="w-full relative h-auto flex flex-col gap-4">
+            <p className="text-base font-semibold text-primary">Shop Shoes By Gender</p>
+
+            <div className="w-full flex flex-wrap items-center gap-2">
+              <Link href="/collections/men" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">
+                Men Shoes
+              </Link>
+              <Link href="/collections/women" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">
+                Women Shoes
+              </Link>
+              <Link href="/collections/kids" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">
+                Kids Shoes
+              </Link>
+            </div>
+          </div>
+
+          {/* CATEGORY SECTION */}
+          <div className="w-full relative h-auto flex flex-col gap-4">
+            <p className="text-base font-semibold text-primary">Shop By Shoe Type</p>
+            <div className="w-full flex flex-wrap items-center gap-2">
+              {/* dynamically map your categories */}
+            </div>
+          </div>
+
+          {/* WOMEN CATEGORY LINKS (KEEP) */}
+          <div className="w-full relative flex flex-col gap-2">
+            <p className="text-base font-semibold text-primary">Shop By Women Shoe Type</p>
+            <div className="w-full flex flex-wrap items-center gap-2">
+              <Link href="/collections/women/wedding-specials" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Wedding Specials</Link>
+              <Link href="/collections/women/sandals" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Sandals</Link>
+              <Link href="/collections/women/flats" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Flats</Link>
+              <Link href="/collections/women/thongs" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Thong Sandals</Link>
+              <Link href="/collections/women/ballerinas" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Ballerinas</Link>
+              <Link href="/collections/women/mules" className="text-xs sm:text-sm font-semibold text-orange-600 border-l px-3 border-primary">Women Mules</Link>
+            </div>
+          </div>
+
+          {/* ---------------------- */}
+          {/* SEO CONTENT SECTION */}
+          {/* ---------------------- */}
         </div>
       </section>
     </>

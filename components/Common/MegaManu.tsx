@@ -104,7 +104,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
           <div className="relative top-6 p-6 bg-white rounded-xl shadow-xl w-full">
             <div className="w-10 h-5 bg-white transform rotate-45 absolute top-0 z-0 translate-x-0 transition-transform group-hover:translate-x-[14rem] 2xl:group-hover:translate-x-[14rem] duration-500 ease-in-out rounded-sm"></div>
             <div className="relative z-10 flex flex-col gap-10">
-              <div className="grid grid-cols-[.5fr_.7fr_.7fr_2fr] items-start justify-start gap-6 w-full ">
+              <div className="grid grid-cols-[.5fr_.7fr_2fr] items-start justify-start gap-6 w-full ">
                 <div>
                   <p className="uppercase tracking-wider text-primary font-medium border-b py-1 text-[13px] ">
                     Product For
@@ -115,27 +115,24 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                   >
                     <Link
                       href={"/products/women"}
-                      className={`text-sm  capitalize font-medium hover:bg-gray-100 w-full cursor-pointer  py-1 px-2 flex items-center gap-1 ${
-                        gender == "WOMEN" && " bg-gray-100 "
-                      }`}
+                      className={`text-sm  capitalize font-medium hover:bg-gray-100 w-full cursor-pointer  py-1 px-2 flex items-center gap-1 ${gender == "WOMEN" && " bg-gray-100 "
+                        }`}
                       onMouseEnter={() => setGender("WOMEN")}
                     >
                       WOMEN
                     </Link>
                     <Link
                       href={"/products/men"}
-                      className={`text-sm  capitalize font-medium hover:bg-gray-100  w-full  cursor-pointer  py-1 px-2 flex items-center gap-1 ${
-                        gender == "MEN" && "bg-gray-100 "
-                      }`}
+                      className={`text-sm  capitalize font-medium hover:bg-gray-100  w-full  cursor-pointer  py-1 px-2 flex items-center gap-1 ${gender == "MEN" && "bg-gray-100 "
+                        }`}
                       onMouseEnter={() => setGender("MEN")}
                     >
                       MEN
                     </Link>
                     <Link
                       href={"/products/kids"}
-                      className={`text-sm  capitalize font-medium hover:bg-gray-100  w-full  cursor-pointer  py-1 px-2 flex items-center gap-1 ${
-                        gender == "KIDS" && "bg-gray-100 "
-                      }`}
+                      className={`text-sm  capitalize font-medium hover:bg-gray-100  w-full  cursor-pointer  py-1 px-2 flex items-center gap-1 ${gender == "KIDS" && "bg-gray-100 "
+                        }`}
                       onMouseEnter={() => setGender("KIDS")}
                     >
                       KIDS
@@ -168,14 +165,12 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                         return womenCollections.map((item) => (
                           <Link
                             key={item.id}
-                            href={`/collections/${item.gender.toLowerCase()}/${
-                              item.slug
-                            }`}
-                            className={`text-sm capitalize font-medium hover:bg-gray-100 cursor-pointer py-1 px-2 flex items-center gap-1 ${
-                              item.slug === slug
+                            href={`/collections/${item.gender.toLowerCase()}/${item.slug
+                              }`}
+                            className={`text-sm capitalize font-medium hover:bg-gray-100 cursor-pointer py-1 px-2 flex items-center gap-1 ${item.slug === slug
                                 ? "bg-gray-200"
                                 : "bg-transparent"
-                            }`}
+                              }`}
                             onMouseEnter={() => setslug(item.slug)}
                           >
                             {item.name}
@@ -184,7 +179,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                       })()}
                   </ul>
                 </div>
-                <div>
+                {/* <div>
                   <p className="uppercase tracking-wider text-primary font-medium border-b pb-2 text-[13px] ">
                     Men Collection
                   </p>
@@ -224,13 +219,13 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                         ));
                       })()}
                   </ul>
-                </div>
+                </div> */}
                 <div>
                   <p className="uppercase w-full relative tracking-wider text-primary font-medium border-b pb-2 text-[13px]">
                     Best Seller&apos;s
                   </p>
 
-                  <ul className="mt-4 text-[15px] w-full relative grid grid-cols-2 2xl:grid-cols-4 3xl:grid-cols-4 h-[300px] gap-2  items-start justify-start overflow-hidden overflow-y-auto">
+                  <ul className="mt-4 text-[15px] w-full relative grid grid-cols-2 2xl:grid-cols-5 3xl:grid-cols-4 h-[300px] gap-2  items-start justify-start overflow-hidden overflow-y-auto">
                     {isLoading ? (
                       <>
                         <MegaManuCarSkeleton />
@@ -239,7 +234,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                         <MegaManuCarSkeleton />
                       </>
                     ) : groupOfProducts?.data?.length > 0 ? (
-                      groupOfProducts?.data?.slice(0,5).map(
+                      groupOfProducts?.data?.slice(0, 5).map(
                         (item: any, index: number) =>
                           item.products?.length > 0 &&
                           item.products.map((product: any, index) => (

@@ -57,9 +57,7 @@ function Navbar() {
                         <CummonMegaManu urlProps='women'>
                             <Link href={"/products/women"} className={`font-semibold  text-sm xl:text-sm flex items-center gap-2   text-primary `}>WOMEN</Link>
                         </CummonMegaManu>
-                        <CummonMegaManu urlProps='men'>
-                            <Link href={"/products/men"} className={`font-semibold  text-sm xl:text-sm flex items-center gap-2   text-primary `}>MEN</Link>
-                        </CummonMegaManu >
+
 
                         <Link href={"/new-arrivals"} className={`font-semibold   lg:flex hidden text-sm xl:text-sm  items-center gap-2   text-primary `}>NEW</Link>
 
@@ -80,9 +78,6 @@ function Navbar() {
                     <CummonMegaManu urlProps='women'>
                         <Link href={"/products/women"} className={`font-semibold  text-sm xl:text-sm flex items-center gap-2   text-primary `}>WOMEN</Link>
                     </CummonMegaManu>
-                    <CummonMegaManu urlProps='men'>
-                        <Link href={"/products/men"} className={`font-semibold  text-sm xl:text-sm flex items-center gap-2   text-primary `}>MEN</Link>
-                    </CummonMegaManu >
 
                     <Link href={"/new-arrivals"} className={`font-semibold   lg:flex hidden text-sm xl:text-sm  items-center gap-2   text-primary `}>NEW</Link>
 
@@ -111,7 +106,7 @@ function Navbar() {
                             </Link>
                         </li>
 
-                        <NavUser />
+                        {/* <NavUser /> */}
 
                     </div>
                 </ul>

@@ -183,7 +183,7 @@ function ProductCard({ product, url, className }: newProductsProps) {
                   <img
                     src={`${image?.image_url}` || ""}
                     alt={`${image.name} - markline `}
-                    className={`w-full  bg-transparent transition-all duration-100 ease-in-out object-contain sm:object-cover hover:scale-[1.010]  ${className
+                    className={`w-full object-contain  bg-transparent transition-all duration-100 ease-in-out  sm:object-cover hover:scale-[1.010]  ${className
                       ? className
                       : " h-[260px] aspect-square sm:h-[300px] md:h-[250px] lg:h-[350px] xl:h-[400px]"
                       } `}

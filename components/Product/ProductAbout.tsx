@@ -39,7 +39,16 @@ interface productsCart {
 }
 
 
-
+const allSizes = [
+    { size: "35", unit: "EU" },
+    { size: "36", unit: "EU" },
+    { size: "37", unit: "EU" },
+    { size: "38", unit: "EU" },
+    { size: "39", unit: "EU" },
+    { size: "40", unit: "EU" },
+    { size: "41", unit: "EU" },
+  
+];
 function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutProps) {
     const { addToCart, isInCart, updateQuantity, getCartProduct } = useCartContext();
     const { isProductInWishlist } = useWishlists();
@@ -136,6 +145,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
         /* set state */
         setParsedImages(imgs);
         setParsedSizes(sizes);
+        console.log(sizes, "tisljsdlkj")
         setSelectedColor(() => {
             // take the first colour attached to this variant for initial display
             if (Array.isArray(variant?.colors) && variant?.colors.length) {
@@ -233,36 +243,40 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
     }
 
     // console.log(variant, "this is my current varaint i have ")
-
+    const isSizeAvailable = (sizeObj) =>
+        parsedSizes.some(
+            item => item.size === sizeObj.size && item.unit === sizeObj.unit
+        );
     return (
         <>
-            <div className=' flex items-start gap-3 md:gap-5 h-fit relative md:sticky md:top-14  flex-col w-full md:w-[35%] py-5 md:pl-5  lg:pl-10 '>
+            <div className=' flex items-start gap-3  h-fit relative md:sticky md:top-14  flex-col w-full md:w-[35%] py-5 md:pl-5  lg:pl-10 '>
 
                 <div className='flex items-center justify-between   w-full relative '>
                     <p className='  text-sm font-semibold items-center gap-1  '>{product?.gender}</p>
-                    <p className='  text-sm font-medium text-primary ' aria-label='Product For Running'>
+                    {/* <p className='  text-sm font-medium text-primary ' aria-label='Product For Running'>
                         <CustomReview />
-                    </p>
+                    </p> */}
                 </div>
                 <div className='flex flex-col gap-1 w-full relative'>
-                    <h1 className=' text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold   uppercase' aria-label='Addidas shoes L1' >{product?.name}</h1>
-                    <p className=' text-sm md:text-base font-medium text-primary '>Selected Color : <strong className='text-lg font-semibold'> {selectedColor?.name} </strong></p>
+                    <h1 className=' text-lg md:text-xl  lg:text-2xl xl:text-3xl font-bold   uppercase' aria-label={product?.name} >{product?.name}</h1>
+
                 </div>
                 <div className='flex justify-between flex-col xl:flex-row  items-start sm:items-start w-full relative  py-2 md:py-3'>
                     <h2 className=' text-sm md:text-p18 font-normal flex items-center gap-2 '>
                         {
                             variant?.discounts?.discount_persent ?
                                 <>
-                                    <p className=' text-2xl lg:text-3xl  xl:text-4xl  font-semibold text-nowrap text-primary '>
+
+                                    <p className=' text-xl lg:text-2xl md:text-3xl  font-normal text-red-400 line-through text-nowrap '>₹ {variant?.price}</p>
+                                    <p className=' text-2xl lg:text-3xl  xl:text-4xl  font-semibold text-nowrap text-primary px-2 '>
 
                                         ₹ {getDiscountedPrice(
                                             variant?.price,
                                             variant?.discounts?.discount_persent
                                         )}
                                     </p>
-                                    <p className='text-xl md:text-2xl  font-normal text-red-400 line-through text-nowrap '>₹ {variant?.price}</p>
-                                    <p className="  font-normal rounded-full px-3 py-1 bg-green-600 border border-green-900 text-nowrap flex w-fit text-xs  text-white">
-                                       - {variant?.discounts?.discount_persent} %
+                                    <p className="  font-semibold   py-1  text-red-500   text-nowrap flex w-fit text-base lg:text-lg">
+                                        - {variant?.discounts?.discount_persent} % OFF
                                     </p>
                                 </>
                                 :
@@ -271,7 +285,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                         }
 
                     </h2>
-                    <p className='text-sm font-normal  text-green-600 py-3 '>Includes all taxs</p>
+                    {/* <p className='text-sm font-normal text-fontPrimary py-3 '>Includes all taxs</p> */}
 
                 </div>
                 <SizeChartModal />
@@ -279,7 +293,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
 
                 <div className='flex items-center   relative flex-col gap-2 w-full '>
 
-                    <p className='text-p18 font-semibold flex items-center justify-between w-full'>More Color :
+                    <p className='text-sm  md:text-base text-gray-900 font-semibold flex items-center  justify-between w-full'>More Color :
                         {/* 
                         <ColorView colors={[]} images={[]} >
                             <span className='text-[16px]  font-normal  flex items-center gap-1 cursor-pointer '>More Colors  <MdKeyboardArrowDown className='text-[16px]' /></span>
@@ -315,25 +329,49 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                     </section>
                 </div>
 
+
+
+                <div className='flex items-center justify-start'>
+                    {
+                        variant.stock >= 0 ?
+                            <p className='text-base font-semibold text-green-500'> In Stock </p>
+                            :
+                            <p className='text-base font-semibold text-gray-800 '> Out Of Stock</p>
+
+                    }
+                </div>
+
+
                 {/* Size section */}
                 {parsedSizes?.length > 0 && (
                     <>
-                        <p className='text-p18 font-semibold w-full'>Select Size (UK):</p>
-                        <div className='grid grid-cols-6 gap-2 w-full'>
-                            {parsedSizes.map((item, index) => (
-                                <p
-                                    key={index}
-                                    className={`py-2 rounded-md text-center border font-normal cursor-pointer 
-                                    hover:text-white hover:bg-black
-                                    ${selectedSize?.size === item.size
-                                            ? "bg-primary border-transparent text-white"
-                                            : "text-primary border-primary bg-transparent"}
-                                `}
-                                    onClick={() => handleSizeClick(item)}
-                                >
-                                    {item.size}
-                                </p>
-                            ))}
+                        <p className='text-sm  md:text-base font-semibold w-full text-gray-900'>Select Size (UK):</p>
+                        <div className='grid grid-cols-7 gap-2 w-full'>
+                            {allSizes.map((item, index) => {
+                                const available = isSizeAvailable(item);
+
+                                return (
+                                    <div
+                                        key={index}
+                                        onClick={() => available && handleSizeClick(item)}
+                                        className={`
+                                                relative py-2  text-center border font-normal
+                                                ${available ? "cursor-pointer hover:bg-black hover:text-white" : "cursor-not-allowed opacity-50"}
+                                                ${selectedSize?.size === item.size
+                                                ? "bg-primary border-transparent text-white"
+                                                : "text-primary border-primary bg-transparent"}
+                                            `}
+                                    >
+                                        {item.size}
+
+                                        {!available && (
+                                            <span className="absolute inset-0 pointer-events-none">
+                                                <span className="absolute top-1/2 left-0 w-full h-[1px] bg-gray-500 rotate-[-45deg]" />
+                                            </span>
+                                        )}
+                                    </div>
+                                );
+                            })}
                         </div>
                     </>
                 )}
@@ -372,7 +410,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                 </div>
 
                 <div className='w-full relative flex items-start flex-col  justify-between gap-3'>
-                    <p className='text-base font-semibold  mt-3 mb-3'>
+                    <p className='text-base font-semibold text-fontPrimary  mt-3 mb-3'>
                         Estd. Delivery by 7 working days
                     </p>
 
@@ -396,15 +434,15 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                 <div className="grid grid-cols-3 gap-4 py-6 border-t w-full  border-gray-200">
                     <div className="text-center">
                         <Truck className=" text-[20px] md:text-[25px] mx-auto mb-2 text-gray-500" />
-                        <p className=" text-sm font-semibold sm:font-medium   text-primary">Free Shipping</p>
+                        <p className=" text-xs sm:text-sm font-semibold sm:font-medium   text-primary">Free Shipping</p>
                     </div>
                     <div className="text-center">
                         <Shield className=" text-[20px] md:text-[25px] mx-auto mb-2 text-gray-500" />
-                        <p className=" text-sm font-semibold sm:font-medium    text-primary">Premium Quality</p>
+                        <p className=" text-xs sm:text-sm font-semibold sm:font-medium    text-primary">Premium Quality</p>
                     </div>
                     <div className="text-center">
                         <RotateCcw className=" text-[20px] md:text-[25px] mx-auto mb-2 text-gray-500" />
-                        <p className=" text-sm font-semibold sm:font-medium   text-primary">30-Day Returns</p>
+                        <p className=" text-xs sm:text-sm font-semibold sm:font-medium   text-primary">30-Day Returns</p>
                     </div>
                 </div>
 

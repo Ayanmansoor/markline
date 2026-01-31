@@ -19,26 +19,30 @@ function MegamanuCard({ product, slug, name, className }: Megamanudata) {
             }
 
             {
-                <p className='text-xs font-normal text-white bg-red-400 px-3 py-[3px] rounded-full flex items-center justify-center absolute right-[13px] z-10  top-[15px]  '>
+
+                product?.discounts?.discount_persent &&
+                <p className='text-xs font-normal text-white bg-red-400 px-2 py-[2px] rounded-full flex items-center justify-center absolute right-[13px] z-10  top-[15px]  '>
                     Sale
                 </p>
             }
 
 
-            <p className='text-sm text-start font-medium text-primary line-clamp-2'>{name}</p>
+            <p className='text-sm text-start font-medium text-primary line-clamp-2'>{name.slice(0, 50)}</p>
             <div className='w-full relative h-auto flex items-center justify-between gap-1'>
-                {/* <p className='text-sm font-medium text-primary'>
+                <p className='text-sm font-medium text-primary'>
                     {
-                        product?.discounts?.discount_persent &&
-                        <div className=' flex items-center justify-center gap-2'>
-                            <p className='text-base  font-medium  !line-clamp-3   flex items-center gap-1 uppercase  text-black'>₹{
-                                Math.floor(product?.price - (product?.price * (product?.discounts?.discount_persent / 100)))}
-                            </p>
-                            <p className='  font-normal text-red-500  line-through text-nowrap  text-sm '>₹ {product?.price}</p>
-                        </div>
+                        product?.discounts?.discount_persent ?
+                            <div className=' flex items-center justify-center gap-2'>
+                                <p className='text-sm  font-medium  !line-clamp-3   flex items-center gap-1 uppercase  text-black'>₹{
+                                    Math.floor(product?.price - (product?.price * (product?.discounts?.discount_persent / 100)))}
+                                </p>
+                                <p className='  font-normal text-red-500  line-through text-nowrap  text-sm '>₹ {product?.price}</p>
+                            </div>
+                            :
+                            <p className='  font-normal text-fontPrimary   text-nowrap  text-sm '>₹ {product?.price}</p>
                     }
                 </p>
-             */}
+
             </div>
         </Link>
     )

@@ -96,7 +96,7 @@ function CollcetionPage() {
             </p>
           </div>
 
-          <div className="flex self-center justify-self-center rounded-md w-fit gap-2 items-center justify-center relative">
+          {/* <div className="flex self-center justify-self-center rounded-md w-fit gap-2 items-center justify-center relative">
             {["women", "men", "kids"].map((option) => (
               <button
                 key={option}
@@ -109,7 +109,7 @@ function CollcetionPage() {
                 {option}
               </button>
             ))}
-          </div>
+          </div> */}
 
           <section className="w-full relative h-auto gap-3 md:gap-5 xl:gap-5 2xl:gap-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
             {collections?.data?.length > 0 ? (
@@ -121,7 +121,7 @@ function CollcetionPage() {
                   <CollectionCard
                     key={collec.id || index}
                     collections={collec}
-                    url={`collections/${selected}`}
+                    url={`collections/${selected}/`}
                     imageClass="   h-[280px] lg:h-[320px] 2xl:h-[450px] w-full border  rounded-lg object-cover relative  transition-all duration-100"
                     className="relative h-full  w-full  bg-gray-200 cursor-pointer group rounded-lg flex flex-col items-start justify-center gap-4 p-1 "
                   />
@@ -143,7 +143,7 @@ function CollcetionPage() {
           </section>
         </section>
       ) : (
-        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4   xl:grid-cols-5 items-start justify-start gap-3 px-5  lg:px-10   ">
+        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4   xl:grid-cols-5 items-start justify-start gap-3  px-5 lg:px-10 xl:px-20 2xl:px-40  ">
           <ProductCardSkeleton />
           <ProductCardSkeleton />
           <ProductCardSkeleton />
@@ -190,135 +190,10 @@ function CollcetionPage() {
       />
 
       <section className="w-full relative flex flex-col gap-5    py-10   px-5 lg:px-10 xl:px-20 2xl:px-40 ">
-        <h2 className="     text-lg  font-medium text-primary">
-          POPULAR SEARCHES
-        </h2>
 
-        {/* Gender-Based Links */}
-        <div className="w-full relative h-auto flex flex-col gap-4">
-          <p className="text-base font-medium text-primary">
-            Shop Shoes By Gender
-          </p>
-          <div className="w-full flex flex-wrap items-center gap-2">
-            <Link
-              href="/gender/men"
-              className="text-sm font-medium text-orange-600 border-x px-3 border-primary"
-            >
-              Men Shoes
-            </Link>
-            <Link
-              href="/gender/women"
-              className="text-sm font-medium text-orange-600 border-x px-3 border-primary"
-            >
-              Women Shoes
-            </Link>
-            <Link
-              href="/gender/kids"
-              className="text-sm font-medium text-orange-600 border-x px-3 border-primary"
-            >
-              Kids Shoes
-            </Link>
-            <Link
-              href="/gender/girls"
-              className="text-sm font-medium text-orange-600 border-x px-3 border-primary"
-            >
-              Girls Shoes
-            </Link>
-          </div>
-        </div>
-
-        {/* Shoe Type Links */}
-        <div className="w-full relative h-auto flex flex-col gap-4">
-          <p className="text-base font-medium text-primary">
-            Shop By Shoe Type
-          </p>
-          <div className="w-full flex flex-wrap items-center gap-2">
-            <Link
-              href="/collections/wedding-specials"
-              className="text-sm font-medium text-orange-600 border-x px-3 border-primary"
-            >
-              Wedding Specials
-            </Link>
-            <Link
-              href="/collections/sandals"
-              className="text-sm font-medium text-orange-600 border-x px-3 border-primary"
-            >
-              Sandals
-            </Link>
-            <Link
-              href="/collections/flats"
-              className="text-sm font-medium text-orange-600 border-x px-3 border-primary"
-            >
-              Flats
-            </Link>
-            <Link
-              href="/collections/Thongs sandels"
-              className="text-sm font-medium text-orange-600 border-x px-3 border-primary"
-            >
-              Thongs sandels
-            </Link>
-            <Link
-              href="/collections/ballerinas"
-              className="text-sm font-medium text-orange-600 border-x px-3 border-primary"
-            >
-              Ballerinas
-            </Link>
-            <Link
-              href="/collections/mules"
-              className="text-sm font-medium text-orange-600 border-x px-3 border-primary"
-            >
-              Mules
-            </Link>
-          </div>
-        </div>
-
-        {/* Women-Specific Types */}
-        <div className="w-full relative h-auto flex flex-col gap-4">
-          <p className="text-base font-medium text-primary">
-            Shop By Women Shoe Type
-          </p>
-          <div className="w-full flex flex-wrap items-center gap-2">
-            <Link
-              href="/collections/wedding-specials"
-              className="text-sm font-medium text-orange-600 border-x px-3 border-primary"
-            >
-              Women Wedding Specials
-            </Link>
-            <Link
-              href="/collections/sandals"
-              className="text-sm font-medium text-orange-600 border-x px-3 border-primary"
-            >
-              Women Sandals
-            </Link>
-            <Link
-              href="/collections/flats"
-              className="text-sm font-medium text-orange-600 border-x px-3 border-primary"
-            >
-              Women Flats
-            </Link>
-            <Link
-              href="/collections/Thongs sandels"
-              className="text-sm font-medium text-orange-600 border-x px-3 border-primary"
-            >
-              Women Thongs sandels
-            </Link>
-            <Link
-              href="/collections/ballerinas"
-              className="text-sm font-medium text-orange-600 border-x px-3 border-primary"
-            >
-              Women Ballerinas
-            </Link>
-            <Link
-              href="/collections/mules"
-              className="text-sm font-medium text-orange-600 border-x px-3 border-primary"
-            >
-              Women Mules
-            </Link>
-          </div>
-        </div>
 
         {/* Informational Sections */}
-        <div className=" py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto ">
+        <div className="  flex flex-col gap-10 no-scrollbar overflow-y-auto ">
           <section>
             <h2 className="text-base sm:text-lg font-semibold mb-4">
               Explore Footwear for Everyone

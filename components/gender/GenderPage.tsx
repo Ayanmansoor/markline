@@ -339,99 +339,10 @@ function GenderPage() {
       />
 
       <section className="w-full relative flex flex-col gap-5  px-5 lg:px-10 xl:px-20 2xl:px-40 pb-10">
-        <h2 className="  text-lg lg:text-xl font-semibold text-primary">
-          POPULAR SEARCHES
-        </h2>
 
-        <div className="w-full relative h-auto flex flex-col gap-4">
-          <p className=" text-sm sm:text-base font-semibold text-primary">
-            Shop Shoes By Gender
-          </p>
-          <div className="w-full relative h-auto flex flex-wrap items-center gap-2">
-            <Link
-              href={"/collections/men"}
-              className=" text-[11px] sm:text-sm font-semibold text-orange-600  text-primary   px-3 border-primary "
-            >
-              Men Shoes
-            </Link>
-            <Link
-              href={"/collections/women"}
-              className=" text-[11px] sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary "
-            >
-              Women Shoes
-            </Link>
-            <Link
-              href={"/collections/kids"}
-              className=" text-[11px] sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary "
-            >
-              Kids Shoes
-            </Link>
 
-          </div>
-        </div>
-        <div className="w-full relative h-auto flex flex-col gap-4">
-          <p className=" text-sm sm:text-base font-semibold text-primary">
-            Shop By Shoe Type
-          </p>
-          <div className="w-full relative h-auto flex flex-wrap items-center gap-2">
-            {genderCollection &&
-              genderCollection?.data?.map((item, index) => (
-                <Link
-                  href={`/collections/${item.gender}/${item.slug}`.toLowerCase()}
-                  className="text-[11px] sm:text-sm font-semibold text-orange-600  border-l text-primary  px-3 border-primary"
-                  key={index}
-                >
-                  {item.name}
-                </Link>
-              ))}
-          </div>
-        </div>
 
-        <div className="w-full relative h-auto flex flex-col gap-2">
-          <p className="text-base font-semibold text-primary">
-            Shop By Women Shoe Type
-          </p>
-          <div className="w-full relative h-auto flex flex-wrap items-center gap-2">
-            <Link
-              href="/collections/women/wedding-specials"
-              className="text-[11px] sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary"
-            >
-              Women Wedding Specials
-            </Link>
-            <Link
-              href={"/collections/women/sandals"}
-              className="text-[11px] sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary"
-            >
-              Women Sandals
-            </Link>
-            <Link
-              href={"/collections/women/flats"}
-              className="text-[11px] sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary"
-            >
-              Women Flats
-            </Link>
-            <Link
-              href={"/collections/women/Thongs sandels"}
-              className="text-[11px] sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary"
-            >
-              Women Thongs sandels
-            </Link>
-            <Link
-              href={"/collections/women/ballerinas"}
-              className="text-[11px] sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary"
-            >
-              Women Ballerinas
-            </Link>
-            <Link
-              href={"/collections/women/mules"}
-              className="text-[11px] sm:text-sm font-semibold text-orange-600 border-r border-l text-primary   px-3 border-primary"
-            >
-              Women Mule
-            </Link>
-          </div>
-        </div>
-
-        <div className=" py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto ">
+        <div className="  flex flex-col gap-10 no-scrollbar overflow-y-auto ">
           {/* Intro Section */}
           <section>
             <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-2">
@@ -528,7 +439,96 @@ function GenderPage() {
 
         </div>
 
+        <h2 className="  text-lg lg:text-xl font-semibold text-primary">
+          POPULAR SEARCHES
+        </h2>
 
+        <div className="w-full relative h-auto flex flex-col gap-4">
+          <p className=" text-sm sm:text-base font-semibold text-primary">
+            Shop Shoes By Gender
+          </p>
+          <div className="w-full relative h-auto flex flex-wrap items-center gap-2">
+            <Link
+              href={"/collections/men"}
+              className=" text-[11px] sm:text-sm font-semibold text-orange-600  text-primary   px-3 border-primary "
+            >
+              Men Shoes
+            </Link>
+            <Link
+              href={"/collections/women"}
+              className=" text-[11px] sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary "
+            >
+              Women Shoes
+            </Link>
+            <Link
+              href={"/collections/kids"}
+              className=" text-[11px] sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary "
+            >
+              Kids Shoes
+            </Link>
+
+          </div>
+        </div>
+        <div className="w-full relative h-auto flex flex-col gap-4">
+          <p className=" text-sm sm:text-base font-semibold text-primary">
+            Shop By Shoe Type
+          </p>
+          <div className="w-full relative h-auto flex flex-wrap items-center gap-2">
+            {genderCollection &&
+              genderCollection?.data?.map((item, index) => (
+                <Link
+                  href={`/collections/${item.gender}/${item.slug}`.toLowerCase()}
+                  className="text-[11px] sm:text-sm font-semibold text-orange-600  border-l text-primary  px-3 border-primary"
+                  key={index}
+                >
+                  {item.name}
+                </Link>
+              ))}
+          </div>
+        </div>
+        <div className="w-full relative h-auto flex flex-col gap-2">
+          <p className="text-base font-semibold text-primary">
+            Shop By Women Shoe Type
+          </p>
+          <div className="w-full relative h-auto flex flex-wrap items-center gap-2">
+            <Link
+              href="/collections/women/wedding-specials"
+              className="text-[11px] sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary"
+            >
+              Women Wedding Specials
+            </Link>
+            <Link
+              href={"/collections/women/sandals"}
+              className="text-[11px] sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary"
+            >
+              Women Sandals
+            </Link>
+            <Link
+              href={"/collections/women/flats"}
+              className="text-[11px] sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary"
+            >
+              Women Flats
+            </Link>
+            <Link
+              href={"/collections/women/Thongs sandels"}
+              className="text-[11px] sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary"
+            >
+              Women Thongs sandels
+            </Link>
+            <Link
+              href={"/collections/women/ballerinas"}
+              className="text-[11px] sm:text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary"
+            >
+              Women Ballerinas
+            </Link>
+            <Link
+              href={"/collections/women/mules"}
+              className="text-[11px] sm:text-sm font-semibold text-orange-600 border-r border-l text-primary   px-3 border-primary"
+            >
+              Women Mule
+            </Link>
+          </div>
+        </div>
       </section>
 
 

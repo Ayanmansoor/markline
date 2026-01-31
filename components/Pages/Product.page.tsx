@@ -143,7 +143,7 @@ function ProductPage() {
           :
           relatedProducts.length > 0 ?
             <CategoriesSection title={"You may also like  "} url={'products/women'} urltext='products' >
-              <CarouselProduct url={'product'} product={relatedProducts} css=' sm:max-w-[500px]' />
+              <CarouselProduct url={'product'} product={relatedProducts} css=' sm:max-w-[500px]' productsCardCss=" h-[170px] aspect-square md:aspect-auto  sm:h-[350px] md:h-[350px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]" />
             </CategoriesSection >
             :
             <div className="grid grid-cols-2 py-10 lg:py-20 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3  px-5 lg:px-10 xl:px-20 2xl:px-40   ">
@@ -170,47 +170,10 @@ function ProductPage() {
        */}
 
       <section className='w-full relative flex flex-col gap-5 px-5 lg:px-10 xl:px-20 2xl:px-40 pb-10'>
-        <h2 className='text-lg lg:text-xl font-semibold lg:font-medium text-primary'>POPULAR SEARCHES</h2>
 
-        {/* Gender */}
-        <div className='w-full relative h-auto flex flex-col gap-4'>
-          <p className='text-base font-medium text-primary'>Shop Shoes By Gender</p>
-          <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
-            <Link href={'/gender/men'} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Men Shoes</Link>
-            <Link href={'/gender/women'} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Women Shoes</Link>
-            <Link href={'/gender/kids'} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Kids Shoes</Link>
-            <Link href={'/gender/girls'} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Girls Shoes</Link>
-          </div>
-        </div>
-
-        {/* Shoe Types */}
-        <div className='w-full relative h-auto flex flex-col gap-4'>
-          <p className='text-base font-medium text-primary'>Shop By Shoe Type</p>
-          <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
-            <Link href='/collections/wedding-specials' className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Wedding Specials</Link>
-            <Link href={"/collections/sandals"} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Sandals</Link>
-            <Link href={'/collections/flats'} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Flats</Link>
-            <Link href={"/collections/thongs-sandals"} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Thongs Sandals</Link>
-            <Link href={"/collections/ballerinas"} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Ballerinas</Link>
-            <Link href={"/collections/mules"} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Mules</Link>
-          </div>
-        </div>
-
-        {/* Women Shoe Types */}
-        <div className='w-full relative h-auto flex flex-col gap-2'>
-          <p className='text-base font-medium text-primary'>Shop By Women Shoe Type</p>
-          <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
-            <Link href='/collections/wedding-specials' className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Women Wedding Specials</Link>
-            <Link href={"/collections/sandals"} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Women Sandals</Link>
-            <Link href={'/collections/flats'} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Women Flats</Link>
-            <Link href={"/collections/thongs-sandals"} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Women Thongs Sandals</Link>
-            <Link href={"/collections/ballerinas"} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Women Ballerinas</Link>
-            <Link href={"/collections/mules"} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Women Mules</Link>
-          </div>
-        </div>
 
         {/* ------- PRODUCT PAGE SEO CONTENT ------- */}
-        <div className="py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto">
+        <div className=" flex flex-col gap-10 no-scrollbar overflow-y-auto">
 
           <section>
             <h2 className="text-lg lg:text-xl xl:text-2xl font-semibold mb-4">
@@ -263,6 +226,34 @@ function ProductPage() {
           </section>
 
         </div>
+
+
+        <h2 className='text-lg lg:text-xl font-semibold lg:font-medium text-primary'>POPULAR SEARCHES</h2>
+
+        {/* Gender */}
+        <div className='w-full relative h-auto flex flex-col gap-4'>
+          <p className='text-base font-medium text-primary'>Shop Shoes By Gender</p>
+          <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
+            <Link href={'/collections/men'} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Men Shoes</Link>
+            <Link href={'/collections/women'} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Women Shoes</Link>
+            <Link href={'/collections/kids'} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Kids Shoes</Link>
+            <Link href={'/collections/girls'} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Girls Shoes</Link>
+          </div>
+        </div>
+
+        {/* Shoe Types */}
+        <div className='w-full relative h-auto flex flex-col gap-4'>
+          <p className='text-base font-medium text-primary'>Shop By Shoe Type</p>
+          <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
+            <Link href='/collections/women/wedding-specials' className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Wedding Specials</Link>
+            <Link href={"/collections/women/sandals"} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Sandals</Link>
+            <Link href={'/collections/women/flats'} className='text-sm font-medium text-orange-600 border-r border-l px-3 border-primary'>Flats</Link>
+          </div>
+        </div>
+
+        {/* Women Shoe Types */}
+
+
       </section>
 
 

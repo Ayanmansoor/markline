@@ -96,7 +96,6 @@ function HomePage() {
     // },
   ];
 
-  console.log(allcollection)
   return (
     <>
       <section className="w-full relative gap-2 items-center px-3 md:px-5 lg:px-10 py-3 h-auto flex lg:hidden border-b border-gray-300">
@@ -179,11 +178,20 @@ function HomePage() {
 
 
       <section className="w-full  relative flex-col gap-5  2xl:gap-10 items-start  mt-7 lg:mt-10 h-auto flex pb-3 px-5 lg:px-10 xl:px-20 2xl:px-40 py-5 lg:py-10">
-        <h1 className="text-lg md:text-2xl xl:text-3xl font-semibold text-primary uppercase">
-          Shop By Collections
-        </h1>
+        <div className="w-full relative flex items-center justify-between ">
+          <h1 className="text-lg md:text-2xl xl:text-3xl font-semibold text-primary uppercase">
+            Shop By Collections
+          </h1>
+          <Link
+            href={"/collections"}
+            className="text-sm md:text-base lg:text-lg text-primary  rounded-md  self-center justify-self-center relative font-medium  flex items-center justify-center gap-2  cursor-pointer group"
+          >
+            View{" "}
+            <ArrowUpRight className="text-primary text-[15px] " />
+          </Link>
+        </div>
 
-        <div className="flex self-center justify-self-center rounded-md w-fit gap-2 items-center justify-center relative">
+        {/* <div className="flex self-center justify-self-center rounded-md w-fit gap-2 items-center justify-center relative">
           {["women", "men", "kids"].map((option) => (
             <button
               key={option}
@@ -196,7 +204,7 @@ function HomePage() {
               {option}
             </button>
           ))}
-        </div>
+        </div> */}
 
         <Swiper
           breakpoints={{
@@ -233,7 +241,7 @@ function HomePage() {
                   <CollectionCard
                     key={collec.id || index}
                     collections={collec}
-                    url="collections/"
+                    url="collections/women/"
                     imageClass="   h-[230px] sm:h-[250px] md:h-[280px] lg:h-[320px] 2xl:h-[450px] w-full border  rounded-lg object-cover relative  transition-all duration-100"
                     className="relative h-full  w-full  bg-gray-200 cursor-pointer group rounded-lg flex flex-col items-start justify-center gap-4 p-1 "
                   />
@@ -255,13 +263,13 @@ function HomePage() {
             </div>
           )}
       </section>
-      <Link
+      {/* <Link
         href={"/collections"}
         className=" text-xs md:text-base px-5 py-2 rounded-full hover:bg-white border-primary hover:text-primary hover:border-black self-center justify-self-center relative font-medium text-white flex items-center justify-center gap-2 bg-primary cursor-pointer group"
       >
         View{" "}
         <ArrowUpRight className="text-white group-hover:text-primary text-[10px] md:text-[20px]" />
-      </Link>
+      </Link> */}
 
 
 
@@ -336,7 +344,7 @@ function HomePage() {
       {/* {trendingProducts?.length > 0 && (
         <TrendingCarousels title='Best-Selling Footwear  Customer Favorites at Markline' discription='Explore the top-rated, most-loved shoes our customers can&apos;t stop talking about.' data={trendingProducts} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
       )} */}
-
+      {/* 
       <Discount
         title={"Step into the Season"}
         description={
@@ -344,7 +352,7 @@ function HomePage() {
         }
         url={"/products/women"}
         images={[]}
-      />
+      /> */}
 
       {/* New Arrivals */}
       {/* {isNewArrivalLoading ? (

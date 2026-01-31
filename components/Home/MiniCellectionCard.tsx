@@ -10,14 +10,14 @@ function MiniCollectionCard({ collections, url }: newCollectionCardProps) {
   return (
     <Link
       href={`/collections/${url}/${collections.slug}`}
-      className=" w-[170px] md:w-[190px] lg:w-[200px] overflow-hidden  max-h-[260px]      cursor-pointer relative group  flex flex-col items-start justify-center gap-1 p-1     "
+      className=" w-[170px] md:w-[190px] lg:w-[200px] overflow-hidden  max-h-[300px]      cursor-pointer relative group  flex flex-col items-start justify-center gap-1 p-1     "
     >
       {images?.map((item, index) => (
         <img
           key={index}
           src={item?.image_url || "/dummy-image.jpg"}
           alt={item?.name || "No Image"}
-          className=" w-full border h-[150px] md:h-[180px] lg:h-[200px] relative rounded-md object-cover hover:scale-[1.010] transition-all duration-100"
+          className=" w-full border h-[150px] md:h-[180px] lg:h-[250px] relative rounded-md object-cover hover:scale-[1.010] transition-all duration-100"
           loading="lazy"
           height={300}
           width={300}

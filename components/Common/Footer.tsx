@@ -205,9 +205,9 @@ function Footer() {
                 <hr className='mt-1' />
 
                 <ul className='flex items-start flex-col mt-2  text-base justify-start gap-2  text-primary'>
-                  <Link href="/collections/men" className='text-primary' >Man</Link>
+                  {/* <Link href="/collections/men" className='text-primary' >Man</Link> */}
                   <Link href="/collections/women" className='text-primary' >Women</Link>
-                  <Link href='/collections/kids' className='text-primary' >kids</Link>
+                  {/* <Link href='/collections/kids' className='text-primary' >kids</Link> */}
                   {/* <Link href="/gender/trending" className='text-primary' >Trending</Link> */}
 
                 </ul>

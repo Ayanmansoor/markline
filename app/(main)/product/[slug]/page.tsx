@@ -4,7 +4,10 @@ import ProductPage from '@/components/Pages/Product.page'
 import { getProductData } from '@/Supabase/SupabaseApi';
 
 export async function generateMetadata({ params }) {
-  const product = await getProductData(params?.slug);
+
+  const slug = await params?.slug
+
+  const product = await getProductData(slug);
 
 
   const productName = product?.name || "Product";
@@ -19,7 +22,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: productName,
       description,
-      url: `https://shopmarkline.in/product/${params.slug}`,
+      url: `https://shopmarkline.in/product/${slug ?? ""}`,
       images: [
         {
           url: imageUrl,
@@ -41,7 +44,7 @@ export async function generateMetadata({ params }) {
       images: [imageUrl],
     },
     alternates: {
-      canonical: `https://shopmarkline.in/product/${params.slug}`,
+      canonical: `https://shopmarkline.in/product/${slug ?? ""}`,
     },
   };
 }
@@ -49,7 +52,8 @@ export async function generateMetadata({ params }) {
 
 async function page({ params }) {
 
-  const product = await getProductData(params.slug);
+  const slug = params?.slug
+  const product = await getProductData(slug);
 
 
   if (!product) return null;
@@ -60,7 +64,7 @@ async function page({ params }) {
     JSON.parse(variant?.image_url?.[0] || "{}")?.image_url ||
     "https://marklinefashion.com/default.jpg";
 
-  const productUrl = `https://shopmarkline.in/product/${params.slug}`;
+  const productUrl = `https://shopmarkline.in/product/${slug ?? ""}`;
 
   /* =========================
      PRODUCT + OFFER SCHEMA
