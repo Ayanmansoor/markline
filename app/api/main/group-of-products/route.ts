@@ -16,23 +16,6 @@ export async function GET(req: NextRequest) {
                 { status: 400 }
             );
         }
-
-
-
-        //     const { data, error } = await mysupabase
-        //         .from("product")
-        //         .select(`
-        //     *,
-        //     product_variants (*),
-        //     grouptype!inner (
-        //       id,
-        //       heading,
-        //       type,
-        //       discription
-        //     )
-        //   `)
-        //         .eq("grouptype.type", groupType);
-
         let query = mysupabase
             .from("group")
             .select(`

@@ -532,6 +532,35 @@ const fetchGroupOfProducts = async (type?: string) => {
   }
 };
 
+const fetchGroupOfPRoductss = async () => {
+  try {
+    let query = mysupabase
+      .from("group")
+      .select(`
+                id,
+                heading,
+                type,
+                discription,
+                url,
+                urlText,
+                products:product (
+                    *,
+                    product_variants (
+                        *,
+                    discounts:discount_key (*)
+                    ) 
+                )
+
+            `);
+    const { data, error } = await query;
+    return data;
+  } catch (error) {
+    console.log(error, "this is errror ");
+    throw new Error("Failed to fetch groups of products");
+
+  }
+}
+
 async function getAllProductsWithVariants() {
   try {
     const response = await axios.get("/api/main/getProducts");
@@ -632,4 +661,6 @@ export {
   getAllProductsWithVariants,
   fetchGroupOfProducts,
   getProductDataSitemap,
+  
+  fetchGroupOfPRoductss,
 };
