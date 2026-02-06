@@ -1,2 +1,4 @@
 User-agent: *
-Allow: /
+Disallow: 
+
+Sitemap: https://shopmarkline.in/sitemap.xml
