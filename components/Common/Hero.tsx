@@ -29,7 +29,7 @@ function Hero({ bannerImages, css }: HeroData) {
 
     return (
         <section
-            className={`w-full relative ${css ? css : 'h-[500px] sm:h-[750px]'}`}
+            className={`w-full relative ${css ? css : 'h-[500px] sm:h-[780px]'}`}
         >
             <Swiper
                 modules={[Autoplay, EffectFade]}
