@@ -100,7 +100,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
         >
           {children}
         </button>
-        <div className="absolute  -left-[33vw] top-5 transition group-hover:translate-y-2 translate-y-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-500 ease-in-out group-hover:transform z-50 min-w-[calc(100vw-200px)] 2xl:min-w-[calc(100vw-400px)] flex flex-col gap-5 transform">
+        <div className="absolute -left-[20vw] lg:-left-[33vw] top-5 transition group-hover:translate-y-2 translate-y-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-500 ease-in-out group-hover:transform z-50 min-w-[calc(100vw-200px)] 2xl:min-w-[calc(100vw-400px)] flex flex-col gap-5 transform">
           <div className="relative top-6 p-6 bg-white rounded-xl shadow-xl w-full">
             <div className="w-10 h-5 bg-white transform rotate-45 absolute top-0 z-0 translate-x-0 transition-transform group-hover:translate-x-[14rem] 2xl:group-hover:translate-x-[14rem] duration-500 ease-in-out rounded-sm"></div>
             <div className="relative z-10 flex flex-col gap-10">
@@ -168,8 +168,8 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                             href={`/collections/${item.gender.toLowerCase()}/${item.slug
                               }`}
                             className={`text-sm capitalize font-medium hover:bg-gray-100 cursor-pointer py-1 px-2 flex items-center gap-1 ${item.slug === slug
-                                ? "bg-gray-200"
-                                : "bg-transparent"
+                              ? "bg-gray-200"
+                              : "bg-transparent"
                               }`}
                             onMouseEnter={() => setslug(item.slug)}
                           >
@@ -225,7 +225,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                     Best Seller&apos;s
                   </p>
 
-                  <ul className="mt-4 text-[15px] w-full relative grid grid-cols-2 2xl:grid-cols-5 3xl:grid-cols-4 h-[300px] gap-2  items-start justify-start overflow-hidden overflow-y-auto">
+                  <ul className="mt-4 text-[15px] w-full relative grid grid-cols-2 2xl:grid-cols-4 3xl:grid-cols-4 h-[300px] gap-2  items-start justify-start overflow-hidden overflow-y-auto">
                     {isLoading ? (
                       <>
                         <MegaManuCarSkeleton />

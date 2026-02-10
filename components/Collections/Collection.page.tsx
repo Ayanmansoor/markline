@@ -111,7 +111,7 @@ function CollcetionPage() {
             ))}
           </div> */}
 
-          <section className="w-full relative h-auto gap-3 md:gap-5 xl:gap-5 2xl:gap-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+          <section className="w-full relative h-auto gap-3 md:gap-5 xl:gap-5 2xl:gap-5 grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-3 2xl:grid-cols-4">
             {collections?.data?.length > 0 ? (
               collections.data
                 .filter(
@@ -122,7 +122,7 @@ function CollcetionPage() {
                     key={collec.id || index}
                     collections={collec}
                     url={`collections/${selected}/`}
-                    imageClass="   h-[280px] lg:h-[320px] 2xl:h-[450px] w-full border  rounded-lg object-cover relative  transition-all duration-100"
+                    imageClass="  h-[400px] lg:h-[450px] w-full border  rounded-lg object-cover relative  transition-all duration-100"
                     className="relative h-full  w-full  bg-gray-200 cursor-pointer group rounded-lg flex flex-col items-start justify-center gap-4 p-1 "
                   />
                 ))

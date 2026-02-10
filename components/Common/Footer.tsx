@@ -93,9 +93,9 @@ function Footer() {
 
             </h2>
             <ul className='flex items-start flex-col  text-base justify-start gap-2'>
-              <Link href={'/collections/men'} >Men</Link>
+              {/* <Link href={'/collections/men'} >Men</Link> */}
               <Link href={'/collections/women'} >Women</Link>
-              <Link href={'/collections/kids'} >Kids</Link>
+              {/* <Link href={'/collections/kids'} >Kids</Link> */}
               {/* <Link href={'/discount-deals'} >Discount Deals</Link> */}
             </ul>
           </div>
@@ -163,7 +163,7 @@ function Footer() {
                   <Link href={'/new-arrivals'} className='text-primary'  >New Arrived</Link>
                   <Link href={'/products/women'} className='text-primary'  >Proudcts</Link>
                   <Link href={'/collections/women'} className='text-primary' >Women&apos;s Collections</Link>
-                  <Link href={'/collections/men'} className='text-primary' >Men&apos;s Collections</Link>
+                  {/* <Link href={'/collections/men'} className='text-primary' >Men&apos;s Collections</Link> */}
 
                 </ul>
               </div>

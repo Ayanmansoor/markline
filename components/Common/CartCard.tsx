@@ -109,79 +109,82 @@ function CartCard({ data }: any) {
         removeFromCart({ productId: id, colorName: colorName, size: size })
     }
 
-    console.log(data, "this is card data")
 
     return (
-        <Link href={`/product/${data.slug}`} className='w-full relative h-fit border rounded-lg   flex-col sm:flex-row flex items-center justify-between gap-2  p-2 md:p-1 pb-4 sm:border-b border-gray-300 '>
-            <div className='flex flex-col sm:flex-row items-start sm:items-center w-full sm:w-fit  gap-3  '>
-                <Swiper
+        <div className='w-full relative h-fit border rounded-lg   flex-col sm:flex-row flex items-end justify-between gap-2  p-2 md:p-1 pb-4 sm:border-b border-gray-300 '>
+            <Link href={`/product/${data.slug}`} >
+                <div className='flex flex-col sm:flex-row items-start sm:items-center w-full sm:w-fit  gap-3  '>
+                    <Swiper
 
-                    pagination={{
-                        dynamicBullets: true
-                    }}
-                    className="mySwiper max-w-[100px] md:max-w-[150px]  realtive max-h-[200px] md:max-h-[150px]"
-                >
+                        pagination={{
+                            dynamicBullets: true
+                        }}
+                        className="mySwiper max-w-[150px] md:max-w-[150px]  realtive max-h-[200px] md:max-h-[150px]"
+                    >
 
-                    {
-                        StringifyImages &&
-                        StringifyImages?.map((image, index: number) => (
-                            <SwiperSlide className=' max-w-[100px] md:max-w-[150px] rounded-lg max-h-[200px] md:max-h-[120px] relative border overflow-hidden' key={index}>
-                                <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className={` aspect-square  w-full transition-all duration-100 ease-in-out object-contain sm:object-cover hover:scale-[1.010] max-h-[220px] sm:max-h-[150px]  `} height={200} width={300} loading='lazy' />
-                            </SwiperSlide>
-                        ))
-                    }
-                </Swiper>
-                <span className='flex flex-col gap-1'>
-                    <h2 className='text-xs md:text-lg lg:text-lg max-w-[350px] font-semibold text-gray-800 line-clamp-5 md:line-clamp-2'>
-                        {data?.productName}
-                    </h2>
-                    <ul className=' flex-col sm:flex-row flex items-start sm:items-center gap-1 justify-start  '>
-                        <li className=' text-xs md:text-sm font-medium text-primary'>
-                            Size :  {data?.variant?.selectedSize?.size}
-                        </li>
-                        <li className='text-xs md:text-sm font-medium text-primary'>
-                            Color: {data?.variant?.selectedColor?.name}
-                        </li>
-                    </ul>
-                </span>
-
-            </div>
-            <div className='flex flex-col items-end gap-2 px-0 md:px-2  w-full sm:w-fit  justify-end '>
-
-                <div className='flex  flex-wrap items-center gap-3 px-0 md:px-3'>
-                    {discountPercent > 0 && (
-                        <p className='text-xs font-bold text-green-600 bg-green-100 w-fit px-2 py-0.5 rounded-full mt-1'>
-                            {discountPercent}% OFF
-                        </p>
-                    )}
-                    {discountPercent > 0 && (
-                        <p className='text-sm text-gray-500 line-through'>
-                            {formatPrice(originalPrice)}
-                        </p>
-                    )}
-                    <h2 className='text-lg font-semibold text-primary'>
-                        {formatPrice(finalPrice)}
-                    </h2>
+                        {
+                            StringifyImages &&
+                            StringifyImages?.map((image, index: number) => (
+                                <SwiperSlide className=' max-w-[150px] md:max-w-[150px] rounded-lg max-h-[250px] md:max-h-[120px] relative border overflow-hidden' key={index}>
+                                    <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className={` aspect-square  w-full transition-all duration-100 ease-in-out object-contain sm:object-cover hover:scale-[1.010] max-h-[220px] sm:max-h-[150px]  `} height={200} width={300} loading='lazy' />
+                                </SwiperSlide>
+                            ))
+                        }
+                    </Swiper>
+                    <span className='flex flex-col gap-1'>
+                        <h2 className='text-xs md:text-lg lg:text-lg max-w-[350px] font-semibold text-gray-800 line-clamp-5 md:line-clamp-2'>
+                            {data?.productName}
+                        </h2>
+                        <ul className=' flex-col sm:flex-row flex items-start sm:items-center gap-1 justify-start  '>
+                            <li className=' text-xs md:text-sm font-medium text-primary'>
+                                Size :  {data?.variant?.selectedSize?.size}
+                            </li>
+                            <li className='text-xs md:text-sm font-medium text-primary'>
+                                Color: {data?.variant?.selectedColor?.name}
+                            </li>
+                        </ul>
+                    </span>
 
                 </div>
-                <section className='w-full sm:w-fit relative flex flex-col sm:flex-row gap-1 sm:gap-3 items-center'>
-                    <Select onValueChange={(newValue) => handleQuantityChange(data, parseInt(newValue))}>
-                        <SelectTrigger className=" w-full sm:w-[120px] font-semibold text-base text-text-primary border-gray-200 border ">
-                            <SelectValue className='placeholder:text-xs' placeholder={`Qty : ${data?.quantity}`} />
-                        </SelectTrigger>
-                        <SelectContent className='w-full sm:w-[120px]' >
-                            {
-                                [...Array(5)].map((item, index) => (
-                                    <SelectItem value={`${index + 1}`} key={index} className={` ${index + 1 == data?.quantity && "bg-gray-200"} `} >{index + 1}</SelectItem>
-                                ))
-                            }
-                        </SelectContent>
-                    </Select>
-                    <WhatsAppCartButton cartItem={data} />
-                </section>
-                <Trash height={20} className=" cursor-pointer text-red-500" onClick={() => removecat(data?.productId, data?.variant?.selectedColor, data?.variant?.selectedSize)} />
-            </div>
-        </Link>
+                <div className='flex flex-col items-end gap-2 px-0 md:px-2  w-full sm:w-fit  justify-end '>
+
+                    <div className='flex  flex-wrap items-center gap-3 px-0 md:px-3'>
+                        {discountPercent > 0 && (
+                            <p className='text-xs font-bold text-green-600 bg-green-100 w-fit px-2 py-0.5 rounded-full mt-1'>
+                                {discountPercent}% OFF
+                            </p>
+                        )}
+                        {discountPercent > 0 && (
+                            <p className='text-sm text-gray-500 line-through'>
+                                {formatPrice(originalPrice)}
+                            </p>
+                        )}
+                        <h2 className='text-lg font-semibold text-primary'>
+                            {formatPrice(finalPrice)}
+                        </h2>
+
+                    </div>
+                </div >
+
+            </Link>
+
+            <section className='w-full sm:w-fit relative flex flex-col sm:flex-row gap-1 sm:gap-3 items-center'>
+                <Select onValueChange={(newValue) => handleQuantityChange(data, parseInt(newValue))}>
+                    <SelectTrigger className=" w-full sm:w-[120px] font-semibold text-base text-text-primary border-gray-200 border ">
+                        <SelectValue className='placeholder:text-xs' placeholder={`Qty : ${data?.quantity}`} />
+                    </SelectTrigger>
+                    <SelectContent className='w-full sm:w-[120px]' >
+                        {
+                            [...Array(5)].map((item, index) => (
+                                <SelectItem value={`${index + 1}`} key={index} className={` ${index + 1 == data?.quantity && "bg-gray-200"} `} >{index + 1}</SelectItem>
+                            ))
+                        }
+                    </SelectContent>
+                </Select>
+                <WhatsAppCartButton cartItem={data} />
+            </section>
+            <Trash height={20} className=" cursor-pointer text-red-500" onClick={() => removecat(data?.productId, data?.variant?.selectedColor, data?.variant?.selectedSize)} />
+        </div >
     )
 }
 
