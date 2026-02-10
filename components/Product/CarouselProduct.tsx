@@ -22,7 +22,7 @@ function CarouselProduct({ url, product, css, productsCardCss }: newCarouselProd
 
     return (
         <section className='w-full relative h-auto bg-secondary  '>
-            <div className='w-full relative h-auto flex gap-3 justify-end mb-3'>
+            {/* <div className='w-full relative h-auto flex gap-3 justify-end mb-3'>
                 <span
                     onClick={() => swiperRef.current?.slidePrev()}
                     className="bg-gray-300 rounded-full p-2 xl:p-3 cursor-pointer hover:bg-gray-400 transition"
@@ -35,7 +35,7 @@ function CarouselProduct({ url, product, css, productsCardCss }: newCarouselProd
                 >
                     <IoMdArrowForward className="text-[15px] xl:text-[20px] text-primary" />
                 </span>
-            </div>
+            </div> */}
 
             <div className='  mx-auto h-auto  '>
 
@@ -43,8 +43,12 @@ function CarouselProduct({ url, product, css, productsCardCss }: newCarouselProd
                     slidesPerView={"auto"}
                     direction={"horizontal"}
                     spaceBetween={10}
-                    onSwiper={(swiper) => (swiperRef.current = swiper)}
+                    autoplay={{
+                        delay: 3000, // Adjust this value as needed (time between slides in ms)
+                        disableOnInteraction: false, // Ensures autoplay continues after interaction
+                    }}
                     modules={[Autoplay, Mousewheel, Pagination]}
+                    onSwiper={(swiper) => (swiperRef.current = swiper)}
                     className="mySwiper h-full w-full  relative"
                 >
                     {product?.map((product: any, index: number) => (

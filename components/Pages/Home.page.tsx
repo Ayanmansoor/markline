@@ -116,7 +116,7 @@ function HomePage() {
                 className="max-w-fit max-h-fit rounded-full relative cursor-pointer"
               >
                 <Link
-                  href={`/collection/${collection.slug}`}
+                  href={`/collections/women/${collection.slug}`}
                   className="h-fit w-fit relative  overflow-hidden flex flex-col items-center"
                 >
                   {imageData?.image_url && (
@@ -187,7 +187,7 @@ function HomePage() {
             className="text-sm md:text-base lg:text-lg text-primary  rounded-md  self-center justify-self-center relative font-medium  flex items-center justify-center gap-2  cursor-pointer group"
           >
             View{" "}
-            <ArrowUpRight className="text-primary text-[15px] " />
+            <ArrowUpRight className="text-primary text-[10px] md:text-[15px] " />
           </Link>
         </div>
 
@@ -242,7 +242,7 @@ function HomePage() {
                     key={collec.id || index}
                     collections={collec}
                     url="collections/women/"
-                    imageClass="   h-[230px] sm:h-[250px] md:h-[280px] lg:h-[320px] 2xl:h-[450px] w-full border  rounded-lg object-cover relative  transition-all duration-100"
+                    imageClass="   h-[260px] md:h-[280px] lg:h-[320px] 2xl:h-[450px] w-full border  rounded-lg object-cover relative  transition-all duration-100"
                     className="relative h-full  w-full  bg-gray-200 cursor-pointer group rounded-lg flex flex-col items-start justify-center gap-4 p-1 "
                   />
                 </SwiperSlide>
@@ -331,7 +331,7 @@ function HomePage() {
                 <CarouselProduct
                   url="product"
                   product={item.products.slice(0, 10)}
-                  productsCardCss=" h-[250px]  aspect-square md:aspect-auto  sm:h-[300px] md:h-[350px] lg:h-[400px]"
+                  productsCardCss=" h-[200px]   sm:h-[300px] md:h-[350px] lg:h-[400px]"
                 />
               </CategoriesSection>
             )
