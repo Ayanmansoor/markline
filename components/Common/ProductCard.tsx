@@ -211,9 +211,9 @@ function ProductCard({ product, url, className }: newProductsProps) {
 
       <Link
         href={`/${url}/${product?.slug}`}
-        className="flex w-full items-start pt-2 justify-start min-h-[50px]   gap-0 "
+        className="flex w-full items-start pt-2 justify-start min-h-[45px]   gap-0 "
       >
-        <h2 className=" text-[11px] md:text-sm  xl:text-base 2xl:text-base font-medium !line-clamp-2 md:!line-clamp-3   flex items-center gap-1 uppercase   text-black">
+        <h2 className=" text-[11px] md:text-sm  xl:text-base 2xl:text-base font-medium !line-clamp-2 md:!line-clamp-3   flex items-center gap-1 uppercase   text-primary">
           {product?.name}
         </h2>
       </Link>
@@ -237,7 +237,7 @@ function ProductCard({ product, url, className }: newProductsProps) {
 
         {selectedVariant?.discounts?.discount_persent && (
           <div className=" flex items-center lg:flex-row flex-col justify-center gap-1 md:gap-2">
-            <p className="text-base w-fit md:text-sm  xl:text-xl  font-medium  !line-clamp-3   flex items-center gap-1 uppercase  text-black">
+            <p className=" text-sm sm:text-base w-fit md:text-sm  xl:text-xl  font-medium  !line-clamp-3   flex items-center gap-1 uppercase  text-black">
               ₹ {getDiscountedPrice(
                 selectedVariant?.price,
                 selectedVariant?.discounts?.discount_persent
@@ -253,7 +253,7 @@ function ProductCard({ product, url, className }: newProductsProps) {
 
         {!selectedVariant?.discounts && (
 
-          <p className=" text-base md:text-sm   xl:text-xl  font-medium  w-auto !line-clamp-3  text-nowrap flex  justify-center items-center gap-1 uppercase  text-black">
+          <p className=" text-sm sm:text-base md:text-sm   xl:text-xl  font-medium  w-auto !line-clamp-3  text-nowrap flex  justify-center items-center gap-1 uppercase  text-black">
             ₹ {selectedVariant?.price}
           </p>
         )}

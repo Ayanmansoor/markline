@@ -207,12 +207,8 @@ function Occasions() {
         </section>
       } */}
 
-      <Breadcrumb className='w-full relative  px-5 lg:px-10 xl:px-20 2xl:px-40 pt-3'>
-        <BreadcrumbList className='w-full relative h-auto flex items-center py-5 rounded-lg px-3 '>
-          <BreadcrumbItem >
-            <BreadcrumbLink href="/Home" className=' text-sm  text-primary cursor-pointer'>Home</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
+      <Breadcrumb className='w-full relative  px-2 lg:px-10 xl:px-20 2xl:px-40 '>
+        <BreadcrumbList className='w-full relative h-auto flex items-center py-4 rounded-lg px-3 '>
           <BreadcrumbItem>
             <BreadcrumbLink href={`/collections/shop-by`} className=' text-sm sm:text-base  text-primary cursor-pointer'>Shop By</BreadcrumbLink>
           </BreadcrumbItem>
@@ -225,8 +221,8 @@ function Occasions() {
 
 
 
-      <section className="w-full min-h-[300px] mt-5 relative  gap-10  bg-gray-200  ">
-        <span className=' flex items-center border-b border-white w-full justify-between h-fit sticky top-16 z-30 bg-white  py-5 px-5 lg:px-10 xl:px-20 2xl:px-40      '>
+      <section className="w-full min-h-[300px] mt-1 relative  gap-10  bg-gray-200  ">
+        <span className=' flex items-center border-b border-white w-full justify-between h-fit sticky top-14 z-30 bg-gray-200   py-5 px-3 md:px-5 lg:px-10 xl:px-20 2xl:px-40      '>
           <ProductFilter
             gender={''}
             collection={[]}
@@ -240,7 +236,7 @@ function Occasions() {
 
         </span>
         {isLoading ? (
-          <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10 xl:px-20 2xl:px-40   ">
+          <div className="grid grid-cols-2 py-5  md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-2 md:px-5 lg:px-10 xl:px-20 2xl:px-40   ">
             <ProductCardSkeleton />
             <ProductCardSkeleton />
             <ProductCardSkeleton />
@@ -250,7 +246,7 @@ function Occasions() {
         ) : groupOfProducts?.data?.length > 0 ? (
           groupOfProducts?.data?.map((item: any, index: number) => (
             item.products?.length > 0 &&
-            <GridRroduct data={item.products} url={'product'} css='grid-cols-2 md:grid-cols-3 px-5 md:px-10 py-10  gap-5 lg:grid-cols-4 bg-gray-200  px-5 lg:px-10 xl:px-20 2xl:px-40     ' productsCardCss=' h-[160px]  sm:h-[300px] md:h-[350px] lg:h-[350px] xl:h-[400px]' key={index} />
+            <GridRroduct data={item.products} url={'product'} css='grid-cols-2 md:grid-cols-3 px-3 md:px-5 md:px-10 py-5 md:py-10  gap-3 md:gap-5 lg:grid-cols-4 bg-gray-200 lg:px-10 xl:px-20 2xl:px-40     ' productsCardCss=' h-[170px] object-cover  sm:h-[300px] md:h-[350px] lg:h-[350px] xl:h-[400px]' key={index} />
           ))
         ) : (
           <></>
@@ -261,29 +257,7 @@ function Occasions() {
 
       <Discount title={`Spotlight ${occasionslug} Footwear: Featured Styles You'll Love`} description={`Explore our top picks from the ${occasionslug} collection—curated for quality, comfort, and on‑trend appeal. Whether it's chic sandals, cozy sneakers, or elegant dress shoes, these standout styles are designed to elevate your everyday wardrobe.`} url='' />
       <section className='w-full relative flex flex-col gap-5  px-3 lg:px-5  pb-10'>
-        <h2 className='text-xl font-semibold text-primary'>POPULAR SEARCHES</h2>
 
-        <div className='w-full relative h-auto flex flex-col gap-4'>
-          <p className='text-base font-semibold text-primary'>Shop Shoes By Gender</p>
-          <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
-            <Link href={'/collections/men'} className='text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary '>Men Shoes</Link>
-            <Link href={'/collections/women'} className='text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary '>Women Shoes</Link>
-            <Link href={'/collections/kids'} className='text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary '>Kids Shoes</Link>
-            <Link href={'/collections/girls'} className='text-sm font-semibold text-orange-600 border-r border-l text-primary   px-3 border-primary '>Grils Shoes</Link>
-          </div>
-        </div>
-        <div className='w-full relative h-auto flex flex-col gap-4'>
-          <p className='text-base font-semibold text-primary'>Shop By Shoe Type</p>
-          <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
-            {
-              occasionsCollection.data &&
-              occasionsCollection.data.map((item, index) => (
-                <Link href={`/collections/${item.gender}/${item.slug}`} className='text-sm font-semibold text-orange-600  border-l text-primary  px-3 border-primary' key={index}>{item.name}</Link>
-              ))
-            }
-
-          </div>
-        </div>
 
         <div className='w-full relative h-auto flex flex-col gap-2'>
           <p className='text-base font-semibold text-primary'>Shop By Women Shoe Type</p>
@@ -347,7 +321,26 @@ function Occasions() {
             </ul>
           </section>
         </div>
+        <h2 className='text-xl font-semibold text-primary'>POPULAR SEARCHES</h2>
 
+        <div className='w-full relative h-auto flex flex-col gap-4'>
+          <p className='text-base font-semibold text-primary'>Shop Shoes By Gender</p>
+          <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
+            <Link href={'/collections/women'} className='text-sm font-semibold text-orange-600  border-l text-primary   px-3 border-primary '>Women Shoes</Link>
+          </div>
+        </div>
+        <div className='w-full relative h-auto flex flex-col gap-4'>
+          <p className='text-base font-semibold text-primary'>Shop By Shoe Type</p>
+          <div className='w-full relative h-auto flex flex-wrap items-center gap-2'>
+            {
+              occasionsCollection.data &&
+              occasionsCollection.data.map((item, index) => (
+                <Link href={`/collections/${item.gender}/${item.slug}`} className='text-sm font-semibold text-orange-600  border-l text-primary  px-3 border-primary' key={index}>{item.name}</Link>
+              ))
+            }
+
+          </div>
+        </div>
       </section>
 
     </>

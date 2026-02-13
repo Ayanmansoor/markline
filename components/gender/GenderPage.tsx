@@ -226,18 +226,9 @@ function GenderPage() {
     <>
       {/* <Hero bannerImages={HomeBanner} css={" h-[40vh] sm:h-[60vh]"} /> */}
 
-      <section className="w-full min-h-[300px] relative  gap-5   ">
+      <section className="w-full min-h-[200px] relative  gap-5   ">
         <Breadcrumb className="w-full relative ">
-          <BreadcrumbList className="w-full relative h-auto flex items-center py-5 rounded-lg  px-5 lg:px-10 xl:px-20 2xl:px-40 ">
-            <BreadcrumbItem>
-              <BreadcrumbLink
-                href="/Home"
-                className=" text-sm md:text-base  text-primary cursor-pointer"
-              >
-                Home
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
+          <BreadcrumbList className="w-full relative h-auto flex items-center py-2 rounded-lg  px-5 lg:px-10 xl:px-20 2xl:px-40 ">
             <BreadcrumbItem>
               <BreadcrumbLink
                 href={`/collections`}
@@ -258,7 +249,7 @@ function GenderPage() {
           </BreadcrumbList>
         </Breadcrumb>
 
-        <div className="flex flex-col gap-2 px-5 lg:px-10 xl:px-20 2xl:px-40 ">
+        <div className="flex flex-col gap-1 px-5 lg:px-10 xl:px-20 2xl:px-40 ">
           <h1 className=" text-base md:text-xl lg:text-2xl xl:text-3xl font-semibold text-primary capitalize   ">
             Products - {productslug}{" "}
             {`${getallproductbaseongender.data
@@ -266,12 +257,12 @@ function GenderPage() {
               : ""
               }`}{" "}
           </h1>
-          <p className="text-gray-700 text-sm md:text-base">
+          <p className="text-gray-700 text-sm md:text-base line-clamp-2">
             Shop comfortable and stylish {productslug} footwear online in India, designed for daily wear, office use, festive occasions, and casual outings.
           </p>
         </div>
 
-        <section className="w-full relative gap-2 items-center   mt-8  h-auto flex border-b border-gray-400 pb-3  px-5 lg:px-10 xl:px-20 2xl:px-40  ">
+        <section className="w-full relative gap-2 items-center   mt-3  h-auto flex border-b border-gray-400 pb-3  px-5 lg:px-10 xl:px-20 2xl:px-40  ">
           <Swiper
             slidesPerView={"auto"}
             className="mySwiper w-full  relative h-auto  "
@@ -288,7 +279,7 @@ function GenderPage() {
           </Swiper>
         </section>
 
-        <section className="w-full min-h-[300px] mt-5 relative  gap-10  bg-gray-200   ">
+        <section className="w-full min-h-[300px] mt-2 relative  gap-10  bg-gray-200   ">
           <span className=" z-20 bg-gray-200 flex items-center border-b border-white w-full justify-between h-fit sticky top-14  py-5 px-5 lg:px-10 xl:px-20 2xl:px-40">
             <ProductFilter
               gender={productslug}
@@ -301,9 +292,9 @@ function GenderPage() {
             />
           </span>
 
-          <div className="w-full gap-5  relative flex flex-col  px-5 lg:px-10 xl:px-20 2xl:px-40  py-5 lg:py-10 ">
+          <div className="w-full gap-5  relative flex flex-col  px-3 lg:px-10 xl:px-20 2xl:px-40  py-5 lg:py-10 ">
             {collectionAlongWithLoading ? (
-              <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3  lg:grid-cols-4  items-start justify-start gap-3 px-5  lg:px-10   ">
+              <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3  lg:grid-cols-4  items-start justify-start gap-3 px-2  lg:px-10   ">
                 <ProductCardSkeleton />
                 <ProductCardSkeleton />
                 <ProductCardSkeleton />
@@ -318,7 +309,7 @@ function GenderPage() {
                 }
                 url={"product"}
                 css=" gap-2 grid-cols-2 md:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-200 "
-                productsCardCss=" h-[170px] aspect-square md:aspect-auto  sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
+                productsCardCss=" h-[180px] object-cover  sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
               />
             ) : (
               <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3  lg:grid-cols-4   items-start justify-start gap-3 px-5  lg:px-10   ">

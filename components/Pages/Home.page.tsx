@@ -125,7 +125,7 @@ function HomePage() {
                       alt={imageData?.name || collection?.name}
                       height={80}
                       width={80}
-                      className="object-cover aspect-square h-[85px] w-[85px] object-bottom rounded-full border border-gray-300"
+                      className="object-cover aspect-square h-[85px] w-[85px] object-bottom rounded-2xl border border-gray-300"
                     />
                   )}
 
@@ -209,7 +209,7 @@ function HomePage() {
         <Swiper
           breakpoints={{
             0: {
-              slidesPerView: 1.3, // mobile
+              slidesPerView: 1.2, // mobile
             },
             640: {
               slidesPerView: 2, // tablet
@@ -242,8 +242,8 @@ function HomePage() {
                     key={collec.id || index}
                     collections={collec}
                     url="collections/women/"
-                    imageClass="   h-[260px] md:h-[280px] lg:h-[320px] 2xl:h-[450px] w-full border  rounded-lg object-cover relative  transition-all duration-100"
-                    className="relative h-full  w-full  bg-gray-200 cursor-pointer group rounded-lg flex flex-col items-start justify-center gap-4 p-1 "
+                    imageClass="   h-[260px] md:h-[300px] lg:h-[320px] 2xl:h-[450px] w-full border  rounded-lg object-cover relative  transition-all duration-100"
+                    className="relative h-full  w-full   cursor-pointer group rounded-lg flex flex-col items-start justify-center gap-4  "
                   />
                 </SwiperSlide>
               ))
@@ -277,7 +277,7 @@ function HomePage() {
 
 
       {isLoading ? (
-        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10 xl:px-20 2xl:px-40">
+        <div className="grid grid-cols-2  lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10 xl:px-20 2xl:px-40">
           <ProductCardSkeleton />
           <ProductCardSkeleton />
           <ProductCardSkeleton />
@@ -298,7 +298,7 @@ function HomePage() {
                 <CarouselProduct
                   url="product"
                   product={item.products.slice(0, 10)}
-                  productsCardCss=" h-[200px]  sm:h-[300px] md:h-[350px] lg:h-[400px]"
+                  productsCardCss="  h-[230px] object-cover   sm:h-[300px] md:h-[350px] lg:h-[400px]"
                 />
               </CategoriesSection>
             )
@@ -307,10 +307,9 @@ function HomePage() {
         <></>
       )}
 
-      <KeyMatric />
 
       {isLoading ? (
-        <div className="grid grid-cols-2  py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10 xl:px-20 2xl:px-40">
+        <div className="grid grid-cols-2   lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10 xl:px-20 2xl:px-40">
           <ProductCardSkeleton />
           <ProductCardSkeleton />
           <ProductCardSkeleton />
@@ -331,7 +330,7 @@ function HomePage() {
                 <CarouselProduct
                   url="product"
                   product={item.products.slice(0, 10)}
-                  productsCardCss=" h-[200px]   sm:h-[300px] md:h-[350px] lg:h-[400px]"
+                  productsCardCss=" h-[230px]  object-cover sm:h-[300px] md:h-[350px] lg:h-[400px]"
                 />
               </CategoriesSection>
             )

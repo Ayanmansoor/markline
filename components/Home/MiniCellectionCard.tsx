@@ -17,13 +17,13 @@ function MiniCollectionCard({ collections, url }: newCollectionCardProps) {
           key={index}
           src={item?.image_url || "/dummy-image.jpg"}
           alt={item?.name || "No Image"}
-          className=" w-full border h-[150px] md:h-[180px] lg:h-[250px] relative rounded-md object-cover hover:scale-[1.010] transition-all duration-100"
+          className=" w-full border h-[160px] md:h-[180px] lg:h-[230px] relative rounded-md object-bottom object-cover hover:scale-[1.010] transition-all duration-100"
           loading="lazy"
           height={300}
           width={300}
         />
       ))}
-      <h2 className=" text-sm  font-medium  bottom-3 line-clamp-1  text-center w-full  duration-500   py-1  z-10   text-primary uppercase px-3 ">
+      <h2 className=" text-xs md:text-sm  font-medium  bottom-3 line-clamp-1  text-center w-full  duration-500   py-1  z-10   text-primary uppercase px-3 ">
         {collections.name}
       </h2>
     </Link>

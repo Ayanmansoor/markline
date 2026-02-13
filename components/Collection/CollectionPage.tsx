@@ -220,17 +220,9 @@ function CategoryL2page() {
     <>
       {/* <L2Banner data={HomeBanner} />/ */}
 
-      <Breadcrumb className="w-full relative  px-5 lg:px-10 xl:px-20 2xl:px-40">
-        <BreadcrumbList className="w-full relative h-auto flex items-center py-5 rounded-lg px-3 ">
-          <BreadcrumbItem>
-            <BreadcrumbLink
-              href="/Home"
-              className=" text-sm md:text-base  text-primary cursor-pointer"
-            >
-              Home
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
+      <Breadcrumb className="w-full relative  px-2 lg:px-10 xl:px-20 2xl:px-40">
+        <BreadcrumbList className="w-full relative h-auto flex items-center py-2 rounded-lg px-2 ">
+        
           <BreadcrumbItem>
             <BreadcrumbLink
               href={`/collections`}
@@ -257,7 +249,7 @@ function CategoryL2page() {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <div className="flex flex-col gap-2 w-full relative  px-5 lg:px-10 xl:px-20 2xl:px-40 pb-4 pt-4">
+      <div className="flex flex-col gap-2 w-full relative  px-3 lg:px-10 xl:px-20 2xl:px-40 ">
         <h1 className=" text-xl md:text-xl lg:text-2xl xl:text-3xl font-semibold text-primary  capitalize ">
           {nslug?.split("-").join(" ")}{" "}
         </h1>
@@ -284,7 +276,7 @@ function CategoryL2page() {
             </section> */}
 
       <section className="w-full min-h-[300px] mt-5 relative  gap-10  bg-gray-200  ">
-        <span className=" flex items-center border-b border-white w-full justify-between h-fit sticky top-14 z-30 bg-gray-200   py-5 px-5 lg:px-10 xl:px-20 2xl:px-40 ">
+        <span className=" flex items-center border-b border-white w-full justify-between h-fit sticky top-14 z-30 bg-gray-200   py-5 px-2 lg:px-10 xl:px-20 2xl:px-40 ">
           <ProductFilter
             gender={gslug}
             collection={genderCollection.data}
@@ -297,9 +289,9 @@ function CategoryL2page() {
           />
         </span>
 
-        <div className="w-full gap-5  relative flex flex-col px-5 lg:px-10 xl:px-20 2xl:px-40 pt-3 md:pt-5 lg:pt-10 ">
+        <div className="w-full gap-5  relative flex flex-col px-2 lg:px-10 xl:px-20 2xl:px-40 pt-3 md:pt-5 lg:pt-10 ">
           {isLoading ? (
-            <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3  lg:grid-cols-4  items-start justify-start gap-3 px-5  lg:px-10   ">
+            <div className="grid py-5 lg:py-10 grid-cols-2 md:grid-cols-3  lg:grid-cols-4  items-start justify-start gap-3 px-2  lg:px-10   ">
               <ProductCardSkeleton />
               <ProductCardSkeleton />
               <ProductCardSkeleton />
@@ -312,7 +304,7 @@ function CategoryL2page() {
               data={filterProducts ? filterProducts : products}
               url={"product"}
               css=" grid-cols-2 md:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-200  gap-2 lg:gap-3"
-              productsCardCss=" h-[150px]  sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
+              productsCardCss="h-[180px] object-cover  sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
             />
           ) : (
             <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3  lg:grid-cols-4   items-start justify-start gap-3 px-2 md:px-5  lg:px-10   ">
@@ -323,7 +315,7 @@ function CategoryL2page() {
             </div>
           )}
 
-          <section className="w-full relative h-auto flex items-end justify-end pt-10 ">
+          {/* <section className="w-full relative h-auto flex items-end justify-end pt-10 ">
             {products?.length >= productShow && (
               <button
                 className="w-fit relative h-auto text-base font-medium border cursor-pointer px-3 py-2  bg-primary text-white "
@@ -332,18 +324,18 @@ function CategoryL2page() {
                 Show More
               </button>
             )}
-          </section>
+          </section> */}
         </div>
       </section>
 
 
 
 
-      <section className="w-full relative flex flex-col gap-5 py-5 pb-10 px-5 lg:px-10 xl:px-20 2xl:px-40">
+      <section className="w-full relative flex flex-col gap-5 py-5 pb-10 px-2 lg:px-10 xl:px-20 2xl:px-40">
 
 
 
-        <div className="py-10 flex flex-col gap-10 no-scrollbar overflow-y-auto">
+        <div className="py-2 flex flex-col gap-10 no-scrollbar overflow-y-auto">
 
           <section>
             <h2 className="text-md md:text-lg lg:text-xl font-semibold mb-4">
