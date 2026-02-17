@@ -143,7 +143,7 @@ function ProductPage() {
           :
           relatedProducts.length > 0 ?
             <CategoriesSection title={"You may also like  "} url={'products/women'} urltext='products' >
-              <CarouselProduct url={'product'} product={relatedProducts} css=' sm:max-w-[500px]' productsCardCss=" h-[170px] aspect-square md:aspect-auto  sm:h-[350px] md:h-[350px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]" />
+              <CarouselProduct url={'product'} product={relatedProducts} css=' sm:max-w-[500px]' productsCardCss=" h-[230px] object-cover sm:h-[350px] md:h-[350px] xl:[350px] 2xl:h-[350px] 3xl:h-[350px]" />
             </CategoriesSection >
             :
             <div className="grid grid-cols-2 py-10 lg:py-20 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3  px-5 lg:px-10 xl:px-20 2xl:px-40   ">
@@ -154,20 +154,7 @@ function ProductPage() {
             </div>
       }
 
-      {/* 
-      {
-        wishlist.length > 0 &&
-        <CategoriesSection title={"Your Wishlist Products "} url={'products'} >
-          <CarouselProduct url={'products'} product={wishlist} />
-        </CategoriesSection >
-      } */}
-      {/* {
-      wishlist.length > 0 &&
-      <CategoriesSection title={"Your Whishlist Products "} url={'products'} >
-        <WihlistCardSection url={'products'} />
-      </CategoriesSection >
-    }
-       */}
+
 
       <section className='w-full relative flex flex-col gap-5 px-5 lg:px-10 xl:px-20 2xl:px-40 pb-10'>
 

@@ -47,7 +47,7 @@ const allSizes = [
     { size: "39", unit: "EU" },
     { size: "40", unit: "EU" },
     { size: "41", unit: "EU" },
-  
+
 ];
 function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutProps) {
     const { addToCart, isInCart, updateQuantity, getCartProduct } = useCartContext();
@@ -249,49 +249,49 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
         );
     return (
         <>
-            <div className=' flex items-start gap-3  h-fit relative md:sticky md:top-14  flex-col w-full md:w-[35%] py-5 md:pl-5  lg:pl-10 '>
+            <div className=' flex items-start gap-2 md:gap-3  h-fit relative md:sticky md:top-14  flex-col w-full md:w-[35%] py-5 md:pl-5  lg:pl-10 '>
 
-                <div className='flex items-center justify-between   w-full relative '>
-                    <p className='  text-sm font-semibold items-center gap-1  '>{product?.gender}</p>
-                    {/* <p className='  text-sm font-medium text-primary ' aria-label='Product For Running'>
-                        <CustomReview />
-                    </p> */}
+                <div className='flex items-center justify-between flex-col border-b border-gray-200 pb-2  w-full relative '>
+                    <p className=' text-xs  sm:text-sm font-medium text-start gap-1  '>{product?.gender}</p>
+                    <div className='flex flex-col gap-1 w-full relative'>
+                        <h1 className=' text-lg md:text-xl  lg:text-2xl xl:text-3xl font-bold   uppercase' aria-label={product?.name} >{product?.name}</h1>
+                    </div>
+
+                    <div className='flex justify-between flex-col xl:flex-row  items-start sm:items-start w-full relative  py-2 md:py-3'>
+                        <h2 className=' text-sm md:text-p18 font-normal flex items-center gap-2 '>
+                            {
+                                variant?.discounts?.discount_persent ?
+                                    <>
+
+                                        <p className=' text-xl lg:text-2xl md:text-3xl  font-normal text-red-400 line-through text-nowrap '>₹ {variant?.price}</p>
+                                        <p className=' text-2xl lg:text-3xl  xl:text-4xl  font-semibold text-nowrap text-primary px-2 '>
+
+                                            ₹ {getDiscountedPrice(
+                                                variant?.price,
+                                                variant?.discounts?.discount_persent
+                                            )}
+                                        </p>
+                                        <p className="  font-semibold   py-1  text-red-500   text-nowrap flex w-fit text-base lg:text-lg">
+                                            - {variant?.discounts?.discount_persent} % OFF
+                                        </p>
+                                    </>
+                                    :
+                                    <p className='text-2xl lg:text-4xl  font-medium text-nowrap text-black'>₹ {variant?.price}</p>
+
+                            }
+
+                        </h2>
+                        {/* <p className='text-sm font-normal text-fontPrimary py-3 '>Includes all taxs</p> */}
+
+                    </div>
                 </div>
-                <div className='flex flex-col gap-1 w-full relative'>
-                    <h1 className=' text-lg md:text-xl  lg:text-2xl xl:text-3xl font-bold   uppercase' aria-label={product?.name} >{product?.name}</h1>
 
-                </div>
-                <div className='flex justify-between flex-col xl:flex-row  items-start sm:items-start w-full relative  py-2 md:py-3'>
-                    <h2 className=' text-sm md:text-p18 font-normal flex items-center gap-2 '>
-                        {
-                            variant?.discounts?.discount_persent ?
-                                <>
 
-                                    <p className=' text-xl lg:text-2xl md:text-3xl  font-normal text-red-400 line-through text-nowrap '>₹ {variant?.price}</p>
-                                    <p className=' text-2xl lg:text-3xl  xl:text-4xl  font-semibold text-nowrap text-primary px-2 '>
 
-                                        ₹ {getDiscountedPrice(
-                                            variant?.price,
-                                            variant?.discounts?.discount_persent
-                                        )}
-                                    </p>
-                                    <p className="  font-semibold   py-1  text-red-500   text-nowrap flex w-fit text-base lg:text-lg">
-                                        - {variant?.discounts?.discount_persent} % OFF
-                                    </p>
-                                </>
-                                :
-                                <p className='text-2xl lg:text-4xl  font-medium text-nowrap text-black'>₹ {variant?.price}</p>
-
-                        }
-
-                    </h2>
-                    {/* <p className='text-sm font-normal text-fontPrimary py-3 '>Includes all taxs</p> */}
-
-                </div>
                 <SizeChartModal />
 
 
-                <div className='flex items-center   relative flex-col gap-2 w-full '>
+                <div className='flex items-center   relative flex-col gap-2 w-full  border-b border-gray-200 pb-3'>
 
                     <p className='text-sm  md:text-base text-gray-900 font-semibold flex items-center  justify-between w-full'>More Color :
                         {/* 
@@ -345,7 +345,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                 {/* Size section */}
                 {parsedSizes?.length > 0 && (
                     <>
-                        <p className='text-sm  md:text-base font-semibold w-full text-gray-900'>Select Size (UK):</p>
+                        <p className='text-sm  md:text-base font-medium w-full text-gray-900'>Select Size (UK):</p>
                         <div className='grid grid-cols-7 gap-2 w-full'>
                             {allSizes.map((item, index) => {
                                 const available = isSizeAvailable(item);
@@ -355,7 +355,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                                         key={index}
                                         onClick={() => available && handleSizeClick(item)}
                                         className={`
-                                                relative py-2  text-center border font-normal
+                                                relative py-2 text-xs md:text-sm md:py-2  text-center border font-normal
                                                 ${available ? "cursor-pointer hover:bg-black hover:text-white" : "cursor-not-allowed opacity-50"}
                                                 ${selectedSize?.size === item.size
                                                 ? "bg-primary border-transparent text-white"
@@ -409,9 +409,9 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
 
                 </div>
 
-                <div className='w-full relative flex items-start flex-col  justify-between gap-3'>
-                    <p className='text-base font-semibold text-fontPrimary  mt-3 mb-3'>
-                        Estd. Delivery by 7 working days
+                <div className='w-full relative flex items-start flex-col  justify-between'>
+                    <p className='  text-sm md:text-base font-medium text-fontPrimary  mt-3 mb-3'>
+                        Estd. Dispatch 5 working days
                     </p>
 
                     <img src="/checkout-image.png" alt="checkout image" height={400} width={400} className="w-full realtive h-auto " />

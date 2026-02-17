@@ -119,14 +119,14 @@ function CartCard({ data }: any) {
                         pagination={{
                             dynamicBullets: true
                         }}
-                        className="mySwiper max-w-[150px] md:max-w-[150px]  realtive max-h-[200px] md:max-h-[150px]"
+                        className="mySwiper max-w-[100px] md:max-w-[130px]  realtive max-h-[200px] md:max-h-[150px]"
                     >
 
                         {
                             StringifyImages &&
                             StringifyImages?.map((image, index: number) => (
-                                <SwiperSlide className=' max-w-[150px] md:max-w-[150px] rounded-lg max-h-[250px] md:max-h-[120px] relative border overflow-hidden' key={index}>
-                                    <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className={` aspect-square  w-full transition-all duration-100 ease-in-out object-contain sm:object-cover hover:scale-[1.010] max-h-[220px] sm:max-h-[150px]  `} height={200} width={300} loading='lazy' />
+                                <SwiperSlide className=' max-w-[140px] md:max-w-[100px] rounded-lg max-h-[250px] md:max-h-[120px] relative border overflow-hidden' key={index}>
+                                    <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className={` aspect-square  w-full transition-all duration-100 object-cover sm:object-cover hover:scale-[1.010] max-h-[220px] sm:max-h-[150px]  `} height={200} width={300} loading='lazy' />
                                 </SwiperSlide>
                             ))
                         }

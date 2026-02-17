@@ -222,7 +222,7 @@ function CategoryL2page() {
 
       <Breadcrumb className="w-full relative  px-2 lg:px-10 xl:px-20 2xl:px-40">
         <BreadcrumbList className="w-full relative h-auto flex items-center py-2 rounded-lg px-2 ">
-        
+
           <BreadcrumbItem>
             <BreadcrumbLink
               href={`/collections`}
@@ -304,7 +304,7 @@ function CategoryL2page() {
               data={filterProducts ? filterProducts : products}
               url={"product"}
               css=" grid-cols-2 md:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-200  gap-2 lg:gap-3"
-              productsCardCss="h-[180px] object-cover  sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
+              productsCardCss=" h-[160px] object-cover sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
             />
           ) : (
             <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3  lg:grid-cols-4   items-start justify-start gap-3 px-2 md:px-5  lg:px-10   ">

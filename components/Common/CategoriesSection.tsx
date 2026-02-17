@@ -22,7 +22,7 @@ function CategoriesSection({ children, title, url, urltext, subtitle, isH1 }: Ca
                 </span>
                 {
                     url &&
-                    <Link href={`/${url}`} className='text-[12px] sm:text-sm xl:text-lg w-fit self-end  font-medium text-foreground flex items-center gap-[2px] sm:gap-1 capitalize' >{urltext} <GoArrowUpRight className='text-[12px] sm:text-[20px] ' /> </Link>
+                    <Link href={`/${url}`} className='text-[12px] sm:text-sm xl:text-lg w-fit self-end  font-medium text-foreground flex items-center text-green-500 gap-[2px] sm:gap-1 capitalize' >{urltext} <GoArrowUpRight className='text-[12px] sm:text-[20px] ' /> </Link>
                 }
             </div>
             <section className='w-full relative h-auto bg-transparent  '>

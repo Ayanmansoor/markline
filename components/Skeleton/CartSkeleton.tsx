@@ -15,13 +15,8 @@ function CartSkeleton() {
                 <Skeleton className="h-4 w-full sm:w-1/2 bg-gray-200" />
             </div>
 
-            {/* Price and Quantity */}
-            <div className="flex flex-col items-end ml-4 space-y-2">
-                {/* Price Skeleton */}
-                <Skeleton className="h-6 w-20 bg-gray-200" />
-                {/* Quantity Selector Skeleton */}
-                <Skeleton className="h-10 w-24 rounded-md bg-gray-200" />
-            </div>
+
+
         </div>
     )
 }
