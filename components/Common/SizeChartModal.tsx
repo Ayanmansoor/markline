@@ -18,9 +18,9 @@ export function SizeChartModal() {
 
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <button className="text-sm  text-green-500 font-semibold flex items-center  gap-3">
+                <button className="text-sm  text-[#128C7E] font-semibold flex items-center  gap-3">
                     View Size Chart
-                    <PencilRuler size={20} className="text-green-600" />
+
                 </button>
             </DialogTrigger>
 

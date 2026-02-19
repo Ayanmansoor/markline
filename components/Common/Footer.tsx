@@ -116,7 +116,7 @@ function Footer() {
 
           <div className='relative h-auto  justify-self-start '>
             <h2 className='text-p20 font-medium mb-4 border-b w-fit pr-5'>
-              Subscrib Us
+              Subcribe Us
             </h2>
             <form action='' onSubmit={handleSubmit(onSubmit)} className='flex items-start flex-col text-p18  justify-start gap-3'>
               <input type="text" className='w-full relative h-atuo py-2 cursor-pointer px-2 border-b border-white bg-transparent placeholder:text-white placeholder:text-sm text-base' placeholder='Enter Your Email' {...register('email')} />

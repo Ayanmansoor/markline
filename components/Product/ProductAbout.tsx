@@ -334,7 +334,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                 <div className='flex items-center justify-start'>
                     {
                         variant.stock >= 0 ?
-                            <p className='text-base font-semibold text-green-500'> In Stock </p>
+                            <p className='text-base font-semibold text-[#128C7E]'> In Stock </p>
                             :
                             <p className='text-base font-semibold text-gray-800 '> Out Of Stock</p>
 

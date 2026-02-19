@@ -42,7 +42,7 @@ function CarouselProduct({ url, product, css, productsCardCss }: newCarouselProd
                 <Swiper
                     slidesPerView={"auto"}
                     direction={"horizontal"}
-                    spaceBetween={10}
+                    spaceBetween={15}
                     autoplay={{
                         delay: 3000, // Adjust this value as needed (time between slides in ms)
                         disableOnInteraction: false, // Ensures autoplay continues after interaction
