@@ -625,6 +625,21 @@ async function getProductDataSitemap() {
   }
 }
 
+
+
+async function getAllHeader() {
+  try {
+    const { data, error } = await mysupabase.from("header").select("*").eq("isActive", true);
+
+    if (error) {
+      return new Error(error.message);
+    }
+
+    return data;
+  } catch (error) { }
+}
+
+
 export {
   getAllBanner,
   getAllTrendingProducts,
@@ -661,6 +676,8 @@ export {
   getAllProductsWithVariants,
   fetchGroupOfProducts,
   getProductDataSitemap,
-  
+
   fetchGroupOfPRoductss,
+
+  getAllHeader
 };

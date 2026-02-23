@@ -32,6 +32,8 @@ import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
 
+import { motion, Variants } from "framer-motion";
+
 function HomePage() {
   const [selected, setSelected] = useState("women");
 
@@ -95,6 +97,11 @@ function HomePage() {
     //   img: "/genz-collection-image.png",
     // },
   ];
+
+  const fadeInVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  } as const;
 
   return (
     <>
@@ -177,7 +184,13 @@ function HomePage() {
       )} */}
 
 
-      <section className="w-full  relative flex-col gap-5  2xl:gap-10 items-start  mt-7 lg:mt-10 h-auto flex pb-3 px-5 lg:px-10 xl:px-20 2xl:px-40 py-5 lg:py-10">
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={fadeInVariants}
+        className="w-full  relative flex-col gap-5  2xl:gap-10 items-start  mt-7 lg:mt-10 h-auto flex pb-3 px-5 lg:px-10 xl:px-20 2xl:px-40 py-5 lg:py-10"
+      >
         <div className="w-full relative flex items-center justify-between ">
           <h1 className="text-lg md:text-2xl xl:text-3xl font-semibold text-primary uppercase">
             Shop By Collections
@@ -262,7 +275,7 @@ function HomePage() {
               No collections found for <strong>{selected}</strong>.
             </div>
           )}
-      </section>
+      </motion.section>
       {/* <Link
         href={"/collections"}
         className=" text-xs md:text-base px-5 py-2 rounded-full hover:bg-white border-primary hover:text-primary hover:border-black self-center justify-self-center relative font-medium text-white flex items-center justify-center gap-2 bg-primary cursor-pointer group"
@@ -288,19 +301,26 @@ function HomePage() {
         groupOfProducts?.data?.slice(0, 2)?.map(
           (item: any, index: number) =>
             item.products?.length > 0 && (
-              <CategoriesSection
-                title={`${item?.heading} `}
-                subtitle={`${item?.discription}`}
-                url={`${item?.url}`}
-                urltext={`${item?.urlText}`}
+              <motion.div
                 key={index}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+                variants={fadeInVariants}
               >
-                <CarouselProduct
-                  url="product"
-                  product={item.products.slice(0, 10)}
-                  productsCardCss="  h-[230px] object-cover   sm:h-[300px] md:h-[350px] lg:h-[400px]"
-                />
-              </CategoriesSection>
+                <CategoriesSection
+                  title={`${item?.heading} `}
+                  subtitle={`${item?.discription}`}
+                  url={`${item?.url}`}
+                  urltext={`${item?.urlText}`}
+                >
+                  <CarouselProduct
+                    url="product"
+                    product={item.products.slice(0, 10)}
+                    productsCardCss="  h-[230px] object-cover   sm:h-[300px] md:h-[350px] lg:h-[400px]"
+                  />
+                </CategoriesSection>
+              </motion.div>
             )
         )
       ) : (
@@ -320,19 +340,26 @@ function HomePage() {
         groupOfProducts?.data?.slice(2, 4)?.map(
           (item: any, index: number) =>
             item.products?.length > 0 && (
-              <CategoriesSection
-                title={`${item?.heading} `}
-                subtitle={`${item?.discription}`}
-                url={`${item?.url}`}
-                urltext={`${item?.urlText}`}
+              <motion.div
                 key={index}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+                variants={fadeInVariants}
               >
-                <CarouselProduct
-                  url="product"
-                  product={item.products.slice(0, 10)}
-                  productsCardCss=" h-[230px]  object-cover sm:h-[300px] md:h-[350px] lg:h-[400px]"
-                />
-              </CategoriesSection>
+                <CategoriesSection
+                  title={`${item?.heading} `}
+                  subtitle={`${item?.discription}`}
+                  url={`${item?.url}`}
+                  urltext={`${item?.urlText}`}
+                >
+                  <CarouselProduct
+                    url="product"
+                    product={item.products.slice(0, 10)}
+                    productsCardCss=" h-[230px]  object-cover sm:h-[300px] md:h-[350px] lg:h-[400px]"
+                  />
+                </CategoriesSection>
+              </motion.div>
             )
         )
       ) : (
@@ -365,7 +392,14 @@ function HomePage() {
         </CategoriesSection>
       )} */}
 
-      <LeatestCollection url={"collections"} />
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+        variants={fadeInVariants}
+      >
+        <LeatestCollection url={"collections"} />
+      </motion.div>
     </>
   );
 }
