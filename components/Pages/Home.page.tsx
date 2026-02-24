@@ -298,7 +298,7 @@ function HomePage() {
           <ProductCardSkeleton />
         </div>
       ) : groupOfProducts?.data?.length > 0 ? (
-        groupOfProducts?.data?.slice(0, 2)?.map(
+        groupOfProducts?.data?.slice(0, 3)?.reverse()?.map(
           (item: any, index: number) =>
             item.products?.length > 0 && (
               <motion.div
@@ -337,7 +337,7 @@ function HomePage() {
           <ProductCardSkeleton />
         </div>
       ) : groupOfProducts?.data?.length > 0 ? (
-        groupOfProducts?.data?.slice(2, 4)?.map(
+        groupOfProducts?.data?.slice(3, 5)?.reverse()?.map(
           (item: any, index: number) =>
             item.products?.length > 0 && (
               <motion.div
