@@ -197,7 +197,7 @@ function HomePage() {
           </h1>
           <Link
             href={"/collections"}
-            className="text-sm md:text-base lg:text-lg text-[#128C7E] rounded-md  self-center justify-self-center relative font-medium  flex items-center justify-center gap-2  cursor-pointer group"
+            className="text-sm md:text-base lg:text-lg text-primary rounded-md  self-center justify-self-center relative font-medium  flex items-center justify-center gap-2  cursor-pointer group"
           >
             View{" "}
             <ArrowUpRight className="text-[#128C7E] text-[10px] md:text-[15px] " />

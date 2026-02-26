@@ -77,20 +77,38 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 // --- Provider Component ---
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cart, setCart] = useState<newCartItem[]>(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('cart');
-      return stored ? JSON.parse(stored) : [];
+  const [cart, setCart] = useState<newCartItem[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const storage = window.localStorage;
+      if (storage) {
+        const stored = storage.getItem('cart');
+        if (stored) {
+          setCart(JSON.parse(stored));
+        }
+      }
+    } catch (error) {
+      console.error('CartProvider: Failed to load cart from localStorage:', error);
     }
-    return [];
-  });
-
-
+    setIsInitialized(true);
+  }, []);
 
   // Sync to localStorage
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
+    if (!isInitialized || typeof window === 'undefined') return;
+    try {
+      const storage = window.localStorage;
+      if (storage) {
+        storage.setItem('cart', JSON.stringify(cart));
+      }
+    } catch (error) {
+      console.error('CartProvider: Failed to sync cart to localStorage:', error);
+    }
+  }, [cart, isInitialized]);
 
   // Add item to cart
   const addToCart = (item: newCartItem) => {
