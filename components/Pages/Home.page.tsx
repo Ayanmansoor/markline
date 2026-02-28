@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
+import OfferPopupDialog from "../Common/OfferPopupDialog";
 import Hero from "../Common/Hero";
 import CategoriesSection from "../Common/CategoriesSection";
 import Discount from "../Discounts/Discount";
@@ -105,6 +106,7 @@ function HomePage() {
 
   return (
     <>
+      <OfferPopupDialog />
       <section className="w-full relative gap-2 items-center px-3 md:px-5 lg:px-10 py-3 h-auto flex lg:hidden border-b border-gray-300">
         <Swiper
           slidesPerView="auto"
@@ -200,7 +202,7 @@ function HomePage() {
             className="text-sm md:text-base lg:text-lg text-primary rounded-md  self-center justify-self-center relative font-medium  flex items-center justify-center gap-2  cursor-pointer group"
           >
             View{" "}
-            <ArrowUpRight className="text-[#128C7E] text-[10px] md:text-[15px] " />
+            <ArrowUpRight size={20} className="text-primary   " />
           </Link>
         </div>
 
@@ -255,7 +257,7 @@ function HomePage() {
                     key={collec.id || index}
                     collections={collec}
                     url="collections/women/"
-                    imageClass="   h-[260px] md:h-[300px] lg:h-[320px] 2xl:h-[450px] w-full border  rounded-lg object-cover relative  transition-all duration-100"
+                    imageClass="   h-[300px] md:h-[300px] lg:h-[320px] 2xl:h-[450px] w-full border  rounded-lg object-cover relative  transition-all duration-100 object-bottom"
                     className="relative h-full  w-full   cursor-pointer group rounded-lg flex flex-col items-start justify-center gap-4  "
                   />
                 </SwiperSlide>

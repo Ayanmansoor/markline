@@ -13,7 +13,7 @@ interface IsProductIntefrce {
 interface wishlishtinterfce {
   wishlist: whishlishtProps[],
   addToWishlist: (data: whishlishtProps) => void,
-  removeFromWishlist: ({ productId}: IsProductIntefrce) => void,
+  removeFromWishlist: ({ productId }: IsProductIntefrce) => void,
   isProductInWishlist: ({ productId }: IsProductIntefrce) => boolean,
   clearWishlist: () => void,
 }
@@ -24,37 +24,37 @@ const WishlistContext = createContext<wishlishtinterfce | undefined>(undefined);
 function WishlistProvider({ children }: { children: React.ReactNode }) {
   const [wishlist, setWishlist] = useState<whishlishtProps[]>([]);
 
-  useEffect(() => {
-    const savedWishlist = localStorage.getItem("wishlist");
-    if (savedWishlist) {
-      setWishlist(JSON.parse(savedWishlist));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const savedWishlist = localStorage.getItem("wishlist");
+  //   if (savedWishlist) {
+  //     setWishlist(JSON.parse(savedWishlist));
+  //   }
+  // }, []);
 
   const clearWishlist = () => {
     setWishlist([]);
   };
 
-  useEffect(() => {
-    if (wishlist.length > 0) {
-      localStorage.setItem("wishlist", JSON.stringify(wishlist));
-    } else {
-      localStorage.removeItem("wishlist");
-    }
-  }, [wishlist]);
+  // useEffect(() => {
+  //   if (wishlist.length > 0) {
+  //     localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  //   } else {
+  //     localStorage.removeItem("wishlist");
+  //   }
+  // }, [wishlist]);
 
   const addToWishlist = (data: whishlishtProps) => {
     setWishlist((prevWishlist) => {
       const exists = prevWishlist.some(
         (item) =>
-          item.productId === data.productId 
+          item.productId === data.productId
       );
 
       if (exists) {
         return prevWishlist.filter(
           (item) =>
             !(
-              item.productId === data.productId 
+              item.productId === data.productId
             )
         );
       } else {
@@ -72,7 +72,7 @@ function WishlistProvider({ children }: { children: React.ReactNode }) {
       prevWishlist.filter(
         (item) =>
           !(
-            item.productId === productId 
+            item.productId === productId
           )
       )
     );

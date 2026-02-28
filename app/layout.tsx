@@ -14,6 +14,7 @@ import OrderConfirmed from "@/components/Common/OrderConfirm";
 import { Toaster } from "@/components/ui/sonner";
 import Header from "@/components/Common/Header";
 import Script from "next/script";
+import FloatingWhatsApp from "@/components/Common/FloatingWhatsApp";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -183,6 +184,7 @@ export default function RootLayout({
               <Footer />
               <Toaster />
               <OrderConfirmed />
+              <FloatingWhatsApp />
             </CartProvider>
           </WishlistProvider>
         </Provider>

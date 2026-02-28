@@ -377,9 +377,9 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                 )}
 
                 <div className='w-full fixed bottom-0 px-4 flex-wrap sm:px-0 bg-white sm:bg-transparent py-2 sm:py-0  z-30 grid-cols-[1fr_auto] md:grid-cols-1 lg:grid-cols-[1fr_auto] gap-3 right-0 grid   items-center sm:relative  '>
-                    <div className='w-full relative grid grid-cols-2 gap-2 md:gap-1 lg:gap-2 '>
+                    {/* <div className='w-full relative grid grid-cols-2 gap-2 md:gap-1 lg:gap-2 '> */}
 
-                        {
+                    {/* {
                             (variant?.id && selectedColor?.name && selectedSize?.size) &&
                                 isInCart({ variantId: variant.id, colorName: selectedColor.name, size: selectedSize.size }) ?
 
@@ -397,15 +397,15 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                                 >
                                     Add to Cart
                                 </button>
-                        }
+                        } */}
 
-                        {/* <BuyDailog product={{ ...product, selectedColor: selectedColor, selectedSize: selectedSize, quantity: qty }} selectedVariant={variant}>
+                    {/* <BuyDailog product={{ ...product, selectedColor: selectedColor, selectedSize: selectedSize, quantity: qty }} selectedVariant={variant}>
                             <button disabled={selectedColor?.name && selectedSize?.size ? false : true} className=' w-full relative  xl:px-5 py-2 md:py-4 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' >Buy Now</button>
                         </BuyDailog> */}
-                        <WhatsAppButton product={product} variant={variant} />
-                        {/* <BuyProduct product={{ ...product, selectedColor: productcart.colors.color, selectedSize: productcart.sizes.size, quantity: productcart.quentitys.quentity }}/> */}
-                        {/* </AddToCardPopver>       */}
-                    </div>
+                    <WhatsAppButton product={product} variant={variant} />
+                    {/* <BuyProduct product={{ ...product, selectedColor: productcart.colors.color, selectedSize: productcart.sizes.size, quantity: productcart.quentitys.quentity }}/> */}
+                    {/* </AddToCardPopver>       */}
+                    {/* </div> */}
 
                 </div>
 

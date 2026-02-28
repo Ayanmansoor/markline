@@ -81,34 +81,34 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [isInitialized, setIsInitialized] = useState(false);
 
   // Load from localStorage on mount
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    try {
-      const storage = window.localStorage;
-      if (storage) {
-        const stored = storage.getItem('cart');
-        if (stored) {
-          setCart(JSON.parse(stored));
-        }
-      }
-    } catch (error) {
-      console.error('CartProvider: Failed to load cart from localStorage:', error);
-    }
-    setIsInitialized(true);
-  }, []);
+  // useEffect(() => {
+  //   if (typeof window === 'undefined') return;
+  //   try {
+  //     const storage = window.localStorage;
+  //     if (storage) {
+  //       const stored = storage.getItem('cart');
+  //       if (stored) {
+  //         setCart(JSON.parse(stored));
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error('CartProvider: Failed to load cart from localStorage:', error);
+  //   }
+  //   setIsInitialized(true);
+  // }, []);
 
   // Sync to localStorage
-  useEffect(() => {
-    if (!isInitialized || typeof window === 'undefined') return;
-    try {
-      const storage = window.localStorage;
-      if (storage) {
-        storage.setItem('cart', JSON.stringify(cart));
-      }
-    } catch (error) {
-      console.error('CartProvider: Failed to sync cart to localStorage:', error);
-    }
-  }, [cart, isInitialized]);
+  // useEffect(() => {
+  //   if (!isInitialized || typeof window === 'undefined') return;
+  //   try {
+  //     const storage = window.localStorage;
+  //     if (storage) {
+  //       storage.setItem('cart', JSON.stringify(cart));
+  //     }
+  //   } catch (error) {
+  //     console.error('CartProvider: Failed to sync cart to localStorage:', error);
+  //   }
+  // }, [cart, isInitialized]);
 
   // Add item to cart
   const addToCart = (item: newCartItem) => {

@@ -97,7 +97,7 @@ function Navbar() {
                             <Search height={23} className='  cursor-pointer' onClick={(es) => route.push("/search")} />
                         }
 
-                        <li className='flex gap-1 items-center text-p18 font-medium cursor-pointer'>
+                        {/* <li className='flex gap-1 items-center text-p18 font-medium cursor-pointer'>
                             <Link href={"/carts"} className='relative h-auto w-auto'>
                                 <ShoppingBag height={23} className='  text-primary' />
                                 {
@@ -105,7 +105,7 @@ function Navbar() {
                                     <p className='p-1 h-fit rounded-full text-[12px] leading-[0.6] absolute -top-2 -right-1 flex items-center justify-center w-fit font-normal bg-gray-800 text-white'>{cart?.length}</p>
                                 }
                             </Link>
-                        </li>
+                        </li> */}
 
                         {/* <NavUser /> */}
 
