@@ -51,50 +51,50 @@ export async function generateMetadata({ params }) {
 
 
 async function page({ params }) {
-
-  const slug = params?.slug
+  const slug = params?.slug;
   const product = await getProductData(slug);
-
 
   if (!product) return null;
 
   const variant = product.product_variants?.[0];
 
+  // 1. Calculate the actual selling price
+  const basePrice = variant?.price || 0;
+  const discountPercent = variant?.discounts?.discount_persent || 0;
+  const finalPrice = discountPercent > 0
+    ? (basePrice - (basePrice * discountPercent) / 100).toFixed(2)
+    : basePrice;
+
+  // 2. Parse Image URL safely
   const imageUrl =
     JSON.parse(variant?.image_url?.[0] || "{}")?.image_url ||
     "https://marklinefashion.com/default.jpg";
 
   const productUrl = `https://shopmarkline.in/product/${slug ?? ""}`;
 
-  /* =========================
-     PRODUCT + OFFER SCHEMA
-  ========================= */
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
     "@id": productUrl,
     name: product.name,
-    description:
-      product.seoDescription || product.description,
+    description: product.seoDescription || product.description,
     image: [imageUrl],
-    sku: variant?.sku || product.id,
+    sku: variant?.sku || product.id.toString(),
     brand: {
       "@type": "Brand",
       name: "Markline",
     },
-
     offers: {
       "@type": "Offer",
       url: productUrl,
       priceCurrency: "INR",
-      price: variant?.price || variant?.mrp,
+      price: finalPrice, // Now reflects the actual 25% off price
+      // priceValidUntil: variant?.discounts?.discount_end || "2026-12-31", // Essential for sales
       availability:
         variant?.stock > 0
           ? "https://schema.org/InStock"
           : "https://schema.org/OutOfStock",
       itemCondition: "https://schema.org/NewCondition",
-
-      /* 🚚 SHIPPING POLICY */
       shippingDetails: {
         "@type": "OfferShippingDetails",
         shippingRate: {
@@ -122,13 +122,10 @@ async function page({ params }) {
           },
         },
       },
-
-      /* 🔁 RETURN POLICY */
       hasMerchantReturnPolicy: {
         "@type": "MerchantReturnPolicy",
         applicableCountry: "IN",
-        returnPolicyCategory:
-          "https://schema.org/MerchantReturnFiniteReturnWindow",
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
         merchantReturnDays: 7,
         returnMethod: "https://schema.org/ReturnByMail",
         returnFees: "https://schema.org/FreeReturn",
@@ -144,8 +141,6 @@ async function page({ params }) {
           __html: JSON.stringify(productSchema),
         }}
       />
-
-
       <ProductPage />
     </>
   )

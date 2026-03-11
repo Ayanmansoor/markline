@@ -251,7 +251,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
         <>
             <div className=' flex items-start gap-2 md:gap-3  h-fit relative md:sticky md:top-14  flex-col w-full md:w-[35%] py-5 md:pl-5  lg:pl-10 '>
 
-                <div className='flex items-center justify-between flex-col border-b border-gray-200 pb-2  w-full relative '>
+                <div className='flex items-start justify-between flex-col border-b border-gray-200 pb-2  w-full relative '>
                     <p className=' text-xs  sm:text-sm font-medium text-start gap-1  '>{product?.gender}</p>
                     <div className='flex flex-col gap-1 w-full relative'>
                         <h1 className=' text-lg md:text-xl  lg:text-2xl xl:text-3xl font-bold   uppercase' aria-label={product?.name} >{product?.name}</h1>
@@ -376,7 +376,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                     </>
                 )}
 
-                <div className='w-full fixed bottom-0 px-4 flex-wrap sm:px-0 bg-white sm:bg-transparent py-2 sm:py-0  z-30 grid-cols-[1fr_auto] md:grid-cols-1 lg:grid-cols-[1fr_auto] gap-3 right-0 grid   items-center sm:relative  '>
+                <div className='w-full fixed bottom-0 px-4 flex-wrap sm:px-0 bg-white sm:bg-transparent py-2 sm:py-0  z-30 grid-cols-[1fr_auto] md:grid-cols-1 lg:grid-cols-[1fr_1fr] gap-3 right-0 grid   items-center sm:relative  '>
                     {/* <div className='w-full relative grid grid-cols-2 gap-2 md:gap-1 lg:gap-2 '> */}
 
                     {/* {
@@ -398,10 +398,17 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                                     Add to Cart
                                 </button>
                         } */}
-
-                    {/* <BuyDailog product={{ ...product, selectedColor: selectedColor, selectedSize: selectedSize, quantity: qty }} selectedVariant={variant}>
-                            <button disabled={selectedColor?.name && selectedSize?.size ? false : true} className=' w-full relative  xl:px-5 py-2 md:py-4 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' >Buy Now</button>
-                        </BuyDailog> */}
+                    {/* 
+                    <BuyDailog product={{ ...product, selectedColor: selectedColor, selectedSize: selectedSize, quantity: qty }} selectedVariant={variant}>
+                        <button disabled={selectedColor?.name && selectedSize?.size ? false : true} className=' w-full relative  xl:px-5 py-2 md:py-4 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' >Buy Now</button>
+                    </BuyDailog> */}
+                    <button
+                        className='w-full text-sm    bg-white text-primary py-2 md:py-4 border border-black  hover:bg-slate-100'
+                        disabled={!selectedColor || !selectedSize}
+                        onClick={handleAddToCart}
+                    >
+                        Add to Cart
+                    </button>
                     <WhatsAppButton product={product} variant={variant} />
                     {/* <BuyProduct product={{ ...product, selectedColor: productcart.colors.color, selectedSize: productcart.sizes.size, quantity: productcart.quentitys.quentity }}/> */}
                     {/* </AddToCardPopver>       */}

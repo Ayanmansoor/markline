@@ -64,8 +64,6 @@ function Footer() {
               <Link href={'/products/women'} >Proudcts</Link>
               <Link href={'/trending'} >Trending</Link>
               <Link href={'/collections'} >Collections</Link>
-              <Link href={'/products/men'} >Proudcts Men&apos;s</Link>
-              <Link href={'/products/women'} >Proudcts Women&apos;s</Link>
 
 
             </ul>
@@ -182,6 +180,7 @@ function Footer() {
 
                 <ul className='flex items-start mt-2 flex-col text-base justify-start gap-2 text-primary'>
                   <Link href={'/about-us'} className='text-primary' >About us</Link>
+                  <Link href={'/contact-us'} className='text-primary'>Contact Us</Link>
                   <Link href={'/privacy-policy'} className=' text-base lg:text-lg font-meidum text-primary cursor-pointer '>Privacy & Policy</Link>
                   <Link href={'/terms-condition'} className='text-base lg:text-lg font-meidum text-primary cursor-pointer '>Terms & Conditions</Link>
                   <Link href={'/shipping-policy'} className='text-base lg:text-lg font-meidum text-primary cursor-pointer '>Shipping & Return</Link>
