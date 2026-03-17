@@ -316,6 +316,8 @@ async function getProductBaseOnCollection(slug: string) {
 async function getRelatedProducts(product: ProductsProps, slug: string) {
   if (!product) return [];
 
+    console.log("Fetching related products for:", product);
+
   const { data: relatedProducts, error } = await mysupabase
     .from("product")
     .select(

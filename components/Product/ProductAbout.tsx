@@ -23,6 +23,7 @@ import { HiMiniMinusSmall } from 'react-icons/hi2';
 import CustomReview from '../Common/CustomReview';
 import { SizeChartModal } from '../Common/SizeChartModal';
 import WhatsAppButton from '../Common/WhatsAppButton';
+import ProductReviews from './ProductReviews';
 
 import { usePathname } from 'next/navigation';
 import { getDiscountedPrice } from '@/lib/getDiscountedPrice';
@@ -418,7 +419,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
 
                 <div className='w-full relative flex items-start flex-col  justify-between'>
                     <p className='  text-sm md:text-base font-medium text-fontPrimary  mt-3 mb-3'>
-                        Estd. Dispatch 5 working days
+                        Estd. Dispatch 7 working days
                     </p>
 
                     <img src="/checkout-image.png" alt="checkout image" height={400} width={400} className="w-full realtive h-auto " />
@@ -438,20 +439,23 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                         Delivery: Orders are typically delivered within 3-7 business days across India.
                     </li>
                 </ul> */}
-                <div className="grid grid-cols-3 gap-4 py-6 border-t w-full  border-gray-200">
-                    <div className="text-center">
+                <div className="flex flex-col items-start justify-start  gap-4 py-6 border-t w-full  border-gray-200">
+                    <div className="text-center  flex items-center justify-start gap-4">
                         <Truck className=" text-[20px] md:text-[25px] mx-auto mb-2 text-gray-500" />
                         <p className=" text-xs sm:text-sm font-semibold sm:font-medium   text-primary">Free Shipping</p>
                     </div>
-                    <div className="text-center">
+                    <div className="text-center  flex items-center justify-start gap-4">
                         <Shield className=" text-[20px] md:text-[25px] mx-auto mb-2 text-gray-500" />
                         <p className=" text-xs sm:text-sm font-semibold sm:font-medium    text-primary">Premium Quality</p>
                     </div>
-                    <div className="text-center">
+                    <div className="text-center  flex items-center justify-start gap-4">
                         <RotateCcw className=" text-[20px] md:text-[25px] mx-auto mb-2 text-gray-500" />
                         <p className=" text-xs sm:text-sm font-semibold sm:font-medium   text-primary">30-Day Returns</p>
                     </div>
                 </div>
+
+                <ProductReviews />
+
 
 
 
