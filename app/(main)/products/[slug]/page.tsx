@@ -2,6 +2,7 @@ import React from "react";
 
 import { getaudience } from "@/Supabase/SupabaseApi";
 import Productspage from "@/components/Products/Products.page";
+import { mysupabase } from "@/Supabase/SupabaseConfig";
 
 import { AudienceProps } from "@/types/interfaces";
 
@@ -51,10 +52,26 @@ export async function generateMetadata({ params }) {
   };
 }
 
-function page() {
+async function page({ params }) {
+  const { slug } = params;
+
+  // 1. Fetch products server-side
+  const { data: allproducts } = await mysupabase
+    .from("product")
+    .select("*,brands(*),product_variants(*)");
+
+  // 2. Fetch all collections
+  const { data: allcollection } = await mysupabase
+    .from("collection")
+    .select("*")
+    .eq("type", "ALL");
+
   return (
     <>
-      <Productspage />
+      <Productspage 
+        initialProducts={{ data: allproducts || [] }} 
+        initialCollections={{ data: allcollection || [] }} 
+      />
     </>
   );
 }

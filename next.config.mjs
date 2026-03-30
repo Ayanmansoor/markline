@@ -16,12 +16,17 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "raw.githubusercontent.com",
-        pathname: "/Ayandev1/image/refs/heads/main/images/**",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "github.com",
+        pathname: "**",
       },
       {
         protocol: "https",
         hostname: "res.cloudinary.com",
-        pathname: "/demhgityh/image/upload/**",
+        pathname: "**",
       },
     ],
   },

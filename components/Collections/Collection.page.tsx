@@ -32,7 +32,15 @@ import { selectColorAndSizesProps } from "../Products/Products.page";
 import MainCollections from "../Home/MainCollections";
 import CollectionCard from "../Home/CollectionCard";
 import { ArrowUpRight } from "lucide-react";
-function CollcetionPage() {
+export interface CollcetionPageProps {
+  initialBanners?: any[];
+  initialCollections?: { data: any[] };
+}
+
+const CollcetionPage: React.FC<CollcetionPageProps> = ({
+  initialBanners,
+  initialCollections,
+}) => {
   const [productRangevalue, setPRoductRange] = useState(5000);
   const [filterProducts, setFilterProducts] = useState<NewProductProps[]>();
 
@@ -55,6 +63,7 @@ function CollcetionPage() {
   } = useQuery({
     queryKey: ["collectionBanner"],
     queryFn: getAllCollectionBanner,
+    initialData: initialBanners,
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -62,12 +71,13 @@ function CollcetionPage() {
   });
 
   const {
-    data: collections = { data: [] },
+    data: collections = initialCollections || { data: [] },
     isLoading: collectionloading,
     isError: collectionerror,
   } = useQuery<{ data: any }>({
     queryKey: ["collections"],
     queryFn: () => getAllCollections("ALL"),
+    initialData: initialCollections,
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,

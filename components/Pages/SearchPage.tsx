@@ -8,12 +8,16 @@ import { getsearchProducts } from "@/Supabase/SupabaseApi";
 import GridRroduct from "@/components/Home/GridRroduct";
 import { MdOutlineArrowBack } from "react-icons/md";
 
-function SearchPage() {
+export interface SearchPageProps {
+  initialResults?: any[];
+}
+
+const SearchPage: React.FC<SearchPageProps> = ({ initialResults }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const [search, setSearch] = useState<string>(searchParams.get("q") || "");
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<any[]>(initialResults || []);
   const [loading, setLoading] = useState(false);
 
   const fetchResults = async (value: string) => {

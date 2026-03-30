@@ -1,5 +1,6 @@
 import React from 'react'
 import Occasions from '@/components/Pages/Occasions'
+import { mysupabase } from '@/Supabase/SupabaseConfig';
 import { getAllCollectionsBaseOnType, getCollectionBaseOnTypeAndOccuation } from '@/Supabase/SupabaseApi';
 // export async function generateMetadata({ params }) {
 //   const occasiondata: any[] | null | Error = await getAllCollectionsBaseOnType('occasion', params.collection);
@@ -90,9 +91,38 @@ import { getAllCollectionsBaseOnType, getCollectionBaseOnTypeAndOccuation } from
 // }
 
 
-function page() {
+async function page() {
+  // 1. Fetch all collections server-side
+  const { data: allcollection } = await mysupabase
+    .from("collection")
+    .select("*")
+    .eq("type", "ALL");
+
+  // 2. Fetch Best Sellers server-side
+  const { data: groupOfProductsData } = await mysupabase
+    .from("group")
+    .select(`
+        id,
+        heading,
+        type,
+        discription,
+        url,
+        urlText,
+        products:product (
+            *,
+            product_variants (
+                *,
+            discounts:discount_key (*)
+            ) 
+        )
+    `)
+    .eq("type", "BEST_SELLER");
+
   return (
-    <Occasions />
+    <Occasions 
+      initialCollections={{ data: allcollection || [] }} 
+      initialGroupOfProducts={{ data: groupOfProductsData || [] }} 
+    />
   )
 }
 

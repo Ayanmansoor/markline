@@ -2,6 +2,7 @@
 import React from 'react'
 import TrendingPage from '@/components/Pages/Trending.page'
 import { mergeMetadata } from '@/app/layout';
+import { mysupabase } from '@/Supabase/SupabaseConfig';
 export const metadata = mergeMetadata({
   title: "Shop Products | Markline",
   description:
@@ -23,10 +24,24 @@ export const metadata = mergeMetadata({
     canonical: `https://shopmarkline.in/products`,
   },
 });
-function page() {
+async function page() {
+  // 1. Fetch collection banners
+  const { data: collectionBanner } = await mysupabase
+    .from("collectionBanner")
+    .select("*")
+    .limit(3);
+
+  // 2. Fetch trending products
+  const { data: trending } = await mysupabase
+    .from("trendings")
+    .select("*,product(* , product_variants(*))");
+
   return (
     <>
-        <TrendingPage/>
+        <TrendingPage 
+          initialBanners={collectionBanner || []} 
+          initialTrending={trending || []} 
+        />
     </>
   )
 }

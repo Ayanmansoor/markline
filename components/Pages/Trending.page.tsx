@@ -9,12 +9,19 @@ import CarouselProduct from '../Product/CarouselProduct'
 import { useQuery } from 'react-query'
 import { getAllCollectionBanner, getAllTrendingProducts } from '@/Supabase/SupabaseApi'
 import ProductCard from '../Common/ProductCard'
+import Image from 'next/image'
 
-function TrendingPage() {
+export interface TrendingPageProps {
+    initialBanners?: any[];
+    initialTrending?: any[];
+}
 
-    const { data: collectionBanner = [], isLoading: bannerloading, isError: bannererror } = useQuery({
+const TrendingPage: React.FC<TrendingPageProps> = ({ initialBanners, initialTrending }) => {
+
+    const { data: collectionBanner = initialBanners || [], isLoading: bannerloading, isError: bannererror } = useQuery({
         queryKey: ["collectionBanner"],
         queryFn: getAllCollectionBanner,
+        initialData: initialBanners,
         staleTime: Infinity,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -22,9 +29,10 @@ function TrendingPage() {
     });
 
 
-    const { data: trending=[], isLoading: trendingloading, isError: trendingerror } = useQuery<any>({
+    const { data: trending = initialTrending || [], isLoading: trendingloading, isError: trendingerror } = useQuery<any>({
         queryKey: ["trendingproducts"],
         queryFn: getAllTrendingProducts,
+        initialData: initialTrending,
         staleTime: Infinity,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -48,7 +56,7 @@ function TrendingPage() {
                     <p className=' text-sm md:text-base font-medium '>Step into the season with Markline’s latest arrivals—where modern sophistication meets timeless craftsmanship. Each new piece is designed to keep you effortlessly stylish while reflecting the unmatched quality and detail we’re known for .</p>
                 </div>
                 <div className='w-full relative h-full '>
-                    <img src="/collectionsection.png" alt="" className='w-full relative sm:absolute  h-full object-cover ' height={400} width={400} loading='lazy' />
+                    <Image src="/collectionsection.png" alt="Craftsmanship" className='w-full relative sm:absolute  h-full object-cover ' height={400} width={400} loading='lazy' />
                 </div>
             </section>
 

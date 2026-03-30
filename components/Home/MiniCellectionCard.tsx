@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { newCollectionCardProps, ProductsDataProps } from "@/types/interfaces";
@@ -13,7 +14,7 @@ function MiniCollectionCard({ collections, url }: newCollectionCardProps) {
       className=" w-[170px] md:w-[190px] lg:w-[200px] overflow-hidden  max-h-[300px]      cursor-pointer relative group  flex flex-col items-start justify-center gap-1 p-1     "
     >
       {images?.map((item, index) => (
-        <img
+        <Image
           key={index}
           src={item?.image_url || "/dummy-image.jpg"}
           alt={item?.name || "No Image"}

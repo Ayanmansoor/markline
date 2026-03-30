@@ -43,7 +43,15 @@ import {
 } from "@/components/ui/breadcrumb";
 import MiniCollectionCard from "../Home/MiniCellectionCard";
 
-function GenderPage() {
+export interface GenderPageProps {
+  initialCollections?: any;
+  initialProducts?: { data: NewProductProps[] };
+}
+
+const GenderPage: React.FC<GenderPageProps> = ({
+  initialCollections,
+  initialProducts,
+}) => {
   const { group } = useParams();
   const nslug = Array.isArray(group) ? group[0] : group;
   const finalslug = nslug?.toUpperCase();
@@ -59,13 +67,14 @@ function GenderPage() {
     });
 
   const {
-    data: genderCollection = [],
+    data: genderCollection = initialCollections || [],
     isLoading: isGenderLoading,
     isError: isGenderDataerror,
   } = useQuery<any>({
     queryKey: ["gendercollection", group],
     enabled: !!group,
     queryFn: () => getCollectionBaseOnGender(finalslug || ""),
+    initialData: initialCollections,
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -74,12 +83,13 @@ function GenderPage() {
 
 
   const {
-    data: getallproductbaseongender = { data: [] },
+    data: getallproductbaseongender = initialProducts || { data: [] },
     isLoading: collectionAlongWithLoading,
     isError: collectionerrorLoading,
   } = useQuery<{ data: NewProductProps[] }>({
-    queryKey: ["getallproductbaseongender", "WOMEN"],
+    queryKey: ["getallproductbaseongender", group],
     queryFn: () => getAllProductsbygender(`${finalslug}`.toUpperCase()),
+    initialData: initialProducts,
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,

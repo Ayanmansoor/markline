@@ -7,15 +7,20 @@ import 'swiper/css/scrollbar';
 import { Autoplay } from 'swiper/modules';
 import { useQuery } from 'react-query';
 import { getAllHeader } from '@/Supabase/SupabaseApi';
-function Header() {
+export interface HeaderProps {
+  initialData?: any[];
+}
+
+const Header: React.FC<HeaderProps> = ({ initialData }) => {
 
     const [color, setColor] = useState()
 
 
 
-    const { data: header = [], isLoading: isHeaderLoading, isError: isHeaderError } = useQuery<any>({
+    const { data: header = initialData || [], isLoading: isHeaderLoading, isError: isHeaderError } = useQuery<any>({
         queryKey: ["header"],
         queryFn: getAllHeader,
+        initialData: initialData,
         staleTime: Infinity,
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,

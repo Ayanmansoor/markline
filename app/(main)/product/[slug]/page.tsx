@@ -141,7 +141,7 @@ async function page({ params }) {
           __html: JSON.stringify(productSchema),
         }}
       />
-      <ProductPage />
+      <ProductPage initialProduct={product} />
     </>
   )
 }

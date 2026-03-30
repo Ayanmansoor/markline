@@ -13,6 +13,7 @@ import Head from "next/head";
 import OrderConfirmed from "@/components/Common/OrderConfirm";
 import { Toaster } from "@/components/ui/sonner";
 import Header from "@/components/Common/Header";
+import { mysupabase } from "@/Supabase/SupabaseConfig";
 import Script from "next/script";
 import FloatingWhatsApp from "@/components/Common/FloatingWhatsApp";
 const geistSans = localFont({
@@ -96,11 +97,16 @@ export function mergeMetadata(pageMetadata: Metadata): Metadata {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Fetch global header data server-side
+  const { data: headerData } = await mysupabase
+    .from("header")
+    .select("*");
+
   return (
     // <html lang="en">
 
@@ -124,17 +130,6 @@ export default function RootLayout({
     // </html>
     <html lang="en">
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id=${process.env.NEXT_PUBLIC_TAGMANAGER}'+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','${process.env.NEXT_PUBLIC_TAGMANAGER}');
-            `,
-          }}
-        />
         <Script
           id="meta-pixel"
           strategy="afterInteractive"
@@ -152,18 +147,37 @@ export default function RootLayout({
           fbq('track', 'PageView');
           `}
         </Script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Markline",
+              url: "https://shopmarkline.in",
+              logo: "https://shopmarkline.in/markline-logo.webp",
+              contactPoint: [
+                {
+                  "@type": "ContactPoint",
+                  telephone: "+91-9769020660",
+                  contactType: "customer support",
+                  areaServed: "IN",
+                  availableLanguage: ["English", "Hindi"],
+                },
+              ],
+              sameAs: [
+                "https://www.instagram.com/shopmarkline",
+                "https://www.facebook.com/shopmarkline",
+                "https://in.pinterest.com/shopmarkline",
+              ],
+            }),
+          }}
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${noto.variable} antialiased`}
       >
-        <noscript>
-          <iframe
-            src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_TAGMANAGER}`}
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          ></iframe>
-        </noscript>
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_TAGMANAGER || ""} />
         <noscript>
           <img
             height="1"
@@ -177,7 +191,7 @@ export default function RootLayout({
         <Provider>
           <WishlistProvider>
             <CartProvider>
-              <Header />
+              <Header initialData={headerData || []} />
               <Navbar />
               {children}
               <Subcribes />

@@ -76,7 +76,15 @@ export interface selectColorAndSizesProps {
   size?: string[];
 }
 
-function Productspage() {
+export interface ProductsPageProps {
+  initialProducts?: { data: NewProductProps[] };
+  initialCollections?: { data: any[] };
+}
+
+const Productspage: React.FC<ProductsPageProps> = ({
+  initialProducts,
+  initialCollections,
+}) => {
   const [productRangevalue, setPRoductRange] = useState(5000);
   const { slug } = useParams();
   const productslug = Array.isArray(slug) ? slug[0] : slug;
@@ -88,12 +96,13 @@ function Productspage() {
 
   const [filterProducts, setFilterProducts] = useState<NewProductProps[]>();
   const {
-    data: allproducts = { data: [] },
+    data: allproducts = initialProducts || { data: [] },
     isLoading: isLoadingProducts,
     isError: isErrorProducts,
   } = useQuery<{ data: NewProductProps[] }>({
     queryKey: ["products"],
     queryFn: getAllProductsWithVariants,
+    initialData: initialProducts,
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -101,12 +110,13 @@ function Productspage() {
   });
 
   const {
-    data: allcollection = { data: [] },
+    data: allcollection = initialCollections || { data: [] },
     isLoading: isLoadingCollections,
     isError: isErrorCollections,
   } = useQuery<{ data: any[] }>({
     queryKey: ["collections"],
     queryFn: () => getAllCollections(`ALL`),
+    initialData: initialCollections,
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,

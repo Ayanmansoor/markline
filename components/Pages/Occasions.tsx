@@ -24,7 +24,12 @@ import CarouselProduct from '../Product/CarouselProduct'
 import { selectColorAndSizesProps } from '../Products/Products.page'
 import ProductFilter from '../Common/ProductFilter'
 
-function Occasions() {
+export interface OccasionsProps {
+  initialCollections?: { data: any[] };
+  initialGroupOfProducts?: { data: any[] };
+}
+
+const Occasions: React.FC<OccasionsProps> = ({ initialCollections, initialGroupOfProducts }) => {
   const [productRangevalue, setPRoductRange] = useState(5000)
   const [filterProducts, setFilterProducts] = useState<NewProductProps[]>()
 
@@ -38,19 +43,21 @@ function Occasions() {
 
 
 
-  const { data: occasionsCollection = { data: [] }, isLoading: isOccationloading, isError: isOccationerror } = useQuery<{ data: any[] }>({
+  const { data: occasionsCollection = initialCollections || { data: [] }, isLoading: isOccationloading, isError: isOccationerror } = useQuery<{ data: any[] }>({
     queryKey: ["occasionslug", occasionslug],
     enabled: !!occasionslug,
     queryFn: () => getAllCollections("ALL"),
+    initialData: initialCollections,
     staleTime: Infinity,
     refetchOnMount: false,      // don't refetch when remounting
     refetchOnWindowFocus: false, // don't refetch when window gains focus
     refetchOnReconnect: false,
   });
 
-  const { data: groupOfProducts = { data: [] }, isLoading: isLoading, isError: iserror } = useQuery<{ data: any[] }>({
+  const { data: groupOfProducts = initialGroupOfProducts || { data: [] }, isLoading: isLoading, isError: iserror } = useQuery<{ data: any[] }>({
     queryKey: ["groupOfProducts"],
     queryFn: () => fetchGroupOfProducts("BEST_SELLER"),
+    initialData: initialGroupOfProducts,
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -257,7 +264,9 @@ function Occasions() {
 
       <Discount title={`Spotlight ${occasionslug} Footwear: Featured Styles You'll Love`} description={`Explore our top picks from the ${occasionslug} collection—curated for quality, comfort, and on‑trend appeal. Whether it's chic sandals, cozy sneakers, or elegant dress shoes, these standout styles are designed to elevate your everyday wardrobe.`} url='' />
       <section className='w-full relative flex flex-col gap-5  px-3 lg:px-5  pb-10'>
-
+        <div className='w-full relative h-full '>
+          <Image src="/collectionsection.png" alt="Craftsmanship" className='w-full relative sm:absolute  h-full object-cover ' height={400} width={400} loading='lazy' />
+        </div>
 
         <div className='w-full relative h-auto flex flex-col gap-2'>
           <p className='text-base font-semibold text-primary'>Shop By Women Shoe Type</p>

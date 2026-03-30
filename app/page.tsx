@@ -1,5 +1,6 @@
 import HomePage from "@/components/Pages/Home.page";
 import { mergeMetadata } from "./layout";
+import { mysupabase } from "@/Supabase/SupabaseConfig";
 
 export const metadata = mergeMetadata({
   title:
@@ -25,10 +26,41 @@ export const metadata = mergeMetadata({
   },
 });
 
-export default function Home() {
+export default async function Home() {
+  // 1. Fetch banners server-side
+  const { data: homebanners = [] } = await mysupabase.from("HomeBanner").select("*");
+
+  // 2. Fetch all collections
+  const { data: allcollection = [] } = await mysupabase.from("collection").select("*").eq("type", "ALL");
+
+  // 3. Fetch groups of products
+  const { data: groupOfProductsData = [] } = await mysupabase
+      .from("group")
+      .select(`
+          id,
+          heading,
+          type,
+          discription,
+          url,
+          urlText,
+          products:product (
+              *,
+              product_variants (
+                  *,
+              discounts:discount_key (*)
+              ) 
+          )
+      `);
+
+  const initialGroupOfProducts = { data: groupOfProductsData || [] };
+
   return (
     <>
-      <HomePage />
+      <HomePage 
+        initialBanners={homebanners} 
+        initialCollections={allcollection} 
+        initialGroupOfProducts={initialGroupOfProducts} 
+      />
     </>
   );
 }

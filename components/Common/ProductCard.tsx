@@ -1,4 +1,6 @@
 "use client";
+import Image from "next/image";
+
 import React, { useState, useReducer, useEffect, useMemo } from "react";
 import { FaHeart } from "react-icons/fa6";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -180,15 +182,15 @@ function ProductCard({ product, url, className }: newProductsProps) {
                   className="w-full realtive h-full relative border overflow-hidden"
                   key={index}
                 >
-                  <img
+                  <Image
                     src={`${image?.image_url}` || ""}
                     alt={`${image.name} - markline `}
                     className={`w-full object-contain  bg-transparent transition-all duration-100 ease-in-out  sm:object-cover hover:scale-[1.010]  ${className
                       ? className
                       : " h-[260px] aspect-square sm:h-[300px] md:h-[250px] lg:h-[350px] xl:h-[400px]"
                       } `}
-                    height={200}
-                    width={300}
+                    height={1000}
+                    width={1000}
                     loading="lazy"
                   />
                 </SwiperSlide>

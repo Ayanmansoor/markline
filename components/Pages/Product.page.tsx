@@ -18,7 +18,11 @@ import { useWishlists } from '@/Contexts/wishlist'
 import OrderConfirmed from '../Common/OrderConfirm'
 import { Images, ProductVariant } from '@/types/interfaces'
 
-function ProductPage() {
+interface ProductPageProps {
+  initialProduct?: any;
+}
+
+function ProductPage({ initialProduct }: ProductPageProps) {
 
   const [stringifyImages, setStringifyImages] = useState<any[]>([]); // default to empty array
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(); // initially null
@@ -29,6 +33,7 @@ function ProductPage() {
   const { data: product, isLoading, isError } = useQuery({
     queryKey: ["product", productslug],
     queryFn: () => getProductData(productslug || ""),
+    initialData: initialProduct,
     enabled: !!productslug,
     staleTime: Infinity,
     refetchOnMount: false,

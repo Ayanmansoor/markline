@@ -1,5 +1,6 @@
 import { mergeMetadata } from '@/app/layout';
 import NewArrival from '@/components/Pages/New-arrival'
+import { mysupabase } from '@/Supabase/SupabaseConfig';
 import React from 'react'
 // import NewArrival from '@/components/Pages/new-arrival'
 
@@ -27,9 +28,15 @@ export const metadata = mergeMetadata({
 });
 
 
-function page() {
+async function page() {
+  // 1. Fetch products server-side
+  const { data: allproducts } = await mysupabase
+    .from("product")
+    .select("*,brands(*),product_variants(*)")
+    .eq("is_new_arrival", true);
+
   return (
-    <NewArrival />
+    <NewArrival initialProducts={{ data: allproducts || [] }} />
   )
 }
 

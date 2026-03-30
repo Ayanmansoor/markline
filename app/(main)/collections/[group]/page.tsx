@@ -1,6 +1,7 @@
 import { mergeMetadata } from '@/app/layout';
 import GenderPage from '@/components/gender/GenderPage'
 import { getaudience } from '@/Supabase/SupabaseApi';
+import { mysupabase } from '@/Supabase/SupabaseConfig';
 import { AudienceProps } from '@/types/interfaces';
 import React from 'react'
 
@@ -56,10 +57,28 @@ export async function generateMetadata({ params }) {
 }
 
 
-function page() {
+async function page({ params }) {
+  const { group } = params;
+  const gender = `${group}`.toUpperCase();
+
+  // 1. Fetch collections based on gender server-side
+  const { data: collections } = await mysupabase
+    .from("collection")
+    .select("*")
+    .eq("gender", gender);
+
+  // 2. Fetch all products for that gender server-side
+  const { data: products } = await mysupabase
+    .from("product")
+    .select("*,brands(*),product_variants(*)")
+    .eq("gender", gender);
+
   return (
     <>
-      <GenderPage />
+      <GenderPage 
+        initialCollections={{ data: collections || [] }} 
+        initialProducts={{ data: products || [] }} 
+      />
     </>
   )
 }

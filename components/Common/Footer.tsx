@@ -4,7 +4,6 @@ import { RiInstagramFill } from "react-icons/ri";
 import { FaFacebook, FaPinterest, FaYoutube } from "react-icons/fa";
 import { PiFacebookLogo } from "react-icons/pi";
 import { PiInstagramLogoThin } from "react-icons/pi";
-import { RiTwitterXLine } from "react-icons/ri";
 import Link from 'next/link';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
@@ -61,7 +60,7 @@ function Footer() {
             </h2>
             <ul className='flex items-start flex-col text-base justify-start gap-2'>
               <Link href={'/new-arrivals'} >New Arrived</Link>
-              <Link href={'/products/women'} >Proudcts</Link>
+              <Link href={'/products/women'} >Products</Link>
               <Link href={'/trending'} >Trending</Link>
               <Link href={'/collections'} >Collections</Link>
 

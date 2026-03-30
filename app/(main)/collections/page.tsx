@@ -1,5 +1,6 @@
 import { mergeMetadata } from '@/app/layout';
 import CollcetionPage from '@/components/Collections/Collection.page'
+import { mysupabase } from '@/Supabase/SupabaseConfig';
 import React from 'react'
 export const metadata = mergeMetadata({
   title: "Collections - Markline – Men, Women & Kids Footwear Online",
@@ -23,10 +24,25 @@ export const metadata = mergeMetadata({
   },
 });
 
-function page() {
+async function page() {
+  // 1. Fetch collection banners
+  const { data: collectionBanner } = await mysupabase
+    .from("collectionBanner")
+    .select("*")
+    .limit(3);
+
+  // 2. Fetch all collections
+  const { data: collections } = await mysupabase
+    .from("collection")
+    .select("*")
+    .eq("type", "ALL");
+
   return (
     <>
-      <CollcetionPage />
+      <CollcetionPage 
+        initialBanners={collectionBanner || []} 
+        initialCollections={{ data: collections || [] }} 
+      />
     </>
   )
 }

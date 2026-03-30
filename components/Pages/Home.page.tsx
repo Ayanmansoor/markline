@@ -1,7 +1,10 @@
 "use client";
+import Image from "next/image";
+
 import React, { useState } from "react";
 import { useQuery } from "react-query";
-import OfferPopupDialog from "../Common/OfferPopupDialog";
+import dynamic from "next/dynamic";
+const OfferPopupDialog = dynamic(() => import("../Common/OfferPopupDialog"), { ssr: false });
 import Hero from "../Common/Hero";
 import CategoriesSection from "../Common/CategoriesSection";
 import Discount from "../Discounts/Discount";
@@ -35,16 +38,25 @@ import { Autoplay, Pagination } from "swiper/modules";
 
 import { motion, Variants } from "framer-motion";
 
-function HomePage() {
+interface HomePageProps {
+  initialBanners?: any;
+  initialCollections?: any;
+  initialGroupOfProducts?: any;
+}
+
+function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }: HomePageProps) {
   const [selected, setSelected] = useState("women");
 
   const handleSelect = (option: string) => {
     setSelected(option);
   };
 
+  console.log(initialBanners, "initialBanners")
+
   const { data: homebanners = [], isLoading: isHomebanners } = useQuery<any>({
     queryKey: ["homebanners"],
     queryFn: getAllBanner,
+    initialData: initialBanners,
     staleTime: Infinity,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
@@ -57,6 +69,7 @@ function HomePage() {
   } = useQuery<any>({
     queryKey: ["allcollection"],
     queryFn: () => getAllCollectionsBaseOnType("ALL"),
+    initialData: initialCollections,
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -70,6 +83,7 @@ function HomePage() {
   } = useQuery<{ data: newProductsProps[] }>({
     queryKey: ["groupOfProductshome"],
     queryFn: () => fetchGroupOfProducts("ALL"),
+    initialData: initialGroupOfProducts,
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -129,11 +143,11 @@ function HomePage() {
                   className="h-fit w-fit relative  overflow-hidden flex flex-col items-center"
                 >
                   {imageData?.image_url && (
-                    <img
+                    <Image
                       src={imageData?.image_url}
-                      alt={imageData?.name || collection?.name}
-                      height={80}
-                      width={80}
+                      alt={imageData?.name || collection?.name || "Collection image"}
+                      height={900}
+                      width={900}
                       className="object-cover aspect-square h-[85px] w-[85px] object-bottom rounded-2xl border border-gray-300"
                     />
                   )}

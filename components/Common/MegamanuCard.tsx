@@ -29,7 +29,7 @@ function MegamanuCard({ product, slug, name, className }: Megamanudata) {
 
             <p className='text-sm text-start font-medium text-primary line-clamp-2'>{name.slice(0, 50)}</p>
             <div className='w-full relative h-auto flex items-center justify-between gap-1'>
-                <p className='text-sm font-medium text-primary'>
+                <div className='text-sm font-medium text-primary'>
                     {
                         product?.discounts?.discount_persent ?
                             <div className=' flex items-center justify-center gap-2'>
@@ -41,7 +41,7 @@ function MegamanuCard({ product, slug, name, className }: Megamanudata) {
                             :
                             <p className='  font-normal text-fontPrimary   text-nowrap  text-sm '>₹ {product?.price}</p>
                     }
-                </p>
+                </div>
 
             </div>
         </Link>

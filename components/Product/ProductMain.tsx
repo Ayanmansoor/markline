@@ -84,7 +84,7 @@ function ProductMain({ variant }: ProductMainProps) {
                     {
                         Images?.map((item, index) => (
                             <SwiperSlide key={index} className='max-w-fit  relative max-h-fit md:max-h-[130px]  border  overflow-hidden'>
-                                <img src={`${item?.image_url}` || ""} alt={item.name} height={500} width={500} className='    max-w-[100px] md:max-w-full  max-h-[140px] lg:max-h-[140px] relative object-cover ' loading='lazy' />
+                                <Image src={`${item?.image_url}` || ""} alt={item.name || "Product image"} height={140} width={140} className='max-w-[100px] md:max-w-full  max-h-[140px] lg:max-h-[140px] relative object-cover ' loading='lazy' />
                             </SwiperSlide>
                         ))
                     }
@@ -100,7 +100,7 @@ function ProductMain({ variant }: ProductMainProps) {
                     {
                         Images?.map((item, index) => (
                             <SwiperSlide key={index} className='max-w-full   relative  max-h-fit border '>
-                                <img src={`${item?.image_url}` || ""} alt={`${item.name}`} height={500} width={500} className='w-full relative grid max-h-[550px] md:max-h-[600px] lg:max-h-[700px]  object-cover sm:object-contain  sm:object-bottom ' loading='lazy' />
+                                <Image priority={index === 0} src={`${item?.image_url}` || ""} alt={`${item.name || "Product main image"}`} height={700} width={700} className='w-full relative grid max-h-[550px] md:max-h-[600px] lg:max-h-[700px]  object-cover sm:object-contain  sm:object-bottom ' loading={index === 0 ? "eager" : "lazy"} />
                             </SwiperSlide>
                         ))
                     }
@@ -113,7 +113,7 @@ function ProductMain({ variant }: ProductMainProps) {
             <section className='w-full relative h-auto hidden md:grid grid-cols-2 gap-3' >
                 {
                     Images.map((item, index) => (
-                        <img src={`${item?.image_url}` || ""} alt={`${item.name}`} height={400} width={400} className='w-full max-h-[600px] object-cover cursor-pointer border hover:scale-[1.01] transition-all duration-100 ' key={index} data-fancybox="gallery" data-caption={`${item.name}`} />
+                        <Image src={`${item?.image_url}` || ""} alt={`${item.name || "Product desktop image"}`} height={600} width={600} className='w-full max-h-[600px] object-cover cursor-pointer border hover:scale-[1.01] transition-all duration-100 ' key={index} data-fancybox="gallery" data-caption={`${item.name}`} />
                     ))
                 }
             </section>
