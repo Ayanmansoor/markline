@@ -24,12 +24,12 @@ export default async function sitemap() {
     { url: `https://shopmarkline.in/collections/men` },
     { url: `https://shopmarkline.in/collections/kids` },
     { url: `https://shopmarkline.in/collections` },
-    { url: `https://shopmarkline.in/new-arrivals` },
+    // { url: `https://shopmarkline.in/new-arrivals` },
     { url: `https://shopmarkline.in/privacy-policy` },
     { url: `https://shopmarkline.in/products/women` },
     { url: `https://shopmarkline.in/return-policy` },
     { url: `https://shopmarkline.in/shiping-policy` },
-    { url: `https://shopmarkline.in/trending` },
+    // { url: `https://shopmarkline.in/trending` },
     { url: `https://shopmarkline.in/products/women` },
 
   ];

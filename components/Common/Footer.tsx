@@ -59,9 +59,9 @@ function Footer() {
               Pages
             </h2>
             <ul className='flex items-start flex-col text-base justify-start gap-2'>
-              <Link href={'/new-arrivals'} >New Arrived</Link>
+              {/* <Link href={'/new-arrivals'} >New Arrived</Link> */}
               <Link href={'/products/women'} >Products</Link>
-              <Link href={'/trending'} >Trending</Link>
+              {/* <Link href={'/trending'} >Trending</Link> */}
               <Link href={'/collections'} >Collections</Link>
 
 
@@ -112,12 +112,28 @@ function Footer() {
 
 
           <div className='relative h-auto  justify-self-start '>
+
+
+            <div className='flex flex-col gap-1 mb-6'>
+              <h2 className='text-base font-semibold text-white'>Office Address:</h2>
+              <p className='text-sm font-medium text-primary capitalize '>
+                ROOM NO 165 INDRA NAGAR , NR-BARMA SHEEL RAILWAY LINE , KURLA EAST , NEHRU NAGAR , MUMBAI 400024
+              </p>
+
+              <h2 className='text-base font-semibold text-white mt-3'>Contact Details:</h2>
+              <Link href={'melto:stylemarkline@gmail.com'} className='text-sm font-sm text-primary'></Link>
+
+            </div>
+
+
             <h2 className='text-p20 font-medium mb-4 border-b w-fit pr-5'>
               Subcribe Us
             </h2>
             <form action='' onSubmit={handleSubmit(onSubmit)} className='flex items-start flex-col text-p18  justify-start gap-3'>
               <input type="text" className='w-full relative h-atuo py-2 cursor-pointer px-2 border-b border-white bg-transparent placeholder:text-white placeholder:text-sm text-base' placeholder='Enter Your Email' {...register('email')} />
             </form>
+
+
 
 
             <div className='flex flex-col gap-1 mt-6'>
@@ -157,7 +173,7 @@ function Footer() {
 
                 <ul className='flex items-start mt-2 flex-col text-base justify-start gap-2 text-primary'>
                   <Link href={'/'} className='text-primary'  >Home</Link>
-                  <Link href={'/new-arrivals'} className='text-primary'  >New Arrived</Link>
+                  {/* <Link href={'/new-arrivals'} className='text-primary'  >New Arrived</Link> */}
                   <Link href={'/products/women'} className='text-primary'  >Proudcts</Link>
                   <Link href={'/collections/women'} className='text-primary' >Women&apos;s Collections</Link>
                   {/* <Link href={'/collections/men'} className='text-primary' >Men&apos;s Collections</Link> */}

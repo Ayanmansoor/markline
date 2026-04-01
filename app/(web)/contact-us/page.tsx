@@ -10,16 +10,18 @@ function page() {
             <section className="w-full relative h-full py-10 md:py-20 container grid   grid-cols-1 md:grid-cols-[1fr_1fr]  gap-5 md:gap-10 lg:gap-20 xl:gap-20 px-5  md:px-10   xl:px-20 ">
                 {/* <FeedbackForm /> */}
 
+
+
                 <span className='w-full relative h-auto flex flex-col gap-4 '>
 
                     <h2 className='text-2xl font-medium text-primary'>
                         Office Address :
                     </h2>
-                    <p className='text-lg font-medium text-primary '>Ali dada Ali Sharmik Nagar ,
-                        Nehru Nagar , Kurla , Mumbai
-                        Mumbai maharashtra 400024
-                        India</p>
+                    <p className='text-lg font-medium text-primary '>
+                        ROOM NO 165 INDRA NAGAR , NR-BARMA SHEEL RAILWAY LINE , KURLA EAST , NEHRU NAGAR , MUMBAI 400024
+                    </p>
                 </span>
+
 
 
                 <div
@@ -29,7 +31,7 @@ function page() {
                     <h2 className="text-2xl font-medium text-foreground  ">Customer Care Support</h2>
 
                     <span className="w-full relative h-auto flex flex-col gap-1 ">
-                        <h2 className="w-full text-xl   font-medium  text-fontPrimary  ">
+                        <h2 className="w-full text-base   font-medium  text-fontPrimary  ">
                             Contact :
                         </h2>
                         <div className="w-full relative flex  flex-wrap items-center gap-3 md:gap-5 ">
@@ -37,13 +39,13 @@ function page() {
                                 href={"tel:(+91) 9773141989"}
                                 className="text-lg font-medium  text-fontPrimary "
                             >
-                                (+91) 9702456322
+                                9702456322
                             </Link>
                         </div>
                     </span>
 
                     <div className="w-full relative flex  flex-wrap items-center gap-1 md:gap-1 ">
-                        <h2 className="w-full text-xl font-medium text-fontPrimary  ">
+                        <h2 className="w-full text-base font-medium text-fontPrimary  ">
                             Email :
                         </h2>
                         <Link href={"mailto:stylemarkline@gmail.com"} className="text-lg font-medium text-fontPrimary">
@@ -53,7 +55,7 @@ function page() {
 
 
                     <div className="w-full relative flex  flex-wrap items-center gap-1 md:gap-1 ">
-                        <h2 className="w-full text-xl font-medium text-fontPrimary  ">
+                        <h2 className="w-full text-base font-medium text-fontPrimary  ">
                             Contact Time:
                         </h2>
                         <Link href={"/"} className="text-lg font-medium text-fontPrimary">
@@ -83,12 +85,7 @@ function page() {
                         >
                             <FaInstagram className="text-white text-[25px]" />
                         </Link>
-                        <Link
-                            href={"/"}
-                            className="text-p18 font-medium bg-primary p-[10px] rounded-full text-webtext "
-                        >
-                            <BsLinkedin className="text-[20px] text-white " />
-                        </Link>
+                     
 
                     </div>
                 </div>

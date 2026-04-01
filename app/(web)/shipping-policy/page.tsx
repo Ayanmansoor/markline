@@ -48,8 +48,8 @@ export default function ShippingPolicy() {
             to ensure comfort, durability, and perfect finishing.
           </p>
           <p>
-            Orders are dispatched within <strong>2–3 business days</strong> after order
-            confirmation (excluding Sundays and public holidays). This time allows us
+            Orders are dispatched within <strong>4-7 business days</strong> after order
+            confirmation . This time allows us
             to prepare each pair with precision and care.
           </p>
         </section>
@@ -91,8 +91,8 @@ export default function ShippingPolicy() {
             Order Tracking
           </h2>
           <p>
-            Once your order is shipped, you will receive tracking details via email
-            or SMS. You can track your order using the provided tracking link.
+            Once your order is shipped, you will receive tracking details via email 
+            or SMS or Whatsapp. You can track your order using the provided tracking link.
           </p>
         </section>
 
