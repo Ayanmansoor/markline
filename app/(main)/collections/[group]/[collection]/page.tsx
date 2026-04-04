@@ -98,24 +98,37 @@ export async function generateMetadata({ params }) {
     audience?.seo_discription ||
     `Explore Markline footwear collections – ${collectionsSlug} shoes for men, women & kids.`;
   return {
-    title: `${audienceName} | Markline`,
+    title: `${audienceName} | Buy Shoes Online India | Markline`,
     description,
     keywords: [
-      "Markline",
-      audienceName,
-      "Men's Footwear",
-      "Women's Footwear",
-      "Kids Shoes",
-      "Sandals",
-      "Heels",
-      "Casual Shoes",
+      "Markline", audienceName, collectionsSlug, "Markline footwear",
+      // High Volume India Terms
+      "buy shoes online India", "footwear online India", "online shoe shopping India",
+      // Women's
+      "women's sandals online India", "ladies sandals India", "buy heels online India",
+      "platform sandals for women", "block heels women India", "wedge sandals women",
+      "mules for women India", "comfortable sandals women", "stylish sandals India",
+      "ethnic sandals women", "festive footwear women", "wedding sandals India",
+      "office wear sandals women", "women's casual shoes India", "open toe heels India",
+      // Men's
+      "men's shoes online India", "men's formal shoes India", "casual shoes men India",
+      // Kids
+      "kids shoes online India", "children's footwear India",
+      // Long-tail
+      "affordable footwear India", "fashionable shoes India", "fast delivery shoes India",
+      "stylish shoes under 2000 India",
     ],
     openGraph: {
-      title: `${audienceName} | Markline`,
+      title: `${audienceName} | Buy Shoes Online India | Markline`,
       description,
       url: `https://shopmarkline.in/collections/${groupSlug}/${collectionsSlug}`,
+      locale: "en_IN",
+      type: "website",
       images: [
         {
+          url: "/opengraph-image.png",
+          width: 1200,
+          height: 630,
           alt: audienceName,
         },
       ],
@@ -129,7 +142,7 @@ export async function generateMetadata({ params }) {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${audienceName} | Markline`,
+      title: `${audienceName} | Buy Shoes Online India | Markline`,
       description,
     },
     alternates: {

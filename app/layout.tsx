@@ -40,36 +40,63 @@ const noto = Noto_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Markline | Stylish Shoes for Men, Women & Kids Online in India",
+  title: "Markline | Buy Stylish Shoes, Sandals & Heels Online in India",
   description:
-    "Markline brings you trendy & comfortable footwear online in India. Shop men’s shoes, women’s sandals, heels, mules & kids shoes with fast delivery.",
+    "Shop Markline for trendy & comfortable footwear online in India. Explore women's sandals, block heels, platform wedges, mules, men's formal shoes, sneakers & kids shoes with fast delivery across India.",
 
   metadataBase: new URL("https://shopmarkline.in"),
 
+  keywords: [
+    // Brand
+    "Markline", "Markline shoes", "Markline footwear", "shopmarkline",
+    // High Volume Head Terms
+    "buy shoes online India", "footwear online India", "shoe store India", "online shoe shopping India",
+    // Women's
+    "women's sandals online", "ladies sandals India", "women's heels online India", "buy heels online India",
+    "women's footwear India", "girls shoes online", "platform sandals for women", "block heels for women",
+    "wedge sandals for women", "mules for women India", "women's casual shoes India",
+    "comfortable sandals for women", "stylish sandals for women", "women's party heels India",
+    "open toe sandals women", "slip on sandals women India", "ethnic sandals for women",
+    // Men's
+    "men's shoes online India", "men's formal shoes India", "casual shoes for men India",
+    "men's sneakers India", "loafers for men India", "men's footwear online",
+    // Kids
+    "kids shoes online India", "children's footwear India",
+    // Long-tail High Intent
+    "buy women's sandals online at best price", "comfortable block heels for daily wear",
+    "platform wedge sliders women India", "affordable women's shoes India",
+    "fashionable footwear online India", "stylish shoes under 2000 India",
+    "women's footwear with fast delivery India",
+    // Seasonal/Occasion
+    "festive footwear India", "wedding sandals women", "office wear sandals women",
+    "casual footwear India", "daily wear shoes India",
+  ],
+
   twitter: {
     card: "summary_large_image",
-    title: "Markline | Stylish Shoes for Men, Women & Kids Online in India",
+    title: "Markline | Buy Stylish Shoes, Sandals & Heels Online in India",
     description:
-      "Markline brings you trendy & comfortable footwear online in India. Shop men’s shoes, women’s sandals, heels, mules & kids shoes with fast delivery.",
+      "Shop Markline for trendy & comfortable footwear online in India. Explore women's sandals, block heels, platform wedges, mules, men's formal shoes, sneakers & kids shoes with fast delivery across India.",
     images: "/opengraph-image.png",
     site: "@shopmarkline",
   },
 
   openGraph: {
-    title: "Markline | Stylish Shoes for Men, Women & Kids Online in India",
+    title: "Markline | Buy Stylish Shoes, Sandals & Heels Online in India",
     description:
-      "Markline brings you trendy & comfortable footwear online in India. Shop men’s shoes, women’s sandals, heels, mules & kids shoes with fast delivery.",
+      "Shop Markline for trendy & comfortable footwear online in India. Explore women's sandals, block heels, platform wedges, mules, men's formal shoes, sneakers & kids shoes with fast delivery across India.",
     images: [
       {
         url: "/opengraph-image.png",
         width: 4800,
         height: 2520,
-        alt: "Markline | Stylish Shoes for Men, Women & Kids Online in India",
+        alt: "Markline | Stylish Shoes, Sandals & Heels Online in India",
       },
     ],
     url: "https://shopmarkline.in/",
-    locale: "en_US",
+    locale: "en_IN",
     siteName: "Markline",
+    type: "website",
   },
 
   other: {

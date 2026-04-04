@@ -16,13 +16,33 @@ export async function generateMetadata({ params }) {
 
 
   return {
-    title: `${productName} | Markline`,
+    title: `${productName} | Buy Online in India | Markline`,
     description,
-    keywords: ["Markline", productName, "Women's Fashion", "Toe Ring", "Gold Jewelry"],
+    keywords: [
+      // Brand + Product
+      "Markline", productName, "Markline footwear", "buy shoes online India",
+      // Women's category
+      "women's footwear India", "ladies sandals online", "buy heels online India",
+      "women's sandals online", "platform sandals women", "block heels women India",
+      "wedge sandals women India", "mules for women", "slip on sandals India",
+      "comfortable sandals for women", "stylish sandals India", "open toe heels women",
+      // Men's category
+      "men's shoes online India", "casual shoes men India", "men's formal shoes",
+      // Kids
+      "kids shoes India", "children footwear online India",
+      // High intent long-tail
+      "buy footwear online India", "online shoe shopping India", "footwear at best price India",
+      "affordable women's shoes India", "fashionable shoes India", "fast delivery shoes India",
+      // Occasion
+      "office wear sandals women", "wedding footwear India", "daily wear shoes India",
+      "festive sandals India", "party heels women India",
+    ],
     openGraph: {
-      title: productName,
+      title: `${productName} | Buy Online in India | Markline`,
       description,
       url: `https://shopmarkline.in/product/${slug ?? ""}`,
+      locale: "en_IN",
+      type: "website",
       images: [
         {
           url: imageUrl,
@@ -39,7 +59,7 @@ export async function generateMetadata({ params }) {
     },
     twitter: {
       card: "summary_large_image",
-      title: productName,
+      title: `${productName} | Buy Online in India | Markline`,
       description,
       images: [imageUrl],
     },

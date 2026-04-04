@@ -17,22 +17,34 @@ export async function generateMetadata({ params }) {
     "Explore Markline footwear collections – stylish shoes for men, women & kids.";
 
   return {
-    title: `${audienceName} | Markline`,
+    title: `${audienceName} | Buy Shoes Online in India | Markline`,
     description,
     keywords: [
-      "Markline",
-      audienceName,
-      "Men's Footwear",
-      "Women's Footwear",
-      "Kids Shoes",
-      "Sandals",
-      "Heels",
-      "Casual Shoes",
+      "Markline", audienceName, "Markline footwear",
+      // High Volume India Terms
+      "buy shoes online India", "footwear online India", "online shoe shopping India", "shoe store India",
+      // Women's
+      "women's sandals online India", "ladies sandals India", "buy heels online India",
+      "platform sandals for women", "block heels women India", "wedge sandals women",
+      "mules for women India", "comfortable sandals women", "stylish sandals India",
+      "open toe heels India", "slip on sandals women", "women's party heels India",
+      "ethnic sandals women", "festive footwear women", "wedding sandals India",
+      "office wear sandals women", "women's casual shoes India", "daily wear sandals India",
+      // Men's
+      "men's shoes online India", "men's formal shoes India", "casual shoes men India",
+      "loafers for men India", "men's sneakers online India",
+      // Kids
+      "kids shoes online India", "children's footwear India",
+      // Long-tail High Intent
+      "affordable footwear India", "fashionable shoes India", "fast delivery shoes India",
+      "stylish shoes under 2000 India", "footwear at best price India",
     ],
     openGraph: {
-      title: `${audienceName} | Markline`,
+      title: `${audienceName} | Buy Shoes Online in India | Markline`,
       description,
       url: `https://shopmarkline.in/products/${params.slug}`,
+      locale: "en_IN",
+      type: "website",
     },
     robots: {
       index: true,
@@ -43,7 +55,7 @@ export async function generateMetadata({ params }) {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${audienceName} | Markline`,
+      title: `${audienceName} | Buy Shoes Online in India | Markline`,
       description,
     },
     alternates: {
