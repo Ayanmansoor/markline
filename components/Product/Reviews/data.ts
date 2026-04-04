@@ -7,6 +7,7 @@ export interface Review {
     comment: string;
     isVerified: boolean;
     helpfulCount: number;
+    imageUrls?: string[];
 }
 
 export interface RatingStats {

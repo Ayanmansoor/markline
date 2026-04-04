@@ -3,11 +3,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import CartCard from './CartCard'
 import Link from 'next/link'
-import { ArrowLeft, MessageSquare, Truck } from 'lucide-react'
-import { Lock } from 'lucide-react'
-// import { useCartContext } from '@/context/ProductContext'
+import { ArrowLeft, MessageSquare, Truck, ShieldCheck, CreditCard, RotateCcw } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
-// import CheckoutButton from '../Razorpays/CommonRazorpay'
 import CartSkeleton from '../Skeleton/CartSkeleton'
 import { useCartContext } from '@/Contexts/Cart.context'
 import Checkout from './Checkout'
@@ -31,29 +29,25 @@ const calculateDiscountedPrice = (price: number, discountPercent: number) => {
 
 function CartSection() {
     const { cart, clearCart } = useCartContext()
-
     const [loading, setLoading] = useState(true)
 
     const { totalOriginalPrice, totalDiscountAmount, finalCartTotal } = useMemo(() => {
-        let totalOriginalPrice = 0; // Sum of (unit price * quantity)
-        let totalDiscountAmount = 0; // Sum of (discount amount * quantity)
-        let finalCartTotal = 0; // Sum of (discounted unit price * quantity)
+        let totalOriginalPrice = 0;
+        let totalDiscountAmount = 0;
+        let finalCartTotal = 0;
 
         cart.forEach((item) => {
             const unitPrice = item.variant.price;
             const quantity = item.quantity;
             const discountPercent = item.variant.discounts?.discount_persent || 0;
 
-            // 1. Calculate Original Price for this item
             const originalItemTotal = unitPrice * quantity;
             totalOriginalPrice += originalItemTotal;
 
-            // 2. Calculate Discounted Price for this item
             const discountedUnitPrice = calculateDiscountedPrice(unitPrice, discountPercent);
             const discountedItemTotal = discountedUnitPrice * quantity;
             finalCartTotal += discountedItemTotal;
 
-            // 3. Calculate Total Discount Amount
             const discountPerUnit = unitPrice - discountedUnitPrice;
             const itemDiscountTotal = discountPerUnit * quantity;
             totalDiscountAmount += itemDiscountTotal;
@@ -66,117 +60,159 @@ function CartSection() {
         };
     }, [cart]);
 
-
-
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false)
-        }, 1500) // simulate loading
+        }, 1200) // simulate loading
         return () => clearTimeout(timer)
     }, [])
 
     function clearCard() {
         clearCart()
-        toast("All Cart Has been delete")
+        toast.success("Bag cleared successfully")
     }
 
-
     return (
-        <section className='grid grid-cols-1  gap-5 items-start justify-between px-5 xl:px-10 2xl:px-40 py-10'>
+        <section className='max-w-[1440px] mx-auto px-5 lg:px-10 xl:px-20 py-10 lg:py-16'>
+            <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className='flex items-center justify-between mb-8 lg:mb-12 border-b border-gray-100 pb-6'
+            >
+                <div className='flex flex-col gap-1'>
+                    <h1 className='text-3xl md:text-4xl font-bold tracking-tight text-primary uppercase'>Your Bag</h1>
+                    <p className='text-sm text-gray-500 font-medium tracking-wide'>{cart.length} {cart.length === 1 ? 'item' : 'items'} in your cart</p>
+                </div>
+                {cart.length > 0 && (
+                    <button 
+                        onClick={clearCard} 
+                        className='text-xs font-bold uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors py-2'
+                    >
+                        Clear All
+                    </button>
+                )}
+            </motion.div>
 
-            <section className=' flex flex-col gap-10 lg:gap-20 '>
-
-
-                <section className='flex flex-col gap-4 md:border border-gray-200  bg-white rounded-2xl p-4 md:p-4 '>
-                    <div className='w-full relative h-auto flex items-center justify-between gap-1'>
-                        <h2 className='text-xl font-semibold text-primary '> Carts Items </h2>
-
-                        {
-                            cart.length > 0 &&
-                            <button onClick={clearCard} className='w-fit px-5 text-primary py-1 rounded-full justify-self-end   self-end   text-sm  cursor-pointer '>Clear Cart</button>
-                        }
-                    </div>
-
-
-                    <div className='w-full relative grid grid-cols-2 sm:flex sm:flex-col gap-2.5 sm:gap-3 max-h-[700px] min-h-[500px] h-full overflow-y-auto  '>
+            <div className='grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-16 items-start'>
+                {/* Cart Items Column */}
+                <div className='lg:col-span-8 flex flex-col gap-6'>
+                    <div className='flex flex-col gap-4 min-h-[400px]'>
                         {loading ? (
-                            Array.from({ length: 4 }).map((_, index) => (
+                            Array.from({ length: 3 }).map((_, index) => (
                                 <CartSkeleton key={index} />
                             ))
-                        ) : cart.length > 0 ? (
-                            cart.map((item, index) => (
-                                <CartCard key={index} data={item} />
-                            ))
                         ) : (
-                            <div className='text-base  border border-gray-300 col-span-2   font-medium text-primary text-center py-5 rounded-lg px-2'>
-                                Cart is empty
-                            </div>
+                            <AnimatePresence mode='popLayout'>
+                                {cart.length > 0 ? (
+                                    cart.map((item, index) => (
+                                        <motion.div
+                                            key={`${item.productId}-${item.variant.selectedColor.name}-${item.variant.selectedSize.size}`}
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -20 }}
+                                            transition={{ duration: 0.3, delay: index * 0.05 }}
+                                        >
+                                            <CartCard data={item} />
+                                        </motion.div>
+                                    ))
+                                ) : (
+                                    <motion.div 
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        className='flex flex-col items-center justify-center py-20 bg-gray-50/50 rounded-2xl border border-dashed border-gray-200'
+                                    >
+                                        <div className='bg-white p-4 rounded-full shadow-sm mb-4'>
+                                            <Truck className='text-gray-400' size={32} />
+                                        </div>
+                                        <h3 className='text-xl font-semibold text-primary mb-2'>Your bag is empty</h3>
+                                        <p className='text-gray-500 mb-6'>Looks like you haven&apos;t added anything yet.</p>
+                                        <Link 
+                                            href='/products' 
+                                            className='px-8 py-3 bg-black text-white text-xs font-bold uppercase tracking-widest hover:bg-gray-800 transition-all rounded-full'
+                                        >
+                                            Start Shopping
+                                        </Link>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         )}
-
-                        <Link href={'/products'} className="text-base font-medium absolute bottom-0 text-text-primary sm:flex hidden cursor-pointer bg-gray-200 px-3 py-2 rounded-lg items-center gap-2 mt-2 w-fit">
-                            <ArrowLeft height={20} className='text-text-primary' />
-                            Back to shop
-                        </Link>
                     </div>
 
-                </section>
-                <div className='w-full  items-center  grid grid-cols-2 lg:grid-cols-3 relative    justify-between gap-2.5'>
+                    <Link 
+                        href='/products' 
+                        className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-primary hover:gap-3 transition-all mt-4 w-fit group"
+                    >
+                        <ArrowLeft size={18} className='group-hover:translate-x-[-2px] transition-transform' />
+                        Continue Shopping
+                    </Link>
 
-                    <span className='flex items-center gap-2'>
-                        <span className='bg-gray-200 rounded-full p-2.5 border border-gray-50'>
-                            <Lock className='text-text-primary ' height={20} width={20} />
-                        </span>
-                        <span className='flex flex-col '>
-                            <p className=' text-sm md:text-base lg:text-lg font-semibold text-text-primary'>
-                                Secure payment
-                            </p>
-                            <p className='text-text-primary font-medium text-xs md:text-sm  '>Have you ever finally just </p>
-                        </span>
-                    </span>
-
-                    <span className='flex items-center gap-2'>
-                        <span className='bg-gray-200 rounded-full p-2.5 border border-gray-50'>
-                            <MessageSquare className='text-text-primary ' height={20} width={20} />
-                        </span>
-                        <span className='flex flex-col '>
-                            <p className='text-sm md:text-base lg:text-lg font-semibold text-text-primary'>
-                                Secure payment
-                            </p>
-                            <p className='text-text-primary font-medium  text-xs md:text-sm '>Have you ever finally just </p>
-                        </span>
-                    </span>
-
-                    <span className='flex items-center gap-2 col-span-2 sm:col-span-1'>
-                        <span className='bg-gray-200 rounded-full p-2.5 border border-gray-50'>
-                            <Truck className='text-text-primary ' height={20} width={20} />
-                        </span>
-                        <span className='flex flex-col '>
-                            <p className='text-sm md:text-base lg:text-lg font-semibold text-text-primary'>
-                                Secure payment
-                            </p>
-                            <p className='text-text-primary font-medium  text-xs md:text-sm  '>Have you ever finally just </p>
-                        </span>
-                    </span>
-
-
-
+                    {/* Trust Badges - Desktop Only (visible below items) */}
+                    <div className='hidden lg:grid grid-cols-3 gap-6 mt-16 pt-10 border-t border-gray-100'>
+                        <div className='flex items-start gap-4'>
+                            <div className='bg-gray-50 p-3 rounded-xl'>
+                                <ShieldCheck className='text-primary' size={24} strokeWidth={1.5} />
+                            </div>
+                            <div>
+                                <h4 className='text-sm font-bold text-primary uppercase tracking-tight'>Secure Checkout</h4>
+                                <p className='text-xs text-gray-500 mt-1 leading-relaxed'>SSL encrypted payment processing for your security.</p>
+                            </div>
+                        </div>
+                        <div className='flex items-start gap-4'>
+                            <div className='bg-gray-50 p-3 rounded-xl'>
+                                <RotateCcw className='text-primary' size={24} strokeWidth={1.5} />
+                            </div>
+                            <div>
+                                <h4 className='text-sm font-bold text-primary uppercase tracking-tight'>Easy Returns</h4>
+                                <p className='text-xs text-gray-500 mt-1 leading-relaxed'>Hassle-free 14-day return policy for peace of mind.</p>
+                            </div>
+                        </div>
+                        <div className='flex items-start gap-4'>
+                            <div className='bg-gray-50 p-3 rounded-xl'>
+                                <CreditCard className='text-primary' size={24} strokeWidth={1.5} />
+                            </div>
+                            <div>
+                                <h4 className='text-sm font-bold text-primary uppercase tracking-tight'>Payment Options</h4>
+                                <p className='text-xs text-gray-500 mt-1 leading-relaxed'>Multiple secure ways to pay: Cards, UPI, Netbanking.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-            </section>
-            {/* 
-            <div className='w-full sticky top-20 h-fit  flex flex-col gap-5 bg-white '>
-                <Applycoupon setCouponValue={setCoupon} />
-                <Checkout
-                    totalMrp={totalOriginalPrice}
-                    totaldiscount={totalDiscountAmount}
-                    totalPrice={finalCartTotal} coupondiscount={0} />
+                {/* Summary Column */}
+                <aside className='lg:col-span-4 sticky top-28'>
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                    >
+                        <Checkout
+                            totalMrp={totalOriginalPrice}
+                            totaldiscount={totalDiscountAmount}
+                            totalPrice={finalCartTotal}
+                            coupondiscount={0}
+                        />
+                    </motion.div>
 
-            </div> */}
-
-
-
+                    {/* Mobile Trust Badges (visible below summary) */}
+                    <div className='lg:hidden flex flex-col gap-6 mt-10 p-6 bg-gray-50 rounded-2xl'>
+                        <div className='flex items-center gap-4'>
+                            <ShieldCheck className='text-primary' size={20} />
+                            <span className='text-xs font-bold uppercase tracking-tight'>Secure Encrypted Payments</span>
+                        </div>
+                        <div className='flex items-center gap-4'>
+                            <RotateCcw className='text-primary' size={20} />
+                            <span className='text-xs font-bold uppercase tracking-tight'>14-Day Hassle-Free Returns</span>
+                        </div>
+                        <div className='flex items-center gap-4'>
+                            <CreditCard className='text-primary' size={20} />
+                            <span className='text-xs font-bold uppercase tracking-tight'>Cards, UPI & Net Banking</span>
+                        </div>
+                    </div>
+                </aside>
+            </div>
         </section>
     )
 }
 
-export default CartSection
+export default CartSection

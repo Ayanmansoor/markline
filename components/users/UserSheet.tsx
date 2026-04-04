@@ -104,49 +104,61 @@ async function onSubmit({ email, phone, name }: updateschema) {
 
     return (
         <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger className='w-fit h-fit relative justify-self-end '>
-                <BsThreeDotsVertical className='text-primary bg-gray-200  rounded-md cursor-pointer w-fit text-[45px] py-3' />
+            <SheetTrigger className='w-fit h-fit relative'>
+                <div className='p-3 bg-gray-50 text-black hover:bg-black hover:text-white rounded-xl transition-all duration-300 shadow-sm'>
+                    <BsThreeDotsVertical />
+                </div>
             </SheetTrigger>
-            <SheetContent>
-                <SheetHeader>
-                    <SheetTitle className='text-lg font-semibold text-primary'>
-                        Edit Profile
-                    </SheetTitle>
+            <SheetContent className="border-l border-gray-100 sm:max-w-md">
+                <SheetHeader className="space-y-6">
+               
 
-                    <form action="" onSubmit={handleSubmit(onSubmit)} className='w-full relative h-auto flex flex-col gap-3 py-10'>
-                        <span className='w-full relative h-auto flex flex-col gap-1'>
-                            <label htmlFor="" className='text-base font-medium text-primary'>
-                                name
-                            </label>
-                            <input type="text" className='text-base border px-5 py-2 rounded-md  font-medium text-primary' placeholder='Enter Name' {...register('name')} />
-                        </span>
-                        <span className='w-full relative h-auto flex flex-col gap-1'>
-                            <label htmlFor="" className='text-base font-medium text-primary'>
-                                Email
-                            </label>
-                            <input type="text" className='text-base border px-5 py-2 rounded-md  font-medium text-primary' placeholder='Enter Email' {...register('email')} />
-                        </span>
-                        <span className='w-full relative h-auto flex flex-col gap-1'>
-                            <label htmlFor="" className='text-base font-medium text-primary'>
-                                Phone
-                            </label>
-                            <input type="text" className='text-base border px-5 py-2 rounded-md  font-medium text-primary' placeholder='Enter Phone'  {...register('phone')}  />
-                        </span>
+                    <form onSubmit={handleSubmit(onSubmit)} className='w-full flex flex-col gap-8 pt-10'>
+                        <div className='flex flex-col gap-6'>
+                            <div className='flex flex-col gap-2'>
+                                <label className='text-[10px] font-black uppercase tracking-[0.3em] text-gray-400'>Authorized Name</label>
+                                <input 
+                                    type="text" 
+                                    className='text-sm bg-gray-50 border border-gray-100 px-5 py-4 rounded-xl font-bold text-black focus:outline-none focus:ring-1 focus:ring-black transition-all' 
+                                    placeholder='Enter Authorized Name' 
+                                    {...register('name')} 
+                                />
+                                {errors.name && <span className="text-[10px] font-black text-red-500 uppercase">{errors.name.message as string}</span>}
+                            </div>
 
+                            <div className='flex flex-col gap-2'>
+                                <label className='text-[10px] font-black uppercase tracking-[0.3em] text-gray-400'>Official Email</label>
+                                <input 
+                                    type="text" 
+                                    className='text-sm bg-gray-50 border border-gray-100 px-5 py-4 rounded-xl font-bold text-black focus:outline-none focus:ring-1 focus:ring-black transition-all' 
+                                    placeholder='Enter Official Email' 
+                                    {...register('email')} 
+                                />
+                                {errors.email && <span className="text-[10px] font-black text-red-500 uppercase">{errors.email.message as string}</span>}
+                            </div>
 
+                            <div className='flex flex-col gap-2'>
+                                <label className='text-[10px] font-black uppercase tracking-[0.3em] text-gray-400'>Contact Line</label>
+                                <input 
+                                    type="text" 
+                                    className='text-sm bg-gray-50 border border-gray-100 px-5 py-4 rounded-xl font-bold text-black focus:outline-none focus:ring-1 focus:ring-black transition-all' 
+                                    placeholder='Enter Contact Line'  
+                                    {...register('phone')}  
+                                />
+                                {errors.phone && <span className="text-[10px] font-black text-red-500 uppercase">{errors.phone.message as string}</span>}
+                            </div>
+                        </div>
 
-                        <SheetFooter className='w-full relative h-auto flex items-start '>
-                            <button disabled={isUpdating} className='text-base px-5  md:px-7 py-2 md:py-3 font-medium text-white  bg-primary transition-all duration-75 hover:text-primary hover:bg-white  cursor-pointer hover:border-primary border'>{isUpdating ? "Updating..." : "Update"}</button>
-                        </SheetFooter>
-
+                        <button 
+                            disabled={isUpdating} 
+                            className='w-full px-8 py-5 bg-black text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-black/10 hover:-translate-y-1 transition-all active:scale-95 disabled:opacity-50'
+                        >
+                            {isUpdating ? "Processing Update..." : "Update Markline Identity"}
+                        </button>
                     </form>
 
-
-                    <p className='text-base font-medium text-primary' ref={message}>
-
-                    </p>
+                    <p className='text-xs font-black uppercase tracking-widest text-center' ref={message}></p>
                 </SheetHeader>
-
             </SheetContent>
         </Sheet>
     )

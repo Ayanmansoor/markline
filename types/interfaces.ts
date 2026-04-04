@@ -354,7 +354,7 @@ export interface CityComboboxProps {
 export interface addressDailogprops {
   children: React.ReactNode;
   currentaddress?: AddressProps;
-  handleperform?: () => void;
+  handleperform?: (data?: any) => void;
 }
 
 export interface AddressProps {
@@ -370,7 +370,8 @@ export interface AddressProps {
   index?: number;
   recipientPhone?: string
   recipientName?: string
-  handleperform?: () => void;
+  landmark?: string | null;
+  handleperform?: (data?: any) => void;
 }
 
 export interface OrderProps {
@@ -578,4 +579,21 @@ export interface AudienceProps {
   seo_discription: string | null; // text
   image: string | null; // text (URL of image)
   created_at: string; // timestamptz (ISO string)
+}
+
+export interface ReviewProps {
+  id: number;
+  created_at: string;
+  product_id: number;
+  user_id: string;
+  rating: number;
+  title: string;
+  comment: string;
+  is_verified?: boolean;
+  likes?: number;
+  image_urls?: string[] | null;
+  user?: {
+    name?: string;
+    avatar_url?: string;
+  };
 }

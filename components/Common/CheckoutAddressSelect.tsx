@@ -192,7 +192,6 @@ function CheckoutAddressSelect({
 
 
 
-    console.log(userAddress, 'this is currrent user address ')
 
 
 
@@ -362,7 +361,7 @@ function CheckoutAddressSelect({
                     {userAddress?.map((address: any) => (
                         <div
                             key={address.id}
-                            className="relative group cursor-pointer"
+                            className="relative group cursor-pointer border border-gray-200 "
                             onClick={() => setSelectedAddress(address)}
                         >
                             <Label

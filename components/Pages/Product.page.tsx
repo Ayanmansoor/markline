@@ -87,7 +87,6 @@ function ProductPage({ initialProduct }: ProductPageProps) {
   });
 
 
-  console.log(product, "this is product data ")
 
 
   if (isLoading) {

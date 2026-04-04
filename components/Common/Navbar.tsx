@@ -99,7 +99,7 @@ function Navbar() {
 
                         <li className='flex gap-1 items-center text-p18 font-medium cursor-pointer'>
                             <Link href={"/carts"} className='relative h-auto w-auto'>
-                                <ShoppingBag height={23} className='  text-primary' />
+                                <ShoppingBag height={23} width={23} className='text-primary' />
                                 {
                                     cart.length > 0 &&
                                     <p className='p-1 h-fit rounded-full text-[12px] leading-[0.6] absolute -top-2 -right-1 flex items-center justify-center w-fit font-normal bg-gray-800 text-white'>{cart?.length}</p>
@@ -107,7 +107,7 @@ function Navbar() {
                             </Link>
                         </li>
 
-                        {/* <NavUser /> */}
+                        <NavUser />
 
                     </div>
                 </ul>

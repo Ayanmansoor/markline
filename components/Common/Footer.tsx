@@ -116,12 +116,10 @@ function Footer() {
 
             <div className='flex flex-col gap-1 mb-6'>
               <h2 className='text-base font-semibold text-white'>Office Address:</h2>
-              <p className='text-sm font-medium text-primary capitalize '>
+              <p className='text-sm font-medium text-white capitalize '>
                 ROOM NO 165 INDRA NAGAR , NR-BARMA SHEEL RAILWAY LINE , KURLA EAST , NEHRU NAGAR , MUMBAI 400024
               </p>
 
-              <h2 className='text-base font-semibold text-white mt-3'>Contact Details:</h2>
-              <Link href={'melto:stylemarkline@gmail.com'} className='text-sm font-sm text-primary'></Link>
 
             </div>
 

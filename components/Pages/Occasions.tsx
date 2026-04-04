@@ -253,7 +253,13 @@ const Occasions: React.FC<OccasionsProps> = ({ initialCollections, initialGroupO
         ) : groupOfProducts?.data?.length > 0 ? (
           groupOfProducts?.data?.map((item: any, index: number) => (
             item.products?.length > 0 &&
-            <GridRroduct data={item.products} url={'product'} css='grid-cols-2 md:grid-cols-3 px-3 md:px-5 md:px-10 py-5 md:py-10  gap-3 md:gap-5 lg:grid-cols-4 bg-gray-200 lg:px-10 xl:px-20 2xl:px-40     ' productsCardCss=' h-[170px] object-cover  sm:h-[300px] md:h-[350px] lg:h-[350px] xl:h-[400px]' key={index} />
+            <GridRroduct data={item.products}
+              url={'product'}
+              css='grid-cols-2 md:grid-cols-3 px-3 md:px-5 md:px-10 py-5 md:py-10  gap-3 md:gap-5 lg:grid-cols-4 bg-gray-200 lg:px-10 xl:px-20 2xl:px-40  '
+              productsCardCss=" h-[180px] object-cover  sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
+              key={index} />
+
+
           ))
         ) : (
           <></>

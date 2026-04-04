@@ -1,4 +1,4 @@
-import { ProductsProps } from "@/types/interfaces";
+import { ProductsProps, ReviewProps } from "@/types/interfaces";
 import { mysupabase } from "./SupabaseConfig";
 import axios from "axios";
 
@@ -641,6 +641,69 @@ async function getAllHeader() {
   } catch (error) { }
 }
 
+async function getReviews(productId: number) {
+  try {
+    const { data, error } = await mysupabase
+      .from("reviews")
+      .select(`*`)
+      .eq("product_id", productId)
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+    
+    // Map data to match ReviewProps
+    // Note: Since we can't join to auth.users directly, we'll use a placeholder for now
+    return data.map(review => ({
+      ...review,
+      user: {
+        name: "Verified Customer",
+        avatar_url: null
+      }
+    })) as unknown as ReviewProps[];
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    return [];
+  }
+}
+
+async function addReview(reviewData: Partial<ReviewProps>) {
+  try {
+    const { data, error } = await mysupabase
+      .from("reviews")
+      .insert(reviewData)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error("Error adding review:", error);
+    throw error;
+  }
+}
+
+async function uploadReviewImage(file: File) {
+  try {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Math.random()}-${Date.now()}.${fileExt}`;
+    const filePath = `reviews/${fileName}`;
+
+    const { data, error } = await mysupabase.storage
+      .from('product-reviews')
+      .upload(filePath, file);
+
+    if (error) throw error;
+
+    const { data: { publicUrl } } = mysupabase.storage
+      .from('product-reviews')
+      .getPublicUrl(filePath);
+
+    return publicUrl;
+  } catch (error) {
+    console.error("Error uploading review image:", error);
+    throw error;
+  }
+}
 
 export {
   getAllBanner,
@@ -681,5 +744,8 @@ export {
 
   fetchGroupOfPRoductss,
 
-  getAllHeader
+  getAllHeader,
+  getReviews,
+  addReview,
+  uploadReviewImage
 };

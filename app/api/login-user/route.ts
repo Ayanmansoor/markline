@@ -37,7 +37,6 @@ export async function POST(req: NextRequest) {
 
   const { error } = await mysupabase.auth.signInWithOtp({
     email,
-    phone,
     options: {
       emailRedirectTo: `${req.headers.get("origin")}/auth/callback`
     }

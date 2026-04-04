@@ -5,19 +5,31 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { mysupabase } from "@/Supabase/SupabaseConfig";
-import { StateCombobox } from "../FormComponents/StateCombobox";
-import { CityNameCombobox } from "../FormComponents/CityNameCombobox";
 import { toast } from "sonner";
 import { UserInterface } from "@/types/interfaces";
+import {
+  MapPin,
+  User,
+  Phone,
+  Home,
+  Briefcase,
+  MoreHorizontal,
+  CheckCircle2,
+  Navigation,
+  Loader2,
+  Building2
+} from "lucide-react";
+
 const addressFromSchema = z.object({
-  name: z.string().min(2, "Name is not valid "),
+  name: z.string().min(2, "Address label is required"),
   recipientName: z.string().min(2, "Recipient name is required"),
   recipientPhone: z.string().regex(/^[6-9]\d{9}$/, "Invalid phone number"),
-  state_name: z.string(),
-  city: z.string(),
-  pin_code: z.string().regex(/^\d{6}$/, "Pin code must be valid"),
-  full_address: z.string().min(8, "Address must be at required"),
-  isdefault: z.boolean(), // ✅ FIX
+  state_name: z.string().min(1, "State is required"),
+  city: z.string().min(1, "City is required"),
+  pin_code: z.string().regex(/^\d{6}$/, "Pin code must be 6 digits"),
+  full_address: z.string().min(8, "Detailed address is required"),
+  landmark: z.string().optional(),
+  isdefault: z.boolean(),
   latitude: z.number().optional(),
   longitude: z.number().optional(),
 });
@@ -29,11 +41,9 @@ export default function AddUserAddressForm({
 }: {
   handleperform?: (data: any) => void;
 }) {
-  const [User, setUser] = useState<UserInterface>();
+  const [UserObj, setUser] = useState<UserInterface>();
   const [loadingPincode, setLoadingPincode] = useState(false);
-  const [selectedLabelOption, setSelectedLabelOption] = useState<string | null>(
-    null
-  );
+  const [selectedLabelOption, setSelectedLabelOption] = useState<string | null>(null);
   const [showOtherLabel, setShowOtherLabel] = useState(false);
 
   const {
@@ -41,11 +51,17 @@ export default function AddUserAddressForm({
     watch,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     setValue,
   } = useForm<FormInputs>({
     resolver: zodResolver(addressFromSchema),
+    defaultValues: {
+      isdefault: false,
+      name: "",
+    }
   });
+
+  const pinCodeValue = watch("pin_code");
 
   useEffect(() => {
     async function getUser() {
@@ -56,14 +72,6 @@ export default function AddUserAddressForm({
     }
     getUser();
   }, []);
-
-  function setStateValue(stateName: string) {
-    setValue("state_name", stateName);
-  }
-
-  function setCityValue(cityName: string) {
-    setValue("city", cityName);
-  }
 
   useEffect(() => {
     if (!navigator.geolocation) return;
@@ -78,72 +86,80 @@ export default function AddUserAddressForm({
 
   useEffect(() => {
     const fetchCityState = async () => {
-      const pincode = watch().pin_code;
-      if (!pincode || pincode.length !== 6) return;
+      if (!pinCodeValue || pinCodeValue.length !== 6) return;
 
       try {
         setLoadingPincode(true);
-        const res = await axios.get(
-          `https://api.postalpincode.in/pincode/${pincode}`
-        );
+        const res = await axios.get(`https://api.postalpincode.in/pincode/${pinCodeValue}`);
         const data = res.data[0];
 
         if (data.Status === "Success") {
           const { District, State } = data.PostOffice[0];
-          setValue("city", District);
-          setValue("state_name", State);
-          toast.success(`Auto-filled: ${District}, ${State}`);
+          setValue("city", District, { shouldValidate: true });
+          setValue("state_name", State, { shouldValidate: true });
+          toast.success(`Location detected: ${District}, ${State}`);
+        } else {
+          toast.error("Invalid Pin Code");
         }
       } catch {
-        toast.error("Failed to fetch location from pincode");
+        toast.error("Network error fetching location");
       } finally {
         setLoadingPincode(false);
       }
     };
 
     fetchCityState();
-  }, [watch().pin_code, setValue]);
+  }, [pinCodeValue, setValue]);
 
-  async function onSubmit(data: any) {
+  async function onSubmit(data: FormInputs) {
     try {
-      const newaddress = await axios.post("/api/create-address", {
+      if (!UserObj?.id) {
+        toast.error("Please login to add an address");
+        return;
+      }
+      const response = await axios.post("/api/create-address", {
         ...data,
-        user_id: User?.id,
+        user_id: UserObj.id,
       });
-      toast.success("Address added successfully");
+      toast.success("Address secured in registry");
       reset();
-      handleperform && handleperform(newaddress);
+      setSelectedLabelOption(null);
+      setShowOtherLabel(false);
+      handleperform && handleperform(response.data);
     } catch (error) {
-      console.log("API error:", error);
+      console.error("API error:", error);
       toast.error("Failed to add address");
     }
   }
 
+  const labelIcons = {
+    Home: <Home size={16} />,
+    Work: <Briefcase size={16} />,
+    Other: <MoreHorizontal size={16} />
+  };
+
   return (
-    <div className="w-full bg-gray-100 border border-gray-200 rounded-md p-5">
-      <h2 className="text-lg font-semibold text-primary border-b pb-3 mb-4">
-        Add New Address
-      </h2>
+    <div className="w-full bg-white border border-gray-100 rounded-3xl p-6 md:p-8 shadow-2xl shadow-gray-200/50">
+      <div className="flex flex-col gap-1 mb-8">
+        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Postal Registry</span>
+        <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-black capitalize leading-none">
+          Add New Address
+        </h2>
+      </div>
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="grid grid-cols-2 gap-3"
-      >
-        {/* name */}
-        <div className="flex flex-col col-span-2 gap-2">
-          <label className="text-base text-text-primary font-medium">
-            Label Name *
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+        {/* Address Label Selector */}
+        <div className="space-y-3">
+          <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 ml-1">
+            Address Identity *
           </label>
-
-          {/* Badge Buttons */}
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3 mb-3">
             {["Home", "Work", "Other"].map((label) => (
               <button
                 type="button"
                 key={label}
                 onClick={() => {
                   setSelectedLabelOption(label);
-
                   if (label === "Other") {
                     setShowOtherLabel(true);
                     setValue("name", "");
@@ -153,117 +169,149 @@ export default function AddUserAddressForm({
                   }
                 }}
                 className={`
-          px-4 py-1 rounded-full border transition
-          ${
-            selectedLabelOption === label
-              ? "bg-text-secondary text-white"
-              : "bg-gray-100"
-          }
-        `}
+                  flex items-center gap-2 px-6 py-1.5 rounded-full border-2 transition-all duration-300 font-bold text-xs uppercase tracking-widest
+                  ${selectedLabelOption === label
+                    ? "bg-black border-black text-white shadow-lg shadow-black/20"
+                    : "bg-white border-gray-300 text-gray-400 hover:border-gray-200"
+                  }
+                `}
               >
+                {labelIcons[label]}
                 {label}
               </button>
             ))}
           </div>
 
-          {/* Show custom input if "Other" is selected */}
           {showOtherLabel && (
-            <input
-              className="border px-4 py-2 rounded-md bg-gray-100 mt-2"
-              placeholder="Enter custom label..."
-              {...register("name")}
-            />
+            <div className="relative mt-1 group">
+              <input
+                className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-1.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
+                placeholder="PROPOSE CUSTOM LABEL..."
+                {...register("name")}
+              />
+              <CheckCircle2 size={10} className="absolute right-4 top-3.5 text-gray-300 group-focus-within:text-black transition-colors" />
+            </div>
           )}
+          {errors.name && <p className="text-red-500 text-[10px] font-bold mt-1 ml-1">{errors.name.message}</p>}
         </div>
 
-        {/* recipientName */}
-        <div className="col-span-1">
-          <label className="text-sm font-medium">Recipient Name</label>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          {/* Recipient Identity */}
+          <div className="space-y-2 group">
+            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 ml-1">Recipient Identity</label>
+            <div className="relative ">
+              <input
+                type="text"
+                className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-1.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
+                placeholder="FULL LEGAL NAME"
+                {...register("recipientName")}
+              />
+            </div>
+            {errors.recipientName && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.recipientName.message}</p>}
+          </div>
+
+          {/* Contact Link */}
+          <div className="space-y-2 group">
+            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 ml-1">Contact Link</label>
+            <div className="relative">
+              <input
+                type="text"
+                className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-1.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
+                placeholder="PHONE NUMBER"
+                {...register("recipientPhone")}
+              />
+            </div>
+            {errors.recipientPhone && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.recipientPhone.message}</p>}
+          </div>
+
+          {/* Pin Code / Auto-detect */}
+          <div className="space-y-2 group">
+            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 ml-1">Jurisdiction Code (PIN)</label>
+            <div className="relative">
+              <input
+                type="text"
+                className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-1.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
+                placeholder="6-DIGIT CODE"
+                {...register("pin_code")}
+              />
+            </div>
+            {errors.pin_code && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.pin_code.message}</p>}
+          </div>
+
+          {/* Landmark - NEW */}
+          <div className="space-y-2 group">
+            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 ml-1">Visual Landmark</label>
+            <div className="relative">
+              <input
+                type="text"
+                className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-1.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
+                placeholder="NEARBY FAMOUS PLACE"
+                {...register("landmark")}
+              />
+            </div>
+          </div>
+
+          {/* City - Dynamic Input */}
+          <div className="space-y-2 group">
+            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 ml-1">City / District</label>
+            <div className="relative">
+              <input
+                type="text"
+                className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-1.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
+                placeholder="AUTO-POPULATED"
+                {...register("city")}
+              />
+            </div>
+            {errors.city && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.city.message}</p>}
+          </div>
+
+          {/* State - Dynamic Input */}
+          <div className="space-y-2 group">
+            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 ml-1">State / Province</label>
+            <div className="relative">
+              <input
+                type="text"
+                className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-1.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
+                placeholder="AUTO-POPULATED"
+                {...register("state_name")}
+              />
+            </div>
+            {errors.state_name && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.state_name.message}</p>}
+          </div>
+
+          {/* Full Detailed Address */}
+          <div className="col-span-1 md:col-span-2 space-y-2 group">
+            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 ml-1">Detailed Manifest (Full Address)</label>
+            <div className="relative">
+              <textarea
+                rows={3}
+                className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-1.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none resize-none"
+                placeholder="STREET NAME, HOUSE NUMBER, ETC."
+                {...register("full_address")}
+              />
+            </div>
+            {errors.full_address && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.full_address.message}</p>}
+          </div>
+        </div>
+
+        {/* Default toggle */}
+        <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-2xl border border-gray-100/50">
           <input
-            type="text"
-            className="w-full px-3 py-2 border rounded-md border-gray-200"
-            placeholder="Enter Your Recipient Name "
-            {...register("recipientName")}
+            type="checkbox"
+            id="default-check"
+            className="w-5 h-5 accent-black rounded-lg cursor-pointer"
+            {...register("isdefault")}
           />
-          {errors.recipientName && (
-            <p className="text-red-500 text-xs">
-              {errors.recipientName.message}
-            </p>
-          )}
-        </div>
-
-        {/* recipientPhone */}
-        <div className="col-span-1">
-          <label className="text-sm font-medium">Recipient Phone</label>
-          <input
-            type="text"
-            className="w-full px-3 py-2 border rounded-md border-gray-200"
-            placeholder="Enter Your Recipient Phone "
-            {...register("recipientPhone")}
-          />
-          {errors.recipientPhone && (
-            <p className="text-red-500 text-xs">
-              {errors.recipientPhone.message}
-            </p>
-          )}
-        </div>
-
-        {/* pin code */}
-        <div className="col-span-1">
-          <label className="text-sm font-medium">Pin Code</label>
-          <input
-            type="text"
-            className="w-full px-3 py-2 border rounded-md border-gray-200"
-            placeholder="Enter Your Pin Code "
-            {...register("pin_code")}
-          />
-          {loadingPincode && (
-            <p className="text-blue-500 text-xs">Fetching...</p>
-          )}
-          {errors.pin_code && (
-            <p className="text-red-500 text-xs">{errors.pin_code.message}</p>
-          )}
-        </div>
-
-        {/* state combobox */}
-        <StateCombobox
-          setStateValue={setStateValue}
-          errormessage={errors.state_name?.message || ""}
-          selectedState={watch().state_name}
-        />
-
-        {/* city combobox */}
-        <CityNameCombobox
-          setCityName={setCityValue}
-          errormessage={errors.city?.message || ""}
-          statename={watch().state_name}
-          selectcity={watch().city}
-        />
-
-        {/* full address */}
-        <div className="col-span-2">
-          <label className="text-sm font-medium">Full Address</label>
-          <textarea
-            className="w-full px-3 py-2 border rounded"
-            {...register("full_address")}
-          />
-          {errors.full_address && (
-            <p className="text-red-500 text-xs">
-              {errors.full_address.message}
-            </p>
-          )}
-        </div>
-
-        {/* default checkbox */}
-        <div className="col-span-2 flex items-center gap-2">
-          <input type="checkbox" {...register("isdefault")} />
-          <label className="text-sm font-medium">
-            Use this address as default
+          <label htmlFor="default-check" className="text-xs font-bold text-gray-700 cursor-pointer select-none">
+            ESTABLISH AS PRIMARY JURISDICTION (DEFAULT)
           </label>
         </div>
 
-        <button className="col-start-2 bg-primary text-white px-5 py-2 rounded justify-self-end">
-          Add Address
+        <button
+          disabled={isSubmitting}
+          className="w-full md:w-auto md:min-w-[200px] bg-black text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-black/20 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-3 disabled:bg-gray-400"
+        >
+          {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : "SECURE ADDRESS"}
         </button>
       </form>
     </div>

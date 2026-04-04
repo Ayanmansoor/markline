@@ -3,14 +3,15 @@ import { mysupabase } from "@/Supabase/SupabaseConfig";
 
 export async function POST(req: NextRequest) {
     try {
-        const {
-            state_name,
-            city,
-            pin_code,
-            full_address,
-            isdefault,
-            name,
-            user_id,
+        const { 
+            id,
+            state_name, 
+            city, 
+            pin_code, 
+            full_address, 
+            is_selected, 
+            name, 
+            user_id, 
             landmark,
             recipientName,
             recipientPhone,
@@ -18,33 +19,36 @@ export async function POST(req: NextRequest) {
             longitude
         } = await req.json();
 
-        // Standardize the field mapping from frontend (CamelCase) to DB (snake_case/custom)
-        const { data, error } = await mysupabase.from("address").insert({
+        if (!id) {
+            return NextResponse.json({ error: "Address ID is required" }, { status: 400 });
+        }
+
+        const { data, error } = await mysupabase.from("address").update({
             state_name,
-            city: city,
-            pin_code: pin_code,
+            city_name: city,
+            pincode: pin_code,
             full_address,
-            is_selected: isdefault,
+            is_selected,
             name,
             user_id,
             landmark,
-            recipientName: recipientName,
-            recipientPhone: recipientPhone,
+            recipient_name: recipientName,
+            recipient_phone: recipientPhone,
             latitude,
             longitude
-        }).select();
+        }).eq("id", id).select();
 
         if (error) {
-            console.error("Supabase error:", error);
+            console.error("Supabase update error:", error);
             return NextResponse.json(
-                { error: error instanceof Error ? error.message : "Database Error" },
+                { error: error instanceof Error ? error.message : "Database Update Error" },
                 { status: 400 }
             );
         }
 
         return NextResponse.json({ success: true, data }, { status: 200 });
     } catch (error) {
-        console.error("Internal API error:", error);
+        console.error("Internal API update error:", error);
         return NextResponse.json(
             { error: error instanceof Error ? error.message : "Internal Server Error" },
             { status: 400 }

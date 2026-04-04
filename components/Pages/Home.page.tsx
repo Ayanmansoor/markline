@@ -51,7 +51,6 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
     setSelected(option);
   };
 
-  console.log(initialBanners, "initialBanners")
 
   const { data: homebanners = [], isLoading: isHomebanners } = useQuery<any>({
     queryKey: ["homebanners"],

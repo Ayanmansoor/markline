@@ -1,48 +1,42 @@
 'use client'
-import React, { useState, useRef, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import axios from 'axios'
-// import { submitOrders } from '@/Supabase/acceptOrderForm'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import LoadRazorpay from '@/utils/loadrazorpay'
-import SendMail from '@/lib/SendMailHelper'
-
-
-
-interface response {
-    message: any;
-    code: number;
-    isOrder: boolean;
-    data: any;
-}
+import { 
+  MapPin, 
+  User, 
+  Phone, 
+  Mail,
+  Navigation,
+  Loader2,
+  Building2,
+  PackageCheck,
+  CreditCard
+} from "lucide-react";
+import { NewAddressFromProps, OrderProps } from '@/types/interfaces'
+import UpdateLocalstorageForOrder from '@/lib/UpdateLocalStorageForOrder'
+import { toast } from 'sonner'
 
 const addressFromSchema = z.object({
-    name: z.string().min(2, "Name is not valid"),
-    email: z.string().email("Email must be valid"),
-    phone: z.string().regex(/^\d{10}$/, "Phone must be valid"),
-    pin_code: z.string().regex(/^\d{6}$/, "Pin code must be valid"),
-    state_name: z.string().min(2, "State name is required"),
-    city: z.string().min(2, "City name is required"),
-    full_address: z.string().min(5, "Address must be at least 5 characters"),
+    name: z.string().min(2, "Full name is required"),
+    email: z.string().email("Invalid email address"),
+    phone: z.string().regex(/^[6-9]\d{9}$/, "Invalid 10-digit phone number"),
+    pin_code: z.string().regex(/^\d{6}$/, "Pin code must be 6 digits"),
+    state_name: z.string().min(1, "State is required"),
+    city: z.string().min(1, "City is required"),
+    full_address: z.string().min(8, "Detailed address is required"),
+    landmark: z.string().optional(),
     latitude: z.number().optional(),
     longitude: z.number().optional(),
 });
 
-import { AddressFromProps, NewAddressFromProps, OrderProps, userinterfce } from '@/types/interfaces'
-import { StateCombobox } from '../FormComponents/StateCombobox'
-import { CityNameCombobox } from '../FormComponents/CityNameCombobox'
-import { ordersprops } from '../users/OrderplacedSection'
-import UpdateLocalstorageForOrder from '@/lib/UpdateLocalStorageForOrder'
-import { toast } from 'sonner'
-
 type FormInputs = z.infer<typeof addressFromSchema>;
 
-
-// import Razorpay from 'razorpay'
-
-function AddressForm({ product, setConfirm, setOrderID, variant, }: NewAddressFromProps) {
+function AddressForm({ product, setConfirm, setOrderID, variant }: NewAddressFromProps) {
     const { executeRecaptcha } = useGoogleReCaptcha()
     const [isOrderSub, setOrderSub] = useState<boolean>(false)
     const [loadingPincode, setLoadingPincode] = useState(false)
@@ -57,85 +51,57 @@ function AddressForm({ product, setConfirm, setOrderID, variant, }: NewAddressFr
         resolver: zodResolver(addressFromSchema),
     })
 
+    const pinCodeValue = watch("pin_code");
 
-
-
-
-    function setStateValue(stateName) {
-        setValue("state_name", stateName)
-        console.log('this is state name', watch().state_name)
-    }
-    function setCityValue(cityname) {
-        setValue("city", cityname)
-    }
     useEffect(() => {
-        if (!navigator.geolocation) {
-            console.log("Geolocation is not supported by this browser.");
-            return;
-        }
-
+        if (!navigator.geolocation) return;
         navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const { latitude, longitude } = position.coords;
-                setValue("latitude", latitude);
-                setValue("longitude", longitude);
-                console.log("Captured Location:", latitude, longitude);
+            (pos) => {
+                setValue("latitude", pos.coords.latitude);
+                setValue("longitude", pos.coords.longitude);
             },
-            (error) => {
-                console.warn("User denied location or error fetching location:", error);
-            }
+            (err) => console.warn("Location error:", err)
         );
     }, [setValue]);
 
     useEffect(() => {
-        const fetchCityAndState = async () => {
-            if (watch().pin_code && watch().pin_code.length === 6) {
-                try {
-                    setLoadingPincode(true);
-                    const res = await axios.get(`https://api.postalpincode.in/pincode/${watch().pin_code}`);
-                    const data = res.data[0];
-
-                    if (data.Status === 'Success' && data.PostOffice && data.PostOffice.length > 0) {
-                        const { District, State } = data.PostOffice[0];
-                        setValue('city', District);
-                        setValue('state_name', State);
-                        toast.success(`Auto-filled city: ${District}, state: ${State}`);
-                    } else {
-                        toast.error('Invalid Pincode or no data found');
-                    }
-                } catch (err) {
-                    console.error(err);
-                    toast.error('Failed to fetch location from pincode');
-                } finally {
-                    setLoadingPincode(false);
+        const fetchCityState = async () => {
+            if (!pinCodeValue || pinCodeValue.length !== 6) return;
+            try {
+                setLoadingPincode(true);
+                const res = await axios.get(`https://api.postalpincode.in/pincode/${pinCodeValue}`);
+                const data = res.data[0];
+                if (data.Status === "Success") {
+                    const { District, State } = data.PostOffice[0];
+                    setValue("city", District, { shouldValidate: true });
+                    setValue("state_name", State, { shouldValidate: true });
+                    toast.success(`Location detected: ${District}, ${State}`);
                 }
+            } catch {
+                toast.error("Error fetching location");
+            } finally {
+                setLoadingPincode(false);
             }
         };
-
-        fetchCityAndState();
-    }, [watch().pin_code, setValue]);
+        fetchCityState();
+    }, [pinCodeValue, setValue]);
 
     const { final_price, discountPrice } = useMemo(() => {
         const discountPercent = variant?.discounts?.discount_persent || 0;
         const discountPrice = variant?.price * (discountPercent / 100);
         const final_price = Math.floor(variant?.price - discountPrice);
-
         return { final_price, discountPrice };
-    }, [product]);
+    }, [variant, product]);
 
     async function saveBeforePayment(data: FormInputs) {
         try {
             setOrderSub(true)
-
             if (!executeRecaptcha) {
-                console.log("token is not generated");
+                toast.error("Security verification failed");
                 setOrderSub(false)
-
                 return;
             }
-
             const recaptchaToken = await executeRecaptcha()
-
 
             const orders = {
                 ...data,
@@ -146,74 +112,62 @@ function AddressForm({ product, setConfirm, setOrderID, variant, }: NewAddressFr
                 color: product.selectedColor,
                 size: product.selectedSize,
                 product_key: product.id,
-
             }
-
-
-            console.log(orders, 'this is data  igoinh to save befor the payment')
 
             const response = await axios.post('/api/place-my-order', {
                 orderdata: orders,
                 recaptchaToken
             })
-
             await onSubmit(response.data.data)
-        }
-        catch (error) {
-            toast("Something strength happend . try again later.")
-            console.log(error, "this errror")
+        } catch (error) {
+            toast.error("Order initialization failed");
+            console.error(error);
             setOrderSub(false)
-
         }
     }
-
 
     async function onSubmit(data: OrderProps) {
+        try {
+            const response = await axios.post('/api/create-order', {
+                amount: final_price * 100,
+            });
 
+            const res = await LoadRazorpay();
+            if (!res) {
+                toast.error('Failed to load payment portal');
+                setOrderSub(false)
+                return;
+            }
 
-        const response = await axios.post('/api/create-order', {
-            amount: final_price * 100,
-        });
-
-        const res = await LoadRazorpay();
-        if (!res) {
-            alert('Failed to load Razorpay SDK');
-            setOrderSub(false)
-            return;
-
+            const options = {
+                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                amount: response.data.amount,
+                one_click_checkout: true,
+                currency: response.data.currency,
+                name: "Markline",
+                description: `Payment for ${product.id}`,
+                order_id: response.data.id,
+                image: "https://res.cloudinary.com/demhgityh/image/upload/v1750353291/markline-checkout-logo_ukrvoi.png",
+                handler: (response) => orderSubmition(response, data),
+                prefill: {
+                    name: data.name,
+                    email: data.email,
+                    contact: data.phone,
+                },
+                theme: { color: "#000000" },
+            };
+            const paymentObject = new (window as any).Razorpay(options);
+            paymentObject.open();
+            setConfirm && setConfirm("password");
+        } catch (err) {
+            toast.error("Payment portal error");
+            setOrderSub(false);
         }
-
-        const options = {
-            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-            amount: response.data.amount,
-            one_click_checkout: true,
-            currency: response.data.currency,
-            name: "Markline",
-            description: "Order description",
-            order_id: response.data.id,
-            image: "https://res.cloudinary.com/demhgityh/image/upload/v1750353291/markline-checkout-logo_ukrvoi.png",
-            handler: (response) => orderSubmition(response, data),
-            prefill: {
-                name: data.name,
-                email: data.email,
-                contact: data.phone,
-            },
-            theme: {
-                color: "#084E10",
-            },
-        };
-        const paymentObject = new window.Razorpay(options);
-        paymentObject.open();
-        setConfirm("password");
     }
 
-
-    // save into my database along with payment data
-    async function orderSubmition(razorpayresponse, SavedOrders: OrderProps) {
-
-
+    async function orderSubmition(razorpayresponse: any, SavedOrders: OrderProps) {
         try {
-            const { data } = await axios.post(`/api/update-order`, {
+            await axios.post(`/api/update-order`, {
                 SavedOrders,
                 user_id: "",
                 razorpay_payment_id: razorpayresponse.razorpay_payment_id,
@@ -222,69 +176,164 @@ function AddressForm({ product, setConfirm, setOrderID, variant, }: NewAddressFr
             });
             setOrderSub(false)
             await UpdateLocalstorageForOrder()
-            // await SendMail({ data: [data.updated] });
-
-
-
-        }
-        catch (error) {
-            toast(" Your Payment we received . We Cantact you Shortly .")
+            toast.success("Payment successful! Order placed.");
+        } catch (error) {
+            toast.error("Payment received but registry update failed. We will contact you.");
             setOrderSub(false)
-
-
         }
     }
 
-
-
-
     return (
-        <>
-            <form action='' className='w-full relative h-auto grid grid-cols-2 items-start justify-start gap-y-2 gap-x-3 md:gap-x-5 '>
-                <div className='w-full relative h-auto flex flex-col gap-1'>
-                    <label htmlFor="" className='text-sm font-medium text-gray-600'>Name *</label>
-                    <input type="text" className='w-full relative h-auto px-3 py-2 rounded-lg border text-sm font-normal text-gray-800  ' placeholder=' Enter Your Name ' {...register("name")} />
-                    {errors?.name &&
-                        <p className='text-xs font-medium text-red-400'>{errors.name?.message}</p>}
+        <div className="w-full bg-white rounded-3xl p-1 shadow-sm">
+            <div className="flex items-center gap-2 mb-6 px-1">
+                <PackageCheck className="text-black" size={20} />
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">Delivery Manifest</span>
+            </div>
+
+            <form onSubmit={handleSubmit(saveBeforePayment)} className="space-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Name */}
+                    <div className="space-y-1.5 group">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-gray-500 ml-1">Full Name</label>
+                        <div className="relative">
+                            <input
+                                type="text"
+                                className="w-full bg-gray-50 border-2 border-gray-50 rounded-xl px-10 py-2.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
+                                placeholder="CLIENT NAME"
+                                {...register("name")}
+                            />
+                            <User size={16} className="absolute left-3.5 top-3 text-gray-400 group-focus-within:text-black transition-colors" />
+                        </div>
+                        {errors.name && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.name.message}</p>}
+                    </div>
+
+                    {/* Email */}
+                    <div className="space-y-1.5 group">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-gray-500 ml-1">Email Address</label>
+                        <div className="relative">
+                            <input
+                                type="email"
+                                className="w-full bg-gray-50 border-2 border-gray-50 rounded-xl px-10 py-2.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
+                                placeholder="EMAIL@EXAMPLE.COM"
+                                {...register("email")}
+                            />
+                            <Mail size={16} className="absolute left-3.5 top-3 text-gray-400 group-focus-within:text-black transition-colors" />
+                        </div>
+                        {errors.email && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.email.message}</p>}
+                    </div>
+
+                    {/* Phone */}
+                    <div className="space-y-1.5 group">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-gray-500 ml-1">Contact Phone</label>
+                        <div className="relative">
+                            <input
+                                type="text"
+                                className="w-full bg-gray-50 border-2 border-gray-50 rounded-xl px-10 py-2.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
+                                placeholder="10-DIGIT MOBILE"
+                                {...register("phone")}
+                            />
+                            <Phone size={16} className="absolute left-3.5 top-3 text-gray-400 group-focus-within:text-black transition-colors" />
+                        </div>
+                        {errors.phone && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.phone.message}</p>}
+                    </div>
+
+                    {/* PIN Code */}
+                    <div className="space-y-1.5 group">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-gray-500 ml-1">Postal Code</label>
+                        <div className="relative">
+                            <input
+                                type="text"
+                                className="w-full bg-gray-50 border-2 border-gray-50 rounded-xl px-10 py-2.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
+                                placeholder="6-DIGIT PIN"
+                                {...register("pin_code")}
+                            />
+                            <Navigation size={16} className="absolute left-3.5 top-3 text-gray-400 group-focus-within:text-black transition-colors" />
+                            {loadingPincode && <Loader2 size={16} className="absolute right-3.5 top-3 text-black animate-spin" />}
+                        </div>
+                        {errors.pin_code && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.pin_code.message}</p>}
+                    </div>
+
+                    {/* Landmark */}
+                    <div className="space-y-1.5 group">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-gray-500 ml-1">Landmark</label>
+                        <div className="relative">
+                            <input
+                                type="text"
+                                className="w-full bg-gray-50 border-2 border-gray-50 rounded-xl px-10 py-2.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
+                                placeholder="NEARBY FAMOUS SPOT"
+                                {...register("landmark")}
+                            />
+                            <Building2 size={16} className="absolute left-3.5 top-3 text-gray-400 group-focus-within:text-black transition-colors" />
+                        </div>
+                    </div>
+
+                    {/* City */}
+                    <div className="space-y-1.5 group">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-gray-500 ml-1">City / District</label>
+                        <div className="relative">
+                            <input
+                                type="text"
+                                className="w-full bg-gray-50 border-2 border-gray-50 rounded-xl px-10 py-2.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
+                                placeholder="AUTO-DETECTED"
+                                {...register("city")}
+                            />
+                            <MapPin size={16} className="absolute left-3.5 top-3 text-gray-400 group-focus-within:text-black transition-colors" />
+                        </div>
+                        {errors.city && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.city.message}</p>}
+                    </div>
+
+                    {/* State */}
+                    <div className="space-y-1.5 group">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-gray-500 ml-1">State / Province</label>
+                        <div className="relative">
+                            <input
+                                type="text"
+                                className="w-full bg-gray-50 border-2 border-gray-50 rounded-xl px-10 py-2.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
+                                placeholder="AUTO-DETECTED"
+                                {...register("state_name")}
+                            />
+                            <MapPin size={16} className="absolute left-3.5 top-3 text-gray-400 group-focus-within:text-black transition-colors" />
+                        </div>
+                        {errors.state_name && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.state_name.message}</p>}
+                    </div>
                 </div>
-                <div className='w-full relative h-auto flex flex-col gap-1'>
-                    <label htmlFor="" className='text-sm font-medium text-gray-600'>Email *</label>
-                    <input type="text" className='w-full relative h-auto px-3 py-2 rounded-lg border text-sm font-normal text-gray-800  ' placeholder=' Enter Your Email ' {...register("email")} />
-                    {errors?.email &&
-                        <p className='text-xs font-medium text-red-400'>{errors.email?.message}</p>}
-                </div>
-                <div className='w-full relative h-auto flex flex-col gap-1'>
-                    <label htmlFor="" className='text-sm font-medium text-gray-600'>Phone *</label>
-                    <input type="text" className='w-full relative h-auto px-3 py-2 rounded-lg border text-sm font-normal text-gray-800  ' placeholder=' Enter Your Phone ' {...register("phone")} />
-                    {errors?.phone &&
-                        <p className='text-xs font-medium text-red-400'>{errors.phone?.message}</p>}
-                </div>
-                <div className="w-full flex flex-col gap-1">
-                    <label className="text-sm font-medium text-gray-600">Pin code *</label>
-                    <input
-                        type="text"
-                        className="w-full px-3 py-2 rounded-lg border text-sm"
-                        placeholder="Enter Your Pin Code"
-                        {...register('pin_code')}
+
+                {/* Full Address */}
+                <div className="space-y-1.5 group">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-gray-500 ml-1">Detailed Address</label>
+                    <textarea
+                        rows={2}
+                        className="w-full bg-gray-50 border-2 border-gray-50 rounded-2xl px-4 py-3 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none resize-none"
+                        placeholder="HOUSE NO, STREET, AREA..."
+                        {...register("full_address")}
                     />
-                    {loadingPincode && <p className="text-xs text-blue-400">Fetching location...</p>}
-                    {errors?.pin_code && <p className="text-xs text-red-400">{errors.pin_code?.message}</p>}
+                    {errors.full_address && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.full_address.message}</p>}
                 </div>
 
-                <StateCombobox setStateValue={setStateValue} errormessage={errors.state_name && errors?.state_name.message || ""} selectedState={watch().state_name} />
-                <CityNameCombobox setCityName={setCityValue} errormessage={errors.city && errors.city.message || ""} statename={watch().state_name} selectcity={watch().city} />
-
-                <div className='w-full relative h-auto flex flex-col gap-1 col-span-2'>
-                    <label htmlFor="" className='text-sm font-medium text-gray-600'>Full Address *</label>
-                    {/* <input type="text" className='w-full relative h-auto px-3 py-2 rounded-lg border text-sm font-normal text-gray-800  ' placeholder=' Enter Your City Name ' /> */}
-                    <textarea rows={3} id="" className='w-full relative h-auto px-3 py-2 rounded-lg border text-sm font-normal text-gray-800 ' placeholder=' Enter Your City Name ' {...register("full_address")}></textarea>
-                    {errors?.full_address &&
-                        <p className='text-xs font-medium text-red-400'>{errors.full_address?.message}</p>}
+                <div className="pt-2">
+                    <button 
+                        type="submit"
+                        disabled={isOrderSub}
+                        className="w-full bg-black text-white py-4 rounded-2xl font-black text-xs uppercase tracking-[0.3em] shadow-2xl shadow-black/20 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-3 disabled:bg-gray-400"
+                    >
+                        {isOrderSub ? (
+                            <>
+                                <Loader2 size={18} className="animate-spin" />
+                                <span>PROCESSING...</span>
+                            </>
+                        ) : (
+                            <>
+                                <CreditCard size={18} />
+                                <span>PROCEED TO PAYMENT</span>
+                            </>
+                        )}
+                    </button>
+                    <p className="text-center text-[9px] font-bold text-gray-400 mt-4 uppercase tracking-widest">
+                        ESTIMATED DELIVERY: 3-5 BUSINESS DAYS
+                    </p>
                 </div>
-                <button className='w-full relative h-auto rounded-lg px-5 py-1.5 text-lg hover:bg-white hover:text-primary border  border-transparent hover:border-primary col-start-2  text-white  bg-primary ' disabled={isOrderSub} onClick={handleSubmit(saveBeforePayment)}>{isOrderSub ? "Submitting...." : "Submit"}</button>
-
             </form>
-        </>
+        </div>
     )
 }
 

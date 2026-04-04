@@ -1,74 +1,103 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
-import { BsThreeDotsVertical } from "react-icons/bs";
-import UserSheet from './UserSheet';
 import { mysupabase } from '@/Supabase/SupabaseConfig';
 import UserSkeleton from '../Skeleton/UserSkeleton';
+import { LogOut, Shield, Mail, BadgeCheck } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import UserSheet from './UserSheet';
 
 interface userinterfce {
   email?: string,
-  phone?: string,
-  user_metadata: {
+  id?: string,
+  user_metadata?: {
+    name?: string,
     email?: string,
-    email_verified?: boolean,
-    phone_verified?: boolean
   }
-
-
 }
-
-
 
 function UserSection() {
   const [currentuser, setUser] = useState<userinterfce>();
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     async function getSupabaseUser() {
-      const {
-        data: { user },
-        error,
-      } = await mysupabase.auth.getUser();
-
+      const { data: { user } } = await mysupabase.auth.getUser();
       if (user) {
-        setUser(user);
+        setUser(user as any);
       }
+      setLoading(false);
     }
     getSupabaseUser()
   }, [])
 
+  async function handleLogout() {
+    const { error } = await mysupabase.auth.signOut();
+    if (error) {
+      toast.error("Error signing out");
+    } else {
+      toast.success("Logged out successfully");
+      router.push('/');
+    }
+  }
 
+  if (loading) return <UserSkeleton />;
 
-
-
+  const userInitial = (currentuser?.user_metadata?.name || currentuser?.email || "?").at(0)?.toUpperCase();
+  const displayName = currentuser?.user_metadata?.name || (currentuser?.email?.split('@')[0]);
 
   return (
+    <section className='w-full'>
+      <div className='flex flex-col md:flex-row items-stretch gap-8 lg:gap-20'>
 
-    <>
-      {currentuser?.email ?
-        < section className='w-full relative justify-between h-auto bg-white   hidden md:grid grid-cols-[1fr_auto_auto] md:grid-cols-[3fr_1fr_auto] lg:grid-cols-[2fr_2fr_auto] lg:border border-gray-100 rounded-sm px-5 py-4 items-center gap-5 ' >
+        {/* Profile Card */}
+        <div className='flex-grow bg-white border border-gray-300 rounded-2xl p-6 md:p-8 shadow-xl shadow-gray-100/40 relative overflow-hidden group'>
 
-          <span className='w-full relative h-auto flex items-center justify-between border-r px-5 lg:pr-10 '>
-            <span className=' text-base md:text-xl lg:text-3xl font-medium text-primary  bg-white rounded-full px-3 lg:px-5 py-3 lg:py-3 border border-gray-300'>
-              {currentuser?.email && currentuser?.email.at(0)?.toUpperCase()}
-            </span>
-            <h2 className=' text-sm  md:text-base  font-semibold text-gray-700 line-clamp-1 pl-5 lg:pl-10 '>{currentuser?.email || ""}</h2>
-          </span>
-          <UserSheet />
-        </section >
-        : <UserSkeleton />}
-      <section className='w-full relative h-auto  items-center gap-1 border border-gray-300 p-2 rounded-md  flex md:hidden'>
-        <span className=' text-base  font-medium text-primary  bg-white rounded-full px-3  py-1 border border-gray-300'>
-          {currentuser?.email && currentuser?.email.at(0)?.toUpperCase()}
-        </span>
-        <h2 className=' text-xs sm:text-sm  md:text-base  font-semibold text-gray-700 line-clamp-1 pl-2 '>{currentuser?.email || ""}</h2>
 
-      </section>
-    </>
+
+          <div className='relative flex flex-col md:flex-row items-center md:items-start gap-8 lg:gap-14'>
+            {/* Avatar */}
+            <div className='relative shrink-0'>
+              <div className='w-20 h-20 md:w-24 md:h-24 bg-black rounded-full flex items-center justify-center border-[6px] border-gray-50 shadow-2xl transition-transform group-hover:scale-105'>
+                <span className='text-white text-2xl md:text-3xl font-black italic tracking-tighter'>{userInitial}</span>
+              </div>
+              <div className='absolute -bottom-1 -right-1 w-6 h-6 bg-yellow-500 rounded-full border-4 border-white flex items-center justify-center'>
+                <BadgeCheck size={12} className='text-black' />
+              </div>
+            </div>
+
+            {/* Identity Details */}
+            <div className='flex flex-col md:flex-row items-center md:items-start justify-between gap-8 w-full '>
+
+              {/* Name Group */}
+              <div className='flex flex-col items-center md:items-start gap-1'>
+                <h2 className='text-2xl md:text-4xl font-black text-black uppercase tracking-tighter italic leading-none'>{displayName}</h2>
+              </div>
+
+              {/* Email Group */}
+              <div className='flex flex-col items-center md:items-start gap-2 bg-gray-50/50 p-4 rounded-xl border border-gray-100  md:border-none md:bg-transparent md:p-0'>
+                <span className='text-[9px] font-black uppercase tracking-[0.3em] text-gray-400'>Official Registry Link</span>
+                <div className='flex items-center gap-2 text-black font-bold'>
+                  <Mail size={14} className='opacity-40' />
+                  <span className='text-xs md:text-sm truncate max-w-[180px] sm:max-w-none'>{currentuser?.email}</span>
+                </div>
+              </div>
+
+
+              <UserSheet />
+
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </section>
   )
-
 }
 
-
 export default UserSection;
+

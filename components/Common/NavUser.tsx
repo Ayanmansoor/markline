@@ -1,38 +1,52 @@
+'use client'
 import React, { useEffect, useState } from "react";
-import { CiUser } from "react-icons/ci";
-import LoginModal from "./LoginModal";
-import { mysupabase } from "@/Supabase/SupabaseConfig";
-import Link from "next/link";
-import { PiUserCircleThin } from "react-icons/pi";
 import { User } from "lucide-react";
+import Link from "next/link";
+import { mysupabase } from "@/Supabase/SupabaseConfig";
+import LoginModal from "./LoginModal";
+
 function NavUser() {
   const [isUser, setUser] = useState<any>();
+  const [isLoginOpen, setLoginOpen] = useState(false);
 
   useEffect(() => {
-    async function one() {
+    async function checkUser() {
       const {
         data: { user },
       } = await mysupabase.auth.getUser();
       setUser(user);
     }
-    one();
+    checkUser();
+
+    // Listen for auth changes
+    const { data: { subscription } } = mysupabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user || null);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   return (
-    <div className="flex items-center justify-start gap-1 cursor-pointer ">
-      {
-        isUser ? (
-          <Link href={"/user"}>
-            <User height={25} className="   cursor-pointer" />
+    <>
+      <div className="flex items-center justify-start cursor-pointer hover:opacity-70 transition-opacity">
+        {isUser ? (
+          <Link href="/user">
+            <User height={23} width={23} className="text-primary" />
           </Link>
         ) : (
-          // <LoginModal>
-          <User height={25} className=" cursor-pointer " />
-        )
-        // </LoginModal>
-      }
-    </div>
+          <button onClick={() => setLoginOpen(true)}>
+            <User height={23} width={23} className="text-primary" />
+          </button>
+        )}
+      </div>
+
+      <LoginModal isOpen={isLoginOpen} setIsOpen={setLoginOpen}>
+        <></>
+      </LoginModal>
+    </>
   );
 }
 
 export default NavUser;
+
+

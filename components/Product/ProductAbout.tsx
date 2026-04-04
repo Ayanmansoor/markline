@@ -377,44 +377,61 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                     </>
                 )}
 
-                <div className='w-full fixed bottom-0 px-4 flex-wrap sm:px-0 bg-white sm:bg-transparent py-2 sm:py-0  z-30 grid-cols-[1fr_auto] md:grid-cols-1 lg:grid-cols-[1fr_1fr] gap-3 right-0 grid   items-center sm:relative  '>
-                    {/* <div className='w-full relative grid grid-cols-2 gap-2 md:gap-1 lg:gap-2 '> */}
-
-                    {/* {
-                            (variant?.id && selectedColor?.name && selectedSize?.size) &&
-                                isInCart({ variantId: variant.id, colorName: selectedColor.name, size: selectedSize.size }) ?
-
-                                <div className='flex items-center gap-1 border border-gray-400 py-[2px] px-1 w-full justify-between '>
-                                    <button className='p-[10px] bg-gray-200 ' onClick={decreaseQuantity}><HiMiniMinusSmall className='text-[25px] text-primary' /></button>
-                                    <p className='text-xl font-normal'>{qty}</p>
-                                    <button className='p-[10px] bg-gray-200' onClick={increaseQuantity}><BsPlus className='text-[25px] text-primary' /></button>
-                                </div>
-
-                                :
+                <div className='w-full fixed bottom-0 px-4 flex-wrap sm:px-0 bg-white sm:bg-transparent py-4 sm:py-0 z-30 grid grid-cols-[1fr_auto] md:grid-cols-1 lg:grid-cols-2 gap-3 right-0 items-center sm:relative'>
+                    {
+                        (variant?.id && selectedColor?.name && selectedSize?.size) &&
+                            isInCart({ variantId: variant.id, colorName: selectedColor.name, size: selectedSize.size }) ?
+                            <div className='flex items-center gap-4 border border-gray-300 py-2 px-2 w-full justify-between rounded-lg bg-gray-50/50 backdrop-blur-sm transition-all duration-300'>
                                 <button
-                                    className='w-full text-sm    bg-white text-primary py-2 md:py-4 border border-black  hover:bg-slate-100'
-                                    disabled={!selectedColor || !selectedSize}
-                                    onClick={handleAddToCart}
+                                    className='p-2 hover:bg-white rounded-md transition-colors shadow-sm active:scale-95'
+                                    onClick={decreaseQuantity}
                                 >
-                                    Add to Cart
+                                    <HiMiniMinusSmall className='text-2xl text-primary' />
                                 </button>
-                        } */}
-                    {/* 
-                    <BuyDailog product={{ ...product, selectedColor: selectedColor, selectedSize: selectedSize, quantity: qty }} selectedVariant={variant}>
-                        <button disabled={selectedColor?.name && selectedSize?.size ? false : true} className=' w-full relative  xl:px-5 py-2 md:py-4 bg-black text-white hover:border-black border border-transparent hover:bg-slate-100 hover:text-black  ' >Buy Now</button>
-                    </BuyDailog> */}
-                    <button
-                        className='w-full text-sm    bg-white text-primary py-2 md:py-4 border border-black  hover:bg-slate-100'
-                        disabled={!selectedColor || !selectedSize}
-                        onClick={handleAddToCart}
-                    >
-                        Add to Cart
-                    </button>
-                    <WhatsAppButton product={product} variant={variant} />
-                    {/* <BuyProduct product={{ ...product, selectedColor: productcart.colors.color, selectedSize: productcart.sizes.size, quantity: productcart.quentitys.quentity }}/> */}
-                    {/* </AddToCardPopver>       */}
-                    {/* </div> */}
+                                <span className='text-xl font-bold text-primary tabular-nums'>{qty}</span>
+                                <button
+                                    className='p-2 hover:bg-white rounded-md transition-colors shadow-sm active:scale-95'
+                                    onClick={increaseQuantity}
+                                >
+                                    <BsPlus className='text-2xl text-primary' />
+                                </button>
+                            </div>
+                            :
+                            <button
+                                className='w-full text-xs font-black capitalize tracking-[0.2em] bg-white text-black py-4 border-2 border-black hover:bg-black hover:text-white transition-all duration-300 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed'
+                                disabled={!selectedColor || !selectedSize}
+                                onClick={handleAddToCart}
+                            >
+                                Add to Cart
+                            </button>
+                    }
 
+                    <BuyDailog
+                        product={{ ...product, selectedColor: selectedColor, selectedSize: selectedSize, quantity: qty }}
+                        selectedVariant={variant}
+                    >
+                        <button
+                            disabled={!(selectedColor?.name && selectedSize?.size)}
+                            className='w-full min-w-[140px] bg-black group relative overflow-hidden rounded-xl py-4 transition-all duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.2)] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed'
+                        >
+                            {/* Animated Shimmer Overlay */}
+                            <div className='absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-1000 group-hover:translate-x-full' />
+
+                            {/* Subtle Golden Accent Border */}
+                            <div className='absolute inset-0 rounded-xl border border-white/5 transition-colors group-hover:border-yellow-500/30' />
+
+                            <div className='relative flex bg-gold-500 items-center justify-center gap-3'>
+                                <span className='text-xs font-black uppercase tracking-[0.3em] text-white'>
+                                    Buy Now
+                                </span>
+                                <div className='h-[1px] w-5 bg-yellow-500/80 transition-all duration-300 group-hover:w-8 group-hover:bg-yellow-500' />
+                            </div>
+                        </button>
+                    </BuyDailog>
+
+                    {/* <div className="hidden sm:block lg:col-span-2 mt-2">
+                        <WhatsAppButton product={product} variant={variant} />
+                    </div> */}
                 </div>
 
                 <div className='w-full relative flex items-start flex-col  justify-between'>
@@ -454,7 +471,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                     </div>
                 </div>
 
-                <ProductReviews />
+                <ProductReviews productId={product.id} productName={product.name} />
 
 
 

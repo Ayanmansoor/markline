@@ -30,10 +30,29 @@ const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
                 <span>Reviewed on: {review.date}</span>
             </div>
 
-            <div className="space-y-2 mb-4">
+            <div className="space-y-4 mb-4">
+                {review.title && (
+                    <h5 className="text-sm font-bold text-gray-900 uppercase tracking-tight italic">
+                        {review.title}
+                    </h5>
+                )}
                 <p className="text-gray-900 text-sm font-medium leading-relaxed">
                     {review.comment}
                 </p>
+
+                {review.imageUrls && review.imageUrls.length > 0 && (
+                    <div className="flex flex-wrap gap-2 pt-2">
+                        {review.imageUrls.map((url, i) => (
+                            <div key={i} className="w-20 h-20 rounded-lg overflow-hidden border border-gray-100 bg-gray-50 flex-shrink-0">
+                                <img 
+                                    src={url} 
+                                    alt={`Review asset ${i + 1}`} 
+                                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-500 cursor-zoom-in"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
 
             <button

@@ -1,26 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import Image from 'next/image'
-import { Swiper, SwiperSlide } from 'swiper/react';
-
-
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import { Images, newCartItem, useCartContext } from '@/Contexts/Cart.context';
-import { Trash } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Colors, Sizes, newCartItem, useCartContext } from '@/Contexts/Cart.context';
+import { Trash2, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
-import WhatsAppButton from './WhatsAppButton';
 import WhatsAppCartButton from './CartWhatsAppbutton';
-// import { CartItemProps } from '@/types/Interface'
-// import { BASE_URL } from '@/config/config'
-// import { useCartContext } from '@/context/ProductContext'
+
 const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
         style: 'currency',
@@ -30,57 +15,22 @@ const formatPrice = (price: number) => {
     }).format(price);
 };
 
-interface NEWCartItemProps {
-    cartItemId?: string;
-    productId?: string;
-    sku: {
-        id: string;
-        name: string;
-        images: string[];
-        size: string;
-        moq: number;
-        mrp: number;
-        retail: number;
-        discount: number;
-        cgst: number;
-        sgst: number;
-        igst: number;
-        Product?: {
-            name: string;
-        };
-    };
-    quantity: number;
-}
-
-
 interface CartCardProps {
-    data: NEWCartItemProps
+    data: newCartItem
 }
 
-
-function CartCard({ data }: any) {
-    const [StringifyImages, setStringifyImages] = useState<any[] | undefined>([])
-
+function CartCard({ data }: CartCardProps) {
     const { updateQuantity, removeFromCart } = useCartContext()
 
-
-    function handleQuantityChange(item: newCartItem, quantity: number) {
-        console.log(item.quantity, "this is item have")
-        if (!item) return;
-        if (quantity <= 5) {
-            updateQuantity({
-                productId: item.productId,
-                colorName: item.variant.selectedColor,
-                size: item.variant.selectedSize,
-                quantity: quantity,
-            });
-        }
+    const handleQuantityChange = (quantity: number) => {
+        if (!data) return;
+        updateQuantity({
+            productId: data.productId,
+            colorName: data.variant.selectedColor,
+            size: data.variant.selectedSize,
+            quantity: quantity,
+        });
     }
-
-    useEffect(() => {
-        const images: any[] = data?.variant?.image_url;
-        setStringifyImages(images);
-    }, [data]);
 
     const { originalPrice, discountPercent, finalPrice } = useMemo(() => {
         const price = data.variant.price;
@@ -88,11 +38,10 @@ function CartCard({ data }: any) {
 
         if (discount > 0) {
             const discountAmount = price * (discount / 100);
-            const calculatedFinalPrice = price - discountAmount;
             return {
                 originalPrice: price,
                 discountPercent: discount,
-                finalPrice: Math.floor(calculatedFinalPrice)
+                finalPrice: Math.floor(price - discountAmount)
             };
         }
 
@@ -103,88 +52,87 @@ function CartCard({ data }: any) {
         };
     }, [data.variant.price, data.variant.discounts]);
 
-
-
-    function removecat(id, colorName, size) {
-        removeFromCart({ productId: id, colorName: colorName, size: size })
-    }
-
+    const primaryImage = data.variant.image_url?.[0]?.image_url || '';
 
     return (
-        <div className='w-full relative h-fit border rounded-lg   flex-col sm:flex-row flex items-end justify-between gap-2  p-2 md:p-1 pb-4 sm:border-b border-gray-300 '>
-            <Link href={`/product/${data.slug}`} >
-                <div className='flex flex-col sm:flex-row items-start sm:items-center w-full sm:w-fit  gap-3  '>
-                    <Swiper
+        <div className='group relative w-full bg-white border border-gray-300 rounded-2xl p-4 transition-all hover:shadow-lg hover:shadow-gray-100/50 flex flex-col sm:flex-row gap-5 items-start sm:items-center'>
+            {/* Image Section */}
+            <div className='relative w-full sm:w-32 h-40 sm:h-32 bg-gray-50 rounded-xl overflow-hidden shrink-0'>
+                <Image
+                    src={primaryImage}
+                    alt={data.productName}
+                    fill
+                    className='object-cover transition-transform duration-500 group-hover:scale-110'
+                    sizes='(max-width: 640px) 100vw, 128px'
+                />
+            </div>
 
-                        pagination={{
-                            dynamicBullets: true
-                        }}
-                        className="mySwiper max-w-[100px] md:max-w-[130px]  realtive max-h-[200px] md:max-h-[150px]"
+            {/* Info Section */}
+            <div className='flex-1 flex flex-col gap-2 w-full'>
+                <div className='flex justify-between items-start gap-4'>
+                    <Link href={`/product/${data.slug}`} className='group/link'>
+                        <h3 className='text-base md:text-lg font-bold text-primary line-clamp-1  transition-colors flex items-center gap-1'>
+                            {data.productName}
+                            <ExternalLink size={14} className='opacity-0 group-hover/link:opacity-100 transition-opacity' />
+                        </h3>
+                    </Link>
+                    <button
+                        onClick={() => removeFromCart({ productId: data.productId, colorName: data.variant.selectedColor, size: data.variant.selectedSize })}
+                        className='p-2 text-gray-400 hover:text-red-500 hover:bg-red-100 rounded-lg  border border-gray-200 transition-all'
+                        title='Remove item'
                     >
-
-                        {
-                            StringifyImages &&
-                            StringifyImages?.map((image, index: number) => (
-                                <SwiperSlide className=' max-w-[140px] md:max-w-[100px] rounded-lg max-h-[250px] md:max-h-[120px] relative border overflow-hidden' key={index}>
-                                    <img src={`${image?.image_url}` || ''} alt={`${image.name} - markline `} className={` aspect-square  w-full transition-all duration-100 object-cover sm:object-cover hover:scale-[1.010] max-h-[220px] sm:max-h-[150px]  `} height={200} width={300} loading='lazy' />
-                                </SwiperSlide>
-                            ))
-                        }
-                    </Swiper>
-                    <span className='flex flex-col gap-1'>
-                        <h2 className='text-xs md:text-lg lg:text-lg max-w-[350px] font-semibold text-gray-800 line-clamp-5 md:line-clamp-2'>
-                            {data?.productName}
-                        </h2>
-                        <ul className=' flex-col sm:flex-row flex items-start sm:items-center gap-1 justify-start  '>
-                            <li className=' text-xs md:text-sm font-medium text-primary'>
-                                Size :  {data?.variant?.selectedSize?.size}
-                            </li>
-                            <li className='text-xs md:text-sm font-medium text-primary'>
-                                Color: {data?.variant?.selectedColor?.name}
-                            </li>
-                        </ul>
-                    </span>
-
+                        <Trash2 size={18} />
+                    </button>
                 </div>
-                <div className='flex flex-col items-end gap-2 px-0 md:px-2  w-full sm:w-fit  justify-end '>
 
-                    <div className='flex  flex-wrap items-center gap-3 px-0 md:px-3'>
-                        {discountPercent > 0 && (
-                            <p className='text-xs font-bold text-green-600 bg-green-100 w-fit px-2 py-0.5 rounded-full mt-1'>
-                                {discountPercent}% OFF
-                            </p>
-                        )}
-                        {discountPercent > 0 && (
-                            <p className='text-sm text-gray-500 line-through'>
-                                {formatPrice(originalPrice)}
-                            </p>
-                        )}
-                        <h2 className='text-lg font-semibold text-primary'>
-                            {formatPrice(finalPrice)}
-                        </h2>
-
+                <div className='flex flex-wrap gap-x-4 gap-y-1 text-xs font-bold uppercase tracking-wider text-gray-400'>
+                    <div className='flex items-center gap-1.5'>
+                        <span className='w-1 h-1 rounded-full bg-gray-300'></span>
+                        <span>Size: <span className='text-primary'>{data.variant.selectedSize.size}</span></span>
                     </div>
-                </div >
+                    <div className='flex items-center gap-1.5'>
+                        <span className='w-1 h-1 rounded-full bg-gray-300'></span>
+                        <span>Color: <span className='text-primary'>{data.variant.selectedColor.name}</span></span>
+                    </div>
+                </div>
 
-            </Link>
+                <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-2'>
+                    {/* Price Section */}
+                    <div className='flex items-baseline gap-2'>
+                        <span className='text-xl font-bold text-primary'>{formatPrice(finalPrice)}</span>
+                        {discountPercent > 0 && (
+                            <>
+                                <span className='text-sm text-gray-400 line-through'>{formatPrice(originalPrice)}</span>
+                                <span className='text-xs font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full'>
+                                    {discountPercent}% OFF
+                                </span>
+                            </>
+                        )}
+                    </div>
 
-            <section className='w-full sm:w-fit relative flex flex-col sm:flex-row gap-1 sm:gap-3 items-center'>
-                <Select onValueChange={(newValue) => handleQuantityChange(data, parseInt(newValue))}>
-                    <SelectTrigger className=" w-full sm:w-[120px] font-semibold text-base text-text-primary border-gray-200 border ">
-                        <SelectValue className='placeholder:text-xs' placeholder={`Qty : ${data?.quantity}`} />
-                    </SelectTrigger>
-                    <SelectContent className='w-full sm:w-[120px]' >
-                        {
-                            [...Array(5)].map((item, index) => (
-                                <SelectItem value={`${index + 1}`} key={index} className={` ${index + 1 == data?.quantity && "bg-gray-200"} `} >{index + 1}</SelectItem>
-                            ))
-                        }
-                    </SelectContent>
-                </Select>
-                <WhatsAppCartButton cartItem={data} />
-            </section>
-            <Trash height={20} className=" cursor-pointer text-red-500" onClick={() => removecat(data?.productId, data?.variant?.selectedColor, data?.variant?.selectedSize)} />
-        </div >
+                    {/* Actions Section */}
+                    <div className='flex items-center gap-3'>
+                        <div className='flex items-center gap-2'>
+                            <span className='text-[10px] font-bold uppercase tracking-widest text-gray-400'>Qty</span>
+                            <Select defaultValue={data.quantity.toString()} onValueChange={(val) => handleQuantityChange(parseInt(val))}>
+                                <SelectTrigger className="w-20 h-9 rounded-lg border-gray-300 font-bold text-sm bg-gray-50/50 hover:bg-gray-50">
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {[1, 2, 3, 4, 5].map((num) => (
+                                        <SelectItem key={num} value={num.toString()} className='font-medium'>
+                                            {num}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className='h-8 w-[1px] bg-gray-100 hidden sm:block'></div>
+                        {/* <WhatsAppCartButton cartItem={data as any} /> */}
+                    </div>
+                </div>
+            </div>
+        </div>
     )
 }
 
