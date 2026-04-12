@@ -15,7 +15,7 @@ function CollectionCard({ collections, url, className, imageClass }: newCollecti
         <Link href={`/${url}${collections.slug}`} className={`   ${className ? className : "w-full overflow-hidden max-h-[260px] lg:max-h-[470px] h-full      cursor-pointer relative group  flex flex-col items-start justify-center gap-4 p-1 "}  `}>
             {
                 images?.map((item, index) => (
-                    <Image src={`${item.image_url}`} alt={item.name || "Collection image"} className={` ${imageClass ? imageClass : "w-full  border h-full object-cover   relative  rounded-md   transition-all duration-100 "}  `} key={index} loading='lazy' height={300} width={300} />
+                    <img src={`${item.image_url}`} alt={item.name || "Collection image"} className={` ${imageClass ? imageClass : "w-full  border h-full object-cover   relative  rounded-md   transition-all duration-100 "}  `} key={index} loading='lazy' height={300} width={300} />
                 ))
             }
             {/* <h2 className={`  text-xs sm:text-sm md:text-base h-fit lg:text-lg font-semibold sm:font-medium   line-clamp-1  text-center w-full  duration-500      relative   text-primary uppercase px-3 `}>

@@ -108,7 +108,7 @@ function CummonMegaManu({ children, urlProps }: CommonMegaManuProps) {
                       )[0];
                       return (
                         <Link
-                          href={`/collections/${collec.slug}`}
+                          href={`/collections/women/${collec.slug}`}
                           key={collec.id}
                           className="flex flex-col items-center"
                         >
