@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+// import Image from "next/image";
 
 import React, { useState, useReducer, useEffect, useMemo } from "react";
 import { FaHeart } from "react-icons/fa6";
@@ -182,7 +182,7 @@ function ProductCard({ product, url, className }: newProductsProps) {
                   className="w-full realtive h-full relative border overflow-hidden"
                   key={index}
                 >
-                  <Image
+                  <img
                     src={`${image?.image_url}` || ""}
                     alt={`${image.name} - markline `}
                     className={`w-full object-contain  bg-transparent transition-all duration-100 ease-in-out  sm:object-cover hover:scale-[1.010]  ${className

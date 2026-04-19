@@ -25,7 +25,7 @@ function NotFound() {
   return (
     <section className='w-full relative flex flex-col gap-5 '>
       <div className='w-full relative h-auto flex items-center justify-center flex-col xl:flex-row gap-5 xl:gap-1'>
-        <Image src="/404-error-rafiki.svg" alt='404 page' height={400} width={400} className='max-w-[500px] max-h-[400px] object-cover relative ' />
+        <img src="/404-error-rafiki.svg" alt='404 page' height={400} width={400} className='max-w-[500px] max-h-[400px] object-cover relative ' />
         <h1 className=' text-sm md:text-lg xl:text-2xl 2xl:text-3xl  font-medium text-primary text-center '>Oops Page Not Found</h1>
       </div>
 
