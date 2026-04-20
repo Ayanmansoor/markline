@@ -55,11 +55,11 @@ function Hero({ bannerImages, css }: HeroData) {
                     filteredBanners.map((banner, index) => (
                         <SwiperSlide className="h-full w-full relative" key={index}>
                             <Link href={banner.url || '#'}>
-                                <Image
+                                <img
                                     src={banner.image_url}
                                     loading="eager"
-                                    unoptimized={true}
-                                    priority
+                                    // unoptimized={true}
+                                    // priority
                                     alt={banner.name || "Banner"}
                                     height={2000}
                                     width={2500}

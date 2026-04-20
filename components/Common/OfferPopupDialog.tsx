@@ -131,12 +131,12 @@ const OfferPopupDialog = () => {
                                                     href={banner.url || "#"}
                                                     onClick={handleClose}
                                                 >
-                                                    <Image
+                                                    <img
                                                         src={banner.image_url}
                                                         alt={banner.name || "Offer Banner"}
-                                                        fill
+                                                        // fill
                                                         className="object-cover object-center"
-                                                        priority={index === 0}
+                                                        // priority={index === 0}
                                                     />
                                                 </Link>
                                             </SwiperSlide>

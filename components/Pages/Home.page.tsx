@@ -142,7 +142,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
                   className="h-fit w-fit relative  overflow-hidden flex flex-col items-center"
                 >
                   {imageData?.image_url && (
-                    <Image
+                    <img
                       src={imageData?.image_url}
                       alt={imageData?.name || collection?.name || "Collection image"}
                       height={900}
