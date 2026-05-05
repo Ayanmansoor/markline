@@ -319,7 +319,7 @@ const GenderPage: React.FC<GenderPageProps> = ({
                 }
                 url={"product"}
                 css=" gap-2 grid-cols-2 md:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-200 "
-                productsCardCss=" h-[180px] object-cover  sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
+                productsCardCss=" h-[200px] object-cover  sm:h-[300px] md:h-[300px] xl:[350px] 2xl:h-[400px] 3xl:h-[400px]"
               />
             ) : (
               <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3  lg:grid-cols-4   items-start justify-start gap-3 px-5  lg:px-10   ">

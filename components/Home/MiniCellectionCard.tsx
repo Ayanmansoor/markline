@@ -14,7 +14,7 @@ function MiniCollectionCard({ collections, url }: newCollectionCardProps) {
       className=" w-[170px] md:w-[190px] lg:w-[200px] overflow-hidden  max-h-[300px]      cursor-pointer relative group  flex flex-col items-start justify-center gap-1 p-1     "
     >
       {images?.map((item, index) => (
-        <Image
+        <img
           key={index}
           src={item?.image_url || "/dummy-image.jpg"}
           alt={item?.name || "No Image"}
