@@ -3,9 +3,9 @@ import AboutUsPage from '@/components/About/AboutPage';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: "About Us | Markline Footwear – Shoes for Men, Women & Kids",
+  title: "About Markline | Premium & Comfortable Women's Footwear India",
   description:
-    "Markline is India’s fashionable footwear brand offering premium shoes for men, stylish ladies shoes, kids shoes, sandals, heels, bridal shoes & more.",
+    "Learn how Markline is redefining Indian women's footwear by merging modern design with 3mm memory foam comfort. Discover our mission to provide handcrafted, premium quality shoes for the contemporary woman.",
   robots: {
     index: true,
     follow: true,
@@ -14,9 +14,9 @@ export const metadata = {
     "max-video-preview": -1,
   },
   openGraph: {
-    title: "About Us | Markline Footwear – Shoes for Men, Women & Kids",
+    title: "About Markline | Premium & Comfortable Women's Footwear India",
     description:
-      "Discover Markline – redefining footwear fashion in India with stylish shoes for men, ladies shoes, kids shoes, sandals for women, bridal shoes & white heels.",
+      "Learn how Markline is redefining Indian women's footwear by merging modern design with 3mm memory foam comfort. Discover our mission to provide handcrafted, premium quality shoes for the contemporary woman.",
     url: "https://shopmarkline.in/about-us",
   },
   alternates: {

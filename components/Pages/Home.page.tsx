@@ -105,11 +105,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
       link: "/collections/kids",
       img: "/kid-collection-image.png",
     },
-    // {
-    //   name: "GenZ",
-    //   link: "/collections/genz",
-    //   img: "/genz-collection-image.png",
-    // },
+
   ];
 
   const fadeInVariants: Variants = {

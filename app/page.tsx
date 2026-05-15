@@ -4,9 +4,22 @@ import { mysupabase } from "@/Supabase/SupabaseConfig";
 
 export const metadata = mergeMetadata({
   title:
-    "Buy Shoes Online in India | Sandals, Heels, Mules & Kids Shoes – Markline",
+    "Markline | Premium & Comfortable Women's Footwear Online India",
   description:
-    "Shop Men’s Shoes, Women’s Sandals, Heels, Mules & Kids Shoes online at Markline. Discover stylish, comfortable & trendy footwear in India with fast delivery.",
+    "Shop Markline for premium women's footwear. Discover modern, comfortable heels and flats handcrafted for the Indian lifestyle. Quality meets ergonomic style. Buy now!",
+  keywords: [
+    "Markline", "Markline footwear", "Markline shoes", "footwear online India", "buy shoes online India.",
+    // High Volume India Terms
+    "women's sandals online India", "ladies sandals India", "buy heels online India", "buy heels online India", "comfortable block heels", "wedge sandals for women", "mules for women India", "women's flats online",
+    // Women's
+    "ethnic sandals for women", "wedding footwear for women",
+    "festive footwear India", "office wear sandals for ladies",
+    "mules for women India", "comfortable sandals women", "stylish sandals India",
+    "ethnic sandals women", "festive footwear women", "wedding sandals India",
+    "office wear sandals women", "women's casual shoes India",
+    // Long-tail
+    "affordable luxury footwear India", "ergonomic comfort shoes", "handcrafted designer footwear", "fast delivery shoes India"
+  ],
   robots: {
     index: true,
     follow: true,
@@ -16,10 +29,25 @@ export const metadata = mergeMetadata({
   },
   openGraph: {
     title:
-      "Buy Shoes Online in India | Sandals, Heels, Mules & Kids Shoes – Markline",
+      "Markline | Premium & Comfortable Women's Footwear Online India",
     description:
-      "Shop Men’s Shoes, Women’s Sandals, Heels, Mules & Kids Shoes online at Markline. Discover stylish, comfortable & trendy footwear in India with fast delivery.",
+      "Shop Markline for women's footwear. Discover modern, comfortable heels and flats handcrafted for the Indian lifestyle. Quality meets ergonomic style. Buy now!",
     url: "https://shopmarkline.in",
+    locale: "en_IN",
+    type: "website",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Markline Footwear",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Markline | Premium & Comfortable Women's Footwear Online India",
+    description: "Shop premium & comfortable women's footwear at Markline. Discover modern heels, flats & sandals handcrafted for the Indian lifestyle. Quality meets ergonomic style. Buy now!",
   },
   alternates: {
     canonical: "https://shopmarkline.in",
@@ -35,8 +63,8 @@ export default async function Home() {
 
   // 3. Fetch groups of products
   const { data: groupOfProductsData = [] } = await mysupabase
-      .from("group")
-      .select(`
+    .from("group")
+    .select(`
           id,
           heading,
           type,
@@ -56,10 +84,10 @@ export default async function Home() {
 
   return (
     <>
-      <HomePage 
-        initialBanners={homebanners} 
-        initialCollections={allcollection} 
-        initialGroupOfProducts={initialGroupOfProducts} 
+      <HomePage
+        initialBanners={homebanners}
+        initialCollections={allcollection}
+        initialGroupOfProducts={initialGroupOfProducts}
       />
     </>
   );

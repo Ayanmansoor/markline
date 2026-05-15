@@ -121,7 +121,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                     >
                       WOMEN
                     </Link>
-                    <Link
+                    {/* <Link
                       href={"/products/men"}
                       className={`text-sm  capitalize font-medium hover:bg-gray-100  w-full  cursor-pointer  py-1 px-2 flex items-center gap-1 ${gender == "MEN" && "bg-gray-100 "
                         }`}
@@ -136,7 +136,7 @@ function MegaManu({ children }: { children: React.ReactNode }) {
                       onMouseEnter={() => setGender("KIDS")}
                     >
                       KIDS
-                    </Link>
+                    </Link> */}
                     {/* <li className={`text-sm  capitalize font-medium hover:bg-gray-100  w-full  cursor-pointer  py-1 px-2 flex items-center gap-1 ${gender == "ALL" && "bg-gray-100 "}`} onMouseEnter={() => setGender("Collections")}>ALL</li> */}
                   </ul>
                 </div>

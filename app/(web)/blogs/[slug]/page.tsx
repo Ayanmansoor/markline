@@ -1,8 +1,8 @@
 import React from 'react'
 import BlogPage from '@/components/Pages/Blog.page'
 import { getblog } from '@/Supabase/SupabaseApi';
-export async function generateMetadata({ params }) {
-    const slug = params.slug;
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
 
     const blog = await getblog(slug);
 

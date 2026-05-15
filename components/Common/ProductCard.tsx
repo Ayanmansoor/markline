@@ -189,8 +189,8 @@ function ProductCard({ product, url, className }: newProductsProps) {
                       ? className
                       : " h-[260px] aspect-square sm:h-[300px] md:h-[250px] lg:h-[350px] xl:h-[400px]"
                       } `}
-                    height={1000}
-                    width={1000}
+                    height={500}
+                    width={500}
                     loading="lazy"
                   />
                 </SwiperSlide>

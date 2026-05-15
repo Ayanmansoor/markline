@@ -70,8 +70,8 @@ export async function generateMetadata({ params }) {
 }
 
 
-async function page({ params }) {
-  const slug = params?.slug;
+async function page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const product = await getProductData(slug);
 
   if (!product) return null;

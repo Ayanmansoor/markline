@@ -28,7 +28,8 @@ import CategoriesSection from "../Common/CategoriesSection";
 import WihlistCardSection from "../Product/WihlistCardSection";
 import { useWishlists } from "@/Contexts/wishlist";
 import SecondHero from "../Common/SecondHero";
-import { useParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
 import { FreeMode, Pagination } from "swiper/modules";
 
@@ -79,15 +80,24 @@ export interface selectColorAndSizesProps {
 export interface ProductsPageProps {
   initialProducts?: { data: NewProductProps[] };
   initialCollections?: { data: any[] };
+  totalCount: number;
+  currentPage: number;
+  pageSize: number;
 }
 
 const Productspage: React.FC<ProductsPageProps> = ({
   initialProducts,
   initialCollections,
+  totalCount,
+  currentPage,
+  pageSize,
 }) => {
   const [productRangevalue, setPRoductRange] = useState(5000);
   const { slug } = useParams();
   const productslug = Array.isArray(slug) ? slug[0] : slug;
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [selectColorAndSizes, setSelectColorAndSizes] =
     useState<selectColorAndSizesProps>({
       color: [],
@@ -95,18 +105,16 @@ const Productspage: React.FC<ProductsPageProps> = ({
     });
 
   const [filterProducts, setFilterProducts] = useState<NewProductProps[]>();
+
   const {
     data: allproducts = initialProducts || { data: [] },
     isLoading: isLoadingProducts,
     isError: isErrorProducts,
   } = useQuery<{ data: NewProductProps[] }>({
-    queryKey: ["products"],
+    queryKey: ["products", productslug, currentPage],
     queryFn: getAllProductsWithVariants,
     initialData: initialProducts,
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
+    staleTime: 60000,
   });
 
   const {
@@ -122,6 +130,15 @@ const Productspage: React.FC<ProductsPageProps> = ({
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
+
+  const totalPages = Math.ceil(totalCount / pageSize);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage < 1 || newPage > totalPages) return;
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", newPage.toString());
+    router.push(`?${params.toString()}`, { scroll: true });
+  };
 
   useEffect(() => {
     if (!allproducts) return;
@@ -280,7 +297,9 @@ const Productspage: React.FC<ProductsPageProps> = ({
 
         <h1 className=" text-base md:text-xl lg:text-2xl xl:text-3xl font-semibold text-primary capitalize px-5 lg:px-10 xl:px-20 2xl:px-40 ">
           Products - {productslug}{" "}
-          {`${allproducts.data ? allproducts.data.length : ""}`}{" "}
+          <span className="text-sm font-normal text-gray-500">
+            ({totalCount} products)
+          </span>
         </h1>
 
         <section className="w-full relative gap-2 items-center  mt-8  h-auto flex border-b border-gray-400 pb-3   px-5 lg:px-10 xl:px-20 2xl:px-40 ">
@@ -343,6 +362,56 @@ const Productspage: React.FC<ProductsPageProps> = ({
                 <ProductCardSkeleton />
                 <ProductCardSkeleton />
                 <ProductCardSkeleton />
+              </div>
+            )}
+
+            {totalPages > 1 && (
+              <div className="flex items-center  justify-end gap-2 mt-10">
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="p-2 rounded-md border border-gray-300 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white transition-colors"
+                >
+                  <HiChevronLeft className="w-5 h-5" />
+                </button>
+
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                    // Show first, last, and pages around current page
+                    if (
+                      page === 1 ||
+                      page === totalPages ||
+                      (page >= currentPage - 1 && page <= currentPage + 1)
+                    ) {
+                      return (
+                        <button
+                          key={page}
+                          onClick={() => handlePageChange(page)}
+                          className={`w-10 h-10 rounded-md text-sm font-medium transition-all ${currentPage === page
+                            ? "bg-primary text-white shadow-md scale-110"
+                            : "bg-white text-primary border border-gray-200 hover:border-primary"
+                            }`}
+                        >
+                          {page}
+                        </button>
+                      );
+                    } else if (
+                      page === currentPage - 2 ||
+                      page === currentPage + 2
+                    ) {
+                      return <span key={page} className="px-1 text-gray-400">...</span>;
+                    }
+                    return null;
+                  })}
+                </div>
+
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className="p-2 rounded-md border border-gray-300 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white transition-colors"
+                >
+                  <HiChevronRight className="w-5 h-5" />
+                </button>
               </div>
             )}
           </div>

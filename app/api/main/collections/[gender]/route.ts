@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { mysupabase } from "@/Supabase/SupabaseConfig";
 
 
-export async function GET(req: NextRequest, context: { params: { gender: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ gender: string }> }) {
     try {
 
-        const { gender } = context.params;
+        const { gender } = await params;
 
 
         const { data, error } = await mysupabase

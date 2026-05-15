@@ -2,17 +2,7 @@
 const nextConfig = {
   images: {
     remotePatterns: [
-      {
-        protocol: "http",
-        hostname: "localhost",
-        port: "4700",
-        pathname: "**",
-      },
-      {
-        protocol: "https",
-        hostname: "www.bata.com",
-        pathname: "**",
-      },
+
       {
         protocol: "https",
         hostname: "raw.githubusercontent.com",
@@ -26,6 +16,11 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "res.cloudinary.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "images.shopmarkline.in",
         pathname: "**",
       },
     ],
