@@ -1,7 +1,6 @@
 import { mysupabase } from "@/Supabase/SupabaseConfig";
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 
 
@@ -38,8 +37,8 @@ export async function POST(req: NextRequest) {
   const { error } = await mysupabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: `${req.headers.get("origin")}/auth/callback`
-    }
+      shouldCreateUser: true,
+    },
   })
 
   if (error) {

@@ -3,8 +3,8 @@ import React from 'react'
 import Occasions from '@/components/Pages/Occasions'
 import { mysupabase } from '@/Supabase/SupabaseConfig';
 import { getAllCollectionsBaseOnType, getCollectionBaseOnTypeAndOccuation } from '@/Supabase/SupabaseApi';
-export async function generateMetadata({ params }) {
-    const occasion = `${params.occasion}`;
+export async function generateMetadata({ params }: { params: Promise<{ occasion: string }> }) {
+    const { occasion } = await params;
 
     const occasiondata: any[] | null | Error = await getCollectionBaseOnTypeAndOccuation('occasion', occasion);
 
@@ -86,7 +86,7 @@ export async function generateMetadata({ params }) {
 }
 
 
-async function page() {
+async function page({ params }: { params: Promise<{ occasion: string }> }) {
     // 1. Fetch all collections server-side
     const { data: allcollection } = await mysupabase
         .from("collection")

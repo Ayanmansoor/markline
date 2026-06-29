@@ -36,33 +36,27 @@ function ProductFilter({ collection, productRangevalue, setPRoductRange, gender,
     }
 
     function selectColor(color: string) {
-        setSelectedColor(prev => {
-            const newColors = prev.includes(color)
-                ? prev.filter(c => c !== color) // toggle
-                : [...prev, color];
+        const newColors = selectedColor.includes(color)
+            ? selectedColor.filter(c => c !== color)
+            : [...selectedColor, color];
 
-            SetselectColorAndSizes((prevState: any) => ({
-                ...prevState,
-                color: newColors,
-            }));
-
-            return newColors;
-        });
+        setSelectedColor(newColors);
+        SetselectColorAndSizes((prevState: any) => ({
+            ...prevState,
+            color: newColors,
+        }));
     }
 
     function selectSizes(size: string) {
-        setSelectedSizes(prev => {
-            const newSizes = prev.includes(size)
-                ? prev.filter(s => s !== size) // toggle
-                : [...prev, size];
+        const newSizes = selectedSizes.includes(size)
+            ? selectedSizes.filter(s => s !== size)
+            : [...selectedSizes, size];
 
-            SetselectColorAndSizes((prevState: any) => ({
-                ...prevState,
-                size: newSizes,
-            }));
-
-            return newSizes;
-        });
+        setSelectedSizes(newSizes);
+        SetselectColorAndSizes((prevState: any) => ({
+            ...prevState,
+            size: newSizes,
+        }));
     }
     return (
 

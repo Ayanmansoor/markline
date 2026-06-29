@@ -172,7 +172,15 @@ function CategoryL2page({
       return matchPrice && matchGender && matchColor && matchSize;
     });
 
-    setFilterProducts(filtered);
+    // Deduplicate by product ID — prevents same product appearing twice
+    const seen = new Set<number>();
+    const deduplicated = filtered.filter((p: NewProductProps) => {
+      if (seen.has(p.id)) return false;
+      seen.add(p.id);
+      return true;
+    });
+
+    setFilterProducts(deduplicated);
   }, [products, productRangevalue, gslug, selectColorAndSizes]);
 
   function showMoreProducts() {
@@ -333,7 +341,7 @@ function CategoryL2page({
               data={filterProducts ? filterProducts : products}
               url={"product"}
               css=" grid-cols-2 md:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-200  gap-2 lg:gap-3"
-              productsCardCss="  h-[200px] object-cover  sm:h-[300px] md:h-[300px] xl:[350px] 2xl:h-[400px] 3xl:h-[450px]"
+              productsCardCss="  h-[250px] object-cover  sm:h-[350px] md:h-[350px] xl:[450px] 2xl:h-[450px] 3xl:h-[450px]"
             />
           ) : (
             <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3  lg:grid-cols-4   items-start justify-start gap-3 px-2 md:px-5  lg:px-10   ">

@@ -52,7 +52,7 @@ function CarouselProduct({ url, product, css, productsCardCss }: newCarouselProd
                     className="mySwiper h-full w-full  relative"
                 >
                     {product?.map((product: any, index: number) => (
-                        <SwiperSlide className={`max-w-[200px] sm:max-w-[250px] md:max-w-[300px] lg:max-w-[350px] h-full relative bg-secondary `} key={index} >
+                        <SwiperSlide className={`max-w-[290px] sm:max-w-[310px] md:max-w-[350px] lg:max-w-[350px] h-full relative bg-secondary `} key={index} >
                             <ProductCard url={url} product={product} className={productsCardCss} />
                         </SwiperSlide>
                     ))}

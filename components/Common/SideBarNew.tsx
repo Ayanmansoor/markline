@@ -39,6 +39,9 @@ function SideBarNew() {
                     <Link href="/" onClick={handleClose} className="text-base px-2 py-1 cursor-pointer text-primary font-medium border   flex items-center justify-between gap-0 w-full">Home
                         <RiArrowRightSLine className='text-[30px] text-primary cursor-pointer border-l  px-1 py-1' />
                     </Link>
+                    <Link href="/wishlist" onClick={handleClose} className="text-base px-2 py-1 cursor-pointer text-primary font-medium border   flex items-center justify-between gap-0 w-full">Wishlist
+                        <RiArrowRightSLine className='text-[30px] text-primary cursor-pointer border-l  px-1 py-1' />
+                    </Link>
                     <span className='w-full relative   py-1'>
                         <Accordion type="single" collapsible className='w-full relative h-auto '>
                             <AccordionItem value="item-1" className='w-full relative h-auto'>

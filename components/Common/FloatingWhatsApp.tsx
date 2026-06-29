@@ -17,7 +17,7 @@ const FloatingWhatsApp = () => {
     };
 
     return (
-        <div className="fixed bottom-16 right-6 z-[9990] flex items-center justify-center">
+        <div className="fixed bottom-5 md:bottom-5 right-4 md:right-6 z-[9990] flex items-center justify-center">
             {/* Pulsing ring effect */}
             <span className="absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-50 animate-ping" />
 

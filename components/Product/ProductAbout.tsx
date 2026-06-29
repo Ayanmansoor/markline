@@ -377,7 +377,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                     </>
                 )}
 
-                <div className='w-full fixed bottom-0 px-4 flex-wrap sm:px-0 bg-white sm:bg-transparent py-4 sm:py-0 z-30 grid grid-cols-[1fr_auto] md:grid-cols-1 lg:grid-cols-2 gap-3 right-0 items-center sm:relative'>
+                <div className='w-full fixed bottom-0 px-4 flex-wrap sm:px-0 bg-white sm:bg-transparent py-4 sm:py-0 z-30 grid grid-cols-[1fr_1fr] md:grid-cols-1 lg:grid-cols-2 gap-3 right-0 items-center sm:relative'>
                     {
                         (variant?.id && selectedColor?.name && selectedSize?.size) &&
                             isInCart({ variantId: variant.id, colorName: selectedColor.name, size: selectedSize.size }) ?
@@ -412,7 +412,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                     >
                         <button
                             disabled={!(selectedColor?.name && selectedSize?.size)}
-                            className='w-full min-w-[140px] bg-black group relative overflow-hidden rounded-xl py-4 transition-all duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.2)] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed'
+                            className='w-full min-w-[140px] bg-black group relative overflow-hidden rounded-xl py-[19px] transition-all duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.2)] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed'
                         >
                             {/* Animated Shimmer Overlay */}
                             <div className='absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-1000 group-hover:translate-x-full' />
@@ -467,7 +467,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                     </div>
                     <div className="text-center  flex items-center justify-start gap-4">
                         <RotateCcw className=" text-[20px] md:text-[25px] mx-auto mb-2 text-gray-500" />
-                        <p className=" text-xs sm:text-sm font-semibold sm:font-medium   text-primary">30-Day Returns</p>
+                        <p className=" text-xs sm:text-sm font-semibold sm:font-medium   text-primary">7-Day Returns</p>
                     </div>
                 </div>
 

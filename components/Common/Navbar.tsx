@@ -9,15 +9,17 @@ import { PiShoppingCartLight } from 'react-icons/pi'
 import SideBarNew from './SideBarNew'
 // import { useCart } from '@/Contexts/Cart.context'
 import { useCartContext } from '@/Contexts/Cart.context'
+import { useWishlists } from '@/Contexts/wishlist'
 import NavUser from './NavUser'
 import { CiSearch } from 'react-icons/ci'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import CummonMegaManu from './CummonMegaManu'
-import { Search, ShoppingBag } from 'lucide-react'
+import { Search, ShoppingBag, Heart } from 'lucide-react'
 
 function Navbar() {
 
     const { cart } = useCartContext();
+    const { wishlist } = useWishlists();
     const [isOpen, setisOpen] = useState(false);
     const [isScrolled, setScrolled] = useState<boolean>(false)
     const route = useRouter()
@@ -96,6 +98,16 @@ function Navbar() {
                             path != 'search' &&
                             <Search height={23} className='  cursor-pointer' onClick={(es) => route.push("/search")} />
                         }
+
+                        <li className='hidden md:flex gap-1 items-center text-p18 font-medium cursor-pointer'>
+                            <Link href={"/wishlist"} className='relative h-auto w-auto group'>
+                                <Heart height={23} width={23} className='text-primary group-hover:fill-red-500 group-hover:text-red-500 transition-colors' />
+                                {
+                                    wishlist?.length > 0 &&
+                                    <p className='p-1 h-fit rounded-full text-[12px] leading-[0.6] absolute -top-2 -right-2 flex items-center justify-center w-fit font-normal bg-red-500 text-white'>{wishlist?.length}</p>
+                                }
+                            </Link>
+                        </li>
 
                         <li className='flex gap-1 items-center text-p18 font-medium cursor-pointer'>
                             <Link href={"/carts"} className='relative h-auto w-auto'>

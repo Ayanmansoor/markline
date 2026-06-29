@@ -1,143 +1,109 @@
 import { AddressProps, BuyProductProps, forProductsProps, Images, NewForProductsProps, OrderProps, ProductsDataProps } from '@/types/interfaces'
 import React, { useEffect, useMemo, useState } from 'react'
-
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import axios from 'axios';
-import { Pagination } from 'swiper/modules';
-import LoadRazorpay from '@/utils/loadrazorpay';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
-import { mysupabase } from '@/Supabase/SupabaseConfig';
-import { submitOrders } from '@/Supabase/acceptOrderForm';
-import { getSelectedAddress } from '@/Supabase/SupabaseApi';
-import UpdateLocalstorageForOrder from '@/lib/UpdateLocalStorageForOrder';
-import SendMail from '@/lib/SendMailHelper';
-import { toast } from 'sonner';
-
+import { Tag, Palette, Ruler, Package } from 'lucide-react';
 
 function BuyComponent({ product, variant, user, setConfirm, selectedAddress }: NewForProductsProps) {
 
   const productImages = variant?.image_url?.map((obj: any) => JSON.parse(obj));
+  const mainImage = productImages?.[0]?.image_url;
 
-
-
-
-  // useEffect(() => {
-  //   if (!user?.id) return;
-  //   const fetchAddress = async () => {
-  //     const address = await getSelectedAddress(user?.id);
-  //     setUserAddress(address);
-  //   };
-  //   fetchAddress();
-  // }, [user]);
-
+  const price = variant?.price || 0;
+  const discountPercent = variant?.discounts?.discount_persent || 0;
+  const finalPrice = discountPercent ? Math.floor(price - (price * (discountPercent / 100))) : price;
+  const quantity = product?.quantity || 1;
 
   return (
-    <>
-      <section className='w-full relative grid grid-cols-1 md:grid-cols-[1fr_2fr] items-center  gap-1 h-[320px]'>
-        <div className='w-full relative flex items-start md:items-start flex-col sm:flex-row md:flex-col gap-1 px-2 py-1 lg:py-2 border h-full  bg-gray-50 border-gray-300 rounded-md'>
-          <Swiper
-            pagination={{
-              dynamicBullets: true,
-            }}
-            modules={[Pagination]}
-            className="mySwiper max-w-[150px] sm:max-w-[200px] md:max-w-[250px]  relative h-auto "
-          >
-            {
-              productImages?.map((item: Images, index: number) => (
-                <SwiperSlide className=' w-full  relative h-auto  ' key={index}>
-                  <img src={item.image_url} alt={item.name} height={400} width={500} className=' w-full  h-[120px] md:h-[200px] lg:h-[220px] border border-gray relative   object-cover rounded-md ' loading='lazy' />
-                </SwiperSlide>
-              ))
-
-            }
-
-
-          </Swiper>
-
-          <div className='flex  flex-col  items-start justify-between gap-1    '>
-            <h2 className=' text-base lg:text-lg mt-1  font-medium leading-[1] text-black mb-2  w-full '>{product.name}</h2>
-          </div>
+    <div className='w-full bg-white rounded-xl overflow-hidden'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8'>
+        {/* Left Side: Image */}
+        <div className='w-full relative h-[200px] md:h-[350px] rounded-xl overflow-hidden bg-gray-50'>
+          {mainImage ? (
+            <img
+              src={mainImage}
+              alt={product.name}
+              className='w-full h-full object-cover object-center'
+            />
+          ) : (
+            <div className='w-full h-full flex items-center justify-center text-gray-400'>
+              No Image Available
+            </div>
+          )}
         </div>
 
-        <section className='w-full relative h-full items-center flex flex-col justify-center  gap-1 md:gap-10 '>
+        {/* Right Side: Details */}
+        <div className='w-full flex flex-col justify-center'>
+          <h2 className=' text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-5 leading-tight'>
+            {product.name}
+          </h2>
 
-          <div className='w-full relative h-full flex  flex-col gap-1'>
-            {
-              !variant?.discounts?.discount_persent &&
-              <div className='w-full relative bg-gray-100 py-1 text-balck  grid grid-cols-2  px-10 '>
-                <p className=' text-sm md:text-base lg:text-lg font-medium text-black '>Price :</p>
-                <p className='text-sm md:text-base lg:text-lg font-medium text-black '>₹{variant.price}</p>
+          <div className='flex flex-col space-y-2'>
+            {/* Price Row */}
+            <div className='flex items-center justify-between pb-1 border-b border-gray-100'>
+              <div className='flex items-center gap-4'>
+                <div className='w-5 h-5 rounded-full bg-gray-50 flex items-center justify-center text-gray-600'>
+                  <Tag size={18} />
+                </div>
+                <span className='text-gray-600 font-medium text-base sm:text-lg '>Price</span>
               </div>
-            }
-            {
-              variant?.discounts?.discount_persent &&
-              <div className='w-full relative bg-gray-100 py-1 text-balck  grid grid-cols-2  px-10 '>
-                <p className='text-sm md:text-base lg:text-lg font-medium text-black '>Price :</p>
-                <p className='text-sm md:text-base lg:text-lg font-medium text-black '>₹₹{
-                  Math.floor(variant?.price - (variant?.price * (variant?.discounts?.discount_persent / 100)))}</p>
+              <div className='flex flex-col items-end'>
+                {discountPercent > 0 && (
+                  <span className='text-xs text-gray-400 line-through text-base sm:text-lg'>₹{price}</span>
+                )}
+                <span className='font-semibold text-gray-900 text-base sm:text-lg'>₹{finalPrice}</span>
               </div>
-            }
+            </div>
 
-            <div className='w-full relative bg-gray-100 py-1 text-balck  grid grid-cols-2  px-10 '>
-              <p className='text-sm md:text-base lg:text-lg font-medium text-black '>Color :</p>
-              <p className='text-sm md:text-base lg:text-lg font-medium text-black '>{product?.selectedColor?.name}</p>
+            {/* Color Row */}
+            <div className='flex items-center justify-between pb-1 border-b border-gray-100'>
+              <div className='flex items-center gap-4'>
+                <div className='w-5 h-5 rounded-full bg-gray-50 flex items-center justify-center text-gray-600'>
+                  <Palette size={18} />
+                </div>
+                <span className='text-gray-600 font-medium text-base sm:text-lg'>Color</span>
+              </div>
+              <div className='flex items-center gap-2'>
+                {product?.selectedColor?.hex && (
+                  <div
+                    className='w-4 h-4 rounded-full border border-gray-200'
+                    style={{ backgroundColor: product?.selectedColor?.hex }}
+                  />
+                )}
+                <span className='font-semibold text-gray-900 text-base sm:text-lg'>{product?.selectedColor?.name || 'N/A'}</span>
+              </div>
             </div>
-            <div className='w-full relative bg-gray-100 py-1 text-balck  grid grid-cols-2  px-10 '>
-              <p className='text-sm md:text-base lg:text-lg font-medium text-black '>Size :</p>
-              <p className='text-sm md:text-base lg:text-lg font-medium text-black '>{product?.selectedSize?.size}</p>
+
+            {/* Size Row */}
+            <div className='flex items-center justify-between pb-1 border-b border-gray-100'>
+              <div className='flex items-center gap-4'>
+                <div className='w-5 h-5 rounded-full bg-gray-50 flex items-center justify-center text-gray-600'>
+                  <Ruler size={18} />
+                </div>
+                <span className='text-gray-600 font-medium text-base sm:text-lg'>Size</span>
+              </div>
+              <span className='font-semibold text-gray-900 text-base sm:text-lg'>{product?.selectedSize?.size || 'N/A'}</span>
             </div>
-            <div className='w-full relative bg-gray-100 py-1 text-balck  grid grid-cols-2  px-10 '>
-              <p className='text-sm md:text-base lg:text-lg font-medium text-black '>Quantity :</p>
-              <p className='text-sm md:text-base lg:text-lg font-medium text-black '>{product.quantity}</p>
+
+            {/* Quantity Row */}
+            <div className='flex items-center justify-between pb-1 border-b border-gray-100'>
+              <div className='flex items-center gap-4'>
+                <div className='w-5 h-5 rounded-full bg-gray-50 flex items-center justify-center text-gray-600'>
+                  <Package size={18} />
+                </div>
+                <span className='text-gray-600 font-medium text-base sm:text-lg'>Quantity</span>
+              </div>
+              <span className='font-semibold text-gray-900 text-base sm:text-lg'>{quantity}</span>
             </div>
           </div>
 
-          <div className='w-full relative h-fit flex  flex-col gap-1 '>
-
-
-            {
-              variant?.discounts?.discount_persent && variant?.discounts?.name &&
-              <div className='w-full relative  py-1 text-balck  bg-green-50 grid grid-cols-2 items-center  px-10 '>
-                <p className='text-sm font-medium text-green-800 '>Discount name :</p>
-                <p className=' text-sm sm:text-base leading-[1.3] flex items-center gap-4 font-medium text-green-800 '>{variant?.discounts?.name}
-
-                  <p className='text-red-400 line-through'>{variant?.discounts?.discount_persent}%</p>
-                </p>
-              </div>
-
-            }
-            {
-              variant?.discounts?.discount_persent &&
-              < div className='w-full relative  py-1 text-balck  bg-gray-100 items-center grid grid-cols-2  px-10 '>
-                <p className='text-sm md:text-base lg:text-lg font-semibold text-gray-400 '>Total :</p>
-                <p className='text-sm md:text-base lg:text-lg font-medium text-black '>₹{Math.floor(variant?.price - (variant?.price * (variant?.discounts?.discount_persent / 100)))}</p>
-              </div>
-            }
-
-            {
-              !variant?.discounts?.discount_persent &&
-
-              < div className='w-full relative  py-1 text-balck  bg-gray-100 items-center grid grid-cols-2  px-10 '>
-                <p className='text-sm md:text-base lg:text-lg font-semibold text-gray-700 '>Total :</p>
-                <p className='text-sm md:text-base lg:text-lg font-medium text-gray-900 '>₹{variant?.price}</p>
-              </div>
-            }
+          {/* Total Box */}
+          <div className=' mt-2 bg-gray-50 rounded-xl flex items-center justify-between'>
+            <span className='text-gray-900 font-medium text-lg'>Total</span>
+            <span className='text-gray-900 font-semibold text-xl'>₹{finalPrice * quantity}</span>
           </div>
-        </section>
-      </section >
-      <div className='w-full flex items-end  justify-end'>
-        {/* {
-          user?.phone || user?.email &&
-          <button disabled={isSubmittingOrder} className='text-base font-medium  text-white rounded-md border border-gray-200 px-12 mt-4 py-2 bg-primary ' onClick={() => {
-            saveBeforePayment()
-          }} >{
-              isSubmittingOrder ? "Just a second.." : "Buy Now"
-            }</button>
-        } */}
+
+        </div>
       </div>
-    </>
+    </div>
   )
 }
 

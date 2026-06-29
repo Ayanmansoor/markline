@@ -44,8 +44,6 @@ export const UserAddressProvider = ({ children }: { children: ReactNode }) => {
                 .select("*")
                 .eq("user_id", user.id);
 
-            console.log(addresses, 'this is current user')
-
             if (error) {
                 console.error("Error fetching addresses:", error.message);
                 setAddresses([]);

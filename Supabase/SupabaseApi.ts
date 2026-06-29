@@ -167,7 +167,7 @@ async function getAllTrendingProducts() {
 async function getAllNewArrivalProducts() {
   const { data: newArrivals, error } = await mysupabase
     .from("product")
-    .select("*,brands(*),product_variants(*)")
+    .select("*,brands(*),product_variants(*,discounts:discount_key(*))")
     .eq("is_new_arrival", true);
   if (newArrivals) {
     return newArrivals;
@@ -316,8 +316,6 @@ async function getProductBaseOnCollection(slug: string) {
 async function getRelatedProducts(product: ProductsProps, slug: string) {
   if (!product) return [];
 
-    console.log("Fetching related products for:", product);
-
   const { data: relatedProducts, error } = await mysupabase
     .from("product")
     .select(
@@ -378,7 +376,9 @@ async function getCurrentUserOrders(userId: string) {
       orders,
       address,
     };
-  } catch (error) { }
+  } catch (error) {
+    console.error('Error fetching user orders:', error);
+  }
 }
 
 async function getCurrentUserSingleOrder(userId: string, orderId: string) {
@@ -395,7 +395,9 @@ async function getCurrentUserSingleOrder(userId: string, orderId: string) {
     return {
       orders,
     };
-  } catch (error) { }
+  } catch (error) {
+    console.error('Error fetching single order:', error);
+  }
 }
 
 async function getSelectedAddress(userId: string | undefined) {
@@ -424,7 +426,9 @@ async function updateCurrentUserAddress(userId: string, updatedAddress: any) {
       return new Error(error.message);
     }
     return data;
-  } catch (error) { }
+  } catch (error) {
+    console.error('Error updating address:', error);
+  }
 }
 
 // new
@@ -450,7 +454,7 @@ async function getAllCollectionWithProducts(gender: string) {
     }
     return data;
   } catch (error) {
-    console.log(error, "i getting");
+    console.error('Error fetching collection with products:', error);
   }
 }
 async function getaudience(audience: string) {
@@ -464,7 +468,9 @@ async function getaudience(audience: string) {
       return new Error(error.message);
     }
     return data[0];
-  } catch (error) { }
+  } catch (error) {
+    console.error('Error fetching audience:', error);
+  }
 }
 
 async function getAllAudience() {
@@ -475,7 +481,9 @@ async function getAllAudience() {
       return new Error(error.message);
     }
     return data;
-  } catch (error) { }
+  } catch (error) {
+    console.error('Error fetching all audience:', error);
+  }
 }
 
 async function getsearchProducts(query: string) {
@@ -510,7 +518,8 @@ async function getsearchProducts(query: string) {
         )
       `
       )
-      .order("created_at", { ascending: false }));
+      .order("created_at", { ascending: false })
+      .limit(60));
   }
 
   if (error) {
@@ -529,7 +538,7 @@ const fetchGroupOfProducts = async (type?: string) => {
 
     return response.data;
   } catch (error) {
-    console.log(error, "this is errror ");
+    console.error('Error fetching group of products:', error);
     throw new Error("Failed to fetch groups of products");
   }
 };
@@ -557,9 +566,8 @@ const fetchGroupOfPRoductss = async () => {
     const { data, error } = await query;
     return data;
   } catch (error) {
-    console.log(error, "this is errror ");
+    console.error('Error fetching group products:', error);
     throw new Error("Failed to fetch groups of products");
-
   }
 }
 
@@ -568,7 +576,7 @@ async function getAllProductsWithVariants() {
     const response = await axios.get("/api/main/getProducts");
     return response.data;
   } catch (error) {
-    console.log(error, "this is errror ");
+    console.error('Error fetching group of products:', error);
     throw new Error("Failed to fetch groups of products");
   }
 }
@@ -579,7 +587,7 @@ async function getAllCollections(type: string) {
 
     return response.data;
   } catch (error) {
-    console.log(error, "this is errror ");
+    console.error('Error fetching group of products:', error);
     throw new Error("Failed to fetch groups of products");
   }
 }
@@ -590,7 +598,7 @@ async function getAllProductsbygender(gender: string) {
 
     return response.data;
   } catch (error) {
-    console.log(error, "this is errror ");
+    console.error('Error fetching group of products:', error);
     throw new Error("Failed to fetch groups of products");
   }
 }
@@ -601,7 +609,7 @@ async function getCollectionBaseOnGender(gender: string) {
 
     return response.data;
   } catch (error) {
-    console.log(error, "this is errror ");
+    console.error('Error fetching group of products:', error);
     throw new Error("Failed to fetch groups of products");
   }
 }
@@ -638,7 +646,9 @@ async function getAllHeader() {
     }
 
     return data;
-  } catch (error) { }
+  } catch (error) {
+    console.error('Error fetching header:', error);
+  }
 }
 
 async function getReviews(productId: number) {
@@ -650,7 +660,7 @@ async function getReviews(productId: number) {
       .order("created_at", { ascending: false });
 
     if (error) throw error;
-    
+
     // Map data to match ReviewProps
     // Note: Since we can't join to auth.users directly, we'll use a placeholder for now
     return data.map(review => ({
@@ -705,6 +715,172 @@ async function uploadReviewImage(file: File) {
   }
 }
 
+// ─────────────────────────────────────────────────────
+// CART API
+// ─────────────────────────────────────────────────────
+
+async function getCartByUser(userId: string) {
+  const { data, error } = await mysupabase
+    .from('cart')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching cart:', error);
+    return [];
+  }
+  return data || [];
+}
+
+async function upsertCartItem(row: {
+  user_id: string;
+  product_id: number;
+  product_name: string;
+  slug: string;
+  gender?: string;
+  variant_id: number;
+  variant_sku?: string;
+  variant_price: number;
+  selected_color_name: string;
+  selected_color_hex?: string;
+  selected_size: string;
+  selected_size_unit?: string;
+  quantity: number;
+  image_url?: string | null;
+}) {
+  const { data, error } = await mysupabase
+    .from('cart')
+    .upsert(row, { onConflict: 'user_id,variant_id,selected_color_name,selected_size' })
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error upserting cart item:', error);
+    return null;
+  }
+  return data;
+}
+
+async function removeCartItem(userId: string, productId: number, colorName: string, size: string) {
+  const { error } = await mysupabase
+    .from('cart')
+    .delete()
+    .eq('user_id', userId)
+    .eq('product_id', productId)
+    .eq('selected_color_name', colorName)
+    .eq('selected_size', size);
+
+  if (error) {
+    console.error('Error removing cart item:', error);
+    return false;
+  }
+  return true;
+}
+
+async function updateCartItemQuantity(
+  userId: string,
+  productId: number,
+  colorName: string,
+  size: string,
+  quantity: number
+) {
+  const { error } = await mysupabase
+    .from('cart')
+    .update({ quantity, updated_at: new Date().toISOString() })
+    .eq('user_id', userId)
+    .eq('product_id', productId)
+    .eq('selected_color_name', colorName)
+    .eq('selected_size', size);
+
+  if (error) {
+    console.error('Error updating cart quantity:', error);
+    return false;
+  }
+  return true;
+}
+
+async function clearCartByUser(userId: string) {
+  const { error } = await mysupabase
+    .from('cart')
+    .delete()
+    .eq('user_id', userId);
+
+  if (error) {
+    console.error('Error clearing cart:', error);
+    return false;
+  }
+  return true;
+}
+
+// ─────────────────────────────────────────────────────
+// WISHLIST API
+// ─────────────────────────────────────────────────────
+
+async function getWishlistByUser(userId: string) {
+  const { data, error } = await mysupabase
+    .from('wishlist')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching wishlist:', error);
+    return [];
+  }
+  return data || [];
+}
+
+async function upsertWishlistItem(row: {
+  user_id: string;
+  product_id: number;
+  name: string;
+  slug: string;
+  price?: number;
+  discount_key?: string | null;
+  discount_percent?: number | null;
+  image_url?: string | null;
+}) {
+  const { data, error } = await mysupabase
+    .from('wishlist')
+    .upsert(row, { onConflict: 'user_id,product_id' })
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error upserting wishlist item:', error);
+    return null;
+  }
+  return data;
+}
+
+async function removeWishlistItem(userId: string, productId: number) {
+  const { error } = await mysupabase
+    .from('wishlist')
+    .delete()
+    .eq('user_id', userId)
+    .eq('product_id', productId);
+
+  if (error) {
+    console.error('Error removing wishlist item:', error);
+    return false;
+  }
+  return true;
+}
+
+async function clearWishlistByUser(userId: string) {
+  const { error } = await mysupabase
+    .from('wishlist')
+    .delete()
+    .eq('user_id', userId);
+
+  if (error) {
+    console.error('Error clearing wishlist:', error);
+    return false;
+  }
+  return true;
+}
+
 export {
   getAllBanner,
   getAllTrendingProducts,
@@ -747,5 +923,18 @@ export {
   getAllHeader,
   getReviews,
   addReview,
-  uploadReviewImage
+  uploadReviewImage,
+
+  // Cart API
+  getCartByUser,
+  upsertCartItem,
+  removeCartItem,
+  updateCartItemQuantity,
+  clearCartByUser,
+
+  // Wishlist API
+  getWishlistByUser,
+  upsertWishlistItem,
+  removeWishlistItem,
+  clearWishlistByUser,
 };

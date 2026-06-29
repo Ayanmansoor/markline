@@ -307,7 +307,7 @@ function SelectOrder({ product, variant, user, setConfirm, userAddress }: NewFor
 
 
             <div className="w-full relative max-h-full overflow-auto  ">
-                <section className="w-full relative h-auto grid grid-cols-2 gap-2">
+                <section className="w-full relative h-auto grid grid-cols-1 md:grid-cols-2 gap-2">
                     {userAddress?.map((address: any) => (
                         <div
                             key={address.id}

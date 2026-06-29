@@ -66,14 +66,25 @@ function ProductCard({ product, url, className }: newProductsProps) {
     setIsInwhishlist(present);
   }, [wishlist.length, product]);
 
-  function addTowishlistproduct(
-    selectedColor: Colors[],
-    selectedSize: Sizes[]
-  ) {
-    if (!selectedVariant.image_url) {
-      // addToWishlist({ name: product.name, productId: product.id, price: product.product_variants.price, quantity: 1, color: selectedColor, size: selectedSize, image_urls: StringifyImages, discounts: product.discounts, discount_key: product.discount_key ,slug:product.slug })
+  const toggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent navigating to the product page when clicking the heart
+    if (isInWhishlist) {
+      removeFromWishlist({ productId: product.id });
+    } else {
+      addToWishlist({
+        name: product.name,
+        productId: product.id,
+        price: selectedVariant?.price || 0,
+        quantity: 1,
+        color: [],
+        size: [],
+        image_urls: StringifyImages || [],
+        discounts: selectedVariant?.discounts as any,
+        discount_key: product?.discount_key || "",
+        slug: product.slug,
+      });
     }
-  }
+  };
 
   const { allColors, allSizes } = useMemo(() => {
     const colorMap = new Map<string, Colors>();
@@ -202,13 +213,15 @@ function ProductCard({ product, url, className }: newProductsProps) {
             </p>
           )}
         </Link>
-        {/* <button className="absolute top-3 right-3 bg-gray-200 border border-gray-200 p-1 md:p-2  rounded-full z-20">
+        <button
+          onClick={toggleWishlist}
+          className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm shadow-sm border border-gray-100 p-2 md:p-2 rounded-full z-20 hover:scale-110 hover:bg-white transition-all duration-300 group/heart"
+        >
           <FaHeart
-            className={` text-[10px] sm:text-[16px] md:text-[20px] flex items-center    text-black justify-center cursor-pointer group group-hover:text-red-500  ${isInWhishlist && "text-red-500"
-              }  `}
-            onClick={() => addTowishlistproduct(Stringifycolor, StringifySize)}
+            className={`text-[12px] sm:text-[14px] md:text-[16px] flex items-center justify-center transition-colors duration-300 ${isInWhishlist ? "text-red-500" : "text-gray-500 group-hover/heart:text-red-400"
+              }`}
           />
-        </button> */}
+        </button>
       </span>
 
       <Link

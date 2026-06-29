@@ -528,6 +528,7 @@ export interface NewProductProps {
   created_at: string;
   slug: string;
   product_variants: ProductVariant[];
+  discount_key?: string
 }
 
 export interface newBuyComponentProps extends NewProductProps {

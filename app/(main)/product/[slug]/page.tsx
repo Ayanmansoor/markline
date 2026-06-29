@@ -3,9 +3,9 @@ import ProductPage from '@/components/Pages/Product.page'
 
 import { getProductData } from '@/Supabase/SupabaseApi';
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
 
-  const slug = await params?.slug
+  const { slug } = await params
 
   const product = await getProductData(slug);
 

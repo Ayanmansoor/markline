@@ -96,7 +96,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ initialResults }) => {
             data={results}
             url={"product"}
             css=" grid-cols-2 sm:grid-cols-2 md:grid-cols-3   gap-2 md:gap-3 lg:grid-cols-4 2xl:grid-cols-4 bg-gray-200 "
-            productsCardCss=" h-[200px]  sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
+            productsCardCss=" h-[300px]  sm:h-[450px] md:h-[400px] xl:[400px] 2xl:h-[400px] 3xl:h-[400px]"
           />
         ) : (
           <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3  lg:grid-cols-4   items-start justify-start gap-3 px-5  lg:px-10   ">
