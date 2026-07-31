@@ -15,10 +15,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const imageUrl = JSON.parse(product?.product_variants[0]?.image_url?.[0] || '{}')?.image_url || "https://marklinefashion.com/default.jpg";
 
 
-  return {
-    title: `${productName} | Buy Online in India | Markline`,
-    description,
-    keywords: [
+  const keywords = product?.keywords && product.keywords.length > 0
+    ? product.keywords
+    : [
       // Brand + Product
       "Markline", productName, "Markline footwear", "buy shoes online India",
       // Women's category
@@ -36,7 +35,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       // Occasion
       "office wear sandals women", "wedding footwear India", "daily wear shoes India",
       "festive sandals India", "party heels women India",
-    ],
+    ];
+
+  return {
+    title: `${productName} | Buy Online in India | Markline`,
+    description,
+    keywords,
     openGraph: {
       title: `${productName} | Buy Online in India | Markline`,
       description,

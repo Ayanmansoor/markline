@@ -25,7 +25,17 @@ import AddUserAddressForm from '../users/AddUserAddressform'
 
 
 
-function CheckOutButton({ children }: { children: React.ReactNode }) {
+interface CheckOutButtonProps {
+    children: React.ReactNode;
+    appliedCoupon?: {
+        code: string;
+        coupon_id: string;
+        discountAmount: number;
+        title: string;
+    } | null;
+}
+
+function CheckOutButton({ children, appliedCoupon }: CheckOutButtonProps) {
     const [currentTab, setcurrentTab] = useState('address')
     const [currentuser, setUser] = useState<userinterfce>();
     const [Useraddress, setUserAddress] = useState<AddressProps[]>([]);
@@ -88,30 +98,33 @@ function CheckOutButton({ children }: { children: React.ReactNode }) {
                 <DialogTrigger asChild>
                     {children}
                 </DialogTrigger>
-                <DialogContent className=" max-w-[calc(100vw-20px)]   p-3 md:p-5  md:max-w-[825px]">
+                <DialogContent className="max-w-[calc(100vw-20px)] p-3 md:p-5 md:max-w-[825px] h-[85vh] max-h-[600px] flex flex-col overflow-hidden">
                     <DialogHeader>
-                        <DialogTitle className=' text-lg border-b pb-5 lg:text-2xl xl:text-4xl font-semibold text-start'>Selete Address</DialogTitle>
+                        <DialogTitle className=' text-lg border-b pb-5 lg:text-2xl xl:text-4xl font-semibold text-start'>Select Address</DialogTitle>
                     </DialogHeader>
-                    <Tabs defaultValue="address" className="w-full h-full" value={currentTab} onValueChange={setcurrentTab}>
+                    <Tabs defaultValue="address" className="w-full flex-1 flex flex-col min-h-0 overflow-hidden" value={currentTab} onValueChange={setcurrentTab}>
 
 
 
 
 
                         {/* 2. ADDRESS TAB */}
-                        <TabsContent value="address" className="w-full min-h-[400px]">
+                        <TabsContent value="address" className="w-full flex-1 flex flex-col min-h-0 overflow-hidden focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 outline-none">
 
                             {/* If NOT Logged In → Show LoginForm */}
                             {!currentuser?.email && (
-                                <LoginForm />
+                                <div className="w-full flex-1 overflow-y-auto">
+                                    <LoginForm />
+                                </div>
                             )}
 
                             {currentuser?.email && Useraddress?.length === 0 && (
-                                <AddUserAddressForm handleperform={handleAddressCreated} />
+                                <div className="w-full flex-1 overflow-y-auto">
+                                    <AddUserAddressForm handleperform={handleAddressCreated} />
+                                </div>
                             )}
-                            {/* If Logged In → Show SelectOrder */}
                             {currentuser?.email && Useraddress?.length > 0 && (
-                                <CheckoutAddressSelect cartItems={cart} setConfirm={setcurrentTab} userAddress={Useraddress} />
+                                <CheckoutAddressSelect cartItems={cart} setConfirm={setcurrentTab} userAddress={Useraddress} appliedCoupon={appliedCoupon} currentUser={currentuser} />
                             )}
 
                         </TabsContent>

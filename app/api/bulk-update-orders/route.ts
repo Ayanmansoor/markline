@@ -1,54 +1,55 @@
 import { NextRequest, NextResponse } from "next/server";
-import axios from "axios";
 import { mysupabase } from "@/Supabase/SupabaseConfig";
-import { BulkOrderProductProps } from "@/types/interfaces";
 
-
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
     try {
+        const { OrderedProducts, razorpay_payment_id, razorpay_order_id, razorpay_signature, user_id } = await req.json();
 
-        const { OrderedProducts, razorpay_payment_id, razorpay_order_id, razorpay_signature, user_id } = await req.json()
-        console.log(OrderedProducts, razorpay_payment_id, razorpay_order_id, razorpay_signature, "this is order finalize data")
-
-        const updatePromises = OrderedProducts.map((order) => {
+        const ordersList = Array.isArray(OrderedProducts) ? OrderedProducts : [OrderedProducts];
+        
+        const updatePromises = ordersList.map((order: any) => {
+            const orderId = order.id || order;
             let query = mysupabase
                 .from("orders")
                 .update({
                     razorpay_payment_id,
                     razorpay_order_id,
                     razorpay_signature,
+                    payment_status: "PAID",
                 })
-                .eq("id", order.id);
+                .eq("id", orderId);
 
-            if (order.user_id) {
-                query = query.eq("user_id", order.user_id);
+            if (user_id) {
+                query = query.eq("user_id", user_id);
             }
 
             return query.select(`
                 *,
-                product_key (
-                name
+                address:address_id(*),
+                order_items(
+                    *,
+                    product:product_id(*),
+                    variant:variant_id(*)
                 )
             `);
         });
 
         const results = await Promise.all(updatePromises);
-
         const updatedData = results.flatMap((r) => r.data || []);
         const updateErrors = results.filter((r) => r.error);
 
-
-        if (updateErrors.length) {
+        if (updateErrors.length > 0) {
+            console.error("Errors updating bulk orders:", updateErrors);
             return NextResponse.json(
-                { error: "Something went wrong inserting the email" },
-                { status: 403 }
+                { error: "Failed updating payment details for some orders" },
+                { status: 500 }
             );
         }
 
-
-        return NextResponse.json({ success: true, data: updatedData }, { status: 200 });
+        return NextResponse.json({ success: true, updated: updatedData[0] || updatedData, data: updatedData }, { status: 200 });
     }
-    catch (error) {
-        return NextResponse.json({ error: error || "server error " }, { status: 500 });
+    catch (error: any) {
+        console.error("Server error in bulk-update-orders:", error);
+        return NextResponse.json({ error: error?.message || "Server error" }, { status: 500 });
     }
 }

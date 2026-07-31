@@ -328,7 +328,7 @@ function AddressForm({ product, setConfirm, setOrderID, variant }: NewAddressFro
                             </>
                         )}
                     </button>
-                    <p className="text-center text-[9px] font-bold text-gray-400 mt-4 uppercase tracking-widest">
+                    <p className="text-center text-[9px] font-bold text-gray-400 mt-4  tracking-widest">
                         ESTIMATED DELIVERY: 3-5 BUSINESS DAYS
                     </p>
                 </div>

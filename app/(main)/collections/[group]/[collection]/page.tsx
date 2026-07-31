@@ -3,24 +3,39 @@ import CategoryL2page from '@/components/Collection/CollectionPage'
 import { getAllCollectionsBaseOnGender, getaudience } from '@/Supabase/SupabaseApi';
 import { mysupabase } from '@/Supabase/SupabaseConfig';
 import { AudienceProps } from '@/types/interfaces';
-import React from 'react'
+import React, { cache } from 'react'
+
+// Memoized database call to fetch collection details only once per request
+const getCollectionData = cache(async (slug: string) => {
+    const { data } = await mysupabase
+        .from("collection")
+        .select("id, seoTitle, seoDescription, keywords")
+        .eq("slug", slug)
+        .single();
+    return data;
+});
 
 export async function generateMetadata({ params }: { params: Promise<{ collection: string, group: string }> }) {
     const resolvedParams = await params;
     const collectionsSlug = `${resolvedParams.collection}`
     const groupSlug = `${resolvedParams.group}`
 
+    // Fetch dynamic SEO fields via the memoized function (shared cache)
+    const collectionData = await getCollectionData(collectionsSlug);
+
     const audience: AudienceProps | null = await getaudience(`${resolvedParams.group}`.toUpperCase());
 
-
     const audienceName = audience?.seo_title || "Audience";
+    
+    const title = collectionData?.seoTitle || `${audienceName} | Buy Shoes Online India | Markline`;
     const description =
+        collectionData?.seoDescription ||
         audience?.seo_discription ||
         `Explore Markline footwear collections – ${collectionsSlug} shoes for men, women & kids.`;
-    return {
-        title: `${audienceName} | Buy Shoes Online India | Markline`,
-        description,
-        keywords: [
+
+    const keywords = collectionData?.keywords && collectionData.keywords.length > 0
+        ? collectionData.keywords
+        : [
             "Markline", audienceName, collectionsSlug, "Markline footwear",
             // High Volume India Terms
             "buy shoes online India", "footwear online India", "online shoe shopping India",
@@ -33,9 +48,14 @@ export async function generateMetadata({ params }: { params: Promise<{ collectio
 
             "affordable footwear India", "fashionable shoes India", "fast delivery shoes India",
             "stylish shoes under 2000 India",
-        ],
+        ];
+
+    return {
+        title,
+        description,
+        keywords,
         openGraph: {
-            title: `${audienceName} | Buy Shoes Online India | Markline`,
+            title,
             description,
             url: `https://shopmarkline.in/collections/${groupSlug}/${collectionsSlug}`,
             locale: "en_IN",
@@ -58,7 +78,7 @@ export async function generateMetadata({ params }: { params: Promise<{ collectio
         },
         twitter: {
             card: "summary_large_image",
-            title: `${audienceName} | Buy Shoes Online India | Markline`,
+            title,
             description,
         },
         alternates: {
@@ -82,12 +102,8 @@ async function page({
     const from = (currentPage - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE - 1;
 
-    // 1. Fetch collection details based on slug to get ID
-    const { data: collectionData } = await mysupabase
-        .from("collection")
-        .select("id")
-        .eq("slug", collection)
-        .single();
+    // 1. Fetch collection details using the memoized function (shared cache)
+    const collectionData = await getCollectionData(collection);
 
     let products: any[] = [];
     let count = 0;

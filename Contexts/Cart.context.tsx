@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import { toast } from 'sonner';
 import { mysupabase } from '@/Supabase/SupabaseConfig';
+import axios from 'axios';
 
 // --- Interfaces ---
 
@@ -62,6 +63,39 @@ interface CartContextProps {
 const CartContext = createContext<CartContextProps | undefined>(undefined);
 
 // --- Helpers ---
+
+function migrateOldCartItem(item: any): newCartItem | null {
+  if (!item) return null;
+  // If it's already in the new format, keep it
+  if (item.variant && typeof item.variant === 'object') {
+    return item;
+  }
+  // If it's in the old format, migrate it
+  if (item.productId) {
+    return {
+      productId: item.productId,
+      productName: item.name || item.productName || 'Product',
+      slug: item.slug || '',
+      gender: item.gender || '',
+      quantity: item.quantity || 1,
+      url: item.url || `/${item.slug || ''}`,
+      variant: {
+        id: item.variantId || item.variant?.id || 0,
+        sku: item.variant?.sku || '',
+        price: item.price || item.variant?.price || 0,
+        stock: item.stock || 0,
+        image_url: item.image_urls
+          ? item.image_urls.map((img: any) => typeof img === 'string' ? JSON.parse(img) : img)
+          : (item.variant?.image_url || []),
+        is_active: true,
+        products_id: item.productId,
+        selectedColor: item.color || item.variant?.selectedColor || { name: '', hex: '' },
+        selectedSize: item.size || item.variant?.selectedSize || { size: '', unit: '' }
+      }
+    };
+  }
+  return null;
+}
 
 function rowToCartItem(row: any): newCartItem {
   return {
@@ -138,10 +172,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     try {
       const stored = localStorage.getItem('cart');
       if (!stored) return;
-      const guestItems: newCartItem[] = JSON.parse(stored);
+      const guestItems: any[] = JSON.parse(stored);
       if (!guestItems.length) return;
 
-      for (const item of guestItems) {
+      const migrated = guestItems.map(migrateOldCartItem).filter(Boolean) as newCartItem[];
+
+      for (const item of migrated) {
         await mysupabase
           .from('cart')
           .upsert(cartItemToRow(item, uid), {
@@ -165,7 +201,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       } else {
         try {
           const stored = localStorage.getItem('cart');
-          if (stored) setCart(JSON.parse(stored));
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            const migrated = Array.isArray(parsed)
+              ? parsed.map(migrateOldCartItem).filter(Boolean) as newCartItem[]
+              : [];
+            setCart(migrated);
+          }
         } catch { /* ignore */ }
       }
       setIsInitialized(true);
@@ -253,16 +295,19 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
     // Sync to Supabase in background
     if (userId) {
-      mysupabase
-        .from('cart')
-        .delete()
-        .eq('user_id', userId)
-        .eq('product_id', productId)
-        .eq('selected_color_name', colorName?.name || '')
-        .eq('selected_size', size?.size || '')
-        .then(({ error }) => {
-          if (error) console.error('Cart sync error (remove):', error);
-        });
+      axios.post('/api/delete-cart-item', {
+        userId,
+        productId,
+        selectedColorName: colorName?.name,
+        selectedSize: size?.size,
+        clearAll: false
+      }).then((res) => {
+        if (res.data.error) {
+          console.error('Cart sync error (remove):', res.data.error);
+        }
+      }).catch((err) => {
+        console.error('Cart remove API call failed:', err);
+      });
     }
   };
 
@@ -293,16 +338,28 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
     // Sync to Supabase in background
     if (userId) {
-      mysupabase
-        .from('cart')
-        .update({ quantity, updated_at: new Date().toISOString() })
-        .eq('user_id', userId)
-        .eq('product_id', productId)
-        .eq('selected_color_name', colorName?.name)
-        .eq('selected_size', size?.size)
-        .then(({ error }) => {
-          if (error) console.error('Cart sync error (update qty):', error);
-        });
+      const item = cart.find(
+        (i) =>
+          i.productId === productId &&
+          i.variant?.selectedColor?.name === colorName?.name &&
+          i.variant?.selectedSize?.size === size?.size
+      );
+      const variantId = item?.variant?.id || null;
+
+      axios.post('/api/update-cart-quantity', {
+        userId,
+        variantId,
+        productId,
+        selectedColorName: colorName?.name,
+        selectedSize: size?.size,
+        quantity
+      }).then((res) => {
+        if (res.data.error) {
+          console.error('Cart quantity sync error:', res.data.error);
+        }
+      }).catch((err) => {
+        console.error('Cart quantity API call failed:', err);
+      });
     }
   };
 
@@ -313,13 +370,16 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
     // Sync to Supabase in background
     if (userId) {
-      mysupabase
-        .from('cart')
-        .delete()
-        .eq('user_id', userId)
-        .then(({ error }) => {
-          if (error) console.error('Cart sync error (clear):', error);
-        });
+      axios.post('/api/delete-cart-item', {
+        userId,
+        clearAll: true
+      }).then((res) => {
+        if (res.data.error) {
+          console.error('Cart sync error (clear):', res.data.error);
+        }
+      }).catch((err) => {
+        console.error('Cart clear API call failed:', err);
+      });
     }
   };
 

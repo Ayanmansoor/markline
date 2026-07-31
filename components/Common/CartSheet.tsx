@@ -111,19 +111,20 @@ function CartSheet({ children }: {
         let finalAmount = 0;
 
         cart.forEach((item: any) => {
-            const itemTotal = item?.variant?.price * item.quantity;
+            if (!item || !item.variant) return;
+            const itemTotal = (item.variant.price || 0) * item.quantity;
             beforeDiscount += itemTotal;
 
-            if (item?.variant?.discounts?.discount_persent) {
-                const discountAmount = (itemTotal * item.variant?.discounts.discount_persent) / 100;
+            if (item.variant.discounts?.discount_persent) {
+                const discountAmount = (itemTotal * item.variant.discounts.discount_persent) / 100;
                 total += itemTotal - discountAmount;
                 discountSaved += discountAmount;
 
-                const discountedPrice = Math.floor(item?.variant.price - (item.variant.price * item.variant.discounts.discount_persent) / 100);
+                const discountedPrice = Math.floor((item.variant.price || 0) - ((item.variant.price || 0) * item.variant.discounts.discount_persent) / 100);
                 finalAmount += discountedPrice * item.quantity;
             } else {
                 total += itemTotal;
-                finalAmount += item?.variant?.price * item.quantity;
+                finalAmount += (item.variant.price || 0) * item.quantity;
             }
         });
 
@@ -280,54 +281,57 @@ function CartSheet({ children }: {
 
                     <section className='w-full relative max-h-[calc(100vh-400px)]  mb-40  md:max-h-[calc(100vh-270px)]   overflow-y-auto grid grid-cols-2 md:grid-cols-1 gap-1  '>
                         {
-                            cart.length > 0 ? cart.map((item, index) => (
-                                <div key={index} className='w-full border p-2 rounded-lg relative h-auto flex flex-col md:grid md:grid-cols-[100px_2fr_auto_auto] items-start md:items-center justify-between gap-1'>
+                            cart.length > 0 ? cart.map((item, index) => {
+                                if (!item || !item.variant) return null;
+                                return (
+                                    <div key={index} className='w-full border p-2 rounded-lg relative h-auto flex flex-col md:grid md:grid-cols-[100px_2fr_auto_auto] items-start md:items-center justify-between gap-1'>
 
-                                    <Swiper pagination={{ dynamicBullets: true }} modules={[Pagination]} className="mySwiper w-full relative h-full">
-                                        {item?.variant?.image_url.map((image, index: number) => (
-                                            <SwiperSlide key={index} className='w-full  max-h-[180px] md:max-h-full relative'>
-                                                <img src={image.image_url} alt={image?.name} className='  aspect-square w-full md:w-full h-full md:max-h-full  object-contain rounded-md border' loading='lazy' />
-                                            </SwiperSlide>
-                                        ))}
-                                    </Swiper>
+                                        <Swiper pagination={{ dynamicBullets: true }} modules={[Pagination]} className="mySwiper w-full relative h-full">
+                                            {item.variant.image_url?.map((image, index: number) => (
+                                                <SwiperSlide key={index} className='w-full  max-h-[180px] md:max-h-full relative'>
+                                                    <img src={image.image_url} alt={image?.name} className='  aspect-square w-full md:w-full h-full md:max-h-full  object-contain rounded-md border' loading='lazy' />
+                                                </SwiperSlide>
+                                            ))}
+                                        </Swiper>
 
-                                    <button
-                                        className='w-fit absolute -top-1 right-0 bg-black text-white h-auto p-[2px] z-20 cursor-pointer rounded-full'
-                                        onClick={() => removeFromCart({ productId: item.productId, colorName: item?.variant?.selectedColor, size: item?.variant?.selectedSize })}
-                                    >
-                                        <IoIosClose />
-                                    </button>
+                                        <button
+                                            className='w-fit absolute -top-1 right-0 bg-black text-white h-auto p-[2px] z-20 cursor-pointer rounded-full'
+                                            onClick={() => removeFromCart({ productId: item.productId, colorName: item.variant.selectedColor, size: item.variant.selectedSize })}
+                                        >
+                                            <IoIosClose />
+                                        </button>
 
-                                    <div className='flex flex-col items-start'>
-                                        <h2 className='text-sm text-start font-medium text-foreground line-clamp-2'>{item.productName}</h2>
-                                        <div className='flex items-center gap-2 text-xs text-foreground'>
-                                            <p><strong>Size:</strong> {item.variant?.selectedSize.size} {item.variant?.selectedSize.unit}</p>
-                                            <p><strong>Color:</strong> {item.variant?.selectedColor.name}</p>
+                                        <div className='flex flex-col items-start'>
+                                            <h2 className='text-sm text-start font-medium text-foreground line-clamp-2'>{item.productName}</h2>
+                                            <div className='flex items-center gap-2 text-xs text-foreground'>
+                                                <p><strong>Size:</strong> {item.variant.selectedSize?.size} {item.variant.selectedSize?.unit}</p>
+                                                <p><strong>Color:</strong> {item.variant.selectedColor?.name}</p>
+                                            </div>
+                                        </div>
+
+                                        <div className='flex items-center gap-1 justify-between border w-full mt-1 border-gray-400 py-[2px] px-1 rounded-full'>
+                                            <button className='p-[2px] bg-gray-200 rounded-full' onClick={() => {
+                                                if (item) {
+                                                    decreaseQuantity(item as newCartItem);
+                                                }
+                                            }}><HiMiniMinusSmall /></button>
+                                            <p className='text-[12px] font-normal'>{item.quantity}</p>
+                                            <button className='p-[2px] bg-gray-200 rounded-full' onClick={() => {
+                                                if (item) {
+                                                    increaseQuantity(item as newCartItem);
+                                                }
+                                            }}><BsPlus /></button>
+                                        </div>
+
+                                        <div className='flex flex-col items-start px-2'>
+                                            <h2 className='text-lg font-medium text-foreground'>₹ {(item.variant.price || 0) * item.quantity}</h2>
+                                            {item.variant.discounts?.discount_persent && (
+                                                <p className='text-red-400 line-through text-sm'>{item.variant.discounts.discount_persent}%</p>
+                                            )}
                                         </div>
                                     </div>
-
-                                    <div className='flex items-center gap-1 justify-between border w-full mt-1 border-gray-400 py-[2px] px-1 rounded-full'>
-                                        <button className='p-[2px] bg-gray-200 rounded-full' onClick={() => {
-                                            if (item) {
-                                                decreaseQuantity(item as newCartItem);
-                                            }
-                                        }}><HiMiniMinusSmall /></button>
-                                        <p className='text-[12px] font-normal'>{item.quantity}</p>
-                                        <button className='p-[2px] bg-gray-200 rounded-full' onClick={() => {
-                                            if (item) {
-                                                increaseQuantity(item as newCartItem);
-                                            }
-                                        }}><BsPlus /></button>
-                                    </div>
-
-                                    <div className='flex flex-col items-start px-2'>
-                                        <h2 className='text-lg font-medium text-foreground'>₹ {item.variant && item?.variant?.price * item.quantity}</h2>
-                                        {item.variant?.discounts?.discount_persent && (
-                                            <p className='text-red-400 line-through text-sm'>{item.variant?.discounts.discount_persent}%</p>
-                                        )}
-                                    </div>
-                                </div>
-                            )) : (
+                                );
+                            }) : (
                                 <div className='text-p20 col-span-2 font-medium py-10 px-5 flex items-center justify-center flex-col text-primary'>
                                     <ShoppingBag className="h-10 w-10 mx-auto text-gray-400 mb-8" />
                                     Your cart is empty

@@ -141,7 +141,8 @@ export default function AddUserAddressForm({
   return (
     <div className="w-full bg-white border border-gray-100 rounded-3xl p-6 md:p-8 shadow-2xl shadow-gray-200/50">
       <div className="flex flex-col gap-1 mb-8">
-        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Postal Registry</span>
+        <span className="text-[10px] font-black 
+         tracking-[0.4em] text-gray-400">Postal Registry</span>
         <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-black capitalize leading-none">
           Add New Address
         </h2>
@@ -150,7 +151,8 @@ export default function AddUserAddressForm({
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
         {/* Address Label Selector */}
         <div className="space-y-3">
-          <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 ml-1">
+          <label className="text-[11px] font-bold 
+           tracking-wider text-gray-500 ml-1">
             Address Identity *
           </label>
           <div className="flex flex-wrap gap-3 mb-3">
@@ -169,7 +171,8 @@ export default function AddUserAddressForm({
                   }
                 }}
                 className={`
-                  flex items-center gap-2 px-6 py-1.5 rounded-full border-2 transition-all duration-300 font-bold text-xs uppercase tracking-widest
+                  flex items-center gap-2 px-6 py-1.5 rounded-full border-2 transition-all duration-300 font-bold text-xs 
+                   tracking-widest
                   ${selectedLabelOption === label
                     ? "bg-black border-black text-white shadow-lg shadow-black/20"
                     : "bg-white border-gray-300 text-gray-400 hover:border-gray-200"
@@ -198,7 +201,8 @@ export default function AddUserAddressForm({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {/* Recipient Identity */}
           <div className="space-y-2 group">
-            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 ml-1">Recipient Identity</label>
+            <label className="text-[11px] font-bold 
+             tracking-wider text-gray-500 ml-1">Recipient Identity</label>
             <div className="relative ">
               <input
                 type="text"
@@ -212,7 +216,8 @@ export default function AddUserAddressForm({
 
           {/* Contact Link */}
           <div className="space-y-2 group">
-            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 ml-1">Contact Link</label>
+            <label className="text-[11px] font-bold 
+             tracking-wider text-gray-500 ml-1">Contact Link</label>
             <div className="relative">
               <input
                 type="text"
@@ -226,7 +231,8 @@ export default function AddUserAddressForm({
 
           {/* Pin Code / Auto-detect */}
           <div className="space-y-2 group">
-            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 ml-1">Jurisdiction Code (PIN)</label>
+            <label className="text-[11px] font-bold 
+             tracking-wider text-gray-500 ml-1">Jurisdiction Code (PIN)</label>
             <div className="relative">
               <input
                 type="text"
@@ -240,7 +246,8 @@ export default function AddUserAddressForm({
 
           {/* Landmark - NEW */}
           <div className="space-y-2 group">
-            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 ml-1">Visual Landmark</label>
+            <label className="text-[11px] font-bold 
+             tracking-wider text-gray-500 ml-1">Visual Landmark</label>
             <div className="relative">
               <input
                 type="text"
@@ -253,7 +260,8 @@ export default function AddUserAddressForm({
 
           {/* City - Dynamic Input */}
           <div className="space-y-2 group">
-            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 ml-1">City / District</label>
+            <label className="text-[11px] font-bold 
+             tracking-wider text-gray-500 ml-1">City / District</label>
             <div className="relative">
               <input
                 type="text"
@@ -267,7 +275,8 @@ export default function AddUserAddressForm({
 
           {/* State - Dynamic Input */}
           <div className="space-y-2 group">
-            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 ml-1">State / Province</label>
+            <label className="text-[11px] font-bold 
+             tracking-wider text-gray-500 ml-1">State / Province</label>
             <div className="relative">
               <input
                 type="text"
@@ -281,7 +290,8 @@ export default function AddUserAddressForm({
 
           {/* Full Detailed Address */}
           <div className="col-span-1 md:col-span-2 space-y-2 group">
-            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 ml-1">Detailed Manifest (Full Address)</label>
+            <label className="text-[11px] font-bold 
+             tracking-wider text-gray-500 ml-1">Detailed Manifest (Full Address)</label>
             <div className="relative">
               <textarea
                 rows={3}
@@ -309,7 +319,8 @@ export default function AddUserAddressForm({
 
         <button
           disabled={isSubmitting}
-          className="w-full md:w-auto md:min-w-[200px] bg-black text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-black/20 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-3 disabled:bg-gray-400"
+          className="w-full md:w-auto md:min-w-[200px] bg-black text-white px-8 py-4 rounded-xl font-black text-xs 
+           tracking-[0.2em] shadow-xl shadow-black/20 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-3 disabled:bg-gray-400"
         >
           {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : "SECURE ADDRESS"}
         </button>

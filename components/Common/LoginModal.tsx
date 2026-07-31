@@ -123,8 +123,8 @@ function LoginModal({ children, isOpen, setIsOpen }: {
                             priority
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-10">
-                            <h3 className="text-white text-3xl font-black tracking-tighter mb-2 uppercase italic">Elite Couture</h3>
-                            <p className="text-gray-300 text-xs font-bold tracking-[0.3em] uppercase">Private Shopping Access</p>
+                            <h3 className="text-white text-3xl font-black tracking-tighter mb-2  italic">Elite Couture</h3>
+                            <p className="text-gray-300 text-xs font-bold tracking-[0.3em] ">Private Shopping Access</p>
                         </div>
                     </section>
 
@@ -141,32 +141,32 @@ function LoginModal({ children, isOpen, setIsOpen }: {
                                     className="flex flex-col flex-grow h-full"
                                 >
                                     <div className="flex flex-col gap-2 mb-10">
-                                        <h2 className="text-3xl font-black text-primary uppercase tracking-tighter leading-none">Authentication</h2>
+                                        <h2 className="text-3xl font-black text-primary  tracking-tighter leading-none">Authentication</h2>
                                         <p className="text-sm text-gray-400 font-medium tracking-wide">Enter your email to receive a secure code</p>
                                     </div>
 
                                     <form onSubmit={emailForm.handleSubmit(onSendOtp)} className="flex flex-col gap-8 flex-grow">
                                         {/* Email Field */}
                                         <div className="flex flex-col gap-3 group">
-                                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 text-primary transition-colors">Identification</label>
+                                            <label className="text-[10px] font-black  tracking-[0.2em] text-gray-400 text-primary transition-colors">Identification</label>
                                             <div className="relative">
                                                 <Mail className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-300 text-primary transition-colors" size={18} />
                                                 <input
                                                     type="email"
                                                     placeholder="MARKLINE@EMAIL.COM"
-                                                    className="w-full pl-8 pr-4 py-4 border-b border-gray-100 border-primary outline-none transition-all text-primary font-bold placeholder:font-bold placeholder:text-gray-400 uppercase tracking-widest text-sm"
+                                                    className="w-full pl-8 pr-4 py-4 border-b border-gray-100 border-primary outline-none transition-all text-primary font-bold placeholder:font-bold placeholder:text-gray-400  tracking-widest text-sm"
                                                     {...emailForm.register("email")}
                                                 />
                                             </div>
                                             {emailForm.formState.errors.email && (
-                                                <p className="text-[10px] font-bold text-red-500 uppercase tracking-wider">{emailForm.formState.errors.email.message}</p>
+                                                <p className="text-[10px] font-bold text-red-500  tracking-wider">{emailForm.formState.errors.email.message}</p>
                                             )}
                                         </div>
 
                                         <div className="mt-4 flex flex-col gap-6">
                                             <button
                                                 disabled={isSending}
-                                                className="w-full bg-black text-white h-16 rounded-2xl font-black uppercase tracking-[0.2em] text-xs hover:bg-zinc-800 disabled:bg-gray-100 disabled:text-gray-400 transition-all flex items-center justify-center gap-3 group"
+                                                className="w-full bg-black text-white h-16 rounded-2xl font-black  tracking-[0.2em] text-xs hover:bg-zinc-800 disabled:bg-gray-100 disabled:text-gray-400 transition-all flex items-center justify-center gap-3 group"
                                             >
                                                 {isSending ? (
                                                     <>
@@ -194,40 +194,40 @@ function LoginModal({ children, isOpen, setIsOpen }: {
                                 >
                                     <button
                                         onClick={() => setStep(1)}
-                                        className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-300 hover:text-primary transition-colors mb-6 group/back"
+                                        className="flex items-center gap-2 text-[10px] font-black  tracking-[0.2em] text-gray-300 hover:text-primary transition-colors mb-6 group/back"
                                     >
                                         <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
                                         Back to Email
                                     </button>
 
                                     <div className="flex flex-col gap-2 mb-10">
-                                        <h2 className="text-3xl font-black text-primary uppercase tracking-tighter leading-none">verification</h2>
+                                        <h2 className="text-3xl font-black text-primary  tracking-tighter leading-none">verification</h2>
                                         <p className="text-sm text-gray-400 font-medium tracking-wide">Enter the 6-digit code sent to <span className="text-primary font-bold">{email}</span></p>
                                     </div>
 
                                     <form onSubmit={otpForm.handleSubmit(onVerifyOtp)} className="flex flex-col gap-8 flex-grow">
                                         {/* OTP Field */}
                                         <div className="flex flex-col gap-3 group">
-                                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 text-primary transition-colors">Passcode</label>
+                                            <label className="text-[10px] font-black  tracking-[0.2em] text-gray-400 text-primary transition-colors">Passcode</label>
                                             <div className="relative">
                                                 <KeyRound className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-300 text-primary transition-colors" size={18} />
                                                 <input
                                                     type="text"
                                                     placeholder="000 000"
                                                     maxLength={6}
-                                                    className="w-full pl-8 pr-4 py-4 border-b border-gray-100 border-primary outline-none transition-all text-primary font-black placeholder:font-black placeholder:text-gray-400 uppercase tracking-[0.5em] text-2xl"
+                                                    className="w-full pl-8 pr-4 py-4 border-b border-gray-100 border-primary outline-none transition-all text-primary font-black placeholder:font-black placeholder:text-gray-400  tracking-[0.5em] text-2xl"
                                                     {...otpForm.register("otp")}
                                                 />
                                             </div>
                                             {otpForm.formState.errors.otp && (
-                                                <p className="text-[10px] font-bold text-red-500 uppercase tracking-wider">{otpForm.formState.errors.otp.message}</p>
+                                                <p className="text-[10px] font-bold text-red-500  tracking-wider">{otpForm.formState.errors.otp.message}</p>
                                             )}
                                         </div>
 
                                         <div className="mt-4 flex flex-col gap-6">
                                             <button
                                                 disabled={isSending}
-                                                className="w-full bg-black text-white h-16 rounded-2xl font-black uppercase tracking-[0.2em] text-xs hover:bg-zinc-800 disabled:bg-gray-100 disabled:text-gray-400 transition-all flex items-center justify-center gap-3 group"
+                                                className="w-full bg-black text-white h-16 rounded-2xl font-black  tracking-[0.2em] text-xs hover:bg-zinc-800 disabled:bg-gray-100 disabled:text-gray-400 transition-all flex items-center justify-center gap-3 group"
                                             >
                                                 {isSending ? (
                                                     <>
@@ -258,7 +258,7 @@ function LoginModal({ children, isOpen, setIsOpen }: {
                                     <div className="shrink-0 bg-white/50 p-1.5 rounded-full">
                                         {statusMessage.type === 'success' ? <ShieldCheck size={18} /> : <ArrowRight size={18} className="rotate-45" />}
                                     </div>
-                                    <p className="text-[10px] font-black uppercase tracking-wider leading-relaxed">{statusMessage.text}</p>
+                                    <p className="text-[10px] font-black  tracking-wider leading-relaxed">{statusMessage.text}</p>
                                 </motion.div>
                             )}
                         </AnimatePresence>

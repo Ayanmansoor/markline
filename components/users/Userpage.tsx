@@ -32,7 +32,7 @@ function Userpage() {
           <Loader2 className='animate-spin text-primary' size={48} strokeWidth={1.5} />
           <Gem className='absolute inset-0 m-auto text-primary animate-pulse' size={20} />
         </div>
-        <p className='text-[10px] font-black uppercase tracking-[0.4em] text-gray-300 animate-pulse'>Authenticating Elite Access</p>
+        <p className='text-[10px] font-black  tracking-[0.4em] text-gray-300 animate-pulse'>Authenticating For Access</p>
       </div>
     )
   }

@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useQuery } from "react-query";
 import dynamic from "next/dynamic";
 const OfferPopupDialog = dynamic(() => import("../Common/OfferPopupDialog"), { ssr: false });
@@ -19,6 +19,7 @@ import {
   getAllCollections,
   fetchGroupOfProducts,
   getAllCollectionsBaseOnType,
+  getPromotionalCollectionBanners,
 } from "@/Supabase/SupabaseApi";
 import CarouselProduct from "../Product/CarouselProduct";
 import MiniCollectionCard from "../Home/MiniCellectionCard";
@@ -61,6 +62,14 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
     refetchOnReconnect: false,
   });
 
+  const { data: promotionalBanners = [] } = useQuery<any>({
+    queryKey: ["promotionalCollectionBanners"],
+    queryFn: getPromotionalCollectionBanners,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
+
   const {
     data: allcollection = [],
     isLoading: allCollectionLoading,
@@ -88,6 +97,59 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
+
+  // console.log(allcollection, "this is collection ");
+
+  const desktopBanners = useMemo(() => {
+    return Array.isArray(promotionalBanners)
+      ? promotionalBanners.filter((b: any) => !b.isMobile)
+      : [];
+  }, [promotionalBanners]);
+
+  const mobileBanners = useMemo(() => {
+    return Array.isArray(promotionalBanners)
+      ? promotionalBanners.filter((b: any) => b.isMobile)
+      : [];
+  }, [promotionalBanners]);
+
+  const renderBannerSlot = (slotIndex: number) => {
+    const desktopBanner = desktopBanners[slotIndex];
+    const mobileBanner = mobileBanners[slotIndex];
+
+    if (!desktopBanner && !mobileBanner) return null;
+
+    return (
+      <div className="w-full relative px-5 lg:px-10 xl:px-20 2xl:px-40 py-2 my-4">
+        {desktopBanner && (
+          <div className="hidden min-[701px]:block w-full">
+            <Link href={desktopBanner.url || "#"}>
+              <div className="relative w-full aspect-[21/9] max-h-[400px] overflow-hidden rounded-xl cursor-pointer hover:opacity-95 transition-opacity">
+                <img
+                  src={desktopBanner.image_url}
+                  alt={desktopBanner.name || `Promo Banner`}
+                  className="w-full h-full object-cover rounded-xl"
+                />
+              </div>
+            </Link>
+          </div>
+        )}
+        {mobileBanner && (
+          <div className="block min-[701px]:hidden w-full">
+            <Link href={mobileBanner.url || "#"}>
+              <div className="relative w-full aspect-[4/3] max-h-[350px] overflow-hidden rounded-xl cursor-pointer hover:opacity-95 transition-opacity">
+                <img
+                  src={mobileBanner.image_url}
+                  alt={mobileBanner.name || `Mobile Promo Banner`}
+                  className="w-full h-full object-cover rounded-xl"
+                />
+              </div>
+            </Link>
+          </div>
+        )}
+      </div>
+    );
+  };
+
 
   const categories = [
     {
@@ -287,6 +349,8 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
             </div>
           )}
       </motion.section>
+
+      {renderBannerSlot(0)}
       {/* <Link
         href={"/collections"}
         className=" text-xs md:text-base px-5 py-2 rounded-full hover:bg-white border-primary hover:text-primary hover:border-black self-center justify-self-center relative font-medium text-white flex items-center justify-center gap-2 bg-primary cursor-pointer group"
@@ -328,7 +392,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
                   <CarouselProduct
                     url="product"
                     product={item.products.slice(0, 10)}
-                    productsCardCss="  h-[230px] object-cover   sm:h-[300px] md:h-[350px] lg:h-[400px]"
+                    productsCardCss="  h-[260px] object-cover   sm:h-[300px] md:h-[350px] lg:h-[400px]"
                   />
                 </CategoriesSection>
               </motion.div>
@@ -337,6 +401,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
       ) : (
         <></>
       )}
+      {renderBannerSlot(1)}
 
 
       {isLoading ? (
@@ -376,6 +441,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
       ) : (
         <></>
       )}
+      {renderBannerSlot(2)}
 
       {/* Trending */}
       {/* {trendingProducts?.length > 0 && (

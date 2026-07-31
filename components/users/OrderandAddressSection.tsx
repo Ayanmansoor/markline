@@ -50,8 +50,8 @@ function OrderandAddressSection() {
                             <div className={`p-2 rounded-xl transition-all duration-300 ${activeTab === 'orders' ? 'bg-black text-white shadow-lg' : 'bg-gray-50 text-gray-400'}`}>
                                 <Receipt size={16} />
                             </div>
-                            <span className={` text-[8px] sm:text-[10px] md:text-xs font-black uppercase tracking-[0.2em] transition-colors ${activeTab === 'orders' ? 'text-black' : 'text-gray-400'}`}>
-                                Purchase Manifest
+                            <span className={` text-[8px] sm:text-[10px] md:text-xs font-black  tracking-[0.2em] transition-colors ${activeTab === 'orders' ? 'text-black' : 'text-gray-400'}`}>
+                                Orders
                             </span>
                         </div>
                         {activeTab === 'orders' && (
@@ -67,8 +67,8 @@ function OrderandAddressSection() {
                             <div className={`p-2 rounded-xl transition-all duration-300 ${activeTab === 'address' ? 'bg-black text-white shadow-lg' : 'bg-gray-50 text-gray-400'}`}>
                                 <Navigation size={16} />
                             </div>
-                            <span className={` text-[8px] sm:text-[10px] md:text-xs font-black uppercase tracking-[0.2em] transition-colors ${activeTab === 'address' ? 'text-black' : 'text-gray-400'}`}>
-                                Postal Registry
+                            <span className={` text-[8px] sm:text-[10px] md:text-xs font-black  tracking-[0.2em] transition-colors ${activeTab === 'address' ? 'text-black' : 'text-gray-400'}`}>
+                                Address
                             </span>
                         </div>
                         {activeTab === 'address' && (
@@ -93,7 +93,7 @@ function OrderandAddressSection() {
 
 
                                     <AddAdressSheet handleperform={handleperform}>
-                                        <button className='w-full md:w-auto px-8 py-4 bg-black text-white rounded-xl text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-black/10 hover:-translate-y-1 transition-all active:scale-95'>
+                                        <button className='w-full md:w-auto px-8 py-4 bg-black text-white rounded-xl text-[8px] md:text-[10px] font-black  tracking-[0.2em] shadow-xl shadow-black/10 hover:-translate-y-1 transition-all active:scale-95'>
                                             Register New Address
                                         </button>
                                     </AddAdressSheet>
@@ -106,8 +106,8 @@ function OrderandAddressSection() {
                                             <MapPin size={32} />
                                         </div>
                                         <div className='flex flex-col items-center gap-2 text-center px-6'>
-                                            <h3 className='text-xl font-black text-black uppercase tracking-tight'>No Address Registered</h3>
-                                            <p className='text-xs text-gray-400 font-bold uppercase tracking-widest max-w-[280px] leading-relaxed'>
+                                            <h3 className='text-xl font-black text-black  tracking-tight'>No Address Registered</h3>
+                                            <p className='text-xs text-gray-400 font-bold  tracking-widest max-w-[280px] leading-relaxed'>
                                                 Your jurisdiction registry is currently empty.
                                             </p>
                                         </div>

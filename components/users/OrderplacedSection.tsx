@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import Link from 'next/link'
-import { ChevronRight, Package, Calendar, Tag } from 'lucide-react'
+import { ChevronRight, Package, Calendar, Tag, ShieldCheck, Clock, CheckCircle2, AlertTriangle } from 'lucide-react'
 import { BsWhatsapp } from 'react-icons/bs'
 
 export interface ordersprops {
@@ -9,159 +9,225 @@ export interface ordersprops {
   handleperform: () => void
 }
 
-const getOrderStatus = (item: any) => {
-  const rawStatus = item.isDelivered || 'PENDING';
-  return rawStatus;
-};
-
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
     currency: 'INR',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(price);
+  }).format(price || 0);
+};
+
+const formatDate = (isoString?: string) => {
+  if (!isoString) return '';
+  return new Date(isoString).toLocaleDateString('en-US', {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric'
+  });
+};
+
+const getImageUrl = (item: any) => {
+  if (!item) return '';
+  // Check variant image
+  if (item.variant?.image_url) {
+    const raw = Array.isArray(item.variant.image_url) ? item.variant.image_url[0] : item.variant.image_url;
+    try {
+      const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+      if (parsed?.image_url) return parsed.image_url;
+      if (typeof raw === 'string' && raw.startsWith('http')) return raw;
+    } catch {
+      if (typeof raw === 'string') return raw;
+    }
+  }
+  // Check product image
+  if (item.product?.image_url) {
+    const raw = Array.isArray(item.product.image_url) ? item.product.image_url[0] : item.product.image_url;
+    try {
+      const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+      if (parsed?.image_url) return parsed.image_url;
+      if (typeof raw === 'string' && raw.startsWith('http')) return raw;
+    } catch {
+      if (typeof raw === 'string') return raw;
+    }
+  }
+  if (item.product?.image_urls && Array.isArray(item.product.image_urls) && item.product.image_urls.length > 0) {
+    return item.product.image_urls[0]?.image_url || item.product.image_urls[0]?.url || '';
+  }
+  if (typeof item.image_url === 'string') return item.image_url;
+  return '';
 };
 
 function OrderplacedSection({ orders, handleperform }: ordersprops) {
-
-
-  console.log(orders, "this is order data")
 
   return (
     <section className='w-full flex flex-col gap-8'>
       {orders && orders.length > 0 ? (
         <div className='flex flex-col gap-6'>
-          {/* Header for Desktop */}
-          <div className='hidden xl:grid grid-cols-[100px_3fr_1fr_1.5fr_1.5fr_auto] gap-8 px-8 py-5 bg-gray-50/50 rounded-2xl border border-gray-300'>
-            <span className='text-[10px] font-black uppercase tracking-[0.3em] text-gray-400'>Legacy Item</span>
-            <span className='text-[10px] font-black uppercase tracking-[0.3em] text-gray-400'>Identification</span>
-            <span className='text-[10px] font-black uppercase tracking-[0.3em] text-gray-400'>Quantity</span>
-            <span className='text-[10px] font-black uppercase tracking-[0.3em] text-gray-400'>Value</span>
-            <span className='text-[10px] font-black uppercase tracking-[0.3em] text-gray-400'>Transit Status</span>
-            <span className='text-[10px] font-black uppercase tracking-[0.3em] text-gray-400'>Registry</span>
+          <div className='flex items-center justify-between px-2'>
+            <span className='text-[10px] font-black uppercase tracking-[0.3em] text-gray-400'>
+              Total Acquisition Records: {orders.length}
+            </span>
           </div>
 
-          <div className='flex flex-col gap-4'>
-            {orders.map((items, index) => {
-              const mainImage = items?.product_variants?.image_url?.[0] ? JSON.parse(items?.product_variants?.image_url[0])?.image_url : '';
-              const currentStatus = getOrderStatus(items);
+          <div className='flex flex-col gap-6'>
+            {orders.map((order) => {
+              const orderId = order.id ? order.id.toString() : '';
+              const shortId = orderId.length > 8 ? orderId.slice(0, 8).toUpperCase() : orderId.toUpperCase();
+              const itemsList: any[] = order.order_items && order.order_items.length > 0 ? order.order_items : [order];
+              const totalItems = itemsList.reduce((acc, curr) => acc + (curr.quantity || 1), 0);
+
+              const fulfillmentStatus = (order.fulfillment_status || order.isDelivered || 'pending').toString().toUpperCase();
+              const paymentStatus = (order.payment_status || 'paid').toString().toUpperCase();
+
+              const calculatedTotal = order.grand_total ? Number(order.grand_total) : itemsList.reduce((acc, curr) => acc + (Number(curr.final_price) * (curr.quantity || 1)), 0);
+
+              const firstItem = itemsList[0];
+              const firstImage = getImageUrl(firstItem);
+              const firstProductName = firstItem?.product?.name || firstItem?.name || 'Markline Creation';
 
               return (
-                <div key={items.id} className='group bg-white border border-gray-300 md:border-gray-300 rounded-2xl p-4 md:p-6 hover:border-black/10 transition-all hover:shadow-2xl hover:shadow-gray-200/40 relative overflow-hidden'>
-                  {/* Status Glow for Desktop */}
-                  <div className={`hidden md:block absolute top-0 left-0 w-1 h-full ${currentStatus === 'DELIVERED' ? 'bg-green-500' : currentStatus === 'SHIPPED' ? 'bg-blue-500' : 'bg-yellow-500'}`} />
+                <div
+                  key={orderId}
+                  className='group bg-white border border-gray-300 rounded-2xl p-5 md:p-8 hover:border-black/20 transition-all duration-300 hover:shadow-xl hover:shadow-gray-200/50 relative overflow-hidden flex flex-col gap-6'
+                >
+                  {/* Status Indicator Stripe */}
+                  <div className={`absolute top-0 left-0 w-1.5 h-full ${fulfillmentStatus === 'DELIVERED' ? 'bg-emerald-500' :
+                    fulfillmentStatus === 'SHIPPED' ? 'bg-blue-500' :
+                      fulfillmentStatus === 'CANCELLED' ? 'bg-red-500' : 'bg-amber-500'
+                    }`} />
 
-                  <div className='flex flex-col md:grid md:grid-cols-[100px_3fr_1fr_1.5fr_1.5fr_auto] gap-6 md:gap-8 items-center'>
-
-                    {/* Image & Main Info (Mobile Focus) */}
-                    <div className='flex items-center gap-6 w-full md:w-auto'>
-                      <div className='w-20 h-24 md:w-20 md:h-24 bg-gray-50 rounded-xl overflow-hidden shrink-0 border border-gray-100'>
-                        <img
-                          src={mainImage}
-                          alt={items?.product?.name}
-                          className='w-full h-full object-cover group-hover:scale-110 transition-transform duration-700'
-                        />
+                  {/* Top Bar: Order ID, Date, Badges */}
+                  <div className='flex flex-wrap items-center justify-between gap-4 border-b border-gray-200 pb-4'>
+                    <div className='flex flex-wrap items-center gap-3 md:gap-6'>
+                      <div className='flex items-center gap-1.5'>
+                        <Tag size={13} className='text-gray-400' />
+                        <span className='text-xs font-black text-black uppercase tracking-widest'>
+                          #ORD-{shortId}
+                        </span>
                       </div>
-                      <div className='flex md:hidden flex-col gap-1 flex-1'>
-                        <h3 className='font-black text-black text-sm uppercase tracking-tight line-clamp-1 italic'>{items?.product?.name}</h3>
-                        <div className='flex items-center gap-2'>
-                          <span className='text-[9px] font-black uppercase tracking-widest text-gray-400'>#{items.id.toString().slice(-6).toUpperCase()}</span>
-                          <span className={`text-[8px] font-black uppercase tracking-[0.2em] px-2 py-1 rounded-md ${currentStatus === 'DELIVERED' ? 'bg-green-50 text-green-600' : currentStatus === 'SHIPPED' ? 'bg-blue-50 text-blue-600' : 'bg-yellow-50 text-yellow-600'}`}>
-                            {currentStatus}
-                          </span>
-                        </div>
-                        <span className='text-xs font-black text-black mt-1'>{formatPrice(items.final_price)}</span>
-                      </div>
-                    </div>
 
-                    {/* Details (Desktop Only) */}
-                    <div className='hidden md:flex flex-col gap-1 w-full'>
-                      <h3 className='font-black text-black text-sm lg:text-base uppercase tracking-tight line-clamp-1 italic'>{items?.product?.name}</h3>
-                      <div className='flex items-center gap-3'>
-                        <p className='text-[10px] text-gray-400 font-bold tracking-[0.2em] uppercase flex items-center gap-1.5'>
-                          <Tag size={10} /> ID: #{items.id.toString().slice(-6).toUpperCase()}
-                        </p>
-                        <button
-                          onClick={() => {
-                            const msg = `Hi Markline, I'd like to track my order #ORD-${items.id.toString().slice(-6).toUpperCase()}. Current status: ${currentStatus}. Product: ${items?.product?.name}`;
-                            window.open(`https://wa.me/919769020660?text=${encodeURIComponent(msg)}`, '_blank');
-                          }}
-                          className='flex items-center gap-1 px-2 py-1 bg-green-50 text-green-600 rounded-md text-[8px] font-black uppercase tracking-widest hover:bg-green-600 hover:text-white transition-all active:scale-95'
-                        >
-                          <BsWhatsapp size={8} /> Track on WA
-                        </button>
+                      <div className='flex items-center gap-1.5 text-gray-400'>
+                        <Calendar size={13} />
+                        <span className='text-[11px] font-bold uppercase tracking-wider'>
+                          {formatDate(order.created_at)}
+                        </span>
                       </div>
                     </div>
 
-                    {/* Quantity */}
-                    <div className='hidden md:flex flex-col items-start'>
-                      <span className='text-[10px] font-black text-gray-300 uppercase tracking-widest md:hidden'>Qty</span>
-                      <span className='text-xs text-black font-black bg-gray-100 md:bg-transparent px-3 py-1 md:p-0 rounded-full md:rounded-none'>× {items.quantity}</span>
-                    </div>
+                    <div className='flex items-center gap-2'>
+                      {/* Payment Status Badge */}
+                      <span className={`text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-md border ${paymentStatus === 'PAID' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                        paymentStatus === 'FAILED' ? 'bg-red-50 text-red-600 border-red-100' :
+                          'bg-amber-50 text-amber-600 border-amber-100'
+                        }`}>
+                        Payment: {paymentStatus}
+                      </span>
 
-                    {/* Price */}
-                    <div className='hidden md:flex flex-col items-start'>
-                      <span className='text-[10px] font-black text-gray-300 uppercase tracking-widest md:hidden'>Total Value</span>
-                      <span className='text-sm md:text-base font-black text-black tracking-tighter'>{formatPrice(items.final_price)}</span>
-                    </div>
-
-                    {/* Status (Desktop) */}
-                    <div className='hidden md:flex items-center'>
-                      <span className={`text-[9px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-xl border ${currentStatus === 'DELIVERED' ? 'bg-green-50 text-green-600 border-green-100' : currentStatus === 'SHIPPED' ? 'bg-blue-50 text-blue-600 border-blue-100' : 'bg-yellow-50 text-yellow-600 border-yellow-100'}`}>
-                        {currentStatus}
+                      {/* Fulfillment Status Badge */}
+                      <span className={`text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-md border ${fulfillmentStatus === 'DELIVERED' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                        fulfillmentStatus === 'SHIPPED' ? 'bg-blue-50 text-blue-600 border-blue-100' :
+                          fulfillmentStatus === 'CANCELLED' ? 'bg-red-50 text-red-600 border-red-100' :
+                            'bg-amber-50 text-amber-600 border-amber-100'
+                        }`}>
+                        {fulfillmentStatus}
                       </span>
                     </div>
+                  </div>
 
-                    {/* Action */}
-                    <div className='flex items-center justify-between w-full md:w-auto md:justify-end border-t border-gray-50 md:border-none pt-4 md:pt-0 gap-3'>
-                      <div className='md:hidden flex items-center gap-3'>
+                  {/* Middle Content: Items Preview & Order Summary */}
+                  <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-6'>
+                    {/* Items Thumbnails and Names */}
+                    <div className='flex items-center gap-4 flex-1 w-full'>
+                      <div className='flex -space-x-3 overflow-hidden shrink-0 py-1'>
+                        {itemsList.slice(0, 3).map((item: any, idx: number) => {
+                          const img = getImageUrl(item);
+                          return (
+                            <div
+                              key={idx}
+                              className='w-16 h-20 md:w-20 md:h-24 bg-gray-50 rounded-xl overflow-hidden border-2 border-white shadow-sm shrink-0'
+                            >
+                              <img
+                                src={img || "/placeholder.svg"}
+                                alt={item?.product?.name || "Product"}
+                                className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'
+                              />
+                            </div>
+                          )
+                        })}
+                      </div>
+
+                      <div className='flex flex-col gap-1 flex-1 min-w-0'>
+                        <h3 className='font-black text-black text-sm md:text-base uppercase tracking-tight truncate italic'>
+                          {firstProductName}
+                        </h3>
+                        <p className='text-[10px] font-bold text-gray-400 uppercase tracking-widest'>
+                          {itemsList.length > 1
+                            ? `+ ${itemsList.length - 1} additional item${itemsList.length - 1 > 1 ? 's' : ''} (${totalItems} total pcs)`
+                            : `Qty: ${itemsList[0]?.quantity || 1} unit`}
+                        </p>
+                        {order.coupon_code && (
+                          <span className='inline-flex items-center gap-1 text-[9px] font-black text-emerald-600 uppercase tracking-widest mt-1'>
+                            Coupon Applied: {order.coupon_code}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Grand Total & Actions */}
+                    <div className='flex items-center justify-between md:justify-end w-full md:w-auto gap-6 border-t md:border-t-0 border-gray-100 pt-4 md:pt-0'>
+                      <div className='flex flex-col items-start md:items-end'>
+                        <span className='text-[9px] font-black text-gray-400 uppercase tracking-widest'>Grand Total</span>
+                        <span className='text-lg md:text-xl font-black text-black tracking-tight'>
+                          {formatPrice(calculatedTotal)}
+                        </span>
+                      </div>
+
+                      <div className='flex items-center gap-3'>
                         <button
                           onClick={() => {
-                            const msg = `Hi Markline, I'd like to track my order #ORD-${items.id.toString().slice(-6).toUpperCase()}. Current status: ${currentStatus}. Product: ${items?.product?.name}`;
+                            const msg = `Hi Markline, I'd like to track my order #ORD-${shortId}. Current Status: ${fulfillmentStatus}. Total: ${formatPrice(calculatedTotal)}`;
                             window.open(`https://wa.me/919769020660?text=${encodeURIComponent(msg)}`, '_blank');
                           }}
-                          className='p-3 bg-[#25D366] text-white rounded-xl shadow-lg shadow-green-200 active:scale-95 transition-all'
+                          className='p-3 bg-[#25D366] text-white rounded-xl shadow-md shadow-green-200 hover:scale-105 active:scale-95 transition-all'
+                          title="Track via WhatsApp"
                         >
-                          <BsWhatsapp size={18} />
+                          <BsWhatsapp size={16} />
                         </button>
-                        <div className='flex flex-col'>
-                          <span className='text-[8px] font-black text-gray-400 uppercase tracking-widest'>Registry Access</span>
-                          <span className='text-[10px] font-black text-black uppercase'>View Details</span>
-                        </div>
+
+                        <Link href={`/user/order/${orderId}`} className="shrink-0">
+                          <button className='px-5 py-3 bg-black text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-gray-800 transition-all duration-300 flex items-center gap-2 shadow-lg shadow-black/10 active:scale-95'>
+                            <span>Details</span>
+                            <ChevronRight size={14} />
+                          </button>
+                        </Link>
                       </div>
-                      <Link href={`/user/order/${items?.id}`} className="shrink-0 ml-auto md:ml-0">
-                        <div className='px-6 md:px-3 py-3 md:py-3 bg-black text-white md:bg-gray-50 md:text-black rounded-xl hover:bg-black hover:text-white transition-all duration-300 flex items-center gap-2'>
-                          <span className='md:hidden text-[10px] font-black uppercase tracking-widest'>Access</span>
-                          <ChevronRight size={18} />
-                        </div>
-                      </Link>
                     </div>
-                  </div >
-                </div >
+                  </div>
+                </div>
               )
             })}
-          </div >
-        </div >
+          </div>
+        </div>
       ) : (
         <div className='flex flex-col items-center justify-center py-24 gap-8 border border-gray-100 rounded-3xl bg-gray-50/30'>
           <div className='w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-xl shadow-gray-200/50 text-gray-200'>
             <Package size={32} />
           </div>
           <div className='flex flex-col items-center gap-2 text-center px-6'>
-            <h3 className='text-xl font-black text-black uppercase tracking-tight'>Log Empty</h3>
-            <p className='text-xs text-gray-400 font-bold uppercase tracking-widest max-w-[280px] leading-relaxed'>
+            <h3 className='text-xl font-black text-black  tracking-tight'>No Orders</h3>
+            <p className='text-xs text-gray-400 font-bold  tracking-widest max-w-[280px] leading-relaxed'>
               Your acquisition history is currently unrecorded.
             </p>
           </div>
           <Link href="/collections">
-            <button className='px-8 py-4 bg-black text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-black/10 hover:-translate-y-1 transition-all active:scale-95'>
+            <button className='px-8 py-4 bg-black text-white rounded-xl text-[10px] font-black  tracking-[0.2em] shadow-xl shadow-black/10 hover:-translate-y-1 transition-all active:scale-95'>
               Explore Vaults
             </button>
           </Link>
         </div>
       )}
-    </section >
+    </section>
   )
 }
 

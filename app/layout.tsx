@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import Navbar from "@/components/Common/Navbar";
 import { Noto_Sans, Plus_Jakarta_Sans } from "next/font/google";
@@ -16,6 +16,7 @@ import Header from "@/components/Common/Header";
 import { mysupabase } from "@/Supabase/SupabaseConfig";
 import Script from "next/script";
 import FloatingWhatsApp from "@/components/Common/FloatingWhatsApp";
+import FcmNotificationHandler from "@/components/Common/FcmNotificationHandler";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -38,71 +39,104 @@ const noto = Noto_Sans({
   weight: ["400", "500", "700"],
   variable: "--font-noto",
 });
-
 export const metadata: Metadata = {
-  title: "Markline | Buy Stylish Shoes, Sandals & Heels Online in India",
+  title: "Women’s Wedges, Heels & Fashion Sandals Online in India | Markline",
+
   description:
-    "Shop Markline for trendy & comfortable footwear online in India. Explore women's sandals, block heels, platform wedges, mules, men's formal shoes, sneakers & kids shoes with fast delivery across India.",
+    "Shop stylish wedges, block heels, casual sandals, and festive footwear for women at Markline. Comfortable, lightweight, and elegant designs perfect for office, daily wear, parties, and weddings across India.",
 
   metadataBase: new URL("https://shopmarkline.in"),
 
   keywords: [
     // Brand
-    "Markline", "Markline shoes", "Markline footwear", "shopmarkline",
-    // High Volume Head Terms
-    "buy shoes online India", "footwear online India", "shoe store India", "online shoe shopping India",
-    // Women's
-    "women's sandals online", "ladies sandals India", "women's heels online India", "buy heels online India",
-    "women's footwear India", "girls shoes online", "platform sandals for women", "block heels for women",
-    "wedge sandals for women", "mules for women India", "women's casual shoes India",
-    "comfortable sandals for women", "stylish sandals for women", "women's party heels India",
-    "open toe sandals women", "slip on sandals women India", "ethnic sandals for women",
-    // Men's
-    "men's shoes online India", "men's formal shoes India", "casual shoes for men India",
-    "men's sneakers India", "loafers for men India", "men's footwear online",
-    // Kids
-    "kids shoes online India", "children's footwear India",
-    // Long-tail High Intent
-    "buy women's sandals online at best price", "comfortable block heels for daily wear",
-    "platform wedge sliders women India", "affordable women's shoes India",
-    "fashionable footwear online India", "stylish shoes under 2000 India",
-    "women's footwear with fast delivery India",
-    // Seasonal/Occasion
-    "festive footwear India", "wedding sandals women", "office wear sandals women",
-    "casual footwear India", "daily wear shoes India",
+    "Markline",
+    "Markline footwear",
+    "Markline women footwear",
+    "shopmarkline",
+
+    // Core categories
+    "women wedges",
+    "wedge sandals for women",
+    "platform wedges for women",
+    "women block heels",
+    "block heels for women",
+    "pencil heels for women",
+    "stiletto heels for women",
+    "kitten heels for women",
+    "party heels for women",
+    "party wear sandals for women",
+    "women heels online India",
+    "fashion sandals for women",
+    "casual sandals for women",
+    "wedding sandals for women",
+    "festive sandals for women",
+
+    // Comfort + intent
+    "comfortable wedges for women",
+    "comfortable block heels for women",
+    "lightweight wedge sandals",
+    "cushioned sandals for women",
+    "daily wear wedges for women",
+    "office wear sandals for women",
+    "comfortable heels for women",
+    "soft footbed sandals women",
+
+    // Occasion & styling
+    "office wear heels for women",
+    "party wear heels for women",
+    "ethnic sandals for women",
+    "heels for saree and dress",
+    "trendy heels for women",
+    "premium women footwear India",
+
+    // Purchase intent
+    "buy women wedges online India",
+    "buy block heels online India",
+    "buy pencil heels online India",
+    "buy kitten heels online India",
+    "buy party heels online India",
+    "buy women sandals online",
+    "women footwear online India",
+    "women sandals under 1000",
+    "affordable women footwear India",
+    "best heels for women India",
   ],
 
   twitter: {
     card: "summary_large_image",
-    title: "Markline | Buy Stylish Shoes, Sandals & Heels Online in India",
+    title: "Women’s Wedges, Heels & Fashion Sandals Online | Markline",
     description:
-      "Shop Markline for trendy & comfortable footwear online in India. Explore women's sandals, block heels, platform wedges, mules, men's formal shoes, sneakers & kids shoes with fast delivery across India.",
-    images: "/opengraph-image.png",
+      "Discover comfortable wedges, block heels, casual sandals, and festive footwear for women at Markline. Lightweight, stylish, and perfect for office, daily wear, and parties.",
+    images: ["/opengraph-image.png"],
     site: "@shopmarkline",
   },
 
   openGraph: {
-    title: "Markline | Buy Stylish Shoes, Sandals & Heels Online in India",
+    title: "Women’s Wedges, Heels & Fashion Sandals Online | Markline",
     description:
-      "Shop Markline for trendy & comfortable footwear online in India. Explore women's sandals, block heels, platform wedges, mules, men's formal shoes, sneakers & kids shoes with fast delivery across India.",
+      "Shop stylish wedges, block heels, casual sandals, and festive footwear for women at Markline. Comfortable, lightweight, and elegant designs for office, daily wear, parties, and weddings.",
+    url: "https://shopmarkline.in/",
+    siteName: "Markline",
+    locale: "en_IN",
+    type: "website",
     images: [
       {
         url: "/opengraph-image.png",
-        width: 4800,
-        height: 2520,
-        alt: "Markline | Stylish Shoes, Sandals & Heels Online in India",
+        width: 1200,
+        height: 630,
+        alt: "Markline Women’s Wedges, Heels & Sandals",
       },
     ],
-    url: "https://shopmarkline.in/",
-    locale: "en_IN",
-    siteName: "Markline",
-    type: "website",
   },
 
   other: {
     "p:domain_verify": "0cfd1273da4c08cf31f94cac004636fb",
     "facebook-domain-verification": "2mp1pqqmntoax63bh38i4qrywjtivw",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#007e06ff",
 };
 
 // skdfhksdhksjdfh
@@ -155,25 +189,8 @@ export default async function RootLayout({
     //     </Provider>
     //   </body>
     // </html>
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <Script
-          id="meta-pixel"
-          strategy="afterInteractive"
-        >
-          {`
-          !function(f,b,e,v,n,t,s)
-          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-          n.queue=[];t=b.createElement(e);t.async=!0;
-          t.src=v;s=b.getElementsByTagName(e)[0];
-          s.parentNode.insertBefore(t,s)}(window, document,'script',
-          'https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', '${process.env.NEXT_PUBLIC_META_PIXEL_ID}');
-          fbq('track', 'PageView');
-          `}
-        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -205,6 +222,23 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${noto.variable} antialiased`}
       >
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_TAGMANAGER || ""} />
+        <Script
+          id="meta-pixel"
+          strategy="afterInteractive"
+        >
+          {`
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '${process.env.NEXT_PUBLIC_META_PIXEL_ID}');
+          fbq('track', 'PageView');
+          `}
+        </Script>
         <noscript>
           <img
             height="1"
@@ -224,6 +258,7 @@ export default async function RootLayout({
               <Subcribes />
               <Footer />
               <Toaster />
+              <FcmNotificationHandler />
               <OrderConfirmed />
               <FloatingWhatsApp />
             </CartProvider>

@@ -61,7 +61,7 @@ function CummonMegaManu({ children, urlProps }: CommonMegaManuProps) {
   });
 
   return (
-    <NavigationMenu>
+    <NavigationMenu >
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger className="font-semibold px-2 py-1  lg:flex hidden  text-base xl:text-lg  items-center gap-2 text-primary hover:bg-transparent bg-transparent">

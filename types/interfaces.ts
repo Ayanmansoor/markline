@@ -49,6 +49,7 @@ export interface ProductsProps {
   slug: string;
   stock: number;
   materials_used: string;
+  keywords?: string[];
 }
 
 export interface CartProductsProps {
@@ -528,7 +529,8 @@ export interface NewProductProps {
   created_at: string;
   slug: string;
   product_variants: ProductVariant[];
-  discount_key?: string
+  discount_key?: string;
+  keywords?: string[];
 }
 
 export interface newBuyComponentProps extends NewProductProps {

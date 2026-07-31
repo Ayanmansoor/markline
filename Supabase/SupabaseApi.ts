@@ -230,10 +230,29 @@ async function getAllCollectionBanner() {
 
     return collectionbanner;
   } catch (error) {
-    console.error("Error fetching product:");
+    console.error("Error fetching collection banner:", error);
     return null;
   }
 }
+
+async function getPromotionalCollectionBanners() {
+    try {
+      const { data, error } = await mysupabase
+        .from("collectionBanner")
+        .select("*")
+        .eq("home_promotional", true)
+        .eq("isEnable", true);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data || [];
+    } catch (error) {
+      console.error("Error fetching promotional collection banners:", error);
+      return [];
+    }
+  }
+
 
 async function getCollectionBannerBaseOnGender(gender: string) {
   try {
@@ -363,13 +382,25 @@ async function getCurrentUserOrders(userId: string) {
   try {
     const { data: orders, error } = await mysupabase
       .from("orders")
-      .select(" * ,product(*) ,product_variants(*) ")
-      .eq("user_id", userId);
+      .select(`
+        *,
+        address:address_id(*),
+        order_items(
+          *,
+          product:product_id(*),
+          variant:variant_id(*)
+        )
+      `)
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
+
     const { data: address, error: addressError } = await mysupabase
       .from("address")
       .select(" * ")
       .eq("user_id", userId);
+
     if (error) {
+      console.error('Supabase error fetching user orders:', error);
       return new Error(error.message);
     }
     return {
@@ -383,17 +414,28 @@ async function getCurrentUserOrders(userId: string) {
 
 async function getCurrentUserSingleOrder(userId: string, orderId: string) {
   try {
-    const { data: orders, error } = await mysupabase
+    const { data: orderData, error } = await mysupabase
       .from("orders")
-      .select(" * ,product(*), variant_id(*) , address_id(*)")
+      .select(`
+        *,
+        address:address_id(*),
+        order_items(
+          *,
+          product:product_id(*),
+          variant:variant_id(*)
+        )
+      `)
       .eq("user_id", userId)
-      .eq("id", orderId);
+      .eq("id", orderId)
+      .maybeSingle();
 
     if (error) {
+      console.error('Supabase error fetching single order:', error);
       return new Error(error.message);
     }
     return {
-      orders,
+      order: orderData,
+      orders: orderData ? [orderData] : [],
     };
   } catch (error) {
     console.error('Error fetching single order:', error);
@@ -889,6 +931,7 @@ export {
   getProductData,
   getRelatedProducts,
   getAllCollectionBanner,
+  getPromotionalCollectionBanners,
   getProductBaseOnCollection,
   getAllBlogs,
   getblog,

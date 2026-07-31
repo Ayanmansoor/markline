@@ -248,7 +248,6 @@ function CategoryL2page({
     };
   }, [products]);
 
-  console.log(products, "filter data");
 
   return (
     <>
