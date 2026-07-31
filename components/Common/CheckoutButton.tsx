@@ -98,7 +98,7 @@ function CheckOutButton({ children, appliedCoupon }: CheckOutButtonProps) {
                 <DialogTrigger asChild>
                     {children}
                 </DialogTrigger>
-                <DialogContent className="max-w-[calc(100vw-20px)] p-3 md:p-5 md:max-w-[825px] h-[85vh] max-h-[600px] flex flex-col overflow-hidden">
+                <DialogContent className="max-w-[calc(100vw-20px)] p-3 md:p-5 md:max-w-[825px] h-auto max-h-[90vh] md:max-h-[600px] flex flex-col overflow-hidden bg-white">
                     <DialogHeader>
                         <DialogTitle className=' text-lg border-b pb-5 lg:text-2xl xl:text-4xl font-semibold text-start'>Select Address</DialogTitle>
                     </DialogHeader>

@@ -97,7 +97,7 @@ export default function LoginForm() {
     }
 
     return (
-        <div className="w-full max-w-[400px] mx-auto bg-white p-8 rounded-2xl flex flex-col justify-center min-h-[380px] shadow-sm">
+        <div className="w-full max-w-[400px] mx-auto bg-white p-8 rounded-2xl flex flex-col justify-center shadow-sm">
             <AnimatePresence mode="wait">
                 {step === 1 ? (
                     <motion.div
@@ -155,7 +155,7 @@ export default function LoginForm() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -20 }}
                         transition={{ duration: 0.3 }}
-                        className="flex flex-col flex-grow w-full"
+                        className="flex flex-col items-center justify-center flex-grow w-full"
                     >
                         <button
                             onClick={() => setStep(1)}
@@ -212,9 +212,8 @@ export default function LoginForm() {
             {/* Status Messages */}
             {statusMessage.text && (
                 <div
-                    className={`mt-4 p-3 rounded-xl flex items-center gap-2 text-xs font-medium ${
-                        statusMessage.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
-                    }`}
+                    className={`mt-4 p-3 rounded-xl flex items-center gap-2 text-xs font-medium ${statusMessage.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+                        }`}
                 >
                     <p className="leading-relaxed">{statusMessage.text}</p>
                 </div>

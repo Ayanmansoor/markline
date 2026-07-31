@@ -14,9 +14,9 @@ function BuyComponent({ product, variant, user, setConfirm, selectedAddress }: N
 
   return (
     <div className='w-full bg-white rounded-xl overflow-hidden'>
-      <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8'>
+      <div className='flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-stretch'>
         {/* Left Side: Image */}
-        <div className='w-full relative h-[200px] md:h-[350px] rounded-xl overflow-hidden bg-gray-50'>
+        <div className='w-full md:w-[40%] shrink-0 relative h-[180px] md:h-[240px] rounded-xl overflow-hidden bg-gray-50'>
           {mainImage ? (
             <img
               src={mainImage}
@@ -31,8 +31,8 @@ function BuyComponent({ product, variant, user, setConfirm, selectedAddress }: N
         </div>
 
         {/* Right Side: Details */}
-        <div className='w-full flex flex-col justify-center'>
-          <h2 className=' text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-5 leading-tight'>
+        <div className='w-full md:w-[60%] flex flex-col justify-between py-1'>
+          <h2 className='text-lg sm:text-xl font-semibold text-gray-900 mb-2 leading-tight'>
             {product.name}
           </h2>
 
@@ -96,9 +96,9 @@ function BuyComponent({ product, variant, user, setConfirm, selectedAddress }: N
           </div>
 
           {/* Total Box */}
-          <div className=' mt-2 bg-gray-50 rounded-xl flex items-center justify-between'>
-            <span className='text-gray-900 font-medium text-lg'>Total</span>
-            <span className='text-gray-900 font-semibold text-xl'>₹{finalPrice * quantity}</span>
+          <div className='mt-3 p-3 px-4 bg-gray-50 rounded-xl flex items-center justify-between'>
+            <span className='text-gray-900 font-medium text-base'>Total</span>
+            <span className='text-gray-900 font-semibold text-lg'>₹{finalPrice * quantity}</span>
           </div>
 
         </div>

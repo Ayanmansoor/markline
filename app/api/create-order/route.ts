@@ -9,9 +9,10 @@ const razorpay = new Razorpay({
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    console.log("POST /api/create-order - Received body:", body);
     const { amount } = body;
 
-    if (!amount || isNaN(amount)) {
+    if (amount === undefined || amount === null || isNaN(Number(amount))) {
       return NextResponse.json(
         { error: "Amount is required and must be a number" },
         { status: 400 }
@@ -29,6 +30,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(order, { status: 200 });
   } catch (error: unknown) {
+    console.error("POST /api/create-order - Error occurred:", error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Unknown error" },
       { status: 400 }

@@ -46,7 +46,7 @@ function BuyDailog({ children, product, selectedVariant }: newBuyDailogProps) {
                 setLoginOpen(false);
             }
         }
-        
+
         getSupabaseUser();
 
         // Listen to auth changes — only open buy dialog if user just logged in via the login modal
@@ -95,7 +95,7 @@ function BuyDailog({ children, product, selectedVariant }: newBuyDailogProps) {
     const handleTriggerClick = (e: React.MouseEvent) => {
         // Prevent default form submission or navigation if children is a link/button
         e.preventDefault();
-        
+
         if (currentuser?.id) {
             setOpen(true);
         } else {
@@ -118,14 +118,14 @@ function BuyDailog({ children, product, selectedVariant }: newBuyDailogProps) {
 
             {/* Buy Dialog */}
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent className="max-w-[calc(100vw-20px)] p-3 md:p-5 md:max-w-[825px] h-[85vh] max-h-[600px] flex flex-col overflow-hidden rounded-lg bg-white">
+                <DialogContent className="max-w-[calc(100vw-20px)] p-3 md:p-5 md:max-w-[825px] h-auto max-h-[90vh] md:max-h-[600px] flex flex-col overflow-hidden rounded-lg bg-white">
                     <DialogHeader>
                         <DialogTitle className=' text-lg border-b pb-5 lg:text-2xl xl:text-4xl font-semibold text-start'>Selected Items</DialogTitle>
                     </DialogHeader>
-                    <Tabs defaultValue="account" className="w-full flex-1 flex flex-col min-h-0 overflow-hidden" value={currentTab} onValueChange={setcurrentTab}>
+                    <Tabs defaultValue="account" className="w-full flex-1 flex flex-col overflow-hidden" value={currentTab} onValueChange={setcurrentTab}>
 
                         {/* 1. BUY DETAILS TAB */}
-                        <TabsContent value="account" className="w-full flex-1 flex flex-col min-h-0 overflow-y-auto focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 outline-none">
+                        <TabsContent value="account" className="w-full flex-1 flex flex-col overflow-y-auto focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 outline-none">
                             <BuyComponent
                                 product={product}
                                 user={currentuser}
@@ -135,7 +135,7 @@ function BuyDailog({ children, product, selectedVariant }: newBuyDailogProps) {
                         </TabsContent>
 
                         {/* 2. ADDRESS TAB */}
-                        <TabsContent value="address" className="w-full flex-1 flex flex-col min-h-0 overflow-hidden focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 outline-none">
+                        <TabsContent value="address" className="w-full flex-1 flex flex-col  overflow-hidden focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 outline-none">
                             {/* If Logged In → Show AddUserAddressForm if no address */}
                             {currentuser?.email && Useraddress?.length === 0 && (
                                 <AddUserAddressForm handleperform={handleAddressCreated} />
