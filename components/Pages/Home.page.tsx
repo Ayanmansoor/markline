@@ -98,7 +98,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
     refetchOnReconnect: false,
   });
 
-  // console.log(allcollection, "this is collection ");
+  console.log(homebanners, "this is homebanners ");
 
   const desktopBanners = useMemo(() => {
     return Array.isArray(promotionalBanners)
