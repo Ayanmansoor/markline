@@ -147,7 +147,7 @@ function ProductPage({ initialProduct }: ProductPageProps) {
           :
           relatedProducts.length > 0 ?
             <CategoriesSection title={"You may also like  "} url={'products/women'} urltext='products' >
-              <CarouselProduct url={'product'} product={relatedProducts} css=' sm:max-w-[500px]' productsCardCss=" h-[320px] object-cover sm:h-[450px] md:h-[450px] xl:[450px] 2xl:h-[450px] 3xl:h-[450px]" />
+              <CarouselProduct url={'product'} product={relatedProducts} css=' sm:max-w-[500px]' productsCardCss=" h-[260px] object-cover sm:h-[450px] md:h-[450px] xl:[450px] 2xl:h-[450px] 3xl:h-[450px]" />
             </CategoriesSection >
             :
             <div className="grid grid-cols-2 py-10 lg:py-20 md:grid-cols-3 lg:grid-cols-4 items-start justify-start gap-3  px-5 lg:px-10 xl:px-20 2xl:px-40   ">

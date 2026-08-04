@@ -71,6 +71,8 @@ export default async function Home() {
           discription,
           url,
           urlText,
+          isActive,
+          index,
           products:product (
               *,
               product_variants (
@@ -78,9 +80,14 @@ export default async function Home() {
               discounts:discount_key (*)
               ) 
           )
-      `);
+      `)
+    .order("index", { ascending: true });
 
-  const initialGroupOfProducts = { data: groupOfProductsData || [] };
+  const activeGroupOfProductsData = groupOfProductsData
+    ? groupOfProductsData.filter((item: any) => item.isActive !== false)
+    : [];
+
+  const initialGroupOfProducts = { data: activeGroupOfProductsData || [] };
 
   return (
     <>

@@ -25,6 +25,8 @@ export async function GET(req: NextRequest) {
                 discription,
                 url,
                 urlText,
+                isActive,
+                index,
                 products:product (
                     *,
                     product_variants (
@@ -33,7 +35,8 @@ export async function GET(req: NextRequest) {
                     ) 
                 )
 
-            `);
+            `)
+            .order("index", { ascending: true });
 
         // Apply filter only if type is not ALL
         if (groupType!=="ALL") {
@@ -50,8 +53,10 @@ export async function GET(req: NextRequest) {
             );
         }
 
-        // If Supabase returns no rows
-        if (!data || data.length === 0) {
+        const activeData = data ? data.filter((item: any) => item.isActive !== false) : [];
+
+        // If Supabase returns no rows or all are filtered out
+        if (activeData.length === 0) {
             return NextResponse.json(
                 { valid: false, message: `No products found for group_type: ${groupType}` },
                 { status: 404 }
@@ -93,7 +98,7 @@ export async function GET(req: NextRequest) {
             {
                 valid: true,
                 message: "Fetched grouped products successfully",
-                data: data
+                data: activeData
             },
             { status: 200 }
         );

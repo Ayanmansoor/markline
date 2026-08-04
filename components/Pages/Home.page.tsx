@@ -98,6 +98,12 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
     refetchOnReconnect: false,
   });
 
+  const activeGroups = useMemo(() => {
+    return (groupOfProducts?.data || [])
+      .filter((item: any) => item.isActive !== false)
+      .sort((a: any, b: any) => Number(a.index || 0) - Number(b.index || 0));
+  }, [groupOfProducts]);
+
   console.log(homebanners, "this is homebanners ");
 
   const desktopBanners = useMemo(() => {
@@ -372,8 +378,8 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
           <ProductCardSkeleton />
           <ProductCardSkeleton />
         </div>
-      ) : groupOfProducts?.data?.length > 0 ? (
-        groupOfProducts?.data?.slice(0, 3)?.reverse()?.map(
+      ) : activeGroups.length > 0 ? (
+        activeGroups.slice(0, 3).map(
           (item: any, index: number) =>
             item.products?.length > 0 && (
               <motion.div
@@ -412,8 +418,8 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
           <ProductCardSkeleton />
           <ProductCardSkeleton />
         </div>
-      ) : groupOfProducts?.data?.length > 0 ? (
-        groupOfProducts?.data?.slice(3, 5)?.reverse()?.map(
+      ) : activeGroups.length > 0 ? (
+        activeGroups.slice(3).map(
           (item: any, index: number) =>
             item.products?.length > 0 && (
               <motion.div

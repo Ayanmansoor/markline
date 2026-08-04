@@ -103,6 +103,8 @@ async function page({ params }: { params: Promise<{ occasion: string }> }) {
         discription,
         url,
         urlText,
+        isActive,
+        index,
         products:product (
             *,
             product_variants (
@@ -111,12 +113,17 @@ async function page({ params }: { params: Promise<{ occasion: string }> }) {
             ) 
         )
     `)
-        .eq("type", "BEST_SELLER");
+        .eq("type", "BEST_SELLER")
+        .order("index", { ascending: true });
+
+    const activeGroupOfProductsData = groupOfProductsData
+        ? groupOfProductsData.filter((item: any) => item.isActive !== false)
+        : [];
 
     return (
         <Occasions
             initialCollections={{ data: allcollection || [] }}
-            initialGroupOfProducts={{ data: groupOfProductsData || [] }}
+            initialGroupOfProducts={{ data: activeGroupOfProductsData || [] }}
         />
     )
 }
