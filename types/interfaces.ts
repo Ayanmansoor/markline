@@ -50,6 +50,8 @@ export interface ProductsProps {
   stock: number;
   materials_used: string;
   keywords?: string[];
+  amazon_url?: string;
+  flipkart_url?: string;
 }
 
 export interface CartProductsProps {
@@ -186,10 +188,34 @@ export interface SheetCartFormProps {
 }
 
 export interface BlogCardProps {
+  id?: number;
   slug: string;
-  image: string;
+  image?: string;
+  bannerImage?: string;
   title: string;
-  discription: string;
+  discription?: string;
+  content?: string;
+  created_at?: string;
+  status?: string;
+  seoDescription?: string;
+  seo_title?: string;
+  seo_description?: string;
+  seo_keywords?: string;
+  canonical_url?: string;
+  og_title?: string;
+  og_description?: string;
+  og_image?: string;
+  twitter_title?: string;
+  twitter_description?: string;
+  twitter_image?: string;
+  robots_index?: boolean;
+  robots_follow?: boolean;
+  schema_type?: string;
+}
+
+export interface BlogDetailProps extends BlogCardProps {
+  products?: NewProductProps[];
+  relatedBlogs?: BlogCardProps[];
 }
 
 export interface acceptorderProps {
@@ -531,6 +557,8 @@ export interface NewProductProps {
   product_variants: ProductVariant[];
   discount_key?: string;
   keywords?: string[];
+  amazon_url?: string;
+  flipkart_url?: string;
 }
 
 export interface newBuyComponentProps extends NewProductProps {

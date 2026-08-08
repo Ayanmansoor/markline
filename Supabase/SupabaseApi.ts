@@ -4,35 +4,97 @@ import axios from "axios";
 
 async function getAllBlogs() {
   try {
-    const { data: blogs, error } = await mysupabase.from("blogs").select("*");
-    if (blogs) {
-      return blogs;
-    } else {
-      return new Error(error.message);
+    const { data: blogs, error } = await mysupabase
+      .from("blogs")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (error) {
+      console.error("Error fetching blogs:", error.message);
+      return [];
     }
-  } catch (error) { }
+    return blogs || [];
+  } catch (error) {
+    console.error("Exception in getAllBlogs:", error);
+    return [];
+  }
 }
 
 async function getblog(slug: string) {
   try {
-    if (slug) {
-      const { data, error } = await mysupabase
-        .from("blogs")
-        .select("*")
-        .eq("slug", slug)
-        .single();
+    if (!slug) return null;
+    const { data: blog, error } = await mysupabase
+      .from("blogs")
+      .select("*")
+      .eq("slug", slug)
+      .maybeSingle();
 
-      if (data) {
-        return data;
-      } else {
-        if (error?.message) {
-          return new Error(error.message);
-        }
-      }
+    if (error || !blog) {
+      if (error) console.error("Error fetching blog by slug:", error.message);
+      return null;
     }
-  } catch (error: any) {
-    return new Error(error.message);
+
+    let products: any[] = [];
+    let relatedBlogs: any[] = [];
+
+    // 1. Fetch only products associated with this blog in blog_products
+    try {
+      const { data: bpRows, error: bpError } = await mysupabase
+        .from("blog_products")
+        .select("product_id")
+        .eq("blog_id", blog.id);
+
+      if (bpRows && bpRows.length > 0) {
+        const productIds = bpRows.map((r: any) => r.product_id);
+        const { data: productData, error: prodError } = await mysupabase
+          .from("product")
+          .select("*,brands(*),collection(*),product_variants(*,discounts:discount_key(*))")
+          .in("id", productIds);
+
+        if (prodError) {
+          console.error("Error fetching associated products:", prodError.message);
+        }
+        products = productData || [];
+      }
+    } catch (err) {
+      console.error("Error fetching blog products:", err);
+    }
+
+    // 2. Fetch only related blogs associated with this blog in related_blogs
+    try {
+      const { data: rbRows, error: rbError } = await mysupabase
+        .from("related_blogs")
+        .select("related_blog_id, tags")
+        .eq("blog_id", blog.id);
+
+      if (rbRows && rbRows.length > 0) {
+        const relatedIds = rbRows.map((r: any) => r.related_blog_id);
+        const { data: relBlogs, error: relBlogError } = await mysupabase
+          .from("blogs")
+          .select("*")
+          .in("id", relatedIds);
+
+        if (relBlogError) {
+          console.error("Error fetching associated related blogs:", relBlogError.message);
+        }
+        relatedBlogs = relBlogs || [];
+      }
+    } catch (err) {
+      console.error("Error fetching related blogs:", err);
+    }
+
+    return {
+      ...blog,
+      products,
+      relatedBlogs,
+    };
+  } catch (error) {
+    console.error("Exception in getblog:", error);
+    return null;
   }
+}
+
+async function getSingleBlogWithDetails(slug: string) {
+  return await getblog(slug);
 }
 
 async function getAllCollectionsBaseOnType(type: string) {
@@ -167,12 +229,13 @@ async function getAllTrendingProducts() {
 async function getAllNewArrivalProducts() {
   const { data: newArrivals, error } = await mysupabase
     .from("product")
-    .select("*,brands(*),product_variants(*,discounts:discount_key(*))")
-    .eq("is_new_arrival", true);
+    .select("*,brands(*),collection(*),product_variants(*,discounts:discount_key(*))")
+    .eq("is_new_arrival", true)
+    .order("created_at", { ascending: false });
   if (newArrivals) {
-    return newArrivals;
+    return { data: newArrivals };
   } else {
-    return new Error(error.message);
+    return { data: [] };
   }
 }
 
@@ -935,6 +998,7 @@ export {
   getProductBaseOnCollection,
   getAllBlogs,
   getblog,
+  getSingleBlogWithDetails,
   getHighlighteProducts,
   getcollection,
   getCollectionBaseOnGender,

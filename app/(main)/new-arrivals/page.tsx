@@ -28,16 +28,15 @@ export const metadata = mergeMetadata({
 });
 
 
-async function page() {
-  // 1. Fetch products server-side
+export default async function page() {
+  // Fetch only products where is_new_arrival = true
   const { data: allproducts } = await mysupabase
     .from("product")
-    .select("*,brands(*),product_variants(*)")
-    .eq("is_new_arrival", true);
+    .select("*,brands(*),collection(*),product_variants(*,discounts:discount_key(*))")
+    .eq("is_new_arrival", true)
+    .order("created_at", { ascending: false });
 
   return (
     <NewArrival initialProducts={{ data: allproducts || [] }} />
-  )
-}
-
-export default page
+  );
+}

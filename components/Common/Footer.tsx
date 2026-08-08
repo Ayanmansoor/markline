@@ -59,12 +59,9 @@ function Footer() {
               Pages
             </h2>
             <ul className='flex items-start flex-col text-base justify-start gap-2'>
-              {/* <Link href={'/new-arrivals'} >New Arrived</Link> */}
+              <Link href={'/new-arrivals'} >New Arrivals</Link>
               <Link href={'/products/women'} >Products</Link>
-              {/* <Link href={'/trending'} >Trending</Link> */}
               <Link href={'/collections'} >Collections</Link>
-
-
             </ul>
           </div>
 
@@ -114,15 +111,21 @@ function Footer() {
           <div className='relative h-auto  justify-self-start '>
 
 
-            <div className='flex flex-col gap-1 mb-6'>
+            <div className='flex flex-col gap-1 mb-4'>
               <h2 className='text-base font-semibold text-white'>Office Address:</h2>
               <p className='text-sm font-medium text-white capitalize '>
                 ROOM NO 165 INDRA NAGAR , NR-BARMA SHEEL RAILWAY LINE , KURLA EAST , NEHRU NAGAR , MUMBAI 400024
               </p>
-
-
             </div>
 
+            <div className='flex flex-col gap-1 mb-4'>
+              <h2 className='text-base font-semibold text-white'>Contact Number:</h2>
+              <div className='flex flex-wrap items-center gap-2 text-sm font-medium text-white'>
+                <Link href='tel:+919703456322' className='hover:underline hover:text-red-300'>+91 9703456322</Link>
+                <span>/</span>
+                <Link href='tel:+919769020660' className='hover:underline hover:text-red-300'>+91 9769020660</Link>
+              </div>
+            </div>
 
             <h2 className='text-p20 font-medium mb-4 border-b w-fit pr-5'>
               Subcribe Us
@@ -171,11 +174,9 @@ function Footer() {
 
                 <ul className='flex items-start mt-2 flex-col text-base justify-start gap-2 text-primary'>
                   <Link href={'/'} className='text-primary'  >Home</Link>
-                  {/* <Link href={'/new-arrivals'} className='text-primary'  >New Arrived</Link> */}
-                  <Link href={'/products/women'} className='text-primary'  >Proudcts</Link>
+                  <Link href={'/new-arrivals'} className='text-primary'  >New Arrivals</Link>
+                  <Link href={'/products/women'} className='text-primary'  >Products</Link>
                   <Link href={'/collections/women'} className='text-primary' >Women&apos;s Collections</Link>
-                  {/* <Link href={'/collections/men'} className='text-primary' >Men&apos;s Collections</Link> */}
-
                 </ul>
               </div>
             </AccordionContent>
@@ -230,6 +231,14 @@ function Footer() {
       </div>
 
       <div className='w-full h-auto relative bg-secondary block  sm:hidden pt-5 pb-10 sm:pb-0 '>
+        <div className='container mx-auto px-5 mb-4 text-center'>
+          <h3 className='text-sm font-semibold text-primary mb-1'>Contact Number:</h3>
+          <div className='flex justify-center items-center gap-2 text-xs font-medium text-primary mb-2'>
+            <Link href='tel:+919703456322' className='hover:underline'>+91 9703456322</Link>
+            <span>/</span>
+            <Link href='tel:+919769020660' className='hover:underline'>+91 9769020660</Link>
+          </div>
+        </div>
         <p className='text-p20 font-light text-third text-center text-primary '>Follow Us</p>
         <hr className='w-full absolute top-8 text-primary ' />
         <div className=' container mx-auto h-auto px-20 py-3 flex justify-center items-center gap-5'>

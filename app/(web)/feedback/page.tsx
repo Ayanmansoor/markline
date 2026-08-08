@@ -43,17 +43,17 @@ function Feedback() {
                         </h2>
                         <div className="w-full relative flex  flex-wrap items-center gap-3 md:gap-5 ">
                             <Link
-                                href={"tel:(+91) 9773141989"}
+                                href={"tel:(+91) 9703456322"}
                                 className="text-lg font-medium  text-fontPrimary "
                             >
-                                (+91) 9702456322
+                                (+91) 9703456322
                             </Link>
                             /
                             <Link
-                                href={"tel:(+91) 9773141989"}
+                                href={"tel:(+91) 9769020660"}
                                 className="text-lg font-medium text-fontPrimary  "
                             >
-                                (+91) 9702456322
+                                (+91) 9769020660
                             </Link>
                         </div>
                     </span>

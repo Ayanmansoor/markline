@@ -23,6 +23,16 @@ const nextConfig = {
         hostname: "images.shopmarkline.in",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "unsplash.com",
+        pathname: "**",
+      },
     ],
   },
 

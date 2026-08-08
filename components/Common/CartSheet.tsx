@@ -341,43 +341,56 @@ function CartSheet({ children }: {
                     </section>
 
                     <SheetFooter className='bottom-0'>
-
                         <section className=' w-full left-0 bg-white '>
                             {
                                 totalPrice > 0 &&
-                                <section className='w-full relative z-30 p-3 h-fit  flex flex-col gap-2 border bg-white  '>
-                                    <h2 className='text-base font-semibold text-primary text-start'>After Discount</h2>
-                                    <span className='w-full relative h-auto bg-gray-100 flex items-center  justify-center px-3 py-1'>
-                                        <p className='text-base w-full font-medium text-foreground '>Total </p>
-                                        <p className='text-lg font-medium text-primary w-full'>₹ {beforeDiscount}</p>
+                                <section className='w-full relative z-30 p-3 h-fit flex flex-col gap-2 border bg-white rounded-xl shadow-xs'>
+                                    {/* Highlighted Marketplace Savings Banner */}
+                                    <div className='w-full bg-emerald-50 border border-emerald-200 text-emerald-800 px-3 py-1.5 rounded-lg flex items-center justify-between text-xs font-semibold'>
+                                        <span className='flex items-center gap-1.5'>
+                                            <span className='w-2 h-2 rounded-full bg-emerald-500 animate-pulse' />
+                                            Direct Order Savings
+                                        </span>
+                                        <span className='bg-emerald-600 text-white px-2 py-0.5 rounded-full text-[11px]'>
+                                            Save ₹{cart.length * 6} vs Marketplaces
+                                        </span>
+                                    </div>
+
+                                    <h2 className='text-base font-semibold text-primary text-start'>Order Summary</h2>
+                                    <span className='w-full relative h-auto bg-gray-100 flex items-center justify-between px-3 py-1 rounded'>
+                                        <p className='text-xs sm:text-sm font-medium text-foreground'>Marketplace Price (Amazon/Flipkart)</p>
+                                        <p className='text-xs sm:text-sm font-medium text-slate-500 line-through'>₹ {Math.floor(totalPrice + cart.length * 6)}</p>
                                     </span>
+
+                                    <span className='w-full relative h-auto bg-emerald-50/60 flex items-center justify-between px-3 py-1 rounded text-emerald-800'>
+                                        <p className='text-xs font-semibold'>Markline Direct Discount (₹6/item)</p>
+                                        <p className='text-xs font-bold text-emerald-700'>- ₹ {cart.length * 6}</p>
+                                    </span>
+
                                     {
-                                        totalDiscount < 0 &&
-                                        <span className='w-full relative h-auto  flex items-center  justify-center px-3 py-1 '>
-                                            <p className=' text-sm w-full font-medium text-foreground '>Discount</p>
-                                            <p className='text-sm text-red-400 line-through font-medium text-primary w-full '>₹ {Math.floor(totalDiscount)}</p>
+                                        totalDiscount > 0 &&
+                                        <span className='w-full relative h-auto flex items-center justify-between px-3 py-1'>
+                                            <p className='text-xs text-foreground font-medium'>Product Discounts</p>
+                                            <p className='text-xs text-red-500 font-bold'>- ₹ {Math.floor(totalDiscount)}</p>
                                         </span>
                                     }
 
-                                    <div className='w-fulll border-t pt-2  relative h-auto px-3 flex items-center justify-between'>
-                                        <p className='text-sm sm:text-base md:text-lg font-medium w-full text-primary'>Price To Pay</p>
-                                        <p className='text-lg font-medium text-primary w-full'>₹ {Math.floor(totalPrice)}</p>
+                                    <div className='w-full border-t pt-2 relative h-auto px-3 flex items-center justify-between'>
+                                        <p className='text-sm sm:text-base font-bold text-primary'>Total Payable</p>
+                                        <p className='text-lg font-extrabold text-primary'>₹ {Math.floor(totalPrice)}</p>
                                     </div>
-                                    <div className='w-full relative h-auto flex items-start justify-end'>
+                                    <div className='w-full relative h-auto flex items-start justify-end mt-1'>
                                         {
                                             currentuser?.id && userAddress?.id &&
-                                            <button className='w-fit relative h-auto flex items-center  text-sm md:text-base border border-primary px-4 md:px-5 py-2 text-nowrap bg-primary  text-white  font-medium text-primary' disabled={isOrderSub} onClick={OrdersBeforePayment}  >{isOrderSub ? "Just a second..." : "Buy Now"}</button>
-
+                                            <button className='w-full relative h-auto flex items-center justify-center text-sm md:text-base border border-primary px-4 md:px-5 py-2.5 rounded-lg bg-primary text-white font-semibold' disabled={isOrderSub} onClick={OrdersBeforePayment}>{isOrderSub ? "Just a second..." : "Buy Now"}</button>
                                         }
                                         {
                                             !currentuser?.id && !userAddress?.id &&
                                             <CartSheetOderDailog closeSheet={() => { }}>
-                                                <button className='w-fit relative h-auto flex items-center rounded-md text-sm md:text-base border border-primary px-4 md:px-5 py-2 text-nowrap bg-primary  text-white  font-medium text-primary'>Place Order</button>
+                                                <button className='w-full relative h-auto flex items-center justify-center rounded-lg text-sm md:text-base border border-primary px-4 md:px-5 py-2.5 bg-primary text-white font-semibold'>Place Order</button>
                                             </CartSheetOderDailog>
                                         }
-
                                     </div>
-
                                 </section>
                             }
                         </section>

@@ -104,7 +104,6 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
       .sort((a: any, b: any) => Number(a.index || 0) - Number(b.index || 0));
   }, [groupOfProducts]);
 
-  console.log(homebanners, "this is homebanners ");
 
   const desktopBanners = useMemo(() => {
     return Array.isArray(promotionalBanners)

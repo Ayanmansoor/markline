@@ -1,10 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
 import { mergeMetadata } from '@/app/layout';
+
 export const metadata = mergeMetadata({
-  title: " Terms Condition  | Markline",
+  title: "Terms and Conditions | Markline",
   description:
-    "Learn about Markline's Terms Condition. Find information on delivery times, shipping methods, order processing, and international shipping options.",
+    "Review the official Terms and Conditions of Markline (shopmarkline.in). Understand our policies on order processing, pricing, payments, shipping, returns, and acceptable use.",
   robots: {
     index: true,
     follow: true,
@@ -13,15 +14,16 @@ export const metadata = mergeMetadata({
     "max-video-preview": -1,
   },
   openGraph: {
-    title: "Terms Condition | Markline",
+    title: "Terms and Conditions | Markline",
     description:
-      "Discover how Markline ensures timely and reliable shipping. Get details on domestic and international shipping, tracking, and delivery timelines.",
+      "Review the official Terms and Conditions of Markline. Learn about our user guidelines, order acceptance, payments, shipping, and return policies.",
     url: "https://shopmarkline.in/terms-condition",
   },
   alternates: {
     canonical: `https://shopmarkline.in/terms-condition`,
   },
 });
+
 function page() {
     return (
         <div className="container mx-auto px-5 md:px-5 py-8 text-gray-800">
@@ -31,126 +33,186 @@ function page() {
                     <p className="text-muted-foreground mt-2">Last Updated: {new Date().toLocaleDateString()}</p>
                 </div>
 
-
-
-                <p>
-                    Welcome to Markline. By using our website and purchasing products from us, you agree to the following terms and conditions. Please read them carefully before using our services.
+                <p className="text-base font-medium text-primary">
+                    Welcome to Markline (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;). These Terms and Conditions govern your access to and use of our website located at{" "}
+                    <Link href={'/'} className="underline font-semibold">https://shopmarkline.in</Link>, including all content, features, product purchases, and customer services provided by Markline. Please read these terms carefully before placing an order.
                 </p>
 
+                {/* 1. Acceptance of Terms */}
                 <section className="space-y-4">
-                    <h2 className="text-2xl font-semibold tracking-tight">Acceptance of Terms</h2>
+                    <h2 className="text-2xl font-semibold tracking-tight">1. Acceptance of Terms</h2>
                     <p>
-                        By accessing or using   <Link href={'/'}>www.marklinefashion.com</Link>, you agree to be bound by these Terms and Conditions and all applicable laws. If you do not agree with any of these terms, please do not use this website.
+                        By accessing, browsing, registering an account, or purchasing apparel and fashion products on <Link href={'/'} className="text-primary font-medium underline">shopmarkline.in</Link>, you acknowledge that you have read, understood, and agree to be legally bound by these Terms and Conditions, our <Link href={'/privacy-policy'} className="text-primary underline">Privacy Policy</Link>, <Link href={'/shipping-policy'} className="text-primary underline">Shipping Policy</Link>, <Link href={'/return-policy'} className="text-primary underline">Return Policy</Link>, and <Link href={'/claim-policy'} className="text-primary underline">Product Claim Policy</Link>.
                     </p>
                     <p>
-                        In case of any delay, we will notify you via email or phone. Please ensure your contact details are accurate at checkout.
-                    </p>
-                </section>
-
-                <section className="space-y-4">
-                    <h2 className="text-2xl font-semibold tracking-tight">Changes to Terms</h2>
-                    <p>We reserve the right to update or modify these Terms and Conditions at any time without prior notice. Your continued use of the site after any changes constitutes your acceptance of the new Terms.</p>
-
-
-                </section>
-
-                <section className="space-y-4">
-                    <h2 className="text-2xl font-semibold tracking-tight">Eligibility</h2>
-                    <p>
-                        You must be at least 18 years old or accessing the website under the supervision of a parent or legal guardian to make a purchase from Markline.
+                        If you do not agree with any part of these Terms and Conditions, you must immediately discontinue your use of the website.
                     </p>
                 </section>
 
+                {/* 2. Changes to Terms */}
                 <section className="space-y-4">
-                    <h2 className="text-2xl font-semibold tracking-tight"> Product Information</h2>
+                    <h2 className="text-2xl font-semibold tracking-tight">2. Changes to Terms</h2>
                     <p>
-                        We strive to display our products as accurately as possible. However, we do not guarantee that descriptions, colors, pricing, or other content is accurate, complete, reliable, or error-free. Minor variations may occur due to photographic and screen differences.
+                        We reserve the right to revise, update, or modify these Terms and Conditions at any time without prior individual notice. Any modifications will be effective immediately upon posting to this page with the updated revision date. Your continued use of the Website following any changes constitutes your binding acceptance of the revised Terms.
                     </p>
                 </section>
 
+                {/* 3. Eligibility & Account Security */}
                 <section className="space-y-4">
-                    <h2 className="text-2xl font-semibold tracking-tight"> Pricing & Payment</h2>
+                    <h2 className="text-2xl font-semibold tracking-tight">3. Eligibility & Account Responsibility</h2>
+                    <p>
+                        You must be at least 18 years of age or accessing the Website under the active supervision of a parent or legal guardian to make a purchase. By placing an order, you represent that you possess the legal capacity to enter into binding agreements.
+                    </p>
+                    <p>
+                        If you create an account on Markline, you are responsible for maintaining the confidentiality of your login credentials and for all activities that occur under your account. You agree to provide accurate, current, and complete contact and delivery details during registration and checkout.
+                    </p>
+                </section>
 
-                    <ul className="w-full relative flex flex-col gap-1 text-base ">
-                        <li>All prices are listed in Indian Rupees (INR) and are inclusive of applicable taxes unless stated otherwise.</li>
-                        <li className=" flex items-center gap-1 ">
-                            We accept payments via credit/debit cards, UPI, wallets, net banking, and other secure payment gateways.
-                        </li>
-                        <li className=" flex items-center gap-1 ">
-                            We reserve the right to change prices or discontinue products at any time without notice.
-                        </li>
+                {/* 4. Product Information & Sizing */}
+                <section className="space-y-4">
+                    <h2 className="text-2xl font-semibold tracking-tight">4. Product Information & Accuracy</h2>
+                    <p>
+                        We take every effort to display our fashion products, garment specifications, fabrics, and colors as accurately as possible. However, due to variations in photography lighting and individual screen calibrations, slight color or tone differences may occur.
+                    </p>
+                    <p>
+                        All product dimensions and size charts are provided as standard guidelines. We reserve the right to modify product specifications, availability, or discontinue items at any time without liability.
+                    </p>
+                </section>
+
+                {/* 5. Pricing & Payments */}
+                <section className="space-y-4">
+                    <h2 className="text-2xl font-semibold tracking-tight">5. Pricing & Payment Terms</h2>
+                    <ul className="w-full relative flex flex-col gap-2 text-base list-disc list-inside">
+                        <li>All product prices displayed on the Website are in Indian Rupees (INR) and are inclusive of applicable goods and services taxes (GST) unless explicitly stated otherwise.</li>
+                        <li>We accept secure online payments via Credit/Debit Cards, Net Banking, UPI, and Digital Wallets processed through RBI-authorized, PCI-DSS compliant payment gateways (such as Razorpay).</li>
+                        <li>Cash on Delivery (COD) may be available for select serviceable pin codes across India. Markline reserves the right to verify COD orders via phone or SMS prior to dispatch.</li>
+                        <li>In the event of an inadvertent technical or pricing error, Markline reserves the right to cancel any order placed at the incorrect price and issue a full refund if payment was already received.</li>
                     </ul>
                 </section>
 
-
+                {/* 6. Order Acceptance & Cancellation */}
                 <section className="space-y-4">
-                    <h2 className="text-2xl font-semibold tracking-tight">Order Acceptance</h2>
-                    <p>We reserve the right to refuse or cancel any order for any reason, including limitations on quantities available, errors in product or pricing information, or concerns about fraudulent activity.</p>
-                </section>
-
-                <section className="space-y-4">
-                    <h2 className="text-2xl font-semibold tracking-tight">Shipping & Delivery</h2>
-                    <p>Please refer to our Shipping Policy for detailed information on order processing, delivery timelines, and shipping charges.</p>
-                </section>
-
-                <section className="space-y-4">
-                    <h2 className="text-2xl font-semibold tracking-tight"> Returns & Refunds</h2>
-                    <p className="text-lg font-medium text-primary">Please review our Return & Refund Policy for information on returning items and requesting refunds.
+                    <h2 className="text-2xl font-semibold tracking-tight">6. Order Acceptance & Cancellation</h2>
+                    <p>
+                        Receipt of an order confirmation email or SMS does not constitute our final acceptance of an order. We reserve the right, in our sole discretion, to refuse or cancel any order for reasons including:
                     </p>
-
+                    <ul className="w-full relative flex flex-col gap-1 text-base list-disc list-inside">
+                        <li>Unavailability of product stock or fabric inventory.</li>
+                        <li>Incomplete, inaccurate, or unserviceable shipping addresses or non-functional contact numbers.</li>
+                        <li>Suspected fraudulent, unauthorized, or suspicious payment activities.</li>
+                        <li>Failure of customer confirmation for Cash on Delivery (COD) shipments.</li>
+                    </ul>
+                    <p className="mt-2">
+                        If your order is cancelled after your payment has been processed, we will initiate a prompt reversal/refund to your original payment method.
+                    </p>
                 </section>
 
-
-
+                {/* 7. Shipping & Delivery */}
                 <section className="space-y-4">
-                    <h2 className="text-2xl font-semibold tracking-tight"> User Conduct</h2>
-                    <p className="text-lg font-medium text-primary">For any questions or concerns related to shipping, please contact our customer service at:</p>
-                    <ul className="w-full relative flex flex-col gap-1 text-base ">
-                        <li>Violate any applicable laws</li>
-                        <li>Infringe upon any intellectual property rights</li>
-                        <li>Post or transmit harmful, abusive, or defamatory content</li>
-                        <li>Attempt to gain unauthorized access to our systems</li>
+                    <h2 className="text-2xl font-semibold tracking-tight">7. Shipping & Delivery</h2>
+                    <p>
+                        We partner with reliable domestic logistics providers to deliver orders across India. Estimated delivery times, shipping charges, and order tracking details are governed by our <Link href={'/shipping-policy'} className="text-primary font-medium underline">Shipping Policy</Link>.
+                    </p>
+                    <p>
+                        While we strive to deliver all orders within the estimated timeline, delays may occasionally occur due to logistics transit bottlenecks, weather conditions, or festive surges. We will keep you informed of any substantial delays via email or SMS.
+                    </p>
+                </section>
+
+                {/* 8. Returns, Exchanges & Refunds */}
+                <section className="space-y-4">
+                    <h2 className="text-2xl font-semibold tracking-tight">8. Returns, Exchanges & Refunds</h2>
+                    <p>
+                        Customer satisfaction is our priority. If you receive a damaged, defective, or incorrect apparel item, please refer to our comprehensive <Link href={'/return-policy'} className="text-primary font-medium underline">Return Policy</Link> and <Link href={'/claim-policy'} className="text-primary font-medium underline">Product Claim Policy</Link> for step-by-step instructions on initiating returns and claim verification.
+                    </p>
+                    <p>
+                        Returned items must be unused, unwashed, in their original condition with all product tags and packaging intact.
+                    </p>
+                </section>
+
+                {/* 9. User Conduct & Acceptable Use */}
+                <section className="space-y-4">
+                    <h2 className="text-2xl font-semibold tracking-tight">9. User Conduct & Prohibited Activities</h2>
+                    <p>When using our Website, you agree not to engage in any of the following prohibited activities:</p>
+                    <ul className="w-full relative flex flex-col gap-1 text-base list-disc list-inside">
+                        <li>Violate any local, state, national, or international laws or regulations.</li>
+                        <li>Infringe upon the intellectual property, copyright, or trademark rights of Markline or third parties.</li>
+                        <li>Transmit or upload malicious code, viruses, automated bots, scrapers, or harmful software.</li>
+                        <li>Attempt to gain unauthorized access to our servers, user accounts, database systems, or networks.</li>
+                        <li>Submit false, misleading, abusive, defamatory, or fraudulent order details or reviews.</li>
                     </ul>
                 </section>
 
-
-
+                {/* 10. Intellectual Property */}
                 <section className="space-y-4">
-                    <h2 className="text-2xl font-semibold tracking-tight"> Intellectual Property</h2>
-                    <p>All content on this website — including text, images, logos, graphics, and code — is the property of Markline and protected by copyright and trademark laws. You may not reproduce, distribute, or use any content without our prior written permission.</p>
-
-                </section>
-
-
-                <section className="space-y-4">
-                    <h2 className="text-2xl font-semibold tracking-tight">Third-Party Links</h2>
-                    <p>Our site may contain links to third-party websites. We are not responsible for the content, privacy policies, or practices of any third-party sites.</p>
-                </section>
-
-                <section className="space-y-4">
-                    <h2 className="text-2xl font-semibold tracking-tight">Limitation of Liability</h2>
-                    <p>Markline is not liable for any indirect, incidental, or consequential damages arising from your use of the website or purchase of products. All products are provided “as is” without warranties of any kind..</p>
-                </section>
-
-
-                   <section className="space-y-4">
-                    <h2 className="text-2xl font-semibold tracking-tight">Governing Law</h2>
-                    <p>These Terms are governed by and construed in accordance with the laws of India. Any disputes arising from these Terms will be subject to the exclusive jurisdiction of the courts of  Mumbai, Maharashtra .</p>
-                </section>
-
-                       <section className="space-y-4">
-                    <h2 className="text-2xl font-semibold tracking-tight">Contact Us</h2>
-                    <p>If you have any questions about these Terms and Conditions, please contact us:</p>
-                    <p className='flex items-center gap-1 '>
-                        <strong>Email:</strong> 
-                        <Link href={'melto:stylemarkline@gmail.com'}>stylemarkline@gmail.com</Link>
+                    <h2 className="text-2xl font-semibold tracking-tight">10. Intellectual Property Rights</h2>
+                    <p>
+                        All content hosted on this Website — including brand trademarks, logos, brand names, product photographs, text descriptions, graphics, UI design, illustrations, and source code — is the exclusive property of Markline and is protected under Indian and international copyright and trademark laws.
+                    </p>
+                    <p>
+                        You may not reproduce, copy, distribute, license, scrape, or commercially exploit any content from this Website without prior written consent from Markline.
                     </p>
                 </section>
 
+                {/* 11. Third-Party Links */}
+                <section className="space-y-4">
+                    <h2 className="text-2xl font-semibold tracking-tight">11. Third-Party Links</h2>
+                    <p>
+                        Our Website may contain links to third-party websites or services (such as payment gateways and social media channels like Instagram, Facebook, and Pinterest). Markline is not responsible for the content, privacy practices, or accuracy of any third-party websites. Accessing external links is done entirely at your own discretion.
+                    </p>
+                </section>
 
+                {/* 12. Limitation of Liability */}
+                <section className="space-y-4">
+                    <h2 className="text-2xl font-semibold tracking-tight">12. Limitation of Liability</h2>
+                    <p>
+                        To the maximum extent permitted by applicable Indian law, Markline and its representatives shall not be liable for any indirect, incidental, punitive, or consequential damages resulting from the use or inability to use the Website, delay in delivery, or any products purchased through the platform.
+                    </p>
+                    <p>
+                        Our total aggregate liability arising out of or related to any order shall not exceed the actual purchase amount paid by the customer for the specific product in question.
+                    </p>
+                </section>
+
+                {/* 13. Governing Law & Jurisdiction */}
+                <section className="space-y-4">
+                    <h2 className="text-2xl font-semibold tracking-tight">13. Governing Law & Dispute Resolution</h2>
+                    <p>
+                        These Terms and Conditions and any transactions concluded on this Website are governed by and construed in accordance with the laws of the Republic of India.
+                    </p>
+                    <p>
+                        Any dispute, claim, or controversy arising out of or relating to these Terms, orders, or services shall be subject to the exclusive jurisdiction of the competent courts located in <strong>Mumbai, Maharashtra, India</strong>.
+                    </p>
+                </section>
+
+                {/* 14. Contact Us */}
+                <section className="space-y-4">
+                    <h2 className="text-2xl font-semibold tracking-tight">14. Contact Information & Support</h2>
+                    <p>If you have any questions, clarifications, or feedback regarding these Terms and Conditions, please contact our customer support team:</p>
+                    <ul className="w-full relative flex flex-col gap-1.5 text-base list-disc list-inside">
+                        <li>
+                            <strong>Email:</strong>{" "}
+                            <Link href={'mailto:stylemarkline@gmail.com'} className="text-primary font-medium underline">
+                                stylemarkline@gmail.com
+                            </Link>
+                        </li>
+                        <li>
+                            <strong>Helpline Numbers:</strong>{" "}
+                            <Link href={'tel:+919703456322'} className="text-primary font-medium underline">
+                                +91 9703456322
+                            </Link>{" "}
+                            /{" "}
+                            <Link href={'tel:+919769020660'} className="text-primary font-medium underline">
+                                +91 9769020660
+                            </Link>
+                        </li>
+                        <li>
+                            <strong>Support Hours:</strong> Monday to Sunday (10:00 AM – 06:00 PM IST)
+                        </li>
+                        <li>
+                            <strong>Registered Office Address:</strong> ROOM NO 165 INDRA NAGAR, NR-BARMA SHEEL RAILWAY LINE, KURLA EAST, NEHRU NAGAR, MUMBAI 400024, MAHARASHTRA, INDIA
+                        </li>
+                    </ul>
+                </section>
             </div>
-
-
         </div>
     )
 }

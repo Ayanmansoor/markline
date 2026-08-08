@@ -18,7 +18,7 @@ import axios from 'axios';
 import LoadRazorpay from '@/utils/loadrazorpay';
 import BuyProduct from './BuyProduct';
 import { toast } from 'sonner';
-import { RotateCcw, Shield, Truck } from 'lucide-react';
+import { RotateCcw, Shield, Truck, ExternalLink } from 'lucide-react';
 import { HiMiniMinusSmall } from 'react-icons/hi2';
 import CustomReview from '../Common/CustomReview';
 import { SizeChartModal } from '../Common/SizeChartModal';
@@ -433,6 +433,84 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                         <WhatsAppButton product={product} variant={variant} />
                     </div> */}
                 </div>
+
+                {/* Marketplace Availability (Amazon & Flipkart - ₹6 higher than Markline) */}
+                {(product?.amazon_url || product?.flipkart_url) && (
+                    <div className='w-full my-3 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-amber-50/50 via-white to-slate-50 border border-amber-200/80 shadow-xs flex flex-col gap-2.5'>
+                        <div className='flex items-center justify-between flex-wrap gap-1'>
+                            <span className='text-xs font-bold text-slate-900 tracking-wide flex items-center gap-1.5'>
+                                <span className='w-2 h-2 rounded-full bg-emerald-500 animate-pulse' />
+                                Also Available On Marketplaces
+                            </span>
+                            <span className='text-xs font-bold text-emerald-700 bg-emerald-100/90 px-2.5 py-0.5 rounded-full border border-emerald-200 shadow-2xs'>
+                                Save ₹60 on Martket place
+                            </span>
+                        </div>
+
+                        {(() => {
+                            const directPrice = variant?.discounts?.discount_persent
+                                ? getDiscountedPrice(variant?.price, variant?.discounts?.discount_persent)
+                                : variant?.price || 0;
+                            const marketplacePrice = Math.round(Number(directPrice) + 6);
+
+                            return (
+                                <div className={`grid ${product.amazon_url && product.flipkart_url ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'} gap-2.5`}>
+                                    {product.amazon_url && (
+                                        <a
+                                            href={product.amazon_url}
+                                            target='_blank'
+                                            rel='noopener noreferrer'
+                                            className='group relative flex items-center justify-between px-3.5 py-2.5 bg-white border border-slate-200 hover:border-amber-500 rounded-xl shadow-xs hover:shadow-md transition-all duration-300 active:scale-95'
+                                        >
+                                            <div className='flex items-center gap-2.5'>
+                                                <img
+                                                    src='/amazon.png'
+                                                    alt='Amazon'
+                                                    className='h-7 w-auto max-w-[36px] object-contain rounded'
+                                                />
+                                                <div className='text-left'>
+                                                    <span className='block text-lg font-bold text-slate-900 leading-tight'>Amazon</span>
+                                                    <span className='block text-sm font-semibold text-slate-700'>
+                                                        ₹{marketplacePrice} <span className='text-sm text-amber-700 font-normal'>(+₹60)</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <ExternalLink className='w-5 h-5 text-slate-400 group-hover:text-amber-600 transition-colors' />
+                                        </a>
+                                    )}
+
+                                    {product.flipkart_url && (
+                                        <a
+                                            href={product.flipkart_url}
+                                            target='_blank'
+                                            rel='noopener noreferrer'
+                                            className='group relative flex items-center justify-between px-3.5 py-2.5 bg-white border border-slate-200 hover:border-blue-500 rounded-xl shadow-xs hover:shadow-md transition-all duration-300 active:scale-95'
+                                        >
+                                            <div className='flex items-center gap-2.5'>
+                                                <img
+                                                    src='/flipkart.png'
+                                                    alt='Flipkart'
+                                                    className='h-7 w-auto max-w-[36px] object-contain rounded'
+                                                />
+                                                <div className='text-left'>
+                                                    <span className='block text-lg font-bold text-slate-900 leading-tight'>Flipkart</span>
+                                                    <span className='block text-sm font-semibold text-slate-700'>
+                                                        ₹{marketplacePrice} <span className='text-sm text-blue-700 font-normal'>(-₹60)</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <ExternalLink className='w-5 h-5 text-slate-400 group-hover:text-blue-600 transition-colors' />
+                                        </a>
+                                    )}
+                                </div>
+                            );
+                        })()}
+
+                        <div className='w-full text-[11px] text-slate-600 font-medium text-center bg-slate-100/80 py-1.5 px-2 rounded-lg'>
+                            ✨ Buy direct on Markline to get the lowest price — <strong className='text-slate-900'>₹60 cheaper than Flipkart & Amazon</strong>
+                        </div>
+                    </div>
+                )}
 
                 <div className='w-full relative flex items-start flex-col  justify-between'>
                     <p className='  text-sm md:text-base font-medium text-fontPrimary  mt-3 mb-3'>

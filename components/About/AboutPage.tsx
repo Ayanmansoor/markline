@@ -82,7 +82,7 @@ function AboutUsPage() {
   return (
     <main className="w-full bg-white">
       {/* Hero Section */}
-      <section className="w-full min-h-[60vh] flex flex-col items-center justify-center text-center px-5 lg:px-20 pt-32 pb-20 bg-[#F9F9F9]">
+      <section className="w-full min-h-[60vh] flex flex-col items-center justify-center text-center  pt-32 pb-20 bg-[#F9F9F9]">
         <motion.span
           initial={{ opacity: 0, letterSpacing: "1em" }}
           animate={{ opacity: 1, letterSpacing: "0.5em" }}
@@ -143,7 +143,7 @@ function AboutUsPage() {
       </section>
 
       {/* Vision & Mission Grid */}
-      <section className="w-full bg-secondary py-24 px-5 lg:px-20 text-white">
+      <section className="w-full bg-secondary py-24  text-white">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-32">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -172,7 +172,7 @@ function AboutUsPage() {
       </section>
 
       {/* Featured Products */}
-      <div className="py-20 bg-white">
+      <div className="py-10 bg-white">
         {isLoadingProducts ? (
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 max-w-7xl mx-auto px-5 lg:px-10">
             <ProductCardSkeleton />
@@ -182,7 +182,7 @@ function AboutUsPage() {
           </div>
         ) : (
           allproducts?.data.length > 0 && (
-            <div className="max-w-7xl mx-auto">
+            <div className=" mx-auto">
               <CategoriesSection title="Experience Markline" url="" >
                 <CarouselProduct
                   product={allproducts.data}

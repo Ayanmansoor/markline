@@ -181,11 +181,23 @@ function Returnpolicy() {
                         For any questions regarding returns or exchanges, please contact us:
                     </p>
 
-                    <address className="not-italic text-sm md:text-base">
+                    <address className="not-italic text-sm md:text-base flex flex-col gap-1">
                         <p><strong>Brand:</strong> Markline</p>
-                        <p><strong>Email:</strong> stylemarkline@gmail.com</p>
-                        <p><strong>Phone:</strong> +91-9702456322</p>
-                        <p><strong>Hours:</strong> Monday – Saturday | 10 AM – 6 PM IST</p>
+                        <p>
+                            <strong>Email:</strong>{" "}
+                            <a href="mailto:stylemarkline@gmail.com" className="text-primary underline">
+                                stylemarkline@gmail.com
+                            </a>
+                        </p>
+                        <p>
+                            <strong>Phone:</strong>{" "}
+                            <a href="tel:+919703456322" className="text-primary underline">+91 9703456322</a> /{" "}
+                            <a href="tel:+919769020660" className="text-primary underline">+91 9769020660</a>
+                        </p>
+                        <p><strong>Hours:</strong> Monday – Sunday | 10:00 AM – 06:00 PM IST</p>
+                        <p>
+                            <strong>Office Address:</strong> ROOM NO 165 INDRA NAGAR, NR-BARMA SHEEL RAILWAY LINE, KURLA EAST, NEHRU NAGAR, MUMBAI 400024, MAHARASHTRA, INDIA
+                        </p>
                     </address>
                 </section>
 

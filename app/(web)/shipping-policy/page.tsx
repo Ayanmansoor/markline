@@ -1,11 +1,10 @@
-
 import { mergeMetadata } from "@/app/layout";
-import Link from "next/link"
+import Link from "next/link";
 
 export const metadata = mergeMetadata({
-  title: "Shipping Policy | Markline",
+  title: "Shipping & Return Policy | Markline",
   description:
-    "Learn about Markline's shipping policy. Find information on delivery times, shipping methods, order processing, and international shipping options.",
+    "Learn about Markline's Shipping & Return Policy. Fast dispatch within 2 days, standard delivery within 3-5 days, out-of-zone delivery fee terms, and 7-day exchange policy.",
   robots: {
     index: true,
     follow: true,
@@ -14,9 +13,9 @@ export const metadata = mergeMetadata({
     "max-video-preview": -1,
   },
   openGraph: {
-    title: "Shipping Policy | Markline",
+    title: "Shipping & Return Policy | Markline",
     description:
-      "Discover how Markline ensures timely and reliable shipping. Get details on domestic and international shipping, tracking, and delivery timelines.",
+      "Discover Markline's shipping timelines (dispatched within 2 days), delivery details, out-of-zone delivery fees, and 7-day exchange/replacement policy.",
     url: "https://shopmarkline.in/shipping-policy",
   },
   alternates: {
@@ -26,7 +25,6 @@ export const metadata = mergeMetadata({
 
 export default function ShippingPolicy() {
   return (
-
     <div className="container mx-auto px-5 lg:px-10 xl:px-20 2xl:px-40 py-8 text-primary">
       <div className="space-y-8">
         <div className="text-center mb-10">
@@ -38,166 +36,198 @@ export default function ShippingPolicy() {
           </p>
         </div>
 
-        {/* Order Processing */}
+        {/* Order Processing & Dispatch */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight">
             Order Processing & Dispatch
           </h2>
           <p>
-            At Markline, every pair of footwear is carefully crafted and quality-checked
-            to ensure comfort, durability, and perfect finishing.
+            At Markline, every product is carefully inspected and quality-checked
+            to ensure premium comfort, perfect fitting, and superior durability.
           </p>
           <p>
-            Orders are dispatched within <strong>4-7 business days</strong> after order
-            confirmation . This time allows us
-            to prepare each pair with precision and care.
+            We dispatch orders <strong>within 2 business days</strong> (within 48 hours)
+            after order confirmation. Once your order is dispatched from our facility, you
+            will receive an instant dispatch alert along with tracking details.
           </p>
         </section>
 
-        {/* Shipping */}
+        {/* Shipping Charges & Delivery Time */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight">
-            Shipping Charges & Delivery Time
+            Shipping Charges & Delivery Timeline
           </h2>
 
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse mt-2">
+            <table className="w-full border-collapse mt-2 text-sm md:text-base">
               <thead>
                 <tr className="bg-muted">
-                  <th className="border p-2 text-left">Shipping Method</th>
-                  <th className="border p-2 text-left">Estimated Delivery Time</th>
-                  <th className="border p-2 text-left">Cost</th>
+                  <th className="border p-2.5 text-left">Shipping Zone / Method</th>
+                  <th className="border p-2.5 text-left">Estimated Delivery Timeline</th>
+                  <th className="border p-2.5 text-left">Shipping Cost</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="bg-green-50 font-medium">
-                  <td className="border p-2">Standard Shipping</td>
-                  <td className="border p-2">4–7 business days</td>
-                  <td className="border p-2 text-green-600">FREE</td>
+                <tr className="bg-green-50/60 font-medium">
+                  <td className="border p-2.5">Standard In-Zone Delivery</td>
+                  <td className="border p-2.5">3–5 business days (from dispatch)</td>
+                  <td className="border p-2.5 text-green-700 font-semibold">FREE</td>
+                </tr>
+                <tr className="bg-amber-50/60 font-medium">
+                  <td className="border p-2.5">Out-of-Zone / Remote Regions</td>
+                  <td className="border p-2.5">5–7 business days</td>
+                  <td className="border p-2.5 text-amber-800">
+                    Delivery fee may apply if order is out of zone
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <p>
-            We currently offer <strong>FREE SHIPPING across India</strong> with no
-            minimum order value.
+            We offer <strong>Free Standard Shipping</strong> across most serviceable pincodes in India.
+            Please note that a nominal delivery fee may apply if the delivery address is categorized as 
+            <strong> out of zone</strong>, remote, or requires special regional logistics. Any applicable 
+            out-of-zone shipping fee is clearly displayed at checkout or confirmed prior to dispatch.
           </p>
         </section>
 
-        {/* Tracking */}
+        {/* Order Tracking */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight">
             Order Tracking
           </h2>
           <p>
-            Once your order is shipped, you will receive tracking details via email 
-            or SMS or Whatsapp. You can track your order using the provided tracking link.
+            Once your order is dispatched within 2 business days, you will receive your courier tracking link and AWB number via 
+            <strong> Email, SMS, or WhatsApp</strong>. You can easily track your package in real-time or check order status using our{" "}
+            <Link href="/makline-order-tracker" className="text-primary font-semibold underline">
+              Markline Order Tracker
+            </Link>.
           </p>
         </section>
 
-        {/* Restrictions */}
+        {/* Shipping Restrictions */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight">
             Shipping Restrictions
           </h2>
-          <ul className="flex flex-col gap-1 text-base">
-            <li>We currently ship only within India.</li>
-            <li>We do not ship to P.O. Boxes or military addresses (APO/FPO).</li>
-            <li>Some remote locations may have limited delivery availability.</li>
+          <ul className="flex flex-col gap-1.5 text-base list-disc list-inside">
+            <li>We currently ship to all serviceable postal pincodes across India.</li>
+            <li>We do not deliver to P.O. Boxes or APO/FPO military addresses.</li>
+            <li>Deliveries to out-of-zone or special remote areas may require additional transit time.</li>
           </ul>
         </section>
 
-        {/* Damaged / Lost */}
+        {/* Lost / Delayed */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight">
-            Lost, Delayed, or Damaged Shipments
+            Delayed, Damaged, or Transit Issues
           </h2>
           <p>
-            While we work with trusted courier partners, delays may occur due to
-            unforeseen circumstances.
+            While we partner with top-tier courier networks to ensure prompt 3-day delivery in major zones, unexpected delays may rarely occur due to adverse weather, festival volume surges, or regional transit restrictions.
           </p>
-          <ul className="flex flex-col gap-1 text-base">
-            <li>Please wait a few extra days beyond the estimated delivery time.</li>
+          <ul className="flex flex-col gap-1 text-base list-disc list-inside">
+            <li>Please allow an additional 1–2 business days beyond the estimated delivery date during high-volume periods.</li>
             <li>
-              If the issue persists, contact us at{" "}
-              <Link href="mailto:stylemarkline@gmail.com">
+              If your shipment has not arrived or appears stalled, please contact our support team at{" "}
+              <Link href="mailto:stylemarkline@gmail.com" className="text-primary font-semibold underline">
                 stylemarkline@gmail.com
-              </Link>
+              </Link>{" "}
+              or call us directly.
             </li>
           </ul>
         </section>
 
-        {/* Returns */}
+        {/* Exchange & Replacement Policy */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight">
             Return, Exchange & Replacement Policy
           </h2>
 
           <p className="text-lg font-medium text-primary">
-            Exchange & Replacement First Policy
+            Exchange & Replacement Policy
           </p>
 
           <p>
-            Since Markline footwear is handcrafted with care, we follow an
-            <strong> exchange-first policy</strong> to ensure sustainability and
-            quality assurance.
+            To guarantee customer satisfaction and maintain our high quality standards, Markline operates a transparent exchange and replacement policy:
           </p>
 
-          <ul className="flex flex-col gap-1 text-base">
-            <li>Exchange or replacement requests must be made within <strong>7 days</strong> of delivery.</li>
-            <li>Products must be unused, unworn, and returned with original packaging and tags.</li>
-            <li>Exchange is applicable for size issues, defects, or incorrect products.</li>
+          <ul className="flex flex-col gap-2 text-base list-disc list-inside">
+            <li>
+              <strong>7-Day Window:</strong> Exchange or replacement requests must be made within <strong>7 days</strong> of delivery.
+            </li>
+            <li>
+              <strong>Product Condition:</strong> Items must be completely unused, unworn, unwashed, and returned in their original packaging with all brand tags and labels intact.
+            </li>
+            <li>
+              <strong>Applicability:</strong> Exchanges are applicable for size adjustments, defective items, transit damage, or incorrect product delivery.
+            </li>
           </ul>
         </section>
 
-        {/* Refunds */}
+        {/* Refund Policy */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight">
             Refund Policy
           </h2>
           <p>
-            Refunds are provided <strong>only in rare cases</strong>, such as:
+            As a curated fashion and apparel brand, Markline prioritizes prompt replacements and exchanges. Refunds are provided in special cases, such as:
           </p>
-          <ul className="flex flex-col gap-1 text-base">
-            <li>If the replacement product is unavailable</li>
-            <li>If a verified manufacturing defect cannot be resolved via exchange</li>
+          <ul className="flex flex-col gap-1 text-base list-disc list-inside">
+            <li>If the replacement product or requested size is out of stock.</li>
+            <li>If a verified manufacturing defect is confirmed upon inspection and cannot be replaced.</li>
           </ul>
-          <p>
-            Approved refunds are processed to the original payment method within
-            <strong> 5–7 business days</strong>.
+          <p className="mt-2">
+            Approved refunds are initiated to the original payment source (or bank account for COD orders) within <strong>5–7 business days</strong> after the returned item passes our warehouse quality inspection.
           </p>
         </section>
 
-        {/* Non Returnable */}
+        {/* Non-Eligible */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight">
-            Items Not Eligible for Return
+            Items Not Eligible for Return or Exchange
           </h2>
-          <ul className="flex flex-col gap-1 text-base">
-            <li>Worn, used, or damaged products</li>
-            <li>Products without original packaging or tags</li>
-            <li>Requests raised after 7 days of delivery</li>
+          <ul className="flex flex-col gap-1 text-base list-disc list-inside">
+            <li>Items that show visible signs of wear, washing, alteration, or perfume scents.</li>
+            <li>Products returned without original packaging, shoe boxes, or brand tags.</li>
+            <li>Requests initiated after <strong>7 days</strong> from the date of confirmed delivery.</li>
           </ul>
         </section>
 
-        {/* Contact */}
+        {/* Contact Us */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight">
-            Contact Us
+            Contact & Customer Support
           </h2>
           <p>
-            For any shipping, exchange, or return-related queries, reach out to us:
+            For any shipping updates, out-of-zone queries, or exchange requests, our team is happy to assist you:
           </p>
-          <address className="not-italic text-base">
-            <p>Email: stylemarkline@gmail.com</p>
-            <p>Phone: +91-9702456322</p>
-            <p>Hours: Monday – Friday | 10 AM – 6 PM IST</p>
+          <address className="not-italic text-base flex flex-col gap-1.5">
+            <p>
+              <strong>Email:</strong>{" "}
+              <Link href="mailto:stylemarkline@gmail.com" className="text-primary font-medium underline">
+                stylemarkline@gmail.com
+              </Link>
+            </p>
+            <p>
+              <strong>Phone Helpline:</strong>{" "}
+              <Link href="tel:+919703456322" className="text-primary font-medium underline">
+                +91 9703456322
+              </Link>{" "}
+              /{" "}
+              <Link href="tel:+919769020660" className="text-primary font-medium underline">
+                +91 9769020660
+              </Link>
+            </p>
+            <p>
+              <strong>Support Hours:</strong> Monday to Sunday | 10:00 AM – 06:00 PM IST
+            </p>
+            <p>
+              <strong>Office Address:</strong> ROOM NO 165 INDRA NAGAR, NR-BARMA SHEEL RAILWAY LINE, KURLA EAST, NEHRU NAGAR, MUMBAI 400024, MAHARASHTRA, INDIA
+            </p>
           </address>
         </section>
       </div>
     </div>
-
-  )
+  );
 }
-
