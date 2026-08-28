@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import { mysupabase } from "@/Supabase/SupabaseConfig";
+import { calculateVariantPrice } from "@/lib/pricing";
 
 export async function POST(req: NextRequest) {
     try {
@@ -83,7 +84,86 @@ export async function POST(req: NextRequest) {
             }];
         }
 
-        // 3. Insert Header into `orders` Table
+        // 3. Server-side Recalculation & Verification
+        const variantIds = itemsToInsert.map(item => item.variant_id).filter(Boolean);
+        let dbVariants: any[] = [];
+        if (variantIds.length > 0) {
+            const { data, error } = await mysupabase
+                .from("product_variants")
+                .select("*, discounts:discount_key(*)")
+                .in("id", variantIds);
+            if (error) {
+                console.error("Error fetching db variants:", error);
+                return NextResponse.json({ error: "Failed to verify product variant pricing" }, { status: 400 });
+            }
+            dbVariants = data || [];
+        }
+
+        let dbCoupon = null;
+        if (orderHeader.coupon_code) {
+            const { data } = await mysupabase
+                .from("coupons")
+                .select("*")
+                .ilike("code", orderHeader.coupon_code.trim())
+                .eq("is_active", true)
+                .single();
+            dbCoupon = data;
+        }
+
+        let serverSubtotal = 0;
+        let serverDiscountAmount = 0;
+        const validatedItems = itemsToInsert.map(item => {
+            const dbVariant = dbVariants.find(v => v.id === item.variant_id);
+            if (!dbVariant) {
+                throw new Error(`Variant with ID ${item.variant_id} not found in database.`);
+            }
+
+            const priceDetails = calculateVariantPrice(dbVariant, dbVariant.discounts);
+            const qty = Number(item.quantity || 1);
+
+            serverSubtotal += priceDetails.finalPrice * qty;
+            serverDiscountAmount += priceDetails.promoDiscount * qty;
+
+            return {
+                product_id: dbVariant.products_id,
+                variant_id: dbVariant.id,
+                quantity: qty,
+                mrp: priceDetails.mrp,
+                retail_price: priceDetails.retailPrice,
+                discount_amount: priceDetails.promoDiscount,
+                unit_price: priceDetails.finalPrice,
+                final_price: priceDetails.finalPrice * qty,
+                color: typeof item.color === 'object' ? JSON.stringify(item.color) : item.color,
+                size: typeof item.size === 'object' ? JSON.stringify(item.size) : item.size,
+                discount_id: dbVariant.discounts?.discount_id || dbVariant.discount_key || null,
+            };
+        });
+
+        let couponDiscount = 0;
+        if (dbCoupon) {
+            const couponVal = Number((dbCoupon as any).discount_value || 0);
+            const type = String((dbCoupon as any).discount_type || '').toUpperCase();
+            const isPercent = type === 'PERCENTAGE' || type === 'PERCENT';
+
+            if (isPercent) {
+                couponDiscount = serverSubtotal * (couponVal / 100);
+                const maxDiscount = Number((dbCoupon as any).maximum_discount_amount || 0);
+                if (maxDiscount > 0 && couponDiscount > maxDiscount) {
+                    couponDiscount = maxDiscount;
+                }
+            } else {
+                couponDiscount = couponVal;
+            }
+            couponDiscount = Math.min(couponDiscount, serverSubtotal);
+        }
+
+        const serverGrandTotal = Math.max(0, serverSubtotal - couponDiscount);
+
+        orderHeader.subtotal = serverSubtotal;
+        orderHeader.discount_amount = serverDiscountAmount + couponDiscount;
+        orderHeader.grand_total = serverGrandTotal;
+
+        // 4. Insert Header into `orders` Table
         const { data: createdOrder, error: orderError } = await mysupabase
             .from("orders")
             .insert(orderHeader)
@@ -98,18 +178,10 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        // 4. Attach `order_id` to items and insert into `order_items` Table
-        const formattedItems = itemsToInsert.map(item => ({
-            order_id: createdOrder.id,
-            product_id: item.product_id || item.product_key,
-            variant_id: item.variant_id || null,
-            quantity: item.quantity || 1,
-            unit_price: Number(item.unit_price || item.final_price || 0),
-            discount_amount: Number(item.discount_amount || 0),
-            final_price: Number(item.final_price || 0),
-            color: typeof item.color === 'object' ? JSON.stringify(item.color) : item.color,
-            size: typeof item.size === 'object' ? JSON.stringify(item.size) : item.size,
-            discount_id: item.discount_id || null,
+        // 5. Attach `order_id` to items and insert into `order_items` Table
+        const formattedItems = validatedItems.map(item => ({
+            ...item,
+            order_id: createdOrder.id
         }));
 
         const { data: insertedItems, error: itemsError } = await mysupabase

@@ -26,7 +26,7 @@ import WhatsAppButton from '../Common/WhatsAppButton';
 import ProductReviews from './ProductReviews';
 
 import { usePathname } from 'next/navigation';
-import { getDiscountedPrice } from '@/lib/getDiscountedPrice';
+import { calculateVariantPrice } from '@/lib/pricing';
 interface productsCart {
     colors: {
         color: colorProps
@@ -60,6 +60,10 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
     const [selectedColor, setSelectedColor] = useState<Colors | null>(null);
     const [selectedSize, setSelectedSize] = useState<Sizes | null>(null);
     const [qty, setQty] = useState(1);
+
+    const priceDetails = useMemo(() => {
+        return calculateVariantPrice(variant || {}, variant?.discounts);
+    }, [variant]);
 
     /* ---------- all unique colours from every variant --------- */
     // const allColors = useMemo(() => {
@@ -173,8 +177,90 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
         if (matched) onVariantChange?.(matched);
     };
 
+    /* ---------- all unique sizes across variants --------- */
+    const displaySizes = useMemo(() => {
+        const sizeMap = new Map<string, Sizes>();
+        product?.product_variants?.forEach((v) => {
+            const sizes: Sizes[] = Array.isArray(v.sizes)
+                ? v.sizes.map((s: any) => (typeof s === 'string' ? JSON.parse(s) : s))
+                : typeof v.sizes === 'string'
+                    ? JSON.parse(v.sizes)
+                    : [];
+            sizes.forEach((s) => {
+                if (s && s.size) {
+                    const key = `${s.size}-${s.unit || 'UK'}`;
+                    if (!sizeMap.has(key)) {
+                        sizeMap.set(key, { size: String(s.size), unit: s.unit || 'UK' });
+                    }
+                }
+            });
+        });
+
+        const list = Array.from(sizeMap.values());
+        if (list.length > 0) return list;
+
+        return [
+            { size: "6", unit: "UK" },
+            { size: "7", unit: "UK" },
+            { size: "8", unit: "UK" },
+            { size: "9", unit: "UK" },
+            { size: "10", unit: "UK" },
+        ];
+    }, [product]);
+
+    /* ---------- get variant info (price & discount) for a specific size ---------- */
+    const getSizeVariantInfo = (sizeObj: Sizes) => {
+        let matchedVariant = product?.product_variants?.find((v) => {
+            const vColors: Colors[] = Array.isArray(v.colors)
+                ? v.colors.map((c: any) => (typeof c === 'string' ? JSON.parse(c) : c))
+                : typeof v.colors === 'string' ? JSON.parse(v.colors) : [];
+            const vSizes: Sizes[] = Array.isArray(v.sizes)
+                ? v.sizes.map((s: any) => (typeof s === 'string' ? JSON.parse(s) : s))
+                : typeof v.sizes === 'string' ? JSON.parse(v.sizes) : [];
+
+            const colorMatch = selectedColor
+                ? vColors.some((c) => c.name?.toLowerCase() === selectedColor.name?.toLowerCase())
+                : true;
+            const sizeMatch = vSizes.some((s) => String(s.size) === String(sizeObj.size));
+
+            return colorMatch && sizeMatch;
+        });
+
+        if (!matchedVariant) {
+            matchedVariant = product?.product_variants?.find((v) => {
+                const vSizes: Sizes[] = Array.isArray(v.sizes)
+                    ? v.sizes.map((s: any) => (typeof s === 'string' ? JSON.parse(s) : s))
+                    : typeof v.sizes === 'string' ? JSON.parse(v.sizes) : [];
+                return vSizes.some((s) => String(s.size) === String(sizeObj.size));
+            });
+        }
+
+        const targetVariant = matchedVariant || variant;
+
+        if (!targetVariant) {
+            return { price: 0, discountedPrice: 0, hasDiscount: false, variant: null };
+        }
+
+        const details = calculateVariantPrice(targetVariant, targetVariant.discounts);
+
+        return {
+            price: details.mrp,
+            retailPrice: details.retailPrice,
+            discountedPrice: details.finalPrice,
+            discountPercent: targetVariant.discounts?.discount_persent || 0,
+            hasDiscount: details.totalSavings > 0,
+            variant: targetVariant
+        };
+    };
+
     /* ---------- size click handler ---------- */
-    const handleSizeClick = (s: Sizes) => setSelectedSize(s);
+    const handleSizeClick = (s: Sizes) => {
+        setSelectedSize(s);
+        const info = getSizeVariantInfo(s);
+        if (info.variant && info.variant.id !== variant?.id) {
+            onVariantChange?.(info.variant);
+        }
+    };
 
     /* ---------- add-to-cart ---------- */
     const handleAddToCart = () => {
@@ -243,11 +329,29 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
         }
     }
 
-    // console.log(variant, "this is my current varaint i have ")
-    const isSizeAvailable = (sizeObj) =>
-        parsedSizes.some(
-            item => item.size === sizeObj.size && item.unit === sizeObj.unit
+    const isSizeAvailable = (sizeObj: Sizes) => {
+        if (selectedColor) {
+            const colorVariants = product?.product_variants?.filter((v) => {
+                const vColors: Colors[] = Array.isArray(v.colors)
+                    ? v.colors.map((c: any) => (typeof c === 'string' ? JSON.parse(c) : c))
+                    : typeof v.colors === 'string' ? JSON.parse(v.colors) : [];
+                return vColors.some((c) => c.name?.toLowerCase() === selectedColor.name?.toLowerCase());
+            });
+
+            if (colorVariants && colorVariants.length > 0) {
+                return colorVariants.some((v) => {
+                    const vSizes: Sizes[] = Array.isArray(v.sizes)
+                        ? v.sizes.map((s: any) => (typeof s === 'string' ? JSON.parse(s) : s))
+                        : typeof v.sizes === 'string' ? JSON.parse(v.sizes) : [];
+                    return vSizes.some((s) => String(s.size) === String(sizeObj.size));
+                });
+            }
+        }
+
+        return parsedSizes.some(
+            (item) => String(item.size) === String(sizeObj.size)
         );
+    };
     return (
         <>
             <div className=' flex items-start gap-2 md:gap-3  h-fit relative md:sticky md:top-14  flex-col w-full md:w-[35%] py-5 md:pl-5  lg:pl-10 '>
@@ -258,47 +362,51 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                         <h1 className=' text-lg md:text-xl  lg:text-2xl xl:text-3xl font-bold   uppercase' aria-label={product?.name} >{product?.name}</h1>
                     </div>
 
-                    <div className='flex justify-between flex-col xl:flex-row  items-start sm:items-start w-full relative  py-2 md:py-3'>
-                        <h2 className=' text-sm md:text-p18 font-normal flex items-center gap-2 '>
-                            {
-                                variant?.discounts?.discount_persent ?
-                                    <>
+                    <div className='flex flex-col gap-1.5 w-full relative py-2 md:py-3'>
+                        {/* Final Price and combined saving badge */}
+                        <div className='flex items-baseline gap-2.5 flex-wrap'>
+                            <span className='text-3xl lg:text-4xl font-extrabold text-black tracking-tight'>
+                                ₹ {priceDetails.finalPrice.toLocaleString('en-IN')}
+                            </span>
+                            {priceDetails.totalSavingsPercent > 0 && (
+                                <span className='text-xs font-bold text-red-600 bg-red-50 border border-red-200 px-2 py-0.5 rounded-full uppercase tracking-wider'>
+                                    Save {priceDetails.totalSavingsPercent.toFixed(0)}%
+                                </span>
+                            )}
+                        </div>
 
-                                        <p className=' text-xl lg:text-2xl md:text-3xl  font-normal text-red-400 line-through text-nowrap '>₹ {variant?.price}</p>
-                                        <p className=' text-2xl lg:text-3xl  xl:text-4xl  font-semibold text-nowrap text-primary px-2 '>
+                        {/* MRP and Retail Price details */}
+                        <div className='flex flex-wrap items-center gap-x-4 gap-y-1 text-sm font-medium text-gray-500 mt-1'>
+                            {priceDetails.mrp > 0 && (
+                                <p>
+                                    MRP: <span className='line-through text-gray-400'>₹ {priceDetails.mrp.toLocaleString('en-IN')}</span>
+                                </p>
+                            )}
+                            
+                            {priceDetails.baseDiscount > 0 && (
+                                <p>
+                                    Retail Price: <span>₹ {priceDetails.retailPrice.toLocaleString('en-IN')}</span>
+                                </p>
+                            )}
 
-                                            ₹ {getDiscountedPrice(
-                                                variant?.price,
-                                                variant?.discounts?.discount_persent
-                                            )}
-                                        </p>
-                                        <p className="  font-semibold   py-1  text-red-500   text-nowrap flex w-fit text-base lg:text-lg">
-                                            - {variant?.discounts?.discount_persent} % OFF
-                                        </p>
-                                    </>
-                                    :
-                                    <p className='text-2xl lg:text-4xl  font-medium text-nowrap text-black'>₹ {variant?.price}</p>
+                            {priceDetails.promoDiscount > 0 && (
+                                <p className='text-red-500 font-semibold'>
+                                    Promo: -₹ {priceDetails.promoDiscount.toLocaleString('en-IN')} ({variant?.discounts?.discount_persent}% OFF)
+                                </p>
+                            )}
+                        </div>
 
-                            }
-
-                        </h2>
-                        {/* <p className='text-sm font-normal text-fontPrimary py-3 '>Includes all taxs</p> */}
-
+                        {priceDetails.totalSavings > 0 && (
+                            <p className='text-xs font-bold text-green-600 mt-0.5'>
+                                Total Savings: ₹ {priceDetails.totalSavings.toLocaleString('en-IN')} on MRP
+                            </p>
+                        )}
                     </div>
                 </div>
-
-
-
-                <SizeChartModal />
-
 
                 <div className='flex items-center   relative flex-col gap-2 w-full  border-b border-gray-200 pb-3'>
 
                     <p className='text-sm  md:text-base text-gray-900 font-semibold flex items-center  justify-between w-full'>More Color :
-                        {/* 
-                        <ColorView colors={[]} images={[]} >
-                            <span className='text-[16px]  font-normal  flex items-center gap-1 cursor-pointer '>More Colors  <MdKeyboardArrowDown className='text-[16px]' /></span>
-                        </ColorView> */}
                     </p>
 
                     <section className='w-full flex flex-wrap items-center gap-2'>
@@ -324,13 +432,10 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                                         />
                                     )}
                                 </div>
-                                {/* <p className=' text-sm md:text-base font-medium text-primary line-clamp-2'>{color.name}</p> */}
                             </section>
                         ))}
                     </section>
                 </div>
-
-
 
                 <div className='flex items-center justify-start'>
                     {
@@ -342,39 +447,78 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                     }
                 </div>
 
-
                 {/* Size section */}
-                {parsedSizes?.length > 0 && (
-                    <>
-                        <p className='text-sm  md:text-base font-medium w-full text-gray-900'>Select Size (UK):</p>
-                        <div className='grid grid-cols-7 gap-2 w-full'>
-                            {allSizes.map((item, index) => {
+                {displaySizes?.length > 0 && (
+                    <div className='w-full flex flex-col gap-2.5 my-2 border-b border-gray-200 pb-4'>
+                        <div className='flex items-center justify-between w-full'>
+                            <p className='text-sm md:text-base font-normal text-gray-900'>
+                                Size: <span className='font-bold text-black'>{selectedSize ? `${selectedSize.size} ${selectedSize.unit || 'UK'}` : ''}</span>
+                            </p>
+                            <SizeChartModal />
+                        </div>
+
+                        <div className='grid grid-cols-3 sm:grid-cols-3 gap-2.5 w-full'>
+                            {displaySizes.map((item, index) => {
                                 const available = isSizeAvailable(item);
+                                const isSelected = selectedSize?.size === item.size;
+                                const sizeVariantInfo = getSizeVariantInfo(item);
+
+                                const formattedPrice = sizeVariantInfo.discountedPrice
+                                    ? `₹${Number(sizeVariantInfo.discountedPrice).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                                    : null;
+
+                                const formattedOriginalPrice = (sizeVariantInfo.hasDiscount && sizeVariantInfo.price)
+                                    ? `₹${Number(sizeVariantInfo.price).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                                    : null;
 
                                 return (
                                     <div
                                         key={index}
                                         onClick={() => available && handleSizeClick(item)}
                                         className={`
-                                                relative py-2 text-xs md:text-sm md:py-2  text-center border font-normal
-                                                ${available ? "cursor-pointer hover:bg-black hover:text-white" : "cursor-not-allowed opacity-50"}
-                                                ${selectedSize?.size === item.size
-                                                ? "bg-primary border-transparent text-white"
-                                                : "text-primary border-primary bg-transparent"}
-                                            `}
+                                            relative rounded-xl overflow-hidden border transition-all duration-200 select-none
+                                            ${available ? "cursor-pointer" : "cursor-not-allowed opacity-50 bg-gray-50/60"}
+                                            ${isSelected
+                                                ? "border-[2px] border-[#1d5bd8] shadow-xs"
+                                                : "border-gray-300 hover:border-gray-400 bg-white"
+                                            }
+                                        `}
                                     >
-                                        {item.size}
+                                        {/* Top Size Header */}
+                                        <div className={`px-3 py-1.5 md:py-2 text-left font-bold text-sm md:text-base ${
+                                            isSelected ? "bg-[#eef5ff] text-slate-900" : "bg-white text-slate-900"
+                                        }`}>
+                                            {item.size} {item.unit || 'UK'}
+                                        </div>
 
+                                        {/* Divider */}
+                                        <div className={`border-b ${isSelected ? "border-blue-200" : "border-gray-200"}`} />
+
+                                        {/* Bottom Price Container */}
+                                        <div className="px-3 py-1.5 md:py-2 text-left flex flex-col justify-center bg-white">
+                                            {formattedPrice && (
+                                                <span className="font-semibold text-xs md:text-sm text-slate-900 leading-tight">
+                                                    {formattedPrice}
+                                                </span>
+                                            )}
+                                            {formattedOriginalPrice && (
+                                                <span className="line-through text-gray-400 text-[10px] md:text-xs font-normal leading-tight mt-0.5">
+                                                    {formattedOriginalPrice}
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        {/* Not available diagonal strikethrough */}
                                         {!available && (
-                                            <span className="absolute inset-0 pointer-events-none">
-                                                <span className="absolute top-1/2 left-0 w-full h-[1px] bg-gray-500 rotate-[-45deg]" />
+                                            <span className="absolute inset-0 pointer-events-none overflow-hidden">
+                                                <span className="absolute top-1/2 left-[-20%] w-[140%] h-[1px] bg-gray-400/70 rotate-[-25deg]" />
                                             </span>
                                         )}
                                     </div>
                                 );
                             })}
                         </div>
-                    </>
+                    </div>
                 )}
 
                 <div className='w-full fixed bottom-0 px-4 flex-wrap sm:px-0 bg-white sm:bg-transparent py-4 sm:py-0 z-30 grid grid-cols-[1fr_1fr] md:grid-cols-1 lg:grid-cols-2 gap-3 right-0 items-center sm:relative'>
@@ -434,80 +578,67 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                     </div> */}
                 </div>
 
-                {/* Marketplace Availability (Amazon & Flipkart - ₹6 higher than Markline) */}
+                {/* Marketplace Availability (Amazon & Flipkart) */}
                 {(product?.amazon_url || product?.flipkart_url) && (
                     <div className='w-full my-3 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-amber-50/50 via-white to-slate-50 border border-amber-200/80 shadow-xs flex flex-col gap-2.5'>
-                        <div className='flex items-center justify-between flex-wrap gap-1'>
+                        <div className='flex items-center justify-between flex-wrap gap-2'>
                             <span className='text-xs font-bold text-slate-900 tracking-wide flex items-center gap-1.5'>
                                 <span className='w-2 h-2 rounded-full bg-emerald-500 animate-pulse' />
                                 Also Available On Marketplaces
                             </span>
                             <span className='text-xs font-bold text-emerald-700 bg-emerald-100/90 px-2.5 py-0.5 rounded-full border border-emerald-200 shadow-2xs'>
-                                Save ₹60 on Martket place
+                                Marketplace has cheaper price, buy from there
                             </span>
                         </div>
 
-                        {(() => {
-                            const directPrice = variant?.discounts?.discount_persent
-                                ? getDiscountedPrice(variant?.price, variant?.discounts?.discount_persent)
-                                : variant?.price || 0;
-                            const marketplacePrice = Math.round(Number(directPrice) + 6);
+                        <div className={`grid ${product.amazon_url && product.flipkart_url ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'} gap-2.5`}>
+                            {product.amazon_url && (
+                                <a
+                                    href={product.amazon_url}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    className='group relative flex items-center justify-between px-3.5 py-2.5 bg-white border border-slate-200 hover:border-amber-500 rounded-xl shadow-xs hover:shadow-md transition-all duration-300 active:scale-95'
+                                >
+                                    <div className='flex items-center gap-2.5'>
+                                        <img
+                                            src='/amazon.png'
+                                            alt='Amazon'
+                                            className='h-7 w-auto max-w-[36px] object-contain rounded'
+                                        />
+                                        <div className='text-left'>
+                                            <span className='block text-lg font-bold text-slate-900 leading-tight'>Amazon</span>
+                                            <span className='block text-sm text-slate-500 font-medium'>
+                                                Buy from Amazon
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <ExternalLink className='w-5 h-5 text-slate-400 group-hover:text-amber-600 transition-colors' />
+                                </a>
+                            )}
 
-                            return (
-                                <div className={`grid ${product.amazon_url && product.flipkart_url ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'} gap-2.5`}>
-                                    {product.amazon_url && (
-                                        <a
-                                            href={product.amazon_url}
-                                            target='_blank'
-                                            rel='noopener noreferrer'
-                                            className='group relative flex items-center justify-between px-3.5 py-2.5 bg-white border border-slate-200 hover:border-amber-500 rounded-xl shadow-xs hover:shadow-md transition-all duration-300 active:scale-95'
-                                        >
-                                            <div className='flex items-center gap-2.5'>
-                                                <img
-                                                    src='/amazon.png'
-                                                    alt='Amazon'
-                                                    className='h-7 w-auto max-w-[36px] object-contain rounded'
-                                                />
-                                                <div className='text-left'>
-                                                    <span className='block text-lg font-bold text-slate-900 leading-tight'>Amazon</span>
-                                                    <span className='block text-sm font-semibold text-slate-700'>
-                                                        ₹{marketplacePrice} <span className='text-sm text-amber-700 font-normal'>(+₹60)</span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <ExternalLink className='w-5 h-5 text-slate-400 group-hover:text-amber-600 transition-colors' />
-                                        </a>
-                                    )}
-
-                                    {product.flipkart_url && (
-                                        <a
-                                            href={product.flipkart_url}
-                                            target='_blank'
-                                            rel='noopener noreferrer'
-                                            className='group relative flex items-center justify-between px-3.5 py-2.5 bg-white border border-slate-200 hover:border-blue-500 rounded-xl shadow-xs hover:shadow-md transition-all duration-300 active:scale-95'
-                                        >
-                                            <div className='flex items-center gap-2.5'>
-                                                <img
-                                                    src='/flipkart.png'
-                                                    alt='Flipkart'
-                                                    className='h-7 w-auto max-w-[36px] object-contain rounded'
-                                                />
-                                                <div className='text-left'>
-                                                    <span className='block text-lg font-bold text-slate-900 leading-tight'>Flipkart</span>
-                                                    <span className='block text-sm font-semibold text-slate-700'>
-                                                        ₹{marketplacePrice} <span className='text-sm text-blue-700 font-normal'>(-₹60)</span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <ExternalLink className='w-5 h-5 text-slate-400 group-hover:text-blue-600 transition-colors' />
-                                        </a>
-                                    )}
-                                </div>
-                            );
-                        })()}
-
-                        <div className='w-full text-[11px] text-slate-600 font-medium text-center bg-slate-100/80 py-1.5 px-2 rounded-lg'>
-                            ✨ Buy direct on Markline to get the lowest price — <strong className='text-slate-900'>₹60 cheaper than Flipkart & Amazon</strong>
+                            {product.flipkart_url && (
+                                <a
+                                    href={product.flipkart_url}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    className='group relative flex items-center justify-between px-3.5 py-2.5 bg-white border border-slate-200 hover:border-blue-500 rounded-xl shadow-xs hover:shadow-md transition-all duration-300 active:scale-95'
+                                >
+                                    <div className='flex items-center gap-2.5'>
+                                        <img
+                                            src='/flipkart.png'
+                                            alt='Flipkart'
+                                            className='h-7 w-auto max-w-[36px] object-contain rounded'
+                                        />
+                                        <div className='text-left'>
+                                            <span className='block text-lg font-bold text-slate-900 leading-tight'>Flipkart</span>
+                                            <span className='block text-sm text-slate-500 font-medium'>
+                                                Buy from Flipkart
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <ExternalLink className='w-5 h-5 text-slate-400 group-hover:text-blue-600 transition-colors' />
+                                </a>
+                            )}
                         </div>
                     </div>
                 )}

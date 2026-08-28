@@ -23,7 +23,7 @@ import AddToCardPopver from "./AddToCardPopver";
 
 import { useWishlists } from "@/Contexts/wishlist";
 import { Plus } from "lucide-react";
-import { getDiscountedPrice } from "@/lib/getDiscountedPrice";
+import { calculateVariantPrice } from "@/lib/pricing";
 
 function ProductCard({ product, url, className }: newProductsProps) {
   const { addToWishlist, removeFromWishlist, wishlist, isProductInWishlist } =
@@ -38,6 +38,10 @@ function ProductCard({ product, url, className }: newProductsProps) {
   const [selectedColor, setSelectedColor] = useState<Colors>();
 
   const [isInWhishlist, setIsInwhishlist] = useState<boolean>(false);
+
+  const priceDetails = useMemo(() => {
+    return calculateVariantPrice(selectedVariant || {}, selectedVariant?.discounts);
+  }, [selectedVariant]);
 
   // useEffect(() => {
   //   setSelectedVariant(product.product_variants[0])
@@ -207,9 +211,9 @@ function ProductCard({ product, url, className }: newProductsProps) {
                 </SwiperSlide>
               ))}
           </Swiper>
-          {selectedVariant?.discounts?.discount_persent && (
+          {priceDetails.totalSavingsPercent > 0 && (
             <p className=" text-[8px] md:text-xs font-bold text-green-600 absolute top-2 z-10 left-2 md:left-3 bg-green-100 w-fit px-1.5 sm:px-2 py-0.5 rounded-full mt-1">
-              {selectedVariant?.discounts?.discount_persent}% OFF
+              {priceDetails.totalSavingsPercent.toFixed(0)}% OFF
             </p>
           )}
         </Link>
@@ -250,28 +254,21 @@ function ProductCard({ product, url, className }: newProductsProps) {
           ))}
         </div>
 
-        {selectedVariant?.discounts?.discount_persent && (
-          <div className=" flex items-center lg:flex-row flex-col justify-center gap-1 md:gap-2">
-            <p className=" text-sm sm:text-base w-fit md:text-sm  xl:text-xl  font-medium  !line-clamp-3   flex items-center gap-1 uppercase  text-black">
-              ₹ {getDiscountedPrice(
-                selectedVariant?.price,
-                selectedVariant?.discounts?.discount_persent
-              )}
-            </p>
-            <p className="  font-normal text-red-500  line-through text-nowrap flex w-fit text-xs lg:text-sm  xl:text-base ">
-              ₹ {selectedVariant?.price}
-            </p>
-
-
-          </div>
-        )}
-
-        {!selectedVariant?.discounts && (
-
-          <p className=" text-sm sm:text-base md:text-sm   xl:text-xl  font-medium  w-auto !line-clamp-3  text-nowrap flex  justify-center items-center gap-1 uppercase  text-black">
-            ₹ {selectedVariant?.price}
+        <div className="flex flex-col items-end">
+          <p className="text-sm sm:text-base md:text-sm xl:text-xl font-bold text-black">
+            ₹ {priceDetails.finalPrice.toLocaleString('en-IN')}
           </p>
-        )}
+          {priceDetails.totalSavingsPercent > 0 && (
+            <div className="flex items-center gap-1.5 flex-wrap justify-end">
+              <span className="text-[10px] md:text-xs text-red-500 line-through">
+                ₹ {priceDetails.mrp.toLocaleString('en-IN')}
+              </span>
+              <span className="text-[9px] md:text-xs font-bold text-green-600 bg-green-50 px-1 rounded">
+                Save {priceDetails.totalSavingsPercent.toFixed(0)}%
+              </span>
+            </div>
+          )}
+        </div>
       </div>
       <section className="w-full relative h-auto  pb-3 py-0 md:py-2  md:flex-row  flex-col flex  items-start lg:items-center justify-end gap-2 px-1">
         <div className="w-full relative flex  flex-col-reverse md:flex-row items-start md:items-center  justify-between   gap-2 pt-1">

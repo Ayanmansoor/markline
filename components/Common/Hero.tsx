@@ -46,7 +46,7 @@ function Hero({ bannerImages, css }: HeroData) {
             )}
             <Swiper
                 modules={[Autoplay, Pagination]}
-                loop={filteredBanners.length > 1}
+                loop={filteredBanners.length > 2}
                 pagination={{ clickable: true }}
                 autoplay={{ delay: 5000, disableOnInteraction: false }}
                 className="mySwiper h-full w-full relative "

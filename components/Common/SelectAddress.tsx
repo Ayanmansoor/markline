@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { calculateVariantPrice } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -23,12 +24,17 @@ function SelectOrder({ product, variant, user, setConfirm, userAddress }: NewFor
         }
     }, [userAddress]);
 
-    const { unitPrice, final_price, discountAmount } = useMemo(() => {
-        const price = variant?.price || (product as any)?.price || 0;
-        const discountPercent = variant?.discounts?.discount_persent || (product as any)?.discounts?.discount_persent || 0;
-        const discountAmt = price * (discountPercent / 100);
-        const finalPriceOne = Math.floor(price - discountAmt);
-        return { unitPrice: price, final_price: finalPriceOne, discountAmount: discountAmt };
+    const { mrp, retailPrice, promoDiscount, final_price } = useMemo(() => {
+        const details = calculateVariantPrice(
+            variant || product,
+            variant?.discounts || (product as any)?.discounts
+        );
+        return {
+            mrp: details.mrp,
+            retailPrice: details.retailPrice,
+            promoDiscount: details.promoDiscount,
+            final_price: details.finalPrice
+        };
     }, [product, variant]);
 
     const qty = product?.quantity || 1;
@@ -52,8 +58,8 @@ function SelectOrder({ product, variant, user, setConfirm, userAddress }: NewFor
                 order_header: {
                     user_id: user?.id,
                     address_id: selectedAddress.id,
-                    subtotal: unitPrice * qty,
-                    discount_amount: discountAmount * qty,
+                    subtotal: final_price * qty,
+                    discount_amount: promoDiscount * qty,
                     shipping_charge: 0,
                     tax_amount: 0,
                     grand_total: totalOrderAmount,
@@ -65,8 +71,10 @@ function SelectOrder({ product, variant, user, setConfirm, userAddress }: NewFor
                         product_id: product.id,
                         variant_id: variant?.id || null,
                         quantity: qty,
-                        unit_price: unitPrice,
-                        discount_amount: discountAmount,
+                        mrp: mrp,
+                        retail_price: retailPrice,
+                        discount_amount: promoDiscount,
+                        unit_price: final_price,
                         final_price: totalOrderAmount,
                         color: typeof product?.selectedColor === 'object' ? JSON.stringify(product?.selectedColor) : product?.selectedColor,
                         size: typeof product?.selectedSize === 'object' ? JSON.stringify(product?.selectedSize) : product?.selectedSize,

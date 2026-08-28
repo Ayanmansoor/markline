@@ -90,9 +90,9 @@ function ProductMain({ variant }: ProductMainProps) {
                     }
                 </Swiper>
                 <Swiper
-                    loop={true}
+                    loop={Images && Images.length > 2}
                     spaceBetween={10}
-                    thumbs={{ swiper: thumbsSwiper }}
+                    thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
                     grabCursor={true}
                     modules={[FreeMode, Navigation, Thumbs]}
                     className="mySwiper2  h-full  relative w-full "

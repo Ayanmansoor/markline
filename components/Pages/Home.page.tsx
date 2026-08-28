@@ -124,15 +124,15 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
     if (!desktopBanner && !mobileBanner) return null;
 
     return (
-      <div className="w-full relative px-5 lg:px-10 xl:px-20 2xl:px-40 py-2 my-4">
+      <div className="w-full relative py-2 my-4">
         {desktopBanner && (
           <div className="hidden min-[701px]:block w-full">
             <Link href={desktopBanner.url || "#"}>
-              <div className="relative w-full aspect-[21/9] max-h-[400px] overflow-hidden rounded-xl cursor-pointer hover:opacity-95 transition-opacity">
+              <div className="relative w-full aspect-[21/9] max-h-[550px] overflow-hidden cursor-pointer hover:opacity-95 transition-opacity">
                 <img
                   src={desktopBanner.image_url}
                   alt={desktopBanner.name || `Promo Banner`}
-                  className="w-full h-full object-cover rounded-xl"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </Link>
@@ -141,11 +141,11 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
         {mobileBanner && (
           <div className="block min-[701px]:hidden w-full">
             <Link href={mobileBanner.url || "#"}>
-              <div className="relative w-full aspect-[4/3] max-h-[350px] overflow-hidden rounded-xl cursor-pointer hover:opacity-95 transition-opacity">
+              <div className="relative w-full aspect-[4/3] max-h-[350px] overflow-hidden cursor-pointer hover:opacity-95 transition-opacity">
                 <img
                   src={mobileBanner.image_url}
                   alt={mobileBanner.name || `Mobile Promo Banner`}
-                  className="w-full h-full object-cover rounded-xl"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </Link>

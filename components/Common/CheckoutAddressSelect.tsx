@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { calculateVariantPrice, calculateOrderTotals } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -64,36 +65,32 @@ function CheckoutAddressSelect({
     }, [userAddress]);
 
     const { totalAmount, subtotalAmount, totalDiscountAmount, cartWithPrices } = useMemo(() => {
-        let total = 0;
-        let subtotal = 0;
-        let discountTotal = 0;
+        const pricingCoupon = appliedCoupon ? {
+            discount_value: appliedCoupon.discountAmount,
+            discount_type: 'FLAT'
+        } : null;
+
+        const totals = calculateOrderTotals(cartItems, pricingCoupon);
 
         const processed = cartItems.map(item => {
-            const price = item.variant?.price || 0;
-            const discountPercent = item.variant?.discounts?.discount_persent || 0;
-            const discountAmt = price * (discountPercent / 100);
-            const finalPrice = Math.floor(price - discountAmt);
-
-            subtotal += price * item.quantity;
-            discountTotal += discountAmt * item.quantity;
-            total += finalPrice * item.quantity;
-
+            const variant = item.variant;
+            const discount = (variant as any)?.discounts || (item as any)?.discounts;
+            const priceDetails = calculateVariantPrice(variant || item, discount);
             return {
                 ...item,
-                unitPrice: price,
-                finalPrice,
-                discountAmt
+                mrp: priceDetails.mrp,
+                retailPrice: priceDetails.retailPrice,
+                promoDiscount: priceDetails.promoDiscount,
+                unitPrice: priceDetails.finalPrice,
+                finalPrice: priceDetails.finalPrice,
+                discountAmt: priceDetails.promoDiscount
             };
         });
 
-        if (appliedCoupon) {
-            total = Math.max(0, total - appliedCoupon.discountAmount);
-        }
-
         return {
-            totalAmount: total,
-            subtotalAmount: subtotal,
-            totalDiscountAmount: discountTotal,
+            totalAmount: totals.grandTotal,
+            subtotalAmount: totals.subtotal,
+            totalDiscountAmount: totals.productDiscount,
             cartWithPrices: processed
         };
     }, [cartItems, appliedCoupon]);
@@ -129,12 +126,14 @@ function CheckoutAddressSelect({
                 product_id: item.productId,
                 variant_id: item.variant?.id || null,
                 quantity: item.quantity,
+                mrp: item.mrp,
+                retail_price: item.retailPrice,
+                discount_amount: item.promoDiscount,
                 unit_price: item.unitPrice,
-                discount_amount: item.discountAmt,
                 final_price: item.finalPrice * item.quantity,
                 color: typeof item.variant?.selectedColor === 'object' ? JSON.stringify(item.variant.selectedColor) : item.variant?.selectedColor,
                 size: typeof item.variant?.selectedSize === 'object' ? JSON.stringify(item.variant.selectedSize) : item.variant?.selectedSize,
-                discount_id: item.variant?.discounts?.discount_id || null,
+                discount_id: item.variant?.discounts?.discount_id || item.variant?.discount_key || null,
             }));
 
             const { data } = await axios.post("/api/bulk-place-order", {

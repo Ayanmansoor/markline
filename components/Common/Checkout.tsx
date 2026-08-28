@@ -106,14 +106,7 @@ function Checkout({
 
                 {totalPrice > 0 ? (
                     <div className="flex flex-col gap-5">
-                        {/* Highlighted Direct Website Savings */}
-                        <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 p-3 rounded-xl flex items-center justify-between text-xs font-semibold">
-                            <span className="flex items-center gap-1.5">
-                                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                Website Direct Deal
-                            </span>
-                            <span>Save ₹6/item vs Amazon & Flipkart</span>
-                        </div>
+
 
                         {/* Price Breakdown */}
                         <div className="flex flex-col gap-3 pb-6 border-b border-gray-50">

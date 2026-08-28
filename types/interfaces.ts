@@ -466,6 +466,8 @@ export interface CartVariant {
   id: number;
   sku: string;
   price: number;
+  mrp?: number;
+  retail_price?: number;
   stock: number;
   image_url: Images[];
   is_active: boolean;
@@ -489,6 +491,8 @@ export interface ProductVariant {
   id: number;
   sku: string;
   price: number;
+  mrp?: number;
+  retail_price?: number;
   sizes: string[]; // These are JSON strings; will need parsing later into Size[]
   stock: number;
   colors: string[]; // These are also JSON strings; will need parsing into Color[]

@@ -11,6 +11,7 @@ import { useCartContext } from '@/Contexts/Cart.context'
 import Checkout from './Checkout'
 import { mysupabase } from '@/Supabase/SupabaseConfig'
 import axios from 'axios'
+import { calculateOrderTotals } from '@/lib/pricing'
 
 const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -44,32 +45,11 @@ function CartSection() {
     const [isApplying, setIsApplying] = useState(false)
 
     const { totalOriginalPrice, totalDiscountAmount, finalCartTotal } = useMemo(() => {
-        let totalOriginalPrice = 0;
-        let totalDiscountAmount = 0;
-        let finalCartTotal = 0;
-
-        cart.forEach((item) => {
-            if (!item || !item.variant) return;
-            const unitPrice = item.variant.price || 0;
-            const quantity = item.quantity || 0;
-            const discountPercent = item.variant.discounts?.discount_persent || 0;
-
-            const originalItemTotal = unitPrice * quantity;
-            totalOriginalPrice += originalItemTotal;
-
-            const discountedUnitPrice = calculateDiscountedPrice(unitPrice, discountPercent);
-            const discountedItemTotal = discountedUnitPrice * quantity;
-            finalCartTotal += discountedItemTotal;
-
-            const discountPerUnit = unitPrice - discountedUnitPrice;
-            const itemDiscountTotal = discountPerUnit * quantity;
-            totalDiscountAmount += itemDiscountTotal;
-        });
-
+        const totals = calculateOrderTotals(cart, null);
         return {
-            totalOriginalPrice: Math.round(totalOriginalPrice),
-            totalDiscountAmount: Math.round(totalDiscountAmount),
-            finalCartTotal: Math.round(finalCartTotal),
+            totalOriginalPrice: Math.round(totals.totalMrp),
+            totalDiscountAmount: Math.round(totals.productDiscount),
+            finalCartTotal: Math.round(totals.subtotal),
         };
     }, [cart]);
 

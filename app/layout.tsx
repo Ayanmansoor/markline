@@ -189,7 +189,7 @@ export default async function RootLayout({
     //     </Provider>
     //   </body>
     // </html>
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <script
           type="application/ld+json"
@@ -219,6 +219,7 @@ export default async function RootLayout({
         />
       </head>
       <body
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${noto.variable} antialiased`}
       >
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_TAGMANAGER || ""} />
