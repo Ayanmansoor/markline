@@ -16,7 +16,9 @@ function CategoriesSection({ children, title, url, urltext, subtitle, isH1 }: Ca
                     }
                     {
                         subtitle &&
-                        <h3 className=' text-[12px] sm:text-xs md:text-sm lg:text-base self-start font-medium  sm:w-fit italic text-primary  '>{subtitle}</h3>
+                        <h3 className=' text-[12px] sm:text-xs md:text-sm lg:text-base self-start font-medium  sm:w-fit italic text-primary  ' title={subtitle}>
+                            {subtitle.length > 100 ? `${subtitle.slice(0, 100)}...` : subtitle}
+                        </h3>
                     }
 
                 </span>

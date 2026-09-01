@@ -1,10 +1,11 @@
 import { AddressProps, BuyProductProps, forProductsProps, Images, NewForProductsProps, OrderProps, ProductsDataProps } from '@/types/interfaces'
 import React, { useEffect, useMemo, useState } from 'react'
 import { Tag, Palette, Ruler, Package } from 'lucide-react';
+import { safeJsonParse } from '@/lib/utils';
 
 function BuyComponent({ product, variant, user, setConfirm, selectedAddress }: NewForProductsProps) {
 
-  const productImages = variant?.image_url?.map((obj: any) => JSON.parse(obj));
+  const productImages = variant?.image_url?.map((obj: any) => safeJsonParse(obj));
   const mainImage = productImages?.[0]?.image_url;
 
   const price = variant?.price || 0;

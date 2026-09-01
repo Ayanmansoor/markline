@@ -3,9 +3,10 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { newCollectionCardProps, ProductsDataProps } from "@/types/interfaces";
+import { safeJsonParse } from "@/lib/utils";
 function MiniCollectionCard({ collections, url }: newCollectionCardProps) {
-  const images = collections.image_urls?.map((obj: any, index: number) =>
-    JSON.parse(obj)
+  const images = collections.image_urls?.map((obj: any) =>
+    safeJsonParse(obj)
   );
 
   return (

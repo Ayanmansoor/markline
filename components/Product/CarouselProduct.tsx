@@ -46,6 +46,7 @@ function CarouselProduct({ url, product, css, productsCardCss }: newCarouselProd
                     autoplay={{
                         delay: 3000, // Adjust this value as needed (time between slides in ms)
                         disableOnInteraction: false, // Ensures autoplay continues after interaction
+                        pauseOnMouseEnter: true, // Pauses autoplay when hovering over a card
                     }}
                     modules={[Autoplay, Mousewheel, Pagination]}
                     onSwiper={(swiper) => (swiperRef.current = swiper)}

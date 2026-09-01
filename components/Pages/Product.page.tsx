@@ -17,6 +17,7 @@ import ProductCardSkeleton from '../Skeleton/ProductCardSkeleton'
 import { useWishlists } from '@/Contexts/wishlist'
 import OrderConfirmed from '../Common/OrderConfirm'
 import { Images, ProductVariant } from '@/types/interfaces'
+import { safeJsonParse } from '@/lib/utils'
 
 interface ProductPageProps {
   initialProduct?: any;
@@ -54,7 +55,7 @@ function ProductPage({ initialProduct }: ProductPageProps) {
 
     try {
       const parsedImages: Images[] = Array.isArray(selectedVariant.image_url)
-        ? selectedVariant.image_url.map((item: string) => JSON.parse(item))
+        ? selectedVariant.image_url.map((item: any) => typeof item === "string" ? safeJsonParse(item) : item).filter(Boolean)
         : [];
 
       setStringifyImages(parsedImages);

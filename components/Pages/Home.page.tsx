@@ -38,6 +38,7 @@ import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
 
 import { motion, Variants } from "framer-motion";
+import { safeJsonParse } from "@/lib/utils";
 
 interface HomePageProps {
   initialBanners?: any;
@@ -192,7 +193,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
           {allcollection?.map((collection) => {
             // Parse image_urls (first image)
             const imageData = collection?.image_urls?.[0]
-              ? JSON.parse(collection?.image_urls?.[0])
+              ? safeJsonParse(collection?.image_urls?.[0])
               : null;
 
             return (
@@ -226,40 +227,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
 
       <Hero bannerImages={homebanners} />
 
-      {/* {occasional?.length > 0 &&
-        occasional.map((item, index) => {
-          return (
-            <CategoriesSection title={item.name} url={`shop-by/occasion/${item.slug}`} urltext='Explore' key={index}>
-              <CarouselProduct url={'product'} product={item.product} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
-            </CategoriesSection>
-          )
-        })
-      } */}
 
-      {/* {collectionAlongWithLoading ? (
-        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10">
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-        </div>
-      ) : collectionWithWomenProducts?.length > 0 ? (
-        collectionWithWomenProducts.slice(0, 1).map((item, index) => (
-          item?.product?.length > 0 &&
-          <CategoriesSection
-            title={`Women’s Footwear – ${item.name}`}
-            subtitle="Elegant Sandals • Chic Heels • Everyday Flats"
-            url="products/women"
-            urltext="Women's products"
-            key={index}
-          >
-            <CarouselProduct url="product" product={item.product.slice(0, 10)} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
-          </CategoriesSection>
-        ))
-      ) : (
-        <></>
-      )} */}
 
 
       <motion.section
@@ -282,20 +250,6 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
           </Link>
         </div>
 
-        {/* <div className="flex self-center justify-self-center rounded-md w-fit gap-2 items-center justify-center relative">
-          {["women", "men", "kids"].map((option) => (
-            <button
-              key={option}
-              onClick={() => handleSelect(option)}
-              className={` px-4 md:px-4  py-1 lg:px-10 lg:py- border-2 rounded-full font-medium transition-all ${selected === option
-                ? "bg-foreground text-background border-foreground"
-                : "border-foreground text-foreground hover:bg-muted"
-                }`}
-            >
-              {option}
-            </button>
-          ))}
-        </div> */}
 
         <Swiper
           breakpoints={{
@@ -356,17 +310,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
       </motion.section>
 
       {renderBannerSlot(0)}
-      {/* <Link
-        href={"/collections"}
-        className=" text-xs md:text-base px-5 py-2 rounded-full hover:bg-white border-primary hover:text-primary hover:border-black self-center justify-self-center relative font-medium text-white flex items-center justify-center gap-2 bg-primary cursor-pointer group"
-      >
-        View{" "}
-        <ArrowUpRight className="text-white group-hover:text-primary text-[10px] md:text-[20px]" />
-      </Link> */}
 
-
-
-      {/* <MainCollections /> */}
 
 
       {isLoading ? (
@@ -448,31 +392,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
       )}
       {renderBannerSlot(2)}
 
-      {/* Trending */}
-      {/* {trendingProducts?.length > 0 && (
-        <TrendingCarousels title='Best-Selling Footwear  Customer Favorites at Markline' discription='Explore the top-rated, most-loved shoes our customers can&apos;t stop talking about.' data={trendingProducts} productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[400px]' />
-      )} */}
-      {/* 
-      <Discount
-        title={"Step into the Season"}
-        description={
-          "From chic everyday picks to head-turning highlights, explore MarkLine’s most eye-catching footwear. Curated for bold fashion lovers, this section showcases the must-have designs that steal attention and define trends."
-        }
-        url={"/products/women"}
-        images={[]}
-      /> */}
 
-      {/* New Arrivals */}
-      {/* {isNewArrivalLoading ? (
-        <div className="grid grid-cols-2 py-5 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10" >
-          <ProductCardSkeleton /><ProductCardSkeleton /><ProductCardSkeleton /><ProductCardSkeleton />
-          <ProductCardSkeleton />
-        </div>
-      ) : newArrivals?.length > 0 && (
-        <CategoriesSection title={"Step into the Season's Newest Trends"} url="new-arrivals" urltext='new-arrivals'>
-          <SecondHero categoryName={"Shoes"} data={newArrivals} />
-        </CategoriesSection>
-      )} */}
 
       <motion.div
         initial="hidden"

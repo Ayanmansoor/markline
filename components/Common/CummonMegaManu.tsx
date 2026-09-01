@@ -13,6 +13,7 @@ import { CollectionCardProps, NewProductProps } from "@/types/interfaces";
 import { useQuery } from "react-query";
 import MiniCollectionCard from "../Home/MiniCellectionCard";
 import { ChevronRight } from "lucide-react";
+import { safeJsonParse } from "@/lib/utils";
 import Link from "next/link";
 const MENU_ITEMS = [
   { label: "Best Selling", icon: true, link: "/shop-by/best-seller" },
@@ -104,7 +105,7 @@ function CummonMegaManu({ children, urlProps }: CommonMegaManuProps) {
                     .slice(0, 6)
                     .map((collec, index) => {
                       const images = collec.image_urls?.map(
-                        (obj: any, index: number) => JSON.parse(obj)
+                        (obj: any) => safeJsonParse(obj)
                       )[0];
                       return (
                         <Link

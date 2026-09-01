@@ -27,6 +27,7 @@ import ProductReviews from './ProductReviews';
 
 import { usePathname } from 'next/navigation';
 import { calculateVariantPrice } from '@/lib/pricing';
+import { safeJsonParse } from '@/lib/utils';
 interface productsCart {
     colors: {
         color: colorProps
@@ -99,26 +100,27 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
         // ✅ collect ALL images from ALL variants first
         const allImages: Images[] = [];
 
-        product?.product_variants.forEach((v) => {
+        product?.product_variants?.forEach((v) => {
             if (Array.isArray(v.image_url)) {
                 v.image_url.forEach((i: any) => {
                     try {
-                        allImages.push(typeof i === "string" ? JSON.parse(i) : i);
+                        const parsed = typeof i === "string" ? safeJsonParse(i) : i;
+                        if (parsed) allImages.push(parsed);
                     } catch { }
                 });
             }
         });
 
         // ✅ now map colors to images globally
-        product?.product_variants.forEach((v) => {
+        product?.product_variants?.forEach((v) => {
             const colors: Colors[] = Array.isArray(v.colors)
                 ? v.colors.map((c: any) =>
-                    typeof c === "string" ? JSON.parse(c) : c
-                )
+                    typeof c === "string" ? safeJsonParse(c) : c
+                ).filter(Boolean)
                 : [];
 
             colors.forEach((color: any) => {
-                if (colorMap.has(color.name)) return;
+                if (!color?.name || colorMap.has(color.name)) return;
 
                 const matchedImage =
                     allImages.find(
@@ -141,10 +143,10 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
     useEffect(() => {
         /** parse images / sizes for current variant **/
         const imgs: Images[] = Array.isArray(variant?.image_url)
-            ? variant.image_url.map((i: any) => (typeof i === 'string' ? JSON.parse(i) : i))
+            ? variant.image_url.map((i: any) => (typeof i === 'string' ? safeJsonParse(i) : i)).filter(Boolean)
             : [];
         const sizes: Sizes[] = Array.isArray(variant?.sizes)
-            ? variant.sizes.map((s: any) => (typeof s === 'string' ? JSON.parse(s) : s))
+            ? variant.sizes.map((s: any) => (typeof s === 'string' ? safeJsonParse(s) : s)).filter(Boolean)
             : [];
 
         /* set state */
@@ -154,7 +156,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
         setSelectedColor(() => {
             // take the first colour attached to this variant for initial display
             if (Array.isArray(variant?.colors) && variant?.colors.length) {
-                return typeof variant.colors[0] === 'string' ? JSON.parse(variant.colors[0]) : variant.colors[0];
+                return typeof variant.colors[0] === 'string' ? safeJsonParse(variant.colors[0]) : variant.colors[0];
             }
             return null;
         });
@@ -167,11 +169,11 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
 
         const matched = product?.product_variants.find(v => {
             const variantColors = Array.isArray(v.colors)
-                ? v.colors.map((x: any) => (typeof x === 'string' ? JSON.parse(x) : x))
+                ? v.colors.map((x: any) => (typeof x === 'string' ? safeJsonParse(x) : x)).filter(Boolean)
                 : typeof v.colors === 'string'
-                    ? JSON.parse(v.colors)
+                    ? (safeJsonParse(v.colors) || [])
                     : [];
-            return variantColors.some((vc: Colors) => vc.name === c.name);
+            return variantColors.some((vc: Colors) => vc?.name === c.name);
         });
 
         if (matched) onVariantChange?.(matched);
@@ -182,9 +184,9 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
         const sizeMap = new Map<string, Sizes>();
         product?.product_variants?.forEach((v) => {
             const sizes: Sizes[] = Array.isArray(v.sizes)
-                ? v.sizes.map((s: any) => (typeof s === 'string' ? JSON.parse(s) : s))
+                ? v.sizes.map((s: any) => (typeof s === 'string' ? safeJsonParse(s) : s)).filter(Boolean)
                 : typeof v.sizes === 'string'
-                    ? JSON.parse(v.sizes)
+                    ? (safeJsonParse(v.sizes) || [])
                     : [];
             sizes.forEach((s) => {
                 if (s && s.size) {
@@ -212,11 +214,11 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
     const getSizeVariantInfo = (sizeObj: Sizes) => {
         let matchedVariant = product?.product_variants?.find((v) => {
             const vColors: Colors[] = Array.isArray(v.colors)
-                ? v.colors.map((c: any) => (typeof c === 'string' ? JSON.parse(c) : c))
-                : typeof v.colors === 'string' ? JSON.parse(v.colors) : [];
+                ? v.colors.map((c: any) => (typeof c === 'string' ? safeJsonParse(c) : c)).filter(Boolean)
+                : typeof v.colors === 'string' ? (safeJsonParse(v.colors) || []) : [];
             const vSizes: Sizes[] = Array.isArray(v.sizes)
-                ? v.sizes.map((s: any) => (typeof s === 'string' ? JSON.parse(s) : s))
-                : typeof v.sizes === 'string' ? JSON.parse(v.sizes) : [];
+                ? v.sizes.map((s: any) => (typeof s === 'string' ? safeJsonParse(s) : s)).filter(Boolean)
+                : typeof v.sizes === 'string' ? (safeJsonParse(v.sizes) || []) : [];
 
             const colorMatch = selectedColor
                 ? vColors.some((c) => c.name?.toLowerCase() === selectedColor.name?.toLowerCase())
@@ -229,8 +231,8 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
         if (!matchedVariant) {
             matchedVariant = product?.product_variants?.find((v) => {
                 const vSizes: Sizes[] = Array.isArray(v.sizes)
-                    ? v.sizes.map((s: any) => (typeof s === 'string' ? JSON.parse(s) : s))
-                    : typeof v.sizes === 'string' ? JSON.parse(v.sizes) : [];
+                    ? v.sizes.map((s: any) => (typeof s === 'string' ? safeJsonParse(s) : s)).filter(Boolean)
+                    : typeof v.sizes === 'string' ? (safeJsonParse(v.sizes) || []) : [];
                 return vSizes.some((s) => String(s.size) === String(sizeObj.size));
             });
         }
@@ -333,16 +335,16 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
         if (selectedColor) {
             const colorVariants = product?.product_variants?.filter((v) => {
                 const vColors: Colors[] = Array.isArray(v.colors)
-                    ? v.colors.map((c: any) => (typeof c === 'string' ? JSON.parse(c) : c))
-                    : typeof v.colors === 'string' ? JSON.parse(v.colors) : [];
+                    ? v.colors.map((c: any) => (typeof c === 'string' ? safeJsonParse(c) : c)).filter(Boolean)
+                    : typeof v.colors === 'string' ? (safeJsonParse(v.colors) || []) : [];
                 return vColors.some((c) => c.name?.toLowerCase() === selectedColor.name?.toLowerCase());
             });
 
             if (colorVariants && colorVariants.length > 0) {
                 return colorVariants.some((v) => {
                     const vSizes: Sizes[] = Array.isArray(v.sizes)
-                        ? v.sizes.map((s: any) => (typeof s === 'string' ? JSON.parse(s) : s))
-                        : typeof v.sizes === 'string' ? JSON.parse(v.sizes) : [];
+                        ? v.sizes.map((s: any) => (typeof s === 'string' ? safeJsonParse(s) : s)).filter(Boolean)
+                        : typeof v.sizes === 'string' ? (safeJsonParse(v.sizes) || []) : [];
                     return vSizes.some((s) => String(s.size) === String(sizeObj.size));
                 });
             }

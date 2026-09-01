@@ -14,6 +14,7 @@ import { ProductsDataProps, Images, newProductsProps, ProductMainProps } from '@
 
 import { Fancybox as NativeFancybox } from '@fancyapps/ui';
 import '@fancyapps/ui/dist/fancybox/fancybox.css';
+import { safeJsonParse } from '@/lib/utils';
 
 function ProductMain({ variant }: ProductMainProps) {
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
@@ -34,7 +35,7 @@ function ProductMain({ variant }: ProductMainProps) {
     const [Images, setImage] = useState<Images[]>([])
 
     useEffect(() => {
-        const productImage = variant?.image_url?.map((image: any) => JSON.parse(image))
+        const productImage = variant?.image_url?.map((image: any) => safeJsonParse(image)).filter(Boolean);
         setImage(productImage || [])
     }, [variant])
     useEffect(() => {

@@ -6,25 +6,26 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Autoplay, Pagination } from 'swiper/modules';
+import { safeJsonParse } from '@/lib/utils';
 
 function SecondHero({ categoryName, data }: SecondHeroProps) {
 
 
     const firstdata = data && data[0]
-    const firstsection: any = data && data[0]?.image_url?.map((image: any) => JSON.parse(image))
+    const firstsection: any = data && data[0]?.image_url?.map((image: any) => safeJsonParse(image))
 
     const seconddata = data && data[1]
-    const secondsection: any = data && data[1]?.image_url?.map((image: any) => JSON.parse(image))
+    const secondsection: any = data && data[1]?.image_url?.map((image: any) => safeJsonParse(image))
 
     const thirddata = data && data[2]
-    const thirdsection: any = data && data[2]?.image_url?.map((image: any) => JSON.parse(image))
+    const thirdsection: any = data && data[2]?.image_url?.map((image: any) => safeJsonParse(image))
 
 
     const fourthdata = data && data[3]
-    const fourthsection: any = data && data[3]?.image_url?.map((image: any) => JSON.parse(image))
+    const fourthsection: any = data && data[3]?.image_url?.map((image: any) => safeJsonParse(image))
 
     const fivthdata = data && data[4]
-    const fivthsection: any = data && data[4]?.image_url?.map((image: any) => JSON.parse(image))
+    const fivthsection: any = data && data[4]?.image_url?.map((image: any) => safeJsonParse(image))
 
 
 
@@ -194,14 +195,19 @@ function SecondHero({ categoryName, data }: SecondHeroProps) {
                         data && data?.map((item: any, index: number) => (
 
                             <SwiperSlide className='max-w-fit h-auto relative  ' key={index}>
-                                <Link href={`/product/${item.slug}`} className=' max-w-[200px] md:max-w-[270px]  border  relative max-h-fit md:max-h-[450px] group flex flex-col  '>
-                                    <img src={`${JSON.parse(item?.image_url[0]).image_url}`} alt={`${JSON.parse(item?.image_url[0]).name}`} height={400} loading='lazy' width={400} className='h-[200px] relative w-[200px] md:w-[270px] object-cover ' />
-                                    <div className='w-full relative h-auto bg-white flex flex-col gap-1 py-3 px-2'>
-                                        <h2 className='text-base font-semibold font-primary line-clamp-2  '>{item?.name}</h2>
-                                        <p className='text-sm text-primary font-medium line-clamp-1 ' >{item.description}</p>
-                                        <p className='w-fit relative h-auto px-5 py-1 text-white mt-1 bg-primary border-white'>Buy Now</p>
-                                    </div>
-                                </Link>
+                                 {(() => {
+                                     const imgData = safeJsonParse(item?.image_url?.[0]);
+                                     return (
+                                         <Link href={`/product/${item.slug}`} className=' max-w-[200px] md:max-w-[270px]  border  relative max-h-fit md:max-h-[450px] group flex flex-col  '>
+                                             <img src={imgData?.image_url || "/placeholder.svg"} alt={imgData?.name || item?.name || "Product"} height={400} loading='lazy' width={400} className='h-[200px] relative w-[200px] md:w-[270px] object-cover ' />
+                                             <div className='w-full relative h-auto bg-white flex flex-col gap-1 py-3 px-2'>
+                                                 <h2 className='text-base font-semibold font-primary line-clamp-2  '>{item?.name}</h2>
+                                                 <p className='text-sm text-primary font-medium line-clamp-1 ' >{item.description}</p>
+                                                 <p className='w-fit relative h-auto px-5 py-1 text-white mt-1 bg-primary border-white'>Buy Now</p>
+                                             </div>
+                                         </Link>
+                                     );
+                                 })()}
                             </SwiperSlide>
                         ))
                     }

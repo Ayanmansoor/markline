@@ -40,8 +40,7 @@ interface userinterfce {
 }
 
 
-function UserSheet() {
-    const [currentuser, setUser] = useState<userinterfce>()
+function UserSheet({ user }: { user?: any }) {
     const [isUpdating,setUpdating]=useState(false)
     const [open,setOpen]=useState(false)
     
@@ -88,17 +87,14 @@ async function onSubmit({ email, phone, name }: updateschema) {
 }
 
     useEffect(() => {
-        async function getSupabaseUser() {
-            const {
-                data: { user },
-                error,
-            } = await mysupabase.auth.getUser();
-
-            setValue("email",`${user?.email}`)
-            setValue('phone',`${user?.user_metadata?.phone}`)
+        if (open && user) {
+            reset({
+                email: user.email || '',
+                phone: user.user_metadata?.phone || user.phone || '',
+                name: user.user_metadata?.name || ''
+            });
         }
-        getSupabaseUser()
-    }, [isUpdating])
+    }, [open, user, reset])
 
 
 
@@ -116,48 +112,48 @@ async function onSubmit({ email, phone, name }: updateschema) {
                     <form onSubmit={handleSubmit(onSubmit)} className='w-full flex flex-col gap-8 pt-10'>
                         <div className='flex flex-col gap-6'>
                             <div className='flex flex-col gap-2'>
-                                <label className='text-[10px] font-black uppercase tracking-[0.3em] text-gray-400'>Authorized Name</label>
+                                <label className='text-xs font-bold text-gray-500'>Authorized Name</label>
                                 <input 
                                     type="text" 
-                                    className='text-sm bg-gray-50 border border-gray-100 px-5 py-4 rounded-xl font-bold text-black focus:outline-none focus:ring-1 focus:ring-black transition-all' 
+                                    className='text-sm bg-gray-50 border border-gray-100 px-5 py-4 rounded-xl font-medium text-black focus:outline-none focus:ring-1 focus:ring-primary transition-all' 
                                     placeholder='Enter Authorized Name' 
                                     {...register('name')} 
                                 />
-                                {errors.name && <span className="text-[10px] font-black text-red-500 uppercase">{errors.name.message as string}</span>}
+                                {errors.name && <span className="text-xs font-medium text-red-500">{errors.name.message as string}</span>}
                             </div>
 
                             <div className='flex flex-col gap-2'>
-                                <label className='text-[10px] font-black uppercase tracking-[0.3em] text-gray-400'>Official Email</label>
+                                <label className='text-xs font-bold text-gray-500'>Official Email</label>
                                 <input 
                                     type="text" 
-                                    className='text-sm bg-gray-50 border border-gray-100 px-5 py-4 rounded-xl font-bold text-black focus:outline-none focus:ring-1 focus:ring-black transition-all' 
+                                    className='text-sm bg-gray-50 border border-gray-100 px-5 py-4 rounded-xl font-medium text-black focus:outline-none focus:ring-1 focus:ring-primary transition-all' 
                                     placeholder='Enter Official Email' 
                                     {...register('email')} 
                                 />
-                                {errors.email && <span className="text-[10px] font-black text-red-500 uppercase">{errors.email.message as string}</span>}
+                                {errors.email && <span className="text-xs font-medium text-red-500">{errors.email.message as string}</span>}
                             </div>
 
                             <div className='flex flex-col gap-2'>
-                                <label className='text-[10px] font-black uppercase tracking-[0.3em] text-gray-400'>Contact Line</label>
+                                <label className='text-xs font-bold text-gray-500'>Contact Line</label>
                                 <input 
                                     type="text" 
-                                    className='text-sm bg-gray-50 border border-gray-100 px-5 py-4 rounded-xl font-bold text-black focus:outline-none focus:ring-1 focus:ring-black transition-all' 
+                                    className='text-sm bg-gray-50 border border-gray-100 px-5 py-4 rounded-xl font-medium text-black focus:outline-none focus:ring-1 focus:ring-primary transition-all' 
                                     placeholder='Enter Contact Line'  
                                     {...register('phone')}  
                                 />
-                                {errors.phone && <span className="text-[10px] font-black text-red-500 uppercase">{errors.phone.message as string}</span>}
+                                {errors.phone && <span className="text-xs font-medium text-red-500">{errors.phone.message as string}</span>}
                             </div>
                         </div>
 
                         <button 
                             disabled={isUpdating} 
-                            className='w-full px-8 py-5 bg-black text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-black/10 hover:-translate-y-1 transition-all active:scale-95 disabled:opacity-50'
+                            className='w-full px-8 py-4 bg-primary text-white rounded-xl text-sm font-bold shadow-md hover:opacity-90 transition-all active:scale-95 disabled:opacity-50'
                         >
                             {isUpdating ? "Processing Update..." : "Update Markline Identity"}
                         </button>
                     </form>
 
-                    <p className='text-xs font-black uppercase tracking-widest text-center' ref={message}></p>
+                    <p className='text-sm font-medium text-center' ref={message}></p>
                 </SheetHeader>
             </SheetContent>
         </Sheet>

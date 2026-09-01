@@ -3,6 +3,7 @@ import { whishlishtProps } from '@/types/interfaces';
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { toast } from 'sonner';
 import { mysupabase } from '@/Supabase/SupabaseConfig';
+import { safeJsonParse } from '@/lib/utils';
 
 interface IsProductInterface {
   productId: string | number;
@@ -85,7 +86,7 @@ function WishlistProvider({ children }: { children: React.ReactNode }) {
     try {
       const stored = localStorage.getItem('wishlist');
       if (!stored) return;
-      const guestItems: whishlishtProps[] = JSON.parse(stored);
+      const guestItems: whishlishtProps[] = safeJsonParse(stored, []) || [];
       if (!guestItems.length) return;
 
       for (const item of guestItems) {
@@ -113,7 +114,7 @@ function WishlistProvider({ children }: { children: React.ReactNode }) {
         // Guest: load from localStorage
         try {
           const saved = localStorage.getItem('wishlist');
-          if (saved) setWishlist(JSON.parse(saved));
+          if (saved) setWishlist(safeJsonParse(saved, []) || []);
         } catch {
           // ignore malformed data
         }

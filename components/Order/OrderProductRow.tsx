@@ -1,6 +1,7 @@
 import React from 'react'
 import { Colors, Images, Sizes } from '@/types/interfaces'
 import Link from 'next/link'
+import { safeJsonParse } from '@/lib/utils'
 
 interface OrderProductRowProps {
     item: any;
@@ -9,12 +10,9 @@ interface OrderProductRowProps {
 const parseColor = (rawColor: any): string => {
     if (!rawColor) return 'Standard';
     if (typeof rawColor === 'string') {
-        try {
-            const parsed = JSON.parse(rawColor);
-            return parsed.name || parsed.color || rawColor;
-        } catch {
-            return rawColor;
-        }
+        const parsed = safeJsonParse(rawColor);
+        if (parsed) return parsed.name || parsed.color || rawColor;
+        return rawColor;
     }
     return rawColor.name || 'Standard';
 };
@@ -22,12 +20,9 @@ const parseColor = (rawColor: any): string => {
 const parseSize = (rawSize: any): string => {
     if (!rawSize) return 'Standard';
     if (typeof rawSize === 'string') {
-        try {
-            const parsed = JSON.parse(rawSize);
-            return parsed.size ? `${parsed.size} ${parsed.unit || ''}`.trim() : rawSize;
-        } catch {
-            return rawSize;
-        }
+        const parsed = safeJsonParse(rawSize);
+        if (parsed) return parsed.size ? `${parsed.size} ${parsed.unit || ''}`.trim() : rawSize;
+        return rawSize;
     }
     return rawSize.size ? `${rawSize.size} ${rawSize.unit || ''}`.trim() : 'Standard';
 };
@@ -39,26 +34,18 @@ const parseImageUrl = (item: any): string => {
     const variantObj = item.variant || item.variant_id;
     if (variantObj?.image_url) {
         const raw = Array.isArray(variantObj.image_url) ? variantObj.image_url[0] : variantObj.image_url;
-        try {
-            const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
-            if (parsed?.image_url) return parsed.image_url;
-            if (typeof raw === 'string' && raw.startsWith('http')) return raw;
-        } catch {
-            if (typeof raw === 'string') return raw;
-        }
+        const parsed = typeof raw === 'string' ? safeJsonParse(raw) : raw;
+        if (parsed?.image_url) return parsed.image_url;
+        if (typeof raw === 'string' && raw.startsWith('http')) return raw;
     }
 
     // 2. Product image
     const prodObj = item.product;
     if (prodObj?.image_url) {
         const raw = Array.isArray(prodObj.image_url) ? prodObj.image_url[0] : prodObj.image_url;
-        try {
-            const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
-            if (parsed?.image_url) return parsed.image_url;
-            if (typeof raw === 'string' && raw.startsWith('http')) return raw;
-        } catch {
-            if (typeof raw === 'string') return raw;
-        }
+        const parsed = typeof raw === 'string' ? safeJsonParse(raw) : raw;
+        if (parsed?.image_url) return parsed.image_url;
+        if (typeof raw === 'string' && raw.startsWith('http')) return raw;
     }
 
     if (prodObj?.image_urls && Array.isArray(prodObj.image_urls) && prodObj.image_urls.length > 0) {

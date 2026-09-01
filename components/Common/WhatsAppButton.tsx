@@ -1,6 +1,7 @@
 import { NewProductProps, ProductVariant } from '@/types/interfaces';
 import React from 'react';
 import { getDiscountedPrice } from '@/lib/getDiscountedPrice';
+import { safeJsonParse } from '@/lib/utils';
 interface WhatsAppButtonProps {
     variant: ProductVariant;
     product: NewProductProps;
@@ -15,8 +16,8 @@ const WhatsAppButton = ({ product, variant }: WhatsAppButtonProps) => {
         const currentUrl = typeof window !== "undefined" ? window.location.href : "";
 
         // 2. Parse the color and size data from your JSON strings
-        const colorData = variant.colors?.[0]
-            ? JSON.parse(variant.colors[0] as unknown as string)
+        const colorData = variant?.colors?.[0]
+            ? (safeJsonParse(variant.colors[0] as unknown as string) || { name: 'N/A' })
             : { name: 'N/A' };
 
         // 3. Construct the message

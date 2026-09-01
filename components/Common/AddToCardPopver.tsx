@@ -13,6 +13,7 @@ import { useCartContext } from '@/Contexts/Cart.context';
 import { useWishlists } from '@/Contexts/wishlist';
 import { toast } from 'sonner';
 import { usePathname } from 'next/navigation';
+import { safeJsonParse } from '@/lib/utils';
 
 interface productsCart {
     colors: {
@@ -48,18 +49,18 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
             try {
                 if (Array.isArray(variant.colors)) {
                     colorArray = variant.colors.map((item) =>
-                        typeof item === 'string' ? JSON.parse(item) : item
-                    );
+                        typeof item === 'string' ? safeJsonParse(item) : item
+                    ).filter(Boolean);
                 } else if (typeof variant.colors === 'string') {
-                    const parsed = JSON.parse(variant.colors);
-                    colorArray = Array.isArray(parsed) ? parsed : [parsed];
+                    const parsed = safeJsonParse(variant.colors);
+                    colorArray = Array.isArray(parsed) ? parsed : (parsed ? [parsed] : []);
                 }
             } catch (error) {
                 console.error('Failed to parse colors from variant:', error);
             }
 
             colorArray.forEach((color) => {
-                if (!colorMap.has(color.name)) {
+                if (color?.name && !colorMap.has(color.name)) {
                     colorMap.set(color.name, color);
                 }
             });
@@ -71,25 +72,23 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
     useEffect(() => {
         try {
 
-            const colors: Colors[] = Array.isArray(currentVariant.colors)
-                ? currentVariant.colors.map((item: string) => JSON.parse(item))
+            const colors: Colors[] = Array.isArray(currentVariant?.colors)
+                ? currentVariant.colors.map((item: any) => typeof item === 'string' ? safeJsonParse(item) : item).filter(Boolean)
                 : [];
 
-            const sizes: Sizes[] = Array.isArray(currentVariant.sizes)
-                ? currentVariant.sizes.map((item: string) => JSON.parse(item))
+            const sizes: Sizes[] = Array.isArray(currentVariant?.sizes)
+                ? currentVariant.sizes.map((item: any) => typeof item === 'string' ? safeJsonParse(item) : item).filter(Boolean)
                 : [];
 
-            const parsedImages: Images[] = Array.isArray(currentVariant.image_url)
-                ? currentVariant.image_url.map((item: string) => JSON.parse(item))
+            const parsedImages: Images[] = Array.isArray(currentVariant?.image_url)
+                ? currentVariant.image_url.map((item: any) => typeof item === 'string' ? safeJsonParse(item) : item).filter(Boolean)
                 : [];
-
-
 
             setParsedSizes(sizes);
             setParsedImages(parsedImages);
-            setSelectedColor(colors[0]);
-            setSelectedSize(sizes[0]);
-            const isExist = isInCart({ variantId: currentVariant?.id, colorName: colors[0].name, size: sizes[0].size })
+            if (colors[0]) setSelectedColor(colors[0]);
+            if (sizes[0]) setSelectedSize(sizes[0]);
+            const isExist = colors[0] && sizes[0] ? isInCart({ variantId: currentVariant?.id, colorName: colors[0].name, size: sizes[0].size }) : false;
 
             setItemSelected(isExist)
         } catch (e) {
@@ -104,12 +103,12 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
             try {
                 const variantColors: Colors[] = Array.isArray(variant.colors)
                     ? variant.colors.map((item) =>
-                        typeof item === 'string' ? JSON.parse(item) : item
-                    )
+                        typeof item === 'string' ? safeJsonParse(item) : item
+                    ).filter(Boolean)
                     : typeof variant.colors === 'string'
-                        ? JSON.parse(variant.colors)
+                        ? (safeJsonParse(variant.colors) || [])
                         : [];
-                return variantColors.some((c) => c.name === color.name);
+                return variantColors.some((c) => c?.name === color.name);
             } catch (error) {
                 console.error('Error parsing variant colors:', error);
                 return false;

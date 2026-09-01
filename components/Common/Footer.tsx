@@ -13,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { SlSocialPintarest } from 'react-icons/sl';
+import { useCollections } from '@/Contexts/Collections.context';
 
 const subscribeSchema = z.object({
   email: z.string().email()
@@ -21,7 +22,7 @@ const subscribeSchema = z.object({
 type subscribeSchemaInterface = z.infer<typeof subscribeSchema>;
 
 function Footer() {
-
+  const { collections } = useCollections();
   const { executeRecaptcha } = useGoogleReCaptcha()
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
@@ -40,6 +41,9 @@ function Footer() {
 
   }
 
+
+
+
   return (
     <footer className='  w-full relative lg:py-10 lg:h-[500px] text-primary-foreground  md:bg-black   overflow-hidden'>
 
@@ -52,20 +56,9 @@ function Footer() {
       </section>
 
       <section className='w-full relative h-[450px] md:flex hidden  flex-col gap-1 container text-white py-10 pb-56 px-5 md:px-10  '>
-        <div className=' w-full h-full grid   z-20 grid-cols-4 lg:grid-cols-5 gap-5  '>
+        <div className=' w-full h-full grid   z-20 grid-cols-3 lg:grid-cols-[1fr_1.5fr_1fr_1fr] gap-5  '>
 
-          <div className='relative h-auto  '>
-            <h2 className='text-p20 font-medium mb-4 border-b pr-5  w-fit '>
-              Pages
-            </h2>
-            <ul className='flex items-start flex-col text-base justify-start gap-2'>
-              <Link href={'/new-arrivals'} >New Arrivals</Link>
-              <Link href={'/products/women'} >Products</Link>
-              <Link href={'/collections'} >Collections</Link>
-            </ul>
-          </div>
-
-          <div className='relative h-auto  '>
+          <div className='relative h-auto w-fit  '>
             <h2 className='text-p20 font-medium mb-4 border-b pr-5  w-fit '>
               About Company
             </h2>
@@ -75,22 +68,24 @@ function Footer() {
               <Link href={'/contact-us'} >Contact Us</Link>
               <Link href={'/feedback'} >Feedback</Link>
               <Link href={'/about-us'} >FAQ</Link>
-
             </ul>
           </div>
 
-
-          <div className='relative h-auto  '>
+          <div className='relative h-auto w-full  '>
             <h2 className='text-p20 font-medium mb-4 border-b w-fit pr-5 '>
-
               Collections
-
             </h2>
-            <ul className='flex items-start flex-col  text-base justify-start gap-2'>
-              {/* <Link href={'/collections/men'} >Men</Link> */}
-              <Link href={'/collections/women'} >Women</Link>
-              {/* <Link href={'/collections/kids'} >Kids</Link> */}
-              {/* <Link href={'/discount-deals'} >Discount Deals</Link> */}
+            <ul className='grid grid-cols-2 text-base justify-start gap-x-8 gap-y-2'>
+              {collections?.map((col: any) => (
+                <Link
+                  key={col.id || col.slug}
+                  href={`/collections/${col.slug}`}
+                  className="capitalize line-clamp-1 hover:text-gray-300"
+                  title={col.name}
+                >
+                  {col.name}
+                </Link>
+              ))}
             </ul>
           </div>
 
@@ -152,7 +147,8 @@ function Footer() {
       <section className='md:flex w-full relative h-auto hidden items-center justify-center gap-5 py-2 bottom-10 z-20 '>
         <Link href={'/privacy-policy'} className=' text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Privacy & Policy</Link>
         <Link href={'/terms-condition'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Terms & Conditions</Link>
-        <Link href={'/shipping-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Shipping & Return</Link>
+        <Link href={'/shipping-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Shipping Policy</Link>
+        <Link href={'/return-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Return Policy</Link>
         <Link href={'/claim-policy'} className='text-xs lg:text-sm font-meidum text-white cursor-pointer underline'>Product Claim Policy </Link>
       </section>
 
@@ -163,25 +159,6 @@ function Footer() {
 
 
       <div className='container px-5   mx-auto h-auto relative  md:px-10  py-10 bg-secondary block sm:hidden   xl:px-20 '>\
-
-        <Accordion type="single" collapsible className=' text-third hover:no-underline'>
-          <AccordionItem value="item-1" className="hover:no-underline">
-            <AccordionTrigger className='hover:no-underline  text-primary'>Pages</AccordionTrigger>
-            <AccordionContent >
-              <div className='relative h-auto  '>
-
-                <hr className='mt-1  text-primary' />
-
-                <ul className='flex items-start mt-2 flex-col text-base justify-start gap-2 text-primary'>
-                  <Link href={'/'} className='text-primary'  >Home</Link>
-                  <Link href={'/new-arrivals'} className='text-primary'  >New Arrivals</Link>
-                  <Link href={'/products/women'} className='text-primary'  >Products</Link>
-                  <Link href={'/collections/women'} className='text-primary' >Women&apos;s Collections</Link>
-                </ul>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
 
 
         <Accordion type="single" collapsible className=' text-third hover:no-underline'>
@@ -197,7 +174,8 @@ function Footer() {
                   <Link href={'/contact-us'} className='text-primary'>Contact Us</Link>
                   <Link href={'/privacy-policy'} className=' text-base lg:text-lg font-meidum text-primary cursor-pointer '>Privacy & Policy</Link>
                   <Link href={'/terms-condition'} className='text-base lg:text-lg font-meidum text-primary cursor-pointer '>Terms & Conditions</Link>
-                  <Link href={'/shipping-policy'} className='text-base lg:text-lg font-meidum text-primary cursor-pointer '>Shipping & Return</Link>
+                  <Link href={'/shipping-policy'} className='text-base lg:text-lg font-meidum text-primary cursor-pointer '>Shipping Policy</Link>
+                  <Link href={'/return-policy'} className='text-base lg:text-lg font-meidum text-primary cursor-pointer '>Return Policy</Link>
                   <Link href={'/claim-policy'} className='text-base lg:text-lg font-meidum text-primary cursor-pointer '>Product Claim Policy </Link>
                   <Link href={'/about-us'} className='text-primary' >FAQ</Link>
 
@@ -212,17 +190,22 @@ function Footer() {
 
         <Accordion type="single" collapsible className=' text-third hover:no-underline'>
           <AccordionItem value="item-1">
-            <AccordionTrigger className=' hover:no-underline  text-primary'>Collection For</AccordionTrigger>
+            <AccordionTrigger className=' hover:no-underline  text-primary'>Collections</AccordionTrigger>
             <AccordionContent >
               <div className='relative h-auto  '>
                 <hr className='mt-1' />
 
-                <ul className='flex items-start flex-col mt-2  text-base justify-start gap-2  text-primary'>
-                  {/* <Link href="/collections/men" className='text-primary' >Man</Link> */}
-                  <Link href="/collections/women" className='text-primary' >Women</Link>
-                  {/* <Link href='/collections/kids' className='text-primary' >kids</Link> */}
-                  {/* <Link href="/gender/trending" className='text-primary' >Trending</Link> */}
-
+                <ul className='grid grid-cols-2 mt-2 text-base justify-start gap-x-5 gap-y-2 text-primary'>
+                  {collections?.map((col: any) => (
+                    <Link
+                      key={col.id || col.slug}
+                      href={`/collections/${col.slug}`}
+                      className="text-primary capitalize line-clamp-1"
+                      title={col.name}
+                    >
+                      {col.name}
+                    </Link>
+                  ))}
                 </ul>
               </div>
             </AccordionContent>

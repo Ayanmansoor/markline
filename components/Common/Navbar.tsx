@@ -53,7 +53,7 @@ function Navbar() {
 
                         <span className='lg:block hidden  ml-2'>
                             {/* <MegaManu> */}
-                            <Link href={"/collections"} className={`font-semibold  text-sm xl:text-sm flex items-center gap-2   text-primary `}>COLLECTIONS <MdKeyboardArrowDown className={`text-[20px] text-primary `} /></Link>
+                            <Link href={"/collections"} className={`font-semibold  text-sm xl:text-sm flex items-center gap-2   text-primary `}>COLLECTIONS <MdKeyboardArrowDown className={`text-[20px] lg:block  hidden  text-primary `} /></Link>
                             {/* </MegaManu> */}
                         </span>
 

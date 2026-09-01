@@ -2,9 +2,9 @@ import { mergeMetadata } from "@/app/layout";
 import Link from "next/link";
 
 export const metadata = mergeMetadata({
-  title: "Shipping & Return Policy | Markline",
+  title: "Shipping Policy | Markline",
   description:
-    "Learn about Markline's Shipping & Return Policy. Fast dispatch within 2 days, standard delivery within 3-5 days, out-of-zone delivery fee terms, and 7-day exchange policy.",
+    "Learn about Markline's Shipping Policy. Fast dispatch within 2 days, standard delivery within 3-5 days, and out-of-zone delivery fee terms.",
   robots: {
     index: true,
     follow: true,
@@ -13,9 +13,9 @@ export const metadata = mergeMetadata({
     "max-video-preview": -1,
   },
   openGraph: {
-    title: "Shipping & Return Policy | Markline",
+    title: "Shipping Policy | Markline",
     description:
-      "Discover Markline's shipping timelines (dispatched within 2 days), delivery details, out-of-zone delivery fees, and 7-day exchange/replacement policy.",
+      "Discover Markline's shipping timelines (dispatched within 2 days), delivery details, and out-of-zone delivery fees.",
     url: "https://shopmarkline.in/shipping-policy",
   },
   alternates: {
@@ -29,7 +29,7 @@ export default function ShippingPolicy() {
       <div className="space-y-8">
         <div className="text-center mb-10">
           <h1 className="text-3xl font-bold tracking-tight">
-            Shipping & Return Policy
+            Shipping Policy
           </h1>
           <p className="text-muted-foreground mt-2">
             Last Updated: {new Date().toLocaleDateString()}
@@ -124,7 +124,7 @@ export default function ShippingPolicy() {
             Delayed, Damaged, or Transit Issues
           </h2>
           <p>
-            While we partner with top-tier courier networks to ensure prompt 3-day delivery in major zones, unexpected delays may rarely occur due to adverse weather, festival volume surges, or regional transit restrictions.
+            While we partner with top-tier courier networks to ensure prompt delivery, unexpected delays may rarely occur due to adverse weather, festival volume surges, or regional transit restrictions.
           </p>
           <ul className="flex flex-col gap-1 text-base list-disc list-inside">
             <li>Please allow an additional 1–2 business days beyond the estimated delivery date during high-volume periods.</li>
@@ -138,60 +138,16 @@ export default function ShippingPolicy() {
           </ul>
         </section>
 
-        {/* Exchange & Replacement Policy */}
-        <section className="space-y-4">
-          <h2 className="text-2xl font-semibold tracking-tight">
-            Return, Exchange & Replacement Policy
-          </h2>
-
-          <p className="text-lg font-medium text-primary">
-            Exchange & Replacement Policy
+        {/* Notice for Return & Exchange Policy */}
+        <section className="p-5 border rounded-lg bg-secondary space-y-2">
+          <h3 className="text-xl font-semibold">Looking for Return or Exchange details?</h3>
+          <p className="text-sm md:text-base">
+            For returns, size exchanges, replacements, and refund policies, please visit our dedicated{" "}
+            <Link href="/return-policy" className="text-primary font-bold underline">
+              Return & Exchange Policy
+            </Link>{" "}
+            page.
           </p>
-
-          <p>
-            To guarantee customer satisfaction and maintain our high quality standards, Markline operates a transparent exchange and replacement policy:
-          </p>
-
-          <ul className="flex flex-col gap-2 text-base list-disc list-inside">
-            <li>
-              <strong>7-Day Window:</strong> Exchange or replacement requests must be made within <strong>7 days</strong> of delivery.
-            </li>
-            <li>
-              <strong>Product Condition:</strong> Items must be completely unused, unworn, unwashed, and returned in their original packaging with all brand tags and labels intact.
-            </li>
-            <li>
-              <strong>Applicability:</strong> Exchanges are applicable for size adjustments, defective items, transit damage, or incorrect product delivery.
-            </li>
-          </ul>
-        </section>
-
-        {/* Refund Policy */}
-        <section className="space-y-4">
-          <h2 className="text-2xl font-semibold tracking-tight">
-            Refund Policy
-          </h2>
-          <p>
-            As a curated fashion and apparel brand, Markline prioritizes prompt replacements and exchanges. Refunds are provided in special cases, such as:
-          </p>
-          <ul className="flex flex-col gap-1 text-base list-disc list-inside">
-            <li>If the replacement product or requested size is out of stock.</li>
-            <li>If a verified manufacturing defect is confirmed upon inspection and cannot be replaced.</li>
-          </ul>
-          <p className="mt-2">
-            Approved refunds are initiated to the original payment source (or bank account for COD orders) within <strong>5–7 business days</strong> after the returned item passes our warehouse quality inspection.
-          </p>
-        </section>
-
-        {/* Non-Eligible */}
-        <section className="space-y-4">
-          <h2 className="text-2xl font-semibold tracking-tight">
-            Items Not Eligible for Return or Exchange
-          </h2>
-          <ul className="flex flex-col gap-1 text-base list-disc list-inside">
-            <li>Items that show visible signs of wear, washing, alteration, or perfume scents.</li>
-            <li>Products returned without original packaging, shoe boxes, or brand tags.</li>
-            <li>Requests initiated after <strong>7 days</strong> from the date of confirmed delivery.</li>
-          </ul>
         </section>
 
         {/* Contact Us */}
@@ -200,7 +156,7 @@ export default function ShippingPolicy() {
             Contact & Customer Support
           </h2>
           <p>
-            For any shipping updates, out-of-zone queries, or exchange requests, our team is happy to assist you:
+            For any shipping updates or out-of-zone queries, our team is happy to assist you:
           </p>
           <address className="not-italic text-base flex flex-col gap-1.5">
             <p>
@@ -231,3 +187,4 @@ export default function ShippingPolicy() {
     </div>
   );
 }
+

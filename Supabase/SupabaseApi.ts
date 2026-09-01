@@ -443,35 +443,40 @@ async function getcollection(slug: string) {
 
 async function getCurrentUserOrders(userId: string) {
   try {
-    const { data: orders, error } = await mysupabase
-      .from("orders")
-      .select(`
-        *,
-        address:address_id(*),
-        order_items(
+    const [ordersResult, addressResult] = await Promise.all([
+      mysupabase
+        .from("orders")
+        .select(`
           *,
-          product:product_id(*),
-          variant:variant_id(*)
-        )
-      `)
-      .eq("user_id", userId)
-      .order("created_at", { ascending: false });
+          address:address_id(*),
+          order_items(
+            *,
+            product:product_id(id, name, image_url, image_urls, slug),
+            variant:variant_id(id, image_url)
+          )
+        `)
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false }),
+      mysupabase
+        .from("address")
+        .select("*")
+        .eq("user_id", userId)
+    ]);
 
-    const { data: address, error: addressError } = await mysupabase
-      .from("address")
-      .select(" * ")
-      .eq("user_id", userId);
-
-    if (error) {
-      console.error('Supabase error fetching user orders:', error);
-      return new Error(error.message);
+    if (ordersResult.error) {
+      console.error('Supabase error fetching user orders:', ordersResult.error);
     }
+    if (addressResult.error) {
+      console.error('Supabase error fetching user addresses:', addressResult.error);
+    }
+
     return {
-      orders,
-      address,
+      orders: ordersResult.data || [],
+      address: addressResult.data || [],
     };
   } catch (error) {
     console.error('Error fetching user orders:', error);
+    return { orders: [], address: [] };
   }
 }
 

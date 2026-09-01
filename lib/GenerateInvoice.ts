@@ -1,15 +1,13 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { safeJsonParse } from "./utils";
 
 const parseColor = (raw: any): string => {
   if (!raw) return 'Standard';
   if (typeof raw === 'string') {
-    try {
-      const parsed = JSON.parse(raw);
-      return parsed.name || parsed.color || raw;
-    } catch {
-      return raw;
-    }
+    const parsed = safeJsonParse(raw);
+    if (parsed) return parsed.name || parsed.color || raw;
+    return raw;
   }
   return raw.name || 'Standard';
 };
@@ -17,12 +15,9 @@ const parseColor = (raw: any): string => {
 const parseSize = (raw: any): string => {
   if (!raw) return 'Standard';
   if (typeof raw === 'string') {
-    try {
-      const parsed = JSON.parse(raw);
-      return parsed.size ? `${parsed.size} ${parsed.unit || ''}`.trim() : raw;
-    } catch {
-      return raw;
-    }
+    const parsed = safeJsonParse(raw);
+    if (parsed) return parsed.size ? `${parsed.size} ${parsed.unit || ''}`.trim() : raw;
+    return raw;
   }
   return raw.size ? `${raw.size} ${raw.unit || ''}`.trim() : 'Standard';
 };

@@ -28,10 +28,8 @@ export default async function sitemap() {
     { url: `https://shopmarkline.in/privacy-policy` },
     { url: `https://shopmarkline.in/products/women` },
     { url: `https://shopmarkline.in/return-policy` },
-    { url: `https://shopmarkline.in/shiping-policy` },
+    { url: `https://shopmarkline.in/shipping-policy` },
     // { url: `https://shopmarkline.in/trending` },
-    { url: `https://shopmarkline.in/products/women` },
-
   ];
 
   if (blogs?.length > 0 && blogs) {

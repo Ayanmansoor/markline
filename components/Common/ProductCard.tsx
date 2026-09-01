@@ -23,7 +23,8 @@ import AddToCardPopver from "./AddToCardPopver";
 
 import { useWishlists } from "@/Contexts/wishlist";
 import { Plus } from "lucide-react";
-import { calculateVariantPrice } from "@/lib/pricing";
+import { calculateVariantPrice } from '@/lib/pricing';
+import { safeJsonParse } from "@/lib/utils";
 
 function ProductCard({ product, url, className }: newProductsProps) {
   const { addToWishlist, removeFromWishlist, wishlist, isProductInWishlist } =
@@ -55,8 +56,8 @@ function ProductCard({ product, url, className }: newProductsProps) {
     )
       return;
     try {
-      const parsedImages: Images[] = Array.isArray(selectedVariant.image_url)
-        ? selectedVariant.image_url.map((item: string) => JSON.parse(item))
+      const parsedImages: Images[] = Array.isArray(selectedVariant?.image_url)
+        ? selectedVariant.image_url.map((item: any) => typeof item === "string" ? safeJsonParse(item) : item).filter(Boolean)
         : [];
 
       setStringifyImages(parsedImages);
@@ -100,29 +101,21 @@ function ProductCard({ product, url, className }: newProductsProps) {
       // normalize colors
       if (Array.isArray(variant.colors)) {
         colorArray = variant.colors.map((item) =>
-          typeof item === "string" ? JSON.parse(item) : item
-        );
+          typeof item === "string" ? safeJsonParse(item) : item
+        ).filter(Boolean);
       } else if (typeof variant.colors === "string") {
-        try {
-          const parsed = JSON.parse(variant.colors);
-          colorArray = Array.isArray(parsed) ? parsed : [parsed];
-        } catch {
-          colorArray = [];
-        }
+        const parsed = safeJsonParse(variant.colors);
+        colorArray = Array.isArray(parsed) ? parsed : (parsed ? [parsed] : []);
       }
 
       // normalize sizes
       if (Array.isArray(variant.sizes)) {
         sizeArray = variant.sizes.map((item) =>
-          typeof item === "string" ? JSON.parse(item) : item
-        );
+          typeof item === "string" ? safeJsonParse(item) : item
+        ).filter(Boolean);
       } else if (typeof variant.sizes === "string") {
-        try {
-          const parsed = JSON.parse(variant.sizes);
-          sizeArray = Array.isArray(parsed) ? parsed : [parsed];
-        } catch {
-          sizeArray = [];
-        }
+        const parsed = safeJsonParse(variant.sizes);
+        sizeArray = Array.isArray(parsed) ? parsed : (parsed ? [parsed] : []);
       }
 
       // add unique colors
@@ -154,12 +147,12 @@ function ProductCard({ product, url, className }: newProductsProps) {
       try {
         const variantColors: Colors[] = Array.isArray(variant.colors)
           ? variant.colors.map((item) =>
-            typeof item === "string" ? JSON.parse(item) : item
-          )
+            typeof item === "string" ? safeJsonParse(item) : item
+          ).filter(Boolean)
           : typeof variant.colors === "string"
-            ? JSON.parse(variant.colors)
+            ? (safeJsonParse(variant.colors) || [])
             : [];
-        return variantColors.some((c) => c.name === color.name);
+        return variantColors.some((c) => c?.name === color.name);
       } catch (error) {
         console.error("Error parsing variant colors:", error);
         return false;
@@ -194,28 +187,34 @@ function ProductCard({ product, url, className }: newProductsProps) {
             {StringifyImages &&
               StringifyImages?.map((image, index: number) => (
                 <SwiperSlide
-                  className="w-full realtive h-full relative border overflow-hidden"
+                  className="w-full relative h-full border overflow-hidden group/slide"
                   key={index}
                 >
                   <img
                     src={`${image?.image_url}` || ""}
                     alt={`${image.name} - markline `}
-                    className={`w-full object-contain  bg-transparent transition-all duration-100 ease-in-out  sm:object-cover hover:scale-[1.010]  ${className
-                      ? className
-                      : " h-[260px] aspect-square sm:h-[300px] md:h-[250px] lg:h-[350px] xl:h-[400px]"
-                      } `}
+                    className={`w-full object-contain bg-transparent transition-opacity duration-500 ease-in-out sm:object-cover ${index === 0 && StringifyImages.length > 1
+                      ? "absolute top-0 left-0 opacity-100 group-hover/slide:opacity-0"
+                      : "relative hover:scale-[1.010]"
+                      } ${className ? className : "h-[260px] aspect-square sm:h-[300px] md:h-[250px] lg:h-[350px] xl:h-[400px]"}`}
                     height={500}
                     width={500}
                     loading="lazy"
                   />
+                  {index === 0 && StringifyImages.length > 1 && (
+                    <img
+                      src={`${StringifyImages[1]?.image_url}` || ""}
+                      alt={`${StringifyImages[1].name || "hover"} - markline`}
+                      className={`w-full object-contain bg-transparent transition-opacity duration-500 ease-in-out sm:object-cover relative opacity-0 group-hover/slide:opacity-100 ${className ? className : "h-[260px] aspect-square sm:h-[300px] md:h-[250px] lg:h-[350px] xl:h-[400px]"
+                        }`}
+                      height={500}
+                      width={500}
+                      loading="lazy"
+                    />
+                  )}
                 </SwiperSlide>
               ))}
           </Swiper>
-          {priceDetails.totalSavingsPercent > 0 && (
-            <p className=" text-[8px] md:text-xs font-bold text-green-600 absolute top-2 z-10 left-2 md:left-3 bg-green-100 w-fit px-1.5 sm:px-2 py-0.5 rounded-full mt-1">
-              {priceDetails.totalSavingsPercent.toFixed(0)}% OFF
-            </p>
-          )}
         </Link>
         <button
           onClick={toggleWishlist}
@@ -232,42 +231,49 @@ function ProductCard({ product, url, className }: newProductsProps) {
         href={`/${url}/${product?.slug}`}
         className="flex w-full items-start pt-2 justify-start min-h-[45px]   gap-0 "
       >
-        <h2 className=" text-[11px] md:text-sm  xl:text-base 2xl:text-base font-medium !line-clamp-2 md:!line-clamp-3   flex items-center gap-1 uppercase   text-primary">
+        <h2 className=" text-[11px] md:text-sm  xl:text-base 2xl:text-base font-medium !line-clamp-2 md:!line-clamp-3   flex items-center gap-1 capitalize text-primary">
           {product?.name}
         </h2>
       </Link>
-      <div className="flex items-center w-full relative h-auto gap-2 md:py-2 py-0 pt-0 md:pt-3 justify-between">
+      <div className="flex items-start w-full relative h-auto gap-2 md:py-2 py-0 pt-0 md:pt-3 justify-between">
 
-        <div className="w-fit flex gap-2">
+        <div className="flex flex-col items-start gap-0.5">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            {priceDetails.totalSavingsPercent > 0 && (
+              <span className="text-sm md:text-sm font-semibold text-white bg-[#b32626] px-1.5 py-0.5 rounded shadow-sm">
+                Save {priceDetails.totalSavingsPercent.toFixed(0)}%
+              </span>
+            )}
+            <p className="text-sm sm:text-base md:text-base xl:text-lg font-bold text-[#b32626]">
+              ₹ {priceDetails.finalPrice.toLocaleString('en-IN')}
+            </p>
+          </div>
+          {priceDetails.totalSavingsPercent > 0 ? (
+            <span className="  text-base md:text-lg text-gray-500 line-through">
+              ₹ {priceDetails.mrp.toLocaleString('en-IN')}
+            </span>
+          ) : (
+            <div className="h-[16px] md:h-[18px]"></div> /* spacer if no mrp */
+          )}
+        </div>
+
+        <div className="w-fit flex gap-1.5 pt-0.5 shrink-0">
           {allColors?.slice(0, 3).map((color, index) => (
             <span
               key={index}
-              onClick={() => handleColorChange(color)}
-              className={` h-[20px] md:h-[30px] w-[20px] md:w-[30px] rounded-full border-2 p-1  cursor-pointer  ${selectedColor?.name == color.name
-                ? "border-gray-700"
-                : "border-gray-300"
+              onClick={(e) => {
+                e.preventDefault();
+                handleColorChange(color);
+              }}
+              className={` h-[20px] md:h-[30px] w-[20px] md:w-[30px] rounded-full border-2 p-1 cursor-pointer transition-all duration-200 ${selectedColor?.name == color.name
+                ? "border-gray-800 scale-110"
+                : "border-gray-300 hover:border-gray-400"
                 }`}
               style={{
                 backgroundColor: color.hex,
               }}
             />
           ))}
-        </div>
-
-        <div className="flex flex-col items-end">
-          <p className="text-sm sm:text-base md:text-sm xl:text-xl font-bold text-black">
-            ₹ {priceDetails.finalPrice.toLocaleString('en-IN')}
-          </p>
-          {priceDetails.totalSavingsPercent > 0 && (
-            <div className="flex items-center gap-1.5 flex-wrap justify-end">
-              <span className="text-[10px] md:text-xs text-red-500 line-through">
-                ₹ {priceDetails.mrp.toLocaleString('en-IN')}
-              </span>
-              <span className="text-[9px] md:text-xs font-bold text-green-600 bg-green-50 px-1 rounded">
-                Save {priceDetails.totalSavingsPercent.toFixed(0)}%
-              </span>
-            </div>
-          )}
         </div>
       </div>
       <section className="w-full relative h-auto  pb-3 py-0 md:py-2  md:flex-row  flex-col flex  items-start lg:items-center justify-end gap-2 px-1">

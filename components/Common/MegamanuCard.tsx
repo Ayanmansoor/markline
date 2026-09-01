@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { ProductsDataProps, ProductVariant } from '@/types/interfaces'
+import { safeJsonParse } from '@/lib/utils'
 
 interface Megamanudata {
     product: ProductVariant,
@@ -11,11 +12,12 @@ interface Megamanudata {
 
 function MegamanuCard({ product, slug, name, className }: Megamanudata) {
 
-    const productImage: any = product?.image_url?.map((image: any) => JSON.parse(image))
+    const productImage: any = product?.image_url?.map((image: any) => safeJsonParse(image)) || [];
+    const mainImg = productImage?.[1]?.image_url || productImage?.[0]?.image_url || "/placeholder.svg";
     return (
         <Link href={`/product/${slug}`} className={` border border-gray-200  relative h-auto flex flex-col  items-center gap-1 p-2 bg-gray-50 rounded-md ${className} `}>
             {
-                <img src={`${productImage[1]?.image_url}` || "/"} alt={name} height={400} width={500} className='h-[170px] w-[260px] rounded-md border' loading='lazy' />
+                <img src={mainImg} alt={name} height={400} width={500} className='h-[170px] w-[260px] rounded-md border' loading='lazy' />
             }
 
             {

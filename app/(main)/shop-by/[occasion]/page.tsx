@@ -3,6 +3,7 @@ import React from 'react'
 import Occasions from '@/components/Pages/Occasions'
 import { mysupabase } from '@/Supabase/SupabaseConfig';
 import { getAllCollectionsBaseOnType, getCollectionBaseOnTypeAndOccuation } from '@/Supabase/SupabaseApi';
+import { safeJsonParse } from '@/lib/utils';
 export async function generateMetadata({ params }: { params: Promise<{ occasion: string }> }) {
     const { occasion } = await params;
 
@@ -22,15 +23,11 @@ export async function generateMetadata({ params }: { params: Promise<{ occasion:
     const ogImages =
         currentCollection?.image_urls
             ?.map((img: string) => {
-                try {
-                    const parsed = JSON.parse(img);
-                    if (parsed?.image_url && typeof parsed.image_url === "string") {
-                        return { url: parsed.image_url, alt: collectionName };
-                    }
-                    return null;
-                } catch {
-                    return null;
+                const parsed = safeJsonParse(img);
+                if (parsed?.image_url && typeof parsed.image_url === "string") {
+                    return { url: parsed.image_url, alt: collectionName };
                 }
+                return null;
             })
             .filter(Boolean) || [{ url: "/opengraph-image.png", width: 1200, height: 630, alt: collectionName }];
 

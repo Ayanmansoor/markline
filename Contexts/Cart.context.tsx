@@ -10,6 +10,7 @@ import React, {
 import { toast } from 'sonner';
 import { mysupabase } from '@/Supabase/SupabaseConfig';
 import axios from 'axios';
+import { safeJsonParse } from '@/lib/utils';
 
 // --- Interfaces ---
 
@@ -85,7 +86,7 @@ function migrateOldCartItem(item: any): newCartItem | null {
         price: item.price || item.variant?.price || 0,
         stock: item.stock || 0,
         image_url: item.image_urls
-          ? item.image_urls.map((img: any) => typeof img === 'string' ? JSON.parse(img) : img)
+          ? item.image_urls.map((img: any) => typeof img === 'string' ? safeJsonParse(img) : img).filter(Boolean)
           : (item.variant?.image_url || []),
         is_active: true,
         products_id: item.productId,
@@ -172,7 +173,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     try {
       const stored = localStorage.getItem('cart');
       if (!stored) return;
-      const guestItems: any[] = JSON.parse(stored);
+      const guestItems: any[] = safeJsonParse(stored, []) || [];
       if (!guestItems.length) return;
 
       const migrated = guestItems.map(migrateOldCartItem).filter(Boolean) as newCartItem[];
@@ -202,7 +203,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         try {
           const stored = localStorage.getItem('cart');
           if (stored) {
-            const parsed = JSON.parse(stored);
+            const parsed = safeJsonParse(stored, []);
             const migrated = Array.isArray(parsed)
               ? parsed.map(migrateOldCartItem).filter(Boolean) as newCartItem[]
               : [];

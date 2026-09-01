@@ -43,6 +43,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import MiniCollectionCard from "../Home/MiniCellectionCard";
+import { safeJsonParse } from "@/lib/utils";
 
 export interface GenderPageProps {
   initialCollections?: any;
@@ -136,20 +137,16 @@ const GenderPage: React.FC<GenderPageProps> = ({
           variants.some((variant) => {
             let colorArray: Colors[] = [];
             if (typeof variant.colors === "string") {
-              try {
-                const parsed = JSON.parse(variant.colors);
-                colorArray = Array.isArray(parsed) ? parsed : [parsed];
-              } catch {
-                return false;
-              }
+              const parsed = safeJsonParse(variant.colors);
+              colorArray = Array.isArray(parsed) ? parsed : (parsed ? [parsed] : []);
             } else if (Array.isArray(variant.colors)) {
               colorArray = variant.colors.map((c) =>
-                typeof c === "string" ? JSON.parse(c) : c
-              );
+                typeof c === "string" ? safeJsonParse(c) : c
+              ).filter(Boolean);
             }
 
             return colorArray.some((c) =>
-              selectColorAndSizes.color?.includes(c.name)
+              c?.name && selectColorAndSizes.color?.includes(c.name)
             );
           });
 
@@ -159,20 +156,16 @@ const GenderPage: React.FC<GenderPageProps> = ({
           variants.some((variant) => {
             let sizeArray: Sizes[] = [];
             if (typeof variant.sizes === "string") {
-              try {
-                const parsed = JSON.parse(variant.sizes);
-                sizeArray = Array.isArray(parsed) ? parsed : [parsed];
-              } catch {
-                return false;
-              }
+              const parsed = safeJsonParse(variant.sizes);
+              sizeArray = Array.isArray(parsed) ? parsed : (parsed ? [parsed] : []);
             } else if (Array.isArray(variant.sizes)) {
               sizeArray = variant.sizes.map((s) =>
-                typeof s === "string" ? JSON.parse(s) : s
-              );
+                typeof s === "string" ? safeJsonParse(s) : s
+              ).filter(Boolean);
             }
 
             return sizeArray.some((s) =>
-              selectColorAndSizes.size?.includes(s.size)
+              s?.size && selectColorAndSizes.size?.includes(s.size)
             );
           });
 
@@ -200,29 +193,21 @@ const GenderPage: React.FC<GenderPageProps> = ({
         // normalize colors
         if (Array.isArray(variant.colors)) {
           colorArray = variant.colors.map((item) =>
-            typeof item === "string" ? JSON.parse(item) : item
-          );
+            typeof item === "string" ? safeJsonParse(item) : item
+          ).filter(Boolean);
         } else if (typeof variant.colors === "string") {
-          try {
-            const parsed = JSON.parse(variant.colors);
-            colorArray = Array.isArray(parsed) ? parsed : [parsed];
-          } catch {
-            colorArray = [];
-          }
+          const parsed = safeJsonParse(variant.colors);
+          colorArray = Array.isArray(parsed) ? parsed : (parsed ? [parsed] : []);
         }
 
         // normalize sizes
         if (Array.isArray(variant.sizes)) {
           sizeArray = variant.sizes.map((item) =>
-            typeof item === "string" ? JSON.parse(item) : item
-          );
+            typeof item === "string" ? safeJsonParse(item) : item
+          ).filter(Boolean);
         } else if (typeof variant.sizes === "string") {
-          try {
-            const parsed = JSON.parse(variant.sizes);
-            sizeArray = Array.isArray(parsed) ? parsed : [parsed];
-          } catch {
-            sizeArray = [];
-          }
+          const parsed = safeJsonParse(variant.sizes);
+          sizeArray = Array.isArray(parsed) ? parsed : (parsed ? [parsed] : []);
         }
 
         // add unique colors

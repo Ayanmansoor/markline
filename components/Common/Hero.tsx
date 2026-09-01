@@ -37,7 +37,7 @@ function Hero({ bannerImages, css }: HeroData) {
 
     return (
         <section
-            className={`w-full relative border-2 border-green-500 ${css ? css : 'h-[500px] sm:h-[780px]'}`}
+            className={`w-full relative   ${css ? css : 'h-[500px] sm:h-[780px]'}`}
         >
             {bannerImages && bannerImages.length > 0 && filteredBanners.length === 0 && (
                 <div className="absolute top-0 left-0 bg-red-500 text-white p-2 z-[999] text-xs">

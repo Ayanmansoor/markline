@@ -11,10 +11,9 @@ function NavUser() {
 
   useEffect(() => {
     async function checkUser() {
-      const {
-        data: { user },
-      } = await mysupabase.auth.getUser();
-      setUser(user);
+      // getSession() reads from local JWT cache — instant, no network call
+      const { data: { session } } = await mysupabase.auth.getSession();
+      setUser(session?.user || null);
     }
     checkUser();
 

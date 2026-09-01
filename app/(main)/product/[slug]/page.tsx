@@ -2,6 +2,7 @@ import React from 'react'
 import ProductPage from '@/components/Pages/Product.page'
 
 import { getProductData } from '@/Supabase/SupabaseApi';
+import { safeJsonParse } from '@/lib/utils';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
 
@@ -12,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   const productName = product?.name || "Product";
   const description = product?.seoDescription || product?.description || "Discover elegant women's accessories at Markline.";
-  const imageUrl = JSON.parse(product?.product_variants[0]?.image_url?.[0] || '{}')?.image_url || "https://marklinefashion.com/default.jpg";
+  const imageUrl = safeJsonParse(product?.product_variants?.[0]?.image_url?.[0])?.image_url || "https://marklinefashion.com/default.jpg";
 
 
   const keywords = product?.keywords && product.keywords.length > 0
@@ -91,7 +92,7 @@ async function page({ params }: { params: Promise<{ slug: string }> }) {
 
   // 2. Parse Image URL safely
   const imageUrl =
-    JSON.parse(variant?.image_url?.[0] || "{}")?.image_url ||
+    safeJsonParse(variant?.image_url?.[0])?.image_url ||
     "https://marklinefashion.com/default.jpg";
 
   const productUrl = `https://shopmarkline.in/product/${slug ?? ""}`;
