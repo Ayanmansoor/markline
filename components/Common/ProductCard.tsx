@@ -227,6 +227,9 @@ function ProductCard({ product, url, className }: newProductsProps) {
         </button>
       </span>
 
+
+
+
       <Link
         href={`/${url}/${product?.slug}`}
         className="flex w-full items-start pt-2 justify-start min-h-[45px]   gap-0 "
