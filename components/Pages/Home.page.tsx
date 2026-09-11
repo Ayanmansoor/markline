@@ -266,7 +266,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
               slidesPerView: 3, // small desktop
             },
             1280: {
-              slidesPerView: 4, // full desktop
+              slidesPerView: 3, // full desktop
             },
           }}
           modules={[Autoplay]}
@@ -287,7 +287,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
                     key={collec.id || index}
                     collections={collec}
                     url="collections/women/"
-                    imageClass="   h-[300px] md:h-[300px] lg:h-[320px] 2xl:h-[450px] w-full border  rounded-lg object-cover relative  transition-all duration-100 object-bottom"
+                    imageClass="   h-[300px] sm:h-[390px] md:h-[380px] lg:h-[460px] 2xl:h-[600px] w-full border  rounded-lg object-cover relative  transition-all duration-100 object-bottom"
                     className="relative h-full  w-full   cursor-pointer group rounded-lg flex flex-col items-start justify-center gap-4  "
                   />
                 </SwiperSlide>
