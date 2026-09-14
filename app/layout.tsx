@@ -194,27 +194,36 @@ export default async function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "Markline",
-              url: "https://shopmarkline.in",
-              logo: "https://shopmarkline.in/markline-logo.webp",
-              contactPoint: [
-                {
-                  "@type": "ContactPoint",
-                  telephone: "+91-9769020660",
-                  contactType: "customer support",
-                  areaServed: "IN",
-                  availableLanguage: ["English", "Hindi"],
-                },
-              ],
-              sameAs: [
-                "https://www.instagram.com/shopmarkline",
-                "https://www.facebook.com/shopmarkline",
-                "https://in.pinterest.com/shopmarkline",
-              ],
-            }),
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                name: "Markline",
+                url: "https://shopmarkline.in",
+                logo: "https://shopmarkline.in/markline-logo.webp",
+                contactPoint: [
+                  {
+                    "@type": "ContactPoint",
+                    telephone: "+91-9769020660",
+                    contactType: "customer support",
+                    areaServed: "IN",
+                    availableLanguage: ["English", "Hindi"],
+                  },
+                ],
+                sameAs: [
+                  "https://www.instagram.com/shopmarkline",
+                  "https://www.facebook.com/shopmarkline",
+                  "https://in.pinterest.com/shopmarkline",
+                ],
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                name: "Markline",
+                url: "https://shopmarkline.in",
+                description: "Women’s Wedges, Heels & Fashion Sandals Online in India",
+              },
+            ]),
           }}
         />
       </head>

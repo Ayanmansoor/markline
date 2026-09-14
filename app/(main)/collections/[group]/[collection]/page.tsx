@@ -127,14 +127,62 @@ async function page({
         .select("*")
         .eq("gender", group.toUpperCase());
 
+    const collectionUrl = `https://shopmarkline.in/collections/${group}/${collection}`;
+    const collectionSchema = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: collectionData?.seoTitle || `${collection} Collection`,
+        description: collectionData?.seoDescription || `Shop ${collection} footwear collection at Markline.`,
+        url: collectionUrl,
+    };
+
+    const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+            {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://shopmarkline.in",
+            },
+            {
+                "@type": "ListItem",
+                position: 2,
+                name: "Collections",
+                item: "https://shopmarkline.in/collections",
+            },
+            {
+                "@type": "ListItem",
+                position: 3,
+                name: group.toUpperCase(),
+                item: `https://shopmarkline.in/collections/${group}`,
+            },
+            {
+                "@type": "ListItem",
+                position: 4,
+                name: collection,
+                item: collectionUrl,
+            },
+        ],
+    };
+
     return (
-        <CategoryL2page
-            initialProducts={products}
-            initialCollections={{ data: allcollection || [] }}
-            totalCount={count}
-            currentPage={currentPage}
-            pageSize={PAGE_SIZE}
-        />
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify([collectionSchema, breadcrumbSchema]),
+                }}
+            />
+            <CategoryL2page
+                initialProducts={products}
+                initialCollections={{ data: allcollection || [] }}
+                totalCount={count}
+                currentPage={currentPage}
+                pageSize={PAGE_SIZE}
+            />
+        </>
     )
 }
 

@@ -1,71 +1,67 @@
 import {
-  fetchGroupOfProducts,
-  fetchGroupOfPRoductss,
   getAllBlogs,
   getAllCollectionsBaseOnGender,
-
   getProductDataSitemap,
 } from "@/Supabase/SupabaseApi";
 import { BlogCardProps, ProductsProps } from "@/types/interfaces";
-const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+const BASE_URL = "https://shopmarkline.in";
 
 export default async function sitemap() {
-  const data: any = await getProductDataSitemap();
-  const womencollections: any = await getAllCollectionsBaseOnGender("WOMEN");
+  const products: any = await getProductDataSitemap();
+  const womenCollections: any = await getAllCollectionsBaseOnGender("WOMEN");
   const blogs: any = await getAllBlogs();
-  const allGroup: any = await fetchGroupOfPRoductss()
 
-
-
-  let sitemap = [
-    { url: `https://shopmarkline.in/about-us` },
-    { url: `https://shopmarkline.in/blogs` },
-    { url: `https://shopmarkline.in/collections/women` },
-    { url: `https://shopmarkline.in/collections/men` },
-    { url: `https://shopmarkline.in/collections/kids` },
-    { url: `https://shopmarkline.in/collections` },
-    // { url: `https://shopmarkline.in/new-arrivals` },
-    { url: `https://shopmarkline.in/privacy-policy` },
-    { url: `https://shopmarkline.in/products/women` },
-    { url: `https://shopmarkline.in/return-policy` },
-    { url: `https://shopmarkline.in/shipping-policy` },
-    // { url: `https://shopmarkline.in/trending` },
+  const staticRoutes = [
+    { url: `${BASE_URL}/`, lastModified: new Date() },
+    { url: `${BASE_URL}/about-us`, lastModified: new Date() },
+    { url: `${BASE_URL}/contact-us`, lastModified: new Date() },
+    { url: `${BASE_URL}/blogs`, lastModified: new Date() },
+    { url: `${BASE_URL}/collections`, lastModified: new Date() },
+    { url: `${BASE_URL}/collections/women`, lastModified: new Date() },
+    { url: `${BASE_URL}/products/women`, lastModified: new Date() },
+    { url: `${BASE_URL}/shipping-policy`, lastModified: new Date() },
+    { url: `${BASE_URL}/return-policy`, lastModified: new Date() },
+    { url: `${BASE_URL}/claim-policy`, lastModified: new Date() },
+    { url: `${BASE_URL}/privacy-policy`, lastModified: new Date() },
+    { url: `${BASE_URL}/terms-condition`, lastModified: new Date() },
+    { url: `${BASE_URL}/llms.txt`, lastModified: new Date() },
   ];
 
-  if (blogs?.length > 0 && blogs) {
-    sitemap = sitemap.concat(
-      blogs.map((blog: BlogCardProps) => ({
-        url: `${NEXT_PUBLIC_BASE_URL}/blogs/${blog.slug}`,
-      }))
-    );
+  let dynamicRoutes: { url: string; lastModified?: Date }[] = [];
+
+  // Add active products
+  if (Array.isArray(products) && products.length > 0) {
+    const productEntries = products
+      .filter((p: ProductsProps) => p && p.slug)
+      .map((product: ProductsProps) => ({
+        url: `${BASE_URL}/product/${product.slug}`,
+        lastModified: product.created_at ? new Date(product.created_at) : new Date(),
+      }));
+    dynamicRoutes = dynamicRoutes.concat(productEntries);
   }
 
-
-  if (allGroup?.length > 0 && allGroup) {
-    sitemap = sitemap.concat(
-      allGroup.map((group: any) => ({
-        url: `${NEXT_PUBLIC_BASE_URL}/shop-by/${group?.url}`,
-      }))
-    );
+  // Add women collections
+  if (Array.isArray(womenCollections) && womenCollections.length > 0) {
+    const collectionEntries = womenCollections
+      .filter((c: any) => c && c.slug)
+      .map((collection: any) => ({
+        url: `${BASE_URL}/collections/women/${collection.slug}`,
+        lastModified: new Date(),
+      }));
+    dynamicRoutes = dynamicRoutes.concat(collectionEntries);
   }
 
-  if (data?.length > 0 && data) {
-    sitemap = sitemap.concat(
-      data.map((product: ProductsProps) => ({
-        url: `${NEXT_PUBLIC_BASE_URL}/product/${product.slug}`,
-      }))
-    );
-  }
-  if (womencollections?.length > 0 && womencollections) {
-    sitemap = sitemap.concat(
-      womencollections.map((collection: ProductsProps) => ({
-        url: `${NEXT_PUBLIC_BASE_URL}/collections/women/${collection.slug}`,
-      }))
-    );
+  // Add published blogs
+  if (Array.isArray(blogs) && blogs.length > 0) {
+    const blogEntries = blogs
+      .filter((b: BlogCardProps) => b && b.slug && b.status !== "draft")
+      .map((blog: BlogCardProps) => ({
+        url: `${BASE_URL}/blogs/${blog.slug}`,
+        lastModified: blog.created_at ? new Date(blog.created_at) : new Date(),
+      }));
+    dynamicRoutes = dynamicRoutes.concat(blogEntries);
   }
 
-
-
-
-  return sitemap;
+  return [...staticRoutes, ...dynamicRoutes];
 }

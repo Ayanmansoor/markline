@@ -1,11 +1,35 @@
 User-agent: *
-Disallow: 
+Allow: /
+Disallow: /admin
+Disallow: /api/private
+Disallow: /account
+Disallow: /checkout
+Disallow: /cart
 
 User-agent: Googlebot
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /api/private
+Disallow: /account
+Disallow: /checkout
+Disallow: /cart
 
-User-agent: Googlebot-image
-Disallow:
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /api/private
+Disallow: /account
+Disallow: /checkout
+Disallow: /cart
 
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+Disallow: /api/private
+Disallow: /account
+Disallow: /checkout
+Disallow: /cart
 
 Sitemap: https://shopmarkline.in/sitemap.xml
+# LLM Discoverability
+# https://shopmarkline.in/llms.txt

@@ -117,13 +117,42 @@ export default async function page({ params }: PageProps) {
       }
     : null;
 
+  const blogUrl = serializedBlog?.canonical_url || `https://shopmarkline.in/blogs/${slug}`;
+
+  const breadcrumbLd = serializedBlog
+    ? {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://shopmarkline.in",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Blogs",
+            item: "https://shopmarkline.in/blogs",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: serializedBlog.title || "Article",
+            item: blogUrl,
+          },
+        ],
+      }
+    : null;
+
   return (
     <>
       {jsonLd && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+            __html: JSON.stringify([jsonLd, breadcrumbLd].filter(Boolean)).replace(/</g, '\\u003c'),
           }}
         />
       )}
