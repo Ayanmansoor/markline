@@ -110,6 +110,9 @@ function rowToCartItem(row: any): newCartItem {
       id: row.variant_id,
       sku: row.variant_sku || '',
       price: row.variant_price,
+      mrp: row.variant_mrp || row.mrp || row.variant_price,
+      retail_price: row.variant_retail_price || row.retail_price || row.variant_price,
+      discounts: row.discounts || null,
       stock: 0,
       image_url: row.image_url
         ? [{ url: row.image_url, image_url: row.image_url, name: '' }]

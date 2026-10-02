@@ -56,7 +56,10 @@ export const metadata = mergeMetadata({
 
 export default async function Home() {
   // 1. Fetch banners server-side
-  const { data: homebanners = [] } = await mysupabase.from("HomeBanner").select("*");
+  const { data: homebanners = [] } = await mysupabase
+    .from("HomeBanner")
+    .select("*")
+    .eq("isEnable", true);
 
   // 2. Fetch all collections
   const { data: allcollection = [] } = await mysupabase.from("collection").select("*").eq("type", "ALL");

@@ -180,7 +180,7 @@ function CartSheet({ children }: {
                     state_name: userAddress?.state_name || '',
                     city: userAddress?.city || '',
                     full_address: userAddress?.full_address || '',
-                    
+
                     email: currentuser?.email || '',
                     phone: currentuser?.phone || currentuser?.user_metadata.phone || '',
 

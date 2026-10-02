@@ -4,7 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Colors, Sizes, newCartItem, useCartContext } from '@/Contexts/Cart.context';
 import { Trash2, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
-import WhatsAppCartButton from './CartWhatsAppbutton';
+import { calculateVariantPrice } from '@/lib/pricing';
 
 const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -32,25 +32,18 @@ function CartCard({ data }: CartCardProps) {
         });
     }
 
-    const { originalPrice, discountPercent, finalPrice } = useMemo(() => {
-        const price = data.variant?.price || 0;
-        const discount = data.variant?.discounts?.discount_persent || 0;
-
-        if (discount > 0) {
-            const discountAmount = price * (discount / 100);
-            return {
-                originalPrice: price,
-                discountPercent: discount,
-                finalPrice: Math.floor(price - discountAmount)
-            };
-        }
+    const { originalPrice, discountPercent, finalPrice, totalSavings } = useMemo(() => {
+        const variant = data.variant;
+        const discount = variant?.discounts || (variant as any)?.discount;
+        const priceDetails = calculateVariantPrice(variant || {}, discount);
 
         return {
-            originalPrice: price,
-            discountPercent: 0,
-            finalPrice: price
+            originalPrice: priceDetails.mrp,
+            discountPercent: Math.round(priceDetails.totalSavingsPercent),
+            finalPrice: priceDetails.finalPrice,
+            totalSavings: priceDetails.totalSavings
         };
-    }, [data.variant?.price, data.variant?.discounts]);
+    }, [data.variant]);
 
     const primaryImage = data.variant?.image_url?.[0]?.image_url || '';
 
@@ -104,7 +97,7 @@ function CartCard({ data }: CartCardProps) {
                     {/* Price Section */}
                     <div className='flex items-baseline gap-2'>
                         <span className='text-xl font-bold text-primary'>{formatPrice(finalPrice)}</span>
-                        {discountPercent > 0 && (
+                        {(totalSavings > 0 || discountPercent > 0) && (
                             <>
                                 <span className='text-sm text-gray-400 line-through'>{formatPrice(originalPrice)}</span>
                                 <span className='text-xs font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full'>

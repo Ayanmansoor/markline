@@ -18,7 +18,7 @@ import axios from 'axios';
 import LoadRazorpay from '@/utils/loadrazorpay';
 import BuyProduct from './BuyProduct';
 import { toast } from 'sonner';
-import { RotateCcw, Shield, Truck, ExternalLink } from 'lucide-react';
+import { RotateCcw, Shield, Truck, ExternalLink, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { HiMiniMinusSmall } from 'react-icons/hi2';
 import CustomReview from '../Common/CustomReview';
 import { SizeChartModal } from '../Common/SizeChartModal';
@@ -61,6 +61,89 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
     const [selectedColor, setSelectedColor] = useState<Colors | null>(null);
     const [selectedSize, setSelectedSize] = useState<Sizes | null>(null);
     const [qty, setQty] = useState(1);
+
+    /* ---------- Pincode Servicability state ---------- */
+    const [pincode, setPincode] = useState('');
+    const [isCheckingPincode, setIsCheckingPincode] = useState(false);
+    const [pincodeResult, setPincodeResult] = useState<{
+        checked: boolean;
+        valid: boolean;
+        city?: string;
+        state?: string;
+        estimatedDate?: string;
+        codAvailable?: boolean;
+    } | null>(null);
+
+    const handleCheckPincode = async () => {
+        const cleanPin = pincode.trim();
+        if (!cleanPin || cleanPin.length !== 6 || !/^\d{6}$/.test(cleanPin)) {
+            toast.error('Please enter a valid 6-digit PIN code');
+            return;
+        }
+
+        setIsCheckingPincode(true);
+        try {
+            // 1. Try Shiprocket Serviceability API
+            const shiprocketRes = await axios.get(`/api/check-serviceability?delivery_postcode=${cleanPin}`);
+
+            if (shiprocketRes.data?.success && shiprocketRes.data?.serviceable) {
+                const data = shiprocketRes.data;
+                const formattedDate = data.etd
+                    ? data.etd
+                    : (() => {
+                        const date = new Date();
+                        date.setDate(date.getDate() + (data.estimated_delivery_days || 4));
+                        return date.toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric' });
+                    })();
+
+                setPincodeResult({
+                    checked: true,
+                    valid: true,
+                    city: data.city || '',
+                    state: data.state || '',
+                    estimatedDate: formattedDate,
+                    codAvailable: data.cod_available !== false,
+                });
+                setIsCheckingPincode(false);
+                return;
+            }
+
+            // 2. Fallback to Postal Pincode API if Shiprocket is not configured or unserviceable
+            const res = await axios.get(`https://api.postalpincode.in/pincode/${cleanPin}`);
+            if (res.data?.[0]?.Status === 'Success' && res.data[0]?.PostOffice?.length > 0) {
+                const postOffice = res.data[0].PostOffice[0];
+                const city = postOffice.District || postOffice.Block || postOffice.Name || '';
+                const state = postOffice.State || '';
+
+                const deliveryDate = new Date();
+                deliveryDate.setDate(deliveryDate.getDate() + 4);
+                const options: Intl.DateTimeFormatOptions = { weekday: 'short', month: 'short', day: 'numeric' };
+                const formattedDate = deliveryDate.toLocaleDateString('en-IN', options);
+
+                setPincodeResult({
+                    checked: true,
+                    valid: true,
+                    city,
+                    state,
+                    estimatedDate: formattedDate,
+                    codAvailable: true,
+                });
+            } else {
+                setPincodeResult({
+                    checked: true,
+                    valid: false,
+                });
+            }
+        } catch (error) {
+            console.error("Failed to check pincode:", error);
+            setPincodeResult({
+                checked: true,
+                valid: false,
+            });
+        } finally {
+            setIsCheckingPincode(false);
+        }
+    };
 
     const priceDetails = useMemo(() => {
         return calculateVariantPrice(variant || {}, variant?.discounts);
@@ -384,7 +467,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                                     MRP: <span className='line-through text-gray-400'>₹ {priceDetails.mrp.toLocaleString('en-IN')}</span>
                                 </p>
                             )}
-                            
+
                             {priceDetails.baseDiscount > 0 && (
                                 <p>
                                     Retail Price: <span>₹ {priceDetails.retailPrice.toLocaleString('en-IN')}</span>
@@ -405,6 +488,8 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                         )}
                     </div>
                 </div>
+
+
 
                 <div className='flex items-center   relative flex-col gap-2 w-full  border-b border-gray-200 pb-3'>
 
@@ -487,9 +572,8 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                                         `}
                                     >
                                         {/* Top Size Header */}
-                                        <div className={`px-3 py-1.5 md:py-2 text-left font-bold text-sm md:text-base ${
-                                            isSelected ? "bg-[#eef5ff] text-slate-900" : "bg-white text-slate-900"
-                                        }`}>
+                                        <div className={`px-3 py-1.5 md:py-2 text-left font-bold text-sm md:text-base ${isSelected ? "bg-[#eef5ff] text-slate-900" : "bg-white text-slate-900"
+                                            }`}>
                                             {item.size} {item.unit || 'UK'}
                                         </div>
 
@@ -645,6 +729,85 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                     </div>
                 )}
 
+                {/* DELIVERY OPTIONS / Pincode Servicability Check */}
+                <div className='w-full flex flex-col gap-2 py-4 border-y border-gray-200 my-2'>
+                    <div className='flex items-center gap-2'>
+                        <h3 className='text-sm md:text-base font-bold text-gray-900 tracking-wide uppercase flex items-center gap-2'>
+                            Delivery Options <Truck size={20} className='text-gray-800' />
+                        </h3>
+                    </div>
+
+                    <div className='relative flex items-center border border-gray-300 rounded-lg overflow-hidden max-w-xs focus-within:border-black transition-all bg-white shadow-xs mt-1'>
+                        <input
+                            type='text'
+                            maxLength={6}
+                            placeholder='Enter pincode'
+                            value={pincode}
+                            onChange={(e) => {
+                                const val = e.target.value.replace(/\D/g, '');
+                                setPincode(val);
+                                if (pincodeResult) setPincodeResult(null);
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    handleCheckPincode();
+                                }
+                            }}
+                            className='w-full py-2 px-3.5 text-sm font-semibold text-gray-900 focus:outline-none placeholder:text-gray-400 placeholder:font-normal'
+                        />
+                        <button
+                            type='button'
+                            onClick={() => {
+                                if (pincodeResult?.checked) {
+                                    setPincode('');
+                                    setPincodeResult(null);
+                                } else {
+                                    handleCheckPincode();
+                                }
+                            }}
+                            disabled={isCheckingPincode || (!pincodeResult && pincode.length !== 6)}
+                            className='px-4 py-2 text-xs font-bold uppercase tracking-wider text-rose-500 hover:text-rose-600 transition-colors disabled:opacity-40 disabled:hover:text-rose-500 shrink-0 flex items-center gap-1 cursor-pointer'
+                        >
+                            {isCheckingPincode ? (
+                                <Loader2 size={14} className='animate-spin' />
+                            ) : pincodeResult?.checked ? (
+                                'Change'
+                            ) : (
+                                'Check'
+                            )}
+                        </button>
+                    </div>
+
+                    {!pincodeResult && (
+                        <p className='text-xs text-gray-500 font-medium leading-normal mt-0.5'>
+                            Please enter PIN code to check delivery time &amp; Pay on Delivery Availability
+                        </p>
+                    )}
+
+                    {pincodeResult && pincodeResult.valid && (
+                        <div className='flex flex-col gap-2 mt-2 p-3 bg-emerald-50/70 border border-emerald-200 rounded-xl text-xs text-gray-700'>
+                            <div className='flex items-center gap-2 text-emerald-800 font-bold'>
+                                <CheckCircle2 size={16} className='text-emerald-600 shrink-0' />
+                                <span>Serviceable at {pincodeResult.city ? `${pincodeResult.city}, ${pincodeResult.state}` : `PIN ${pincode}`}</span>
+                            </div>
+                            <div className='flex items-center gap-2 pl-6 text-gray-700 font-semibold'>
+                                <Truck size={14} className='text-gray-500 shrink-0' />
+                                <span>Expected Delivery by <strong className='text-gray-900'>{pincodeResult.estimatedDate}</strong></span>
+                            </div>
+
+                        </div>
+                    )}
+
+                    {pincodeResult && !pincodeResult.valid && (
+                        <div className='flex items-center gap-2 mt-1.5 p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-600 font-semibold'>
+                            <AlertCircle size={16} className='shrink-0' />
+                            <span>Invalid PIN code or location not serviceable. Please check again.</span>
+                        </div>
+                    )}
+                </div>
+
+
                 <div className='w-full relative flex items-start flex-col  justify-between'>
                     <p className='  text-sm md:text-base font-medium text-fontPrimary  mt-3 mb-3'>
                         Estd. Dispatch 7 working days
@@ -652,6 +815,9 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
 
                     <img src="/checkout-image.png" alt="checkout image" height={400} width={400} className="w-full realtive h-auto " />
                 </div>
+
+
+
 
                 {/* BENIFITS */}
                 {/* <ul className='w-full relative h-auto flex items-start gap-2 flex-col py-4 '>

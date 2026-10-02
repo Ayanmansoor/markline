@@ -194,7 +194,8 @@ async function getAllCollectionOccuation() {
 async function getAllBanner() {
   const { data: homebanner, error } = await mysupabase
     .from("HomeBanner")
-    .select("*");
+    .select("*")
+    .eq("isEnable", true);
   if (homebanner) {
     return homebanner;
   } else {

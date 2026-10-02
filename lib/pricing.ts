@@ -43,8 +43,12 @@ export function isPromoActive(discount: any): boolean {
  * Calculates pricing details for a single variant based on its MRP, Retail Price, and active promotional discount.
  */
 export function calculateVariantPrice(variant: any, discount: any): PricingResult {
-  const mrp = Number(variant.mrp || 0);
-  const retailPrice = Number(variant.retail_price || variant.price || 0);
+  const v = variant || {};
+  const rawMrp = Number(v.mrp || v.mrp_price || v.originalPrice || 0);
+  const rawRetail = Number(v.retail_price || v.retailPrice || v.price || v.variant_price || 0);
+
+  const retailPrice = rawRetail > 0 ? rawRetail : rawMrp;
+  const mrp = rawMrp > 0 ? rawMrp : retailPrice;
 
   // Base Discount: Difference between MRP and normal selling price
   const baseDiscount = Math.max(0, mrp - retailPrice);
@@ -52,10 +56,10 @@ export function calculateVariantPrice(variant: any, discount: any): PricingResul
 
   // Additional Promotional Discount (applied on top of the retail price)
   let promoDiscount = 0;
-  if (discount && isPromoActive(discount)) {
-    // If the promo discount has an inPercent boolean flag
-    const inPercent = discount.inPercent !== undefined ? discount.inPercent : (discount.discount_type === 'PERCENTAGE' || discount.discount_type === 'PERCENT');
-    const discountVal = Number(discount.discount_persent || discount.discount_value || 0);
+  const promo = discount || v.discounts || v.discount;
+  if (promo && isPromoActive(promo)) {
+    const inPercent = promo.inPercent !== undefined ? promo.inPercent : (promo.discount_type === 'PERCENTAGE' || promo.discount_type === 'PERCENT');
+    const discountVal = Number(promo.discount_persent || promo.discount_value || promo.discountAmount || 0);
 
     if (inPercent) {
       promoDiscount = retailPrice * (discountVal / 100);
@@ -63,7 +67,6 @@ export function calculateVariantPrice(variant: any, discount: any): PricingResul
       promoDiscount = discountVal;
     }
 
-    // Limit promotional discount to the retail price (price cannot be less than 0)
     promoDiscount = Math.min(promoDiscount, retailPrice);
   }
 
@@ -92,15 +95,14 @@ export function calculateOrderTotals(cartItems: any[], appliedCoupon: any | null
   let subtotal = 0;
   let productDiscount = 0;
 
-  const processedItems = cartItems.map(item => {
-    const variant = item.variant;
-    // Retrieve promo attached either inside variant or in item
-    const discount = variant?.discounts || variant?.discount || item.discounts || item.discount;
-    const qty = Number(item.quantity || 1);
+  const processedItems = (cartItems || []).map(item => {
+    const variant = item?.variant || item;
+    const discount = variant?.discounts || variant?.discount || item?.discounts || item?.discount;
+    const qty = Number(item?.quantity || 1);
 
-    const priceDetails = calculateVariantPrice(variant || item, discount);
+    const priceDetails = calculateVariantPrice(variant, discount);
 
-    totalMrp += priceDetails.mrp * qty;
+    totalMrp += (priceDetails.mrp || priceDetails.finalPrice) * qty;
     subtotal += priceDetails.finalPrice * qty;
     productDiscount += (priceDetails.baseDiscount + priceDetails.promoDiscount) * qty;
 

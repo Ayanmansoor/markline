@@ -106,15 +106,21 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
   }, [groupOfProducts]);
 
 
+  const activeHomeBanners = useMemo(() => {
+    return Array.isArray(homebanners)
+      ? homebanners.filter((b: any) => b.isEnable !== false)
+      : [];
+  }, [homebanners]);
+
   const desktopBanners = useMemo(() => {
     return Array.isArray(promotionalBanners)
-      ? promotionalBanners.filter((b: any) => !b.isMobile)
+      ? promotionalBanners.filter((b: any) => !b.isMobile && b.isEnable !== false)
       : [];
   }, [promotionalBanners]);
 
   const mobileBanners = useMemo(() => {
     return Array.isArray(promotionalBanners)
-      ? promotionalBanners.filter((b: any) => b.isMobile)
+      ? promotionalBanners.filter((b: any) => b.isMobile && b.isEnable !== false)
       : [];
   }, [promotionalBanners]);
 
@@ -225,7 +231,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
         </Swiper>
       </section>
 
-      <Hero bannerImages={homebanners} />
+      <Hero bannerImages={activeHomeBanners} />
 
 
 
