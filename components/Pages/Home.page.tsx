@@ -58,7 +58,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
     queryKey: ["homebanners"],
     queryFn: getAllBanner,
     initialData: initialBanners,
-    staleTime: Infinity,
+    staleTime: 1000 * 60 * 60 * 24 * 2, // 2 days
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
@@ -66,7 +66,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
   const { data: promotionalBanners = [] } = useQuery<any>({
     queryKey: ["promotionalCollectionBanners"],
     queryFn: getPromotionalCollectionBanners,
-    staleTime: Infinity,
+    staleTime: 1000 * 60 * 60 * 24 * 2, // 2 days
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
@@ -79,7 +79,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
     queryKey: ["allcollection"],
     queryFn: () => getAllCollectionsBaseOnType("ALL"),
     initialData: initialCollections,
-    staleTime: Infinity,
+    staleTime: 1000 * 60 * 60 * 24 * 2, // 2 days
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
@@ -93,7 +93,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
     queryKey: ["groupOfProductshome"],
     queryFn: () => fetchGroupOfProducts("ALL"),
     initialData: initialGroupOfProducts,
-    staleTime: Infinity,
+    staleTime: 1000 * 60 * 60 * 24 * 2, // 2 days
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
@@ -124,6 +124,9 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
       : [];
   }, [promotionalBanners]);
 
+
+  console.log("banner images", homebanners)
+
   const renderBannerSlot = (slotIndex: number) => {
     const desktopBanner = desktopBanners[slotIndex];
     const mobileBanner = mobileBanners[slotIndex];
@@ -135,7 +138,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
         {desktopBanner && (
           <div className="hidden min-[701px]:block w-full">
             <Link href={desktopBanner.url || "#"}>
-              <div className="relative w-full aspect-[21/9] max-h-[550px] overflow-hidden cursor-pointer hover:opacity-95 transition-opacity">
+              <div className="relative w-full aspect-[21/9] max-h-[560px] lg:max-h-[690px] overflow-hidden cursor-pointer hover:opacity-95 transition-opacity">
                 <img
                   src={desktopBanner.image_url}
                   alt={desktopBanner.name || `Promo Banner`}

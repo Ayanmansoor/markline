@@ -90,66 +90,68 @@ export default async function page({ params }: PageProps) {
 
   const jsonLd = serializedBlog
     ? {
-        "@context": "https://schema.org",
-        "@type": serializedBlog.schema_type || "BlogPosting",
-        "headline": serializedBlog.seo_title || serializedBlog.title,
-        "description": serializedBlog.seo_description || serializedBlog.seoDescription || serializedBlog.discription,
-        "image": serializedBlog.og_image || serializedBlog.bannerImage || serializedBlog.image || "https://shopmarkline.in/default-blog.jpg",
-        "datePublished": serializedBlog.created_at,
-        "dateModified": serializedBlog.created_at,
-        "mainEntityOfPage": {
-          "@type": "WebPage",
-          "@id": serializedBlog.canonical_url || `https://shopmarkline.in/blogs/${slug}`,
+      "@context": "https://schema.org",
+      "@type": serializedBlog.schema_type || "BlogPosting",
+      "headline": serializedBlog.seo_title || serializedBlog.title,
+      "description": serializedBlog.seo_description || serializedBlog.seoDescription || serializedBlog.discription,
+      "image": serializedBlog.og_image || serializedBlog.bannerImage || serializedBlog.image || "https://shopmarkline.in/default-blog.jpg",
+      "datePublished": serializedBlog.created_at,
+      "dateModified": serializedBlog.created_at,
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": serializedBlog.canonical_url || `https://shopmarkline.in/blogs/${slug}`,
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Markline Atelier",
+        "url": "https://shopmarkline.in",
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Markline",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://shopmarkline.in/logo.png",
         },
-        "author": {
-          "@type": "Organization",
-          "name": "Markline Atelier",
-          "url": "https://shopmarkline.in",
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "Markline",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://shopmarkline.in/logo.png",
-          },
-        },
-      }
+      },
+    }
     : null;
 
   const blogUrl = serializedBlog?.canonical_url || `https://shopmarkline.in/blogs/${slug}`;
 
   const breadcrumbLd = serializedBlog
     ? {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: "https://shopmarkline.in",
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Blogs",
-            item: "https://shopmarkline.in/blogs",
-          },
-          {
-            "@type": "ListItem",
-            position: 3,
-            name: serializedBlog.title || "Article",
-            item: blogUrl,
-          },
-        ],
-      }
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://shopmarkline.in",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Blogs",
+          item: "https://shopmarkline.in/blogs",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: serializedBlog.title || "Article",
+          item: blogUrl,
+        },
+      ],
+    }
     : null;
 
   return (
     <>
       {jsonLd && (
         <script
+
+
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify([jsonLd, breadcrumbLd].filter(Boolean)).replace(/</g, '\\u003c'),

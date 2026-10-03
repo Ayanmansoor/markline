@@ -607,6 +607,8 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                     </div>
                 )}
 
+
+
                 <div className='w-full fixed bottom-0 px-4 flex-wrap sm:px-0 bg-white sm:bg-transparent py-4 sm:py-0 z-30 grid grid-cols-[1fr_1fr] md:grid-cols-1 lg:grid-cols-2 gap-3 right-0 items-center sm:relative'>
                     {
                         (variant?.id && selectedColor?.name && selectedSize?.size) &&
