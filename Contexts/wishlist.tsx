@@ -3,7 +3,7 @@ import { whishlishtProps } from '@/types/interfaces';
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { toast } from 'sonner';
 import { mysupabase } from '@/Supabase/SupabaseConfig';
-import { safeJsonParse } from '@/lib/utils';
+import { getCloudflareImageUrl, safeJsonParse } from '@/lib/utils';
 
 interface IsProductInterface {
   productId: string | number;
@@ -28,7 +28,7 @@ function rowToWishlistItem(row: any): whishlishtProps {
     quantity: 1,
     color: [],
     size: [],
-    image_urls: row.image_url ? [{ url: row.image_url, image_url: row.image_url, name: '' }] : [],
+    image_urls: row.image_url ? [{ url: getCloudflareImageUrl(row.image_url), image_url: getCloudflareImageUrl(row.image_url), name: '' }] : [],
     discounts: row.discount_percent ? {
       discount_id: '',
       name: '',

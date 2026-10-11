@@ -43,7 +43,7 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
     const allColors: Colors[] = useMemo(() => {
         const colorMap = new Map<string, Colors>();
 
-        currentProduct?.product_variants.forEach((variant) => {
+        currentProduct?.product_variants?.forEach((variant) => {
             let colorArray: Colors[] = [];
 
             try {
@@ -99,7 +99,7 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
     const handleColorChange = (color: Colors) => {
         setSelectedColor(color);
 
-        const matchedVariant = currentProduct.product_variants.find((variant) => {
+        const matchedVariant = currentProduct?.product_variants?.find((variant) => {
             try {
                 const variantColors: Colors[] = Array.isArray(variant.colors)
                     ? variant.colors.map((item) =>
@@ -139,22 +139,22 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
         }
 
         const cartItem = {
-            productId: currentProduct.id,
-            productName: currentProduct.name,
-            slug: currentProduct.slug,
-            gender: currentProduct.gender,
+            productId: currentProduct?.id,
+            productName: currentProduct?.name || "Product",
+            slug: currentProduct?.slug || "",
+            gender: currentProduct?.gender || "",
             quantity: 1,
             url: `${pathname}`,
             variant: {
-                id: currentVariant.id,
-                sku: currentVariant.sku,
-                price: currentVariant.price,
-                stock: currentVariant.stock,
+                id: currentVariant?.id,
+                sku: currentVariant?.sku || "",
+                price: currentVariant?.price || 0,
+                stock: currentVariant?.stock || 0,
                 image_url: parsedImages,
-                is_active: currentVariant.is_active,
-                products_id: currentVariant.products_id,
-                discount_key: currentVariant.discount_key,
-                discounts: currentVariant.discounts,
+                is_active: currentVariant?.is_active ?? true,
+                products_id: currentVariant?.products_id || currentProduct?.id,
+                discount_key: currentVariant?.discount_key,
+                discounts: currentVariant?.discounts,
                 selectedColor,
                 selectedSize,
             },

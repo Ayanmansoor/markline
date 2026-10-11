@@ -38,7 +38,7 @@ import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
 
 import { motion, Variants } from "framer-motion";
-import { safeJsonParse } from "@/lib/utils";
+import { getCloudflareImageUrl, safeJsonParse } from "@/lib/utils";
 
 interface HomePageProps {
   initialBanners?: any;
@@ -112,6 +112,94 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
       : [];
   }, [homebanners]);
 
+  interface BannerCardItem {
+    image_url: string;
+    name?: string;
+    url?: string;
+  }
+
+  interface BannerSlotData {
+    type: "SINGLE" | "MULTIPLE";
+    desktopBanner?: any;
+    mobileBanner?: any;
+    items: BannerCardItem[];
+  }
+
+  const promotionalSlots = useMemo(() => {
+    const rawList = Array.isArray(promotionalBanners)
+      ? promotionalBanners.filter((b: any) => b && b.isEnable !== false)
+      : [];
+
+    const multipleList: BannerCardItem[] = [];
+    const singleDesktopList: any[] = [];
+    const singleMobileList: any[] = [];
+
+    // Separate all MULTIPLE banners and SINGLE banners
+    for (const b of rawList) {
+      const isMult = (b.Is_multiple || b.is_multiple || "").toUpperCase() === "MULTIPLE";
+
+      if (isMult) {
+        // If image_url is a JSON array string in a single row
+        let parsedArray: any = null;
+        if (typeof b.image_url === "string") {
+          const trimmed = b.image_url.trim();
+          if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
+            parsedArray = safeJsonParse(trimmed);
+          } else if (trimmed.includes(",")) {
+            parsedArray = trimmed.split(",").map((s: string) => s.trim());
+          }
+        } else if (Array.isArray(b.image_url)) {
+          parsedArray = b.image_url;
+        }
+
+        if (Array.isArray(parsedArray) && parsedArray.length > 1) {
+          parsedArray.forEach((item: any) => {
+            multipleList.push({
+              image_url: typeof item === "string" ? item : item.image_url || item.url || "",
+              name: (typeof item === "object" ? item.name : "") || b.name || "",
+              url: (typeof item === "object" ? item.url : "") || b.url || "#",
+            });
+          });
+        } else {
+          multipleList.push({
+            image_url: b.image_url || "",
+            name: b.name || "",
+            url: b.url || "#",
+          });
+        }
+      } else {
+        if (b.isMobile) {
+          singleMobileList.push(b);
+        } else {
+          singleDesktopList.push(b);
+        }
+      }
+    }
+
+    const slots: BannerSlotData[] = [];
+
+    // 1. Group MULTIPLE banners into 3-card grid slots
+    for (let i = 0; i < multipleList.length; i += 3) {
+      slots.push({
+        type: "MULTIPLE",
+        items: multipleList.slice(i, i + 3),
+      });
+    }
+
+    // 2. Add SINGLE banners as slots (pairing desktop & mobile where available)
+    const maxSingle = Math.max(singleDesktopList.length, singleMobileList.length);
+    for (let i = 0; i < maxSingle; i++) {
+      slots.push({
+        type: "SINGLE",
+        desktopBanner: singleDesktopList[i] || null,
+        mobileBanner: singleMobileList[i] || null,
+        items: [],
+      });
+    }
+
+    return slots;
+  }, [promotionalBanners]);
+
   const desktopBanners = useMemo(() => {
     return Array.isArray(promotionalBanners)
       ? promotionalBanners.filter((b: any) => !b.isMobile && b.isEnable !== false)
@@ -124,12 +212,43 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
       : [];
   }, [promotionalBanners]);
 
-
-  console.log("banner images", homebanners)
-
   const renderBannerSlot = (slotIndex: number) => {
-    const desktopBanner = desktopBanners[slotIndex];
-    const mobileBanner = mobileBanners[slotIndex];
+    const slot = promotionalSlots[slotIndex];
+
+    // 1. If MULTIPLE -> Render 3-image grid layout
+    if (slot && slot.type === "MULTIPLE" && slot.items && slot.items.length > 0) {
+      const items = slot.items.slice(0, 3);
+
+      return (
+        <div className="w-full relative py-3 md:py-6  px-3 sm:px-5 lg:px-10 xl:px-20 2xl:px-40">
+          {/* 2-Column Grid on Mobile (2 side-by-side on top, 1 on bottom) & 3-Column Grid on Desktop */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-4 lg:gap-6 w-full">
+            {items.map((item, idx) => (
+              <Link
+                key={idx}
+                href={item.url || "#"}
+                className={`group relative block overflow-hidden rounded-md bg-[#f8f8f8] border border-gray-200/80 shadow-sm hover:shadow-md transition-all duration-300 ${
+                  idx === 2
+                    ? "col-span-2 md:col-span-1 aspect-[3/4] sm:aspect-[16/9] md:aspect-[4/5]"
+                    : "aspect-[3/4] sm:aspect-[4/5]"
+                }`}
+              >
+                <img
+                  src={getCloudflareImageUrl(item.image_url)}
+                  alt={item.name || `Promotional Collection ${idx + 1}`}
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  loading="lazy"
+                />
+              </Link>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // 2. SINGLE Banner (or fallback to slot/legacy arrays)
+    const desktopBanner = slot?.desktopBanner || desktopBanners[slotIndex];
+    const mobileBanner = slot?.mobileBanner || mobileBanners[slotIndex];
 
     if (!desktopBanner && !mobileBanner) return null;
 
@@ -140,7 +259,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
             <Link href={desktopBanner.url || "#"}>
               <div className="relative w-full aspect-[21/9] max-h-[560px] lg:max-h-[690px] overflow-hidden cursor-pointer hover:opacity-95 transition-opacity">
                 <img
-                  src={desktopBanner.image_url}
+                  src={getCloudflareImageUrl(desktopBanner.image_url)}
                   alt={desktopBanner.name || `Promo Banner`}
                   className="w-full h-full object-cover"
                 />
@@ -151,9 +270,9 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
         {mobileBanner && (
           <div className="block min-[701px]:hidden w-full">
             <Link href={mobileBanner.url || "#"}>
-              <div className="relative w-full aspect-[4/3] max-h-[350px] overflow-hidden cursor-pointer hover:opacity-95 transition-opacity">
+              <div className="relative w-full aspect-[4/3] max-h-[380px] overflow-hidden cursor-pointer hover:opacity-95 transition-opacity">
                 <img
-                  src={mobileBanner.image_url}
+                  src={getCloudflareImageUrl(mobileBanner.image_url)}
                   alt={mobileBanner.name || `Mobile Promo Banner`}
                   className="w-full h-full object-cover"
                 />
@@ -216,7 +335,7 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
                 >
                   {imageData?.image_url && (
                     <img
-                      src={imageData?.image_url}
+                      src={getCloudflareImageUrl(imageData?.image_url)}
                       alt={imageData?.name || collection?.name || "Collection image"}
                       height={900}
                       width={900}
@@ -318,12 +437,11 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
           )}
       </motion.section>
 
-      {renderBannerSlot(0)}
 
 
 
       {isLoading ? (
-        <div className="grid grid-cols-2  lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10 xl:px-20 2xl:px-40">
+        <div className="grid grid-cols-2 lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10 xl:px-20 2xl:px-40">
           <ProductCardSkeleton />
           <ProductCardSkeleton />
           <ProductCardSkeleton />
@@ -331,11 +449,10 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
           <ProductCardSkeleton />
         </div>
       ) : activeGroups.length > 0 ? (
-        activeGroups.slice(0, 3).map(
-          (item: any, index: number) =>
-            item.products?.length > 0 && (
+        activeGroups.map((item: any, index: number) => (
+          <React.Fragment key={item.id || index}>
+            {item.products?.length > 0 && (
               <motion.div
-                key={index}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.1 }}
@@ -350,56 +467,25 @@ function HomePage({ initialBanners, initialCollections, initialGroupOfProducts }
                   <CarouselProduct
                     url="product"
                     product={item.products.slice(0, 10)}
-                    productsCardCss="  h-[260px] object-cover   sm:h-[300px] md:h-[350px] lg:h-[400px]"
+                    productsCardCss="h-[260px] object-cover sm:h-[300px] md:h-[350px] lg:h-[400px]"
                   />
                 </CategoriesSection>
               </motion.div>
-            )
-        )
-      ) : (
-        <></>
-      )}
-      {renderBannerSlot(1)}
+            )}
 
+            {/* Interleaved banner slot between groups (Group -> Banner -> Group -> Banner) */}
+            {renderBannerSlot(index)}
+          </React.Fragment>
+        ))
+      ) : null}
 
-      {isLoading ? (
-        <div className="grid grid-cols-2   lg:py-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 px-5 lg:px-10 xl:px-20 2xl:px-40">
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-          <ProductCardSkeleton />
-        </div>
-      ) : activeGroups.length > 0 ? (
-        activeGroups.slice(3).map(
-          (item: any, index: number) =>
-            item.products?.length > 0 && (
-              <motion.div
-                key={index}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.1 }}
-                variants={fadeInVariants}
-              >
-                <CategoriesSection
-                  title={`${item?.heading} `}
-                  subtitle={`${item?.discription}`}
-                  url={`${item?.url}`}
-                  urltext={`${item?.urlText}`}
-                >
-                  <CarouselProduct
-                    url="product"
-                    product={item.products.slice(0, 10)}
-                    productsCardCss=" h-[230px]  object-cover sm:h-[300px] md:h-[350px] lg:h-[400px]"
-                  />
-                </CategoriesSection>
-              </motion.div>
-            )
-        )
-      ) : (
-        <></>
-      )}
-      {renderBannerSlot(2)}
+      {/* Any remaining banner slots if there are more promotional banners than groups */}
+      {promotionalSlots.length > activeGroups.length &&
+        promotionalSlots.slice(activeGroups.length).map((_, idx) => (
+          <React.Fragment key={`extra-banner-${idx}`}>
+            {renderBannerSlot(activeGroups.length + idx)}
+          </React.Fragment>
+        ))}
 
 
 

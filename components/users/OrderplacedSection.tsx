@@ -3,7 +3,7 @@ import React from 'react'
 import Link from 'next/link'
 import { ChevronRight, Package, Calendar, Tag, ShieldCheck, Clock, CheckCircle2, AlertTriangle } from 'lucide-react'
 import { BsWhatsapp } from 'react-icons/bs'
-import { safeJsonParse } from '@/lib/utils'
+import { getCloudflareImageUrl, safeJsonParse } from '@/lib/utils'
 
 export interface ordersprops {
   orders: any[],
@@ -35,10 +35,10 @@ const getImageUrl = (item: any) => {
     const raw = Array.isArray(item.variant.image_url) ? item.variant.image_url[0] : item.variant.image_url;
     try {
       const parsed = typeof raw === 'string' ? safeJsonParse(raw) : raw;
-      if (parsed?.image_url) return parsed.image_url;
-      if (typeof raw === 'string' && raw.startsWith('http')) return raw;
+      if (parsed?.image_url) return getCloudflareImageUrl(parsed.image_url);
+      if (typeof raw === 'string' && raw.startsWith('http')) return getCloudflareImageUrl(raw);
     } catch {
-      if (typeof raw === 'string') return raw;
+      if (typeof raw === 'string') return getCloudflareImageUrl(raw);
     }
   }
   // Check product image
@@ -46,17 +46,50 @@ const getImageUrl = (item: any) => {
     const raw = Array.isArray(item.product.image_url) ? item.product.image_url[0] : item.product.image_url;
     try {
       const parsed = typeof raw === 'string' ? safeJsonParse(raw) : raw;
-      if (parsed?.image_url) return parsed.image_url;
-      if (typeof raw === 'string' && raw.startsWith('http')) return raw;
+      if (parsed?.image_url) return getCloudflareImageUrl(parsed.image_url);
+      if (typeof raw === 'string' && raw.startsWith('http')) return getCloudflareImageUrl(raw);
     } catch {
-      if (typeof raw === 'string') return raw;
+      if (typeof raw === 'string') return getCloudflareImageUrl(raw);
     }
   }
   if (item.product?.image_urls && Array.isArray(item.product.image_urls) && item.product.image_urls.length > 0) {
-    return item.product.image_urls[0]?.image_url || item.product.image_urls[0]?.url || '';
+    const url = item.product.image_urls[0]?.image_url || item.product.image_urls[0]?.url || '';
+    return getCloudflareImageUrl(url);
   }
-  if (typeof item.image_url === 'string') return item.image_url;
+  if (typeof item.image_url === 'string') return getCloudflareImageUrl(item.image_url);
   return '';
+};
+
+const parseColor = (rawColor: any) => {
+  if (!rawColor) return null;
+  if (typeof rawColor === 'string') {
+    const parsed = safeJsonParse(rawColor);
+    if (parsed) {
+      if (typeof parsed === 'object') return parsed;
+      return { name: String(parsed) };
+    }
+    return { name: rawColor };
+  }
+  if (typeof rawColor === 'object') return rawColor;
+  return null;
+};
+
+const parseSize = (rawSize: any): string => {
+  if (!rawSize) return '';
+  if (typeof rawSize === 'string') {
+    const parsed = safeJsonParse(rawSize);
+    if (parsed) {
+      if (typeof parsed === 'object' && parsed.size) {
+        return `${parsed.size} ${parsed.unit || ''}`.trim();
+      }
+      return String(parsed);
+    }
+    return rawSize;
+  }
+  if (typeof rawSize === 'object') {
+    if (rawSize.size) return `${rawSize.size} ${rawSize.unit || ''}`.trim();
+  }
+  return String(rawSize);
 };
 
 function OrderplacedSection({ orders, handleperform }: ordersprops) {
@@ -76,7 +109,7 @@ function OrderplacedSection({ orders, handleperform }: ordersprops) {
             </span>
           </div>
 
-          <div className='grid grid-cols-1 gap-6'>
+          <div className='grid grid-cols-1 gap-2'>
             {orders.map((order) => {
               const orderId = order.id ? order.id.toString() : '';
               const shortId = orderId.length > 8 ? orderId.slice(0, 8).toUpperCase() : orderId.toUpperCase();
@@ -90,10 +123,15 @@ function OrderplacedSection({ orders, handleperform }: ordersprops) {
               const firstImage = getImageUrl(firstItem);
               const firstProductName = firstItem?.product?.name || firstItem?.name || 'Markline Creation';
 
+              const colorObj = parseColor(firstItem?.color || firstItem?.variant?.selectedColor);
+              const colorName = colorObj?.name || (typeof colorObj === 'string' ? colorObj : '');
+              const colorHex = colorObj?.hex;
+              const sizeStr = parseSize(firstItem?.size || firstItem?.variant?.selectedSize);
+
               return (
                 <div
                   key={orderId}
-                  className='group bg-white border border-gray-200 rounded-xl p-5 hover:border-gray-300 hover:shadow-md transition-all duration-300 flex flex-col gap-5 shadow-sm'
+                  className='group bg-white border border-gray-200 rounded-xl p-2 hover:border-gray-300 hover:shadow-md transition-all duration-300 flex flex-col gap-5 shadow-sm'
                 >
                   {/* Top Bar: Order ID, Date, Badges */}
                   <div className='flex flex-wrap items-center justify-between gap-4 border-b border-gray-100 pb-3'>
@@ -115,11 +153,10 @@ function OrderplacedSection({ orders, handleperform }: ordersprops) {
 
                     <div className='flex items-center gap-2'>
                       {/* Payment Status Badge */}
-                      <span className={`text-xs font-medium px-2.5 py-1 rounded-md border ${
-                        paymentStatus.toLowerCase() === 'paid' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                      <span className={`text-xs font-medium px-2.5 py-1 rounded-md border ${paymentStatus.toLowerCase() === 'paid' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
                         paymentStatus.toLowerCase() === 'failed' ? 'bg-red-50 text-red-700 border-red-200' :
-                        'bg-amber-50 text-amber-700 border-amber-200'
-                      }`}>
+                          'bg-amber-50 text-amber-700 border-amber-200'
+                        }`}>
                         Payment: {paymentStatus}
                       </span>
                     </div>
@@ -137,15 +174,41 @@ function OrderplacedSection({ orders, handleperform }: ordersprops) {
                         />
                       </div>
 
-                      <div className='flex flex-col gap-1 flex-1 min-w-0 pt-1'>
+                      <div className='flex flex-col gap-1.5 flex-1 min-w-0 pt-0.5'>
                         <h3 className='font-semibold text-gray-900 text-sm tracking-tight line-clamp-2'>
                           {firstProductName}
                         </h3>
-                        <p className='text-xs font-medium text-gray-500 mt-1'>
-                          {itemsList.length > 1
-                            ? `+ ${itemsList.length - 1} additional item${itemsList.length - 1 > 1 ? 's' : ''} (${totalItems} total pcs)`
-                            : `Qty: ${itemsList[0]?.quantity || 1} Unit`}
-                        </p>
+
+                        {/* Color & Size Badges */}
+                        <div className='flex flex-wrap items-center gap-2 mt-0.5'>
+                          {colorName && (
+                            <span className='inline-flex items-center gap-1.5 bg-gray-50 text-gray-700 px-2 py-0.5 rounded border border-gray-200 text-xs font-medium'>
+                              {colorHex && (
+                                <span
+                                  className='w-2.5 h-2.5 rounded-full border border-gray-300 shrink-0'
+                                  style={{ backgroundColor: colorHex }}
+                                />
+                              )}
+                              <span>Color: <strong className='text-gray-900'>{colorName}</strong></span>
+                            </span>
+                          )}
+
+                          {sizeStr && (
+                            <span className='inline-flex items-center gap-1 bg-gray-50 text-gray-700 px-2 py-0.5 rounded border border-gray-200 text-xs font-medium'>
+                              <span>Size: <strong className='text-gray-900'>{sizeStr}</strong></span>
+                            </span>
+                          )}
+
+                          <span className='inline-flex items-center gap-1 bg-gray-50 text-gray-700 px-2 py-0.5 rounded border border-gray-200 text-xs font-medium'>
+                            <span>Qty: <strong className='text-gray-900'>{firstItem?.quantity || 1}</strong></span>
+                          </span>
+                        </div>
+
+                        {itemsList.length > 1 && (
+                          <p className='text-xs font-semibold text-gray-500 mt-1'>
+                            + {itemsList.length - 1} additional item{itemsList.length - 1 > 1 ? 's' : ''} ({totalItems} total pcs)
+                          </p>
+                        )}
                       </div>
                     </div>
 

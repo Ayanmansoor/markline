@@ -24,14 +24,14 @@ import AddToCardPopver from "./AddToCardPopver";
 import { useWishlists } from "@/Contexts/wishlist";
 import { Plus } from "lucide-react";
 import { calculateVariantPrice } from '@/lib/pricing';
-import { safeJsonParse } from "@/lib/utils";
+import { getCloudflareImageUrl, safeJsonParse } from "@/lib/utils";
 
 function ProductCard({ product, url, className }: newProductsProps) {
   const { addToWishlist, removeFromWishlist, wishlist, isProductInWishlist } =
     useWishlists();
 
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(
-    product?.product_variants[0]
+    product?.product_variants?.[0]
   );
   const [Stringifycolor, setStringifyColor] = useState<Colors[]>([]);
   const [StringifySize, setStringifySize] = useState<Sizes[]>([]);
@@ -44,9 +44,11 @@ function ProductCard({ product, url, className }: newProductsProps) {
     return calculateVariantPrice(selectedVariant || {}, selectedVariant?.discounts);
   }, [selectedVariant]);
 
-  // useEffect(() => {
-  //   setSelectedVariant(product.product_variants[0])
-  // }, [product])
+  useEffect(() => {
+    if (product?.product_variants?.length) {
+      setSelectedVariant(product.product_variants[0]);
+    }
+  }, [product]);
 
   useEffect(() => {
     if (
@@ -73,11 +75,12 @@ function ProductCard({ product, url, className }: newProductsProps) {
 
   const toggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent navigating to the product page when clicking the heart
+    if (!product?.id) return;
     if (isInWhishlist) {
       removeFromWishlist({ productId: product.id });
     } else {
       addToWishlist({
-        name: product.name,
+        name: product?.name || "",
         productId: product.id,
         price: selectedVariant?.price || 0,
         quantity: 1,
@@ -86,7 +89,7 @@ function ProductCard({ product, url, className }: newProductsProps) {
         image_urls: StringifyImages || [],
         discounts: selectedVariant?.discounts as any,
         discount_key: product?.discount_key || "",
-        slug: product.slug,
+        slug: product?.slug || "",
       });
     }
   };
@@ -94,7 +97,7 @@ function ProductCard({ product, url, className }: newProductsProps) {
   const { allColors, allSizes } = useMemo(() => {
     const colorMap = new Map<string, Colors>();
     const sizeMap = new Map<string, Sizes>();
-    product.product_variants?.forEach((variant: ProductVariant) => {
+    product?.product_variants?.forEach((variant: ProductVariant) => {
       let colorArray: Colors[] = [];
       let sizeArray: Sizes[] = [];
 
@@ -143,7 +146,7 @@ function ProductCard({ product, url, className }: newProductsProps) {
     console.log(color, "this is colors");
     setSelectedColor(color);
 
-    const matchedVariant = product.product_variants.find((variant) => {
+    const matchedVariant = product?.product_variants?.find((variant) => {
       try {
         const variantColors: Colors[] = Array.isArray(variant.colors)
           ? variant.colors.map((item) =>
@@ -191,7 +194,7 @@ function ProductCard({ product, url, className }: newProductsProps) {
                   key={index}
                 >
                   <img
-                    src={`${image?.image_url}` || ""}
+                    src={getCloudflareImageUrl(image?.image_url)}
                     alt={`${image.name} - markline `}
                     className={`w-full object-contain bg-transparent transition-opacity duration-500 ease-in-out sm:object-cover ${index === 0 && StringifyImages.length > 1
                       ? "absolute top-0 left-0 opacity-100 group-hover/slide:opacity-0"
@@ -203,7 +206,7 @@ function ProductCard({ product, url, className }: newProductsProps) {
                   />
                   {index === 0 && StringifyImages.length > 1 && (
                     <img
-                      src={`${StringifyImages[1]?.image_url}` || ""}
+                      src={getCloudflareImageUrl(StringifyImages[1]?.image_url)}
                       alt={`${StringifyImages[1].name || "hover"} - markline`}
                       className={`w-full object-contain bg-transparent transition-opacity duration-500 ease-in-out sm:object-cover relative opacity-0 group-hover/slide:opacity-100 ${className ? className : "h-[260px] aspect-square sm:h-[300px] md:h-[250px] lg:h-[350px] xl:h-[400px]"
                         }`}

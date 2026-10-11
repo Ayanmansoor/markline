@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -38,8 +39,12 @@ type FormInputs = z.infer<typeof addressFromSchema>;
 
 export default function AddUserAddressForm({
   handleperform,
+  hideHeader = false,
+  className,
 }: {
   handleperform?: (data: any) => void;
+  hideHeader?: boolean;
+  className?: string;
 }) {
   const [UserObj, setUser] = useState<UserInterface>();
   const [loadingPincode, setLoadingPincode] = useState(false);
@@ -125,7 +130,10 @@ export default function AddUserAddressForm({
       reset();
       setSelectedLabelOption(null);
       setShowOtherLabel(false);
-      handleperform && handleperform(response.data);
+      const createdRecord = Array.isArray(response.data?.data)
+        ? response.data.data[0]
+        : (response.data?.data || response.data);
+      handleperform && handleperform(createdRecord);
     } catch (error) {
       console.error("API error:", error);
       toast.error("Failed to add address");
@@ -139,18 +147,19 @@ export default function AddUserAddressForm({
   };
 
   return (
-    <div className="w-full bg-white border border-gray-100 rounded-3xl p-6 md:p-8 shadow-2xl shadow-gray-200/50">
-      <div className="flex flex-col gap-1 mb-8">
-        <span className="text-[10px] font-black 
-         tracking-[0.4em] text-gray-400">Postal Registry</span>
-        <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-black capitalize leading-none">
-          Add New Address
-        </h2>
-      </div>
+    <div className={cn("w-full bg-white border border-gray-100 rounded-3xl p-4  shadow-2xl shadow-gray-200/50", className)}>
+      {!hideHeader && (
+        <div className="flex flex-col gap-1 mb-6">
+          <span className="text-[10px] font-black tracking-[0.4em] text-gray-400">Postal Registry</span>
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-black capitalize leading-none">
+            Add New Address
+          </h2>
+        </div>
+      )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
         {/* Address Label Selector */}
-        <div className="space-y-3">
+        <div className="space-y-1">
           <label className="text-[11px] font-bold 
            tracking-wider text-gray-500 ml-1">
             Address Identity *
@@ -171,7 +180,7 @@ export default function AddUserAddressForm({
                   }
                 }}
                 className={`
-                  flex items-center gap-2 px-6 py-1.5 rounded-full border-2 transition-all duration-300 font-bold text-xs 
+                  flex items-center gap-2 px-2 py-1 rounded-full border-2 transition-all duration-300 font-bold text-xs 
                    tracking-widest
                   ${selectedLabelOption === label
                     ? "bg-black border-black text-white shadow-lg shadow-black/20"
@@ -189,7 +198,7 @@ export default function AddUserAddressForm({
             <div className="relative mt-1 group">
               <input
                 className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-1.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
-                placeholder="PROPOSE CUSTOM LABEL..."
+                placeholder="Custom address label..."
                 {...register("name")}
               />
               <CheckCircle2 size={10} className="absolute right-4 top-3.5 text-gray-300 group-focus-within:text-black transition-colors" />
@@ -201,28 +210,26 @@ export default function AddUserAddressForm({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {/* Recipient Identity */}
           <div className="space-y-2 group">
-            <label className="text-[11px] font-bold 
-             tracking-wider text-gray-500 ml-1">Recipient Identity</label>
+            <label className="text-[11px] font-bold tracking-wider text-gray-500 ml-1">Recipient Name</label>
             <div className="relative ">
               <input
                 type="text"
                 className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-1.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
-                placeholder="FULL LEGAL NAME"
+                placeholder="Full Legal Name"
                 {...register("recipientName")}
               />
             </div>
             {errors.recipientName && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.recipientName.message}</p>}
           </div>
 
-          {/* Contact Link */}
+          {/* Phone Number */}
           <div className="space-y-2 group">
-            <label className="text-[11px] font-bold 
-             tracking-wider text-gray-500 ml-1">Contact Link</label>
+            <label className="text-[11px] font-bold tracking-wider text-gray-500 ml-1">Phone Number</label>
             <div className="relative">
               <input
                 type="text"
                 className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-1.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
-                placeholder="PHONE NUMBER"
+                placeholder="Phone Number"
                 {...register("recipientPhone")}
               />
             </div>
@@ -231,28 +238,26 @@ export default function AddUserAddressForm({
 
           {/* Pin Code / Auto-detect */}
           <div className="space-y-2 group">
-            <label className="text-[11px] font-bold 
-             tracking-wider text-gray-500 ml-1">Jurisdiction Code (PIN)</label>
+            <label className="text-[11px] font-bold tracking-wider text-gray-500 ml-1">Pincode</label>
             <div className="relative">
               <input
                 type="text"
                 className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-1.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
-                placeholder="6-DIGIT CODE"
+                placeholder="6-Digit Pincode"
                 {...register("pin_code")}
               />
             </div>
             {errors.pin_code && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.pin_code.message}</p>}
           </div>
 
-          {/* Landmark - NEW */}
+          {/* Landmark */}
           <div className="space-y-2 group">
-            <label className="text-[11px] font-bold 
-             tracking-wider text-gray-500 ml-1">Visual Landmark</label>
+            <label className="text-[11px] font-bold tracking-wider text-gray-500 ml-1">Landmark (Optional)</label>
             <div className="relative">
               <input
                 type="text"
                 className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-1.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
-                placeholder="NEARBY FAMOUS PLACE"
+                placeholder="Nearby landmark / famous place"
                 {...register("landmark")}
               />
             </div>
@@ -260,13 +265,12 @@ export default function AddUserAddressForm({
 
           {/* City - Dynamic Input */}
           <div className="space-y-2 group">
-            <label className="text-[11px] font-bold 
-             tracking-wider text-gray-500 ml-1">City / District</label>
+            <label className="text-[11px] font-bold tracking-wider text-gray-500 ml-1">City / District</label>
             <div className="relative">
               <input
                 type="text"
                 className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-1.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
-                placeholder="AUTO-POPULATED"
+                placeholder="Auto-populated"
                 {...register("city")}
               />
             </div>
@@ -275,13 +279,12 @@ export default function AddUserAddressForm({
 
           {/* State - Dynamic Input */}
           <div className="space-y-2 group">
-            <label className="text-[11px] font-bold 
-             tracking-wider text-gray-500 ml-1">State / Province</label>
+            <label className="text-[11px] font-bold tracking-wider text-gray-500 ml-1">State / Province</label>
             <div className="relative">
               <input
                 type="text"
                 className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-1.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none"
-                placeholder="AUTO-POPULATED"
+                placeholder="Auto-populated"
                 {...register("state_name")}
               />
             </div>
@@ -290,13 +293,12 @@ export default function AddUserAddressForm({
 
           {/* Full Detailed Address */}
           <div className="col-span-1 md:col-span-2 space-y-2 group">
-            <label className="text-[11px] font-bold 
-             tracking-wider text-gray-500 ml-1">Detailed Manifest (Full Address)</label>
+            <label className="text-[11px] font-bold tracking-wider text-gray-500 ml-1">Full Address</label>
             <div className="relative">
               <textarea
                 rows={3}
                 className="w-full bg-gray-50 border-2 border-gray-200 rounded-lg px-4 py-1.5 text-sm font-bold focus:bg-white focus:border-black transition-all outline-none resize-none"
-                placeholder="STREET NAME, HOUSE NUMBER, ETC."
+                placeholder="Flat, House no., Building, Street name, Area"
                 {...register("full_address")}
               />
             </div>
@@ -313,16 +315,16 @@ export default function AddUserAddressForm({
             {...register("isdefault")}
           />
           <label htmlFor="default-check" className="text-xs font-bold text-gray-700 cursor-pointer select-none">
-            ESTABLISH AS PRIMARY JURISDICTION (DEFAULT)
+            Set as default address
           </label>
         </div>
 
         <button
           disabled={isSubmitting}
-          className="w-full md:w-auto md:min-w-[200px] bg-black text-white px-8 py-4 rounded-xl font-black text-xs 
-           tracking-[0.2em] shadow-xl shadow-black/20 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-3 disabled:bg-gray-400"
+          className="w-full md:w-auto md:min-w-[200px] bg-black text-white px-8 py-4 rounded-xl font-bold text-xs 
+           tracking-wider shadow-xl shadow-black/20 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-3 disabled:bg-gray-400"
         >
-          {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : "SECURE ADDRESS"}
+          {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : "Save Address"}
         </button>
       </form>
     </div>

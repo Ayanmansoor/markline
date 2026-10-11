@@ -204,7 +204,7 @@ function AboutUsPage() {
           className="max-w-4xl mx-auto px-5"
         >
           <p className="text-2xl md:text-4xl font-semibold text-primary leading-tight">
-            At Markline, we don&apos;t just make shoes — we help you <span className="italic border-b-2 border-secondary">mark your way.</span>
+            At Markline, we don&apos;t just make shoes — we help you <span className="italic border-b-2 border-secondary">Mark Your Legacy.</span>
           </p>
         </motion.div>
       </section>

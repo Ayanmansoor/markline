@@ -1,5 +1,5 @@
 import { mysupabase } from "@/Supabase/SupabaseConfig";
-import { safeJsonParse, safeJsonParseArray } from "@/lib/utils";
+import { getCloudflareImageUrl, safeJsonParse, safeJsonParseArray } from "@/lib/utils";
 
 export const SITE_URL = "https://shopmarkline.in";
 
@@ -139,12 +139,12 @@ export function extractVariantImages(imageUrlData: any): string[] {
 
   for (const item of parsed) {
     if (typeof item === "string" && item.trim().startsWith("http")) {
-      urls.push(item.trim());
+      urls.push(getCloudflareImageUrl(item.trim()));
     } else if (typeof item === "object" && item !== null) {
       if (item.image_url && typeof item.image_url === "string") {
-        urls.push(item.image_url.trim());
+        urls.push(getCloudflareImageUrl(item.image_url.trim()));
       } else if (item.url && typeof item.url === "string") {
-        urls.push(item.url.trim());
+        urls.push(getCloudflareImageUrl(item.url.trim()));
       }
     }
   }

@@ -266,10 +266,18 @@ function SheetCartForm({ setConfirm, setOrderID, closeSheet }: SheetCartFormProp
             theme: {
                 color: "#084E10",
             },
+            modal: {
+                ondismiss: function () {
+                    console.log("Checkout closed by user");
+                    setOrderSub(false);
+                },
+            },
         };
 
         const paymentObject = new window.Razorpay(options);
-        paymentObject.open();
+        setTimeout(() => {
+            paymentObject.open();
+        }, 100);
     }
 
     // async function onSubmit(data: orderForm) {

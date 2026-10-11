@@ -492,7 +492,8 @@ async function getCurrentUserSingleOrder(userId: string, orderId: string) {
           *,
           product:product_id(*),
           variant:variant_id(*)
-        )
+        ),
+        shipments(*)
       `)
       .eq("user_id", userId)
       .eq("id", orderId)

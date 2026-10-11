@@ -563,6 +563,8 @@ export interface NewProductProps {
   keywords?: string[];
   amazon_url?: string;
   flipkart_url?: string;
+  image_urls?: any;
+  image_url?: any;
 }
 
 export interface newBuyComponentProps extends NewProductProps {
@@ -584,8 +586,9 @@ export interface NewForProductsProps {
   className?: string;
   selectedAddress?: AddressProps | null;
   user?: userinterfce;
-  userAddress?: AddressProps[]
+  userAddress?: AddressProps[];
   setConfirm?: React.Dispatch<React.SetStateAction<any>>;
+  closeDialog?: () => void;
 }
 
 export interface NewAddressFromProps {
@@ -631,4 +634,57 @@ export interface ReviewProps {
     name?: string;
     avatar_url?: string;
   };
+}
+
+export interface ShipmentProps {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  warehouse_id?: number | null;
+  parent_shipment_id?: number | null;
+  shipment_type: string;
+  provider: string;
+  shipment_status:
+    | 'Pending'
+    | 'Ready To Ship'
+    | 'AWB Generated'
+    | 'Pickup Scheduled'
+    | 'Picked Up'
+    | 'In Transit'
+    | 'Reached Destination Hub'
+    | 'Out For Delivery'
+    | 'Delivered'
+    | 'Returned To Warehouse'
+    | 'Cancelled'
+    | 'RTO'
+    | 'Lost'
+    | 'Damaged'
+    | string;
+  pickup_status: string;
+  courier_name?: string | null;
+  courier_id?: number | null;
+  tracking_number?: string | null;
+  tracking_url?: string | null;
+  awb_code?: string | null;
+  shiprocket_order_id?: string | null;
+  shipment_id?: string | null;
+  shipping_label_url?: string | null;
+  manifest_url?: string | null;
+  invoice_url?: string | null;
+  weight?: number | null;
+  length?: number | null;
+  breadth?: number | null;
+  height?: number | null;
+  pickup_requested_at?: string | null;
+  pickup_scheduled_at?: string | null;
+  picked_up_at?: string | null;
+  in_transit_at?: string | null;
+  out_for_delivery_at?: string | null;
+  delivered_at?: string | null;
+  cancelled_at?: string | null;
+  last_tracking_update?: string | null;
+  tracking_response?: any;
+  failure_reason?: string | null;
+  remarks?: string | null;
+  order_id: string;
 }

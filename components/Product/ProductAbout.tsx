@@ -27,7 +27,7 @@ import ProductReviews from './ProductReviews';
 
 import { usePathname } from 'next/navigation';
 import { calculateVariantPrice } from '@/lib/pricing';
-import { safeJsonParse } from '@/lib/utils';
+import { getCloudflareImageUrl, safeJsonParse } from '@/lib/utils';
 interface productsCart {
     colors: {
         color: colorProps
@@ -250,7 +250,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
     const handleColourClick = (c: Colors) => {
         setSelectedColor(c);
 
-        const matched = product?.product_variants.find(v => {
+        const matched = product?.product_variants?.find(v => {
             const variantColors = Array.isArray(v.colors)
                 ? v.colors.map((x: any) => (typeof x === 'string' ? safeJsonParse(x) : x)).filter(Boolean)
                 : typeof v.colors === 'string'
@@ -508,7 +508,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
                                 >
                                     {image?.image_url ? (
                                         <img
-                                            src={image.image_url}
+                                            src={getCloudflareImageUrl(image.image_url)}
                                             alt={color.name}
                                             className="object-cover w-full  h-full"
                                         />
@@ -526,7 +526,7 @@ function ProductAbout({ product, variant, onVariantChange }: ProductMainAboutPro
 
                 <div className='flex items-center justify-start'>
                     {
-                        variant.stock >= 0 ?
+                        (variant?.stock !== undefined && variant.stock >= 0) ?
                             <p className='text-base font-semibold text-[#128C7E]'> In Stock </p>
                             :
                             <p className='text-base font-semibold text-gray-800 '> Out Of Stock</p>

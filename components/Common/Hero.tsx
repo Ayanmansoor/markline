@@ -11,6 +11,7 @@ import 'swiper/css/autoplay'
 
 import { Autoplay, Pagination } from 'swiper/modules'
 import { HeroData } from '@/types/interfaces'
+import { getCloudflareImageUrl } from '@/lib/utils'
 
 function Hero({ bannerImages, css }: HeroData) {
     const [isMobile, setIsMobile] = useState(false)
@@ -56,7 +57,7 @@ function Hero({ bannerImages, css }: HeroData) {
                         <SwiperSlide className="h-full w-full relative" key={index}>
                             <Link href={banner.url || '#'}>
                                 <img
-                                    src={banner.image_url}
+                                    src={getCloudflareImageUrl(banner.image_url)}
                                     loading="eager"
                                     // unoptimized={true}
                                     // priority

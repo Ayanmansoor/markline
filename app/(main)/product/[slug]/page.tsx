@@ -75,11 +75,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 
+import { notFound } from 'next/navigation';
+
 async function page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const product = await getProductData(slug);
 
-  if (!product) return null;
+  if (!product) {
+    notFound();
+  }
 
   const variant = product.product_variants?.[0];
 

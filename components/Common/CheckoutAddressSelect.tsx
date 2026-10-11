@@ -3,7 +3,7 @@ import { calculateVariantPrice, calculateOrderTotals } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { MapPin, Check } from "lucide-react";
+import { MapPin, Check, Loader2 } from "lucide-react";
 import axios from "axios";
 import { AddressProps, newCartItem, userinterfce } from "@/types/interfaces";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
@@ -14,12 +14,14 @@ import { toast } from "sonner";
 import { useCartContext } from "@/Contexts/Cart.context";
 import { mysupabase } from "@/Supabase/SupabaseConfig";
 
+
 function CheckoutAddressSelect({
     cartItems,
     setConfirm,
     userAddress,
     appliedCoupon,
-    currentUser
+    currentUser,
+    closeDialog
 }: {
     cartItems: newCartItem[],
     setConfirm: any,
@@ -31,11 +33,14 @@ function CheckoutAddressSelect({
         title: string;
     } | null;
     currentUser?: userinterfce | null;
+    closeDialog?: () => void;
 }) {
     const [selectedAddress, setSelectedAddress] = useState<AddressProps | null>(null);
     const [currentuser, setUser] = useState<userinterfce | null>(currentUser || null);
     const { clearCart } = useCartContext();
     const [isSubmittingOrder, setIsSubmittingOrder] = useState(false);
+    const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
+    const [confirmedDetails, setConfirmedDetails] = useState<any>(null);
 
     const { executeRecaptcha } = useGoogleReCaptcha();
 
@@ -142,10 +147,6 @@ function CheckoutAddressSelect({
                 recaptchaToken: token,
             });
 
-            if (setConfirm) {
-                setConfirm("password");
-            }
-
             await initiateRazorpayPayment(data.data);
         } catch (error: any) {
             toast.error(error?.response?.data?.error || "Failed to place order. Please try again.");
@@ -183,10 +184,22 @@ function CheckoutAddressSelect({
                 theme: {
                     color: "#000000",
                 },
+                modal: {
+                    ondismiss: function () {
+                        console.log("Checkout closed by user");
+                        setIsSubmittingOrder(false);
+                    },
+                },
             };
 
             const paymentObject = new window.Razorpay(options);
-            paymentObject.open();
+
+            // Close dialog modal first so backdrop and focus trap are unmounted before opening Razorpay
+            closeDialog?.();
+
+            setTimeout(() => {
+                paymentObject.open();
+            }, 100);
         } catch (error) {
             console.error("Payment Init Error:", error);
             setIsSubmittingOrder(false);
@@ -210,6 +223,12 @@ function CheckoutAddressSelect({
             setIsSubmittingOrder(false);
             await UpdateLocalstorageForOrder();
             toast.success("Order confirmed successfully!");
+            setConfirmedDetails({
+                orderId: razorpayResponse.razorpay_order_id,
+                totalAmount: totalAmount,
+                address: selectedAddress,
+            });
+            setIsConfirmedModalOpen(true);
             await SendMail({ data: [data.updated || data.data], user: userObj, address: selectedAddress });
             clearCart();
         } catch (error) {
@@ -220,71 +239,92 @@ function CheckoutAddressSelect({
     };
 
     return (
-        <div className="w-full flex flex-col h-full overflow-hidden">
-            <div className="w-full flex-1 overflow-y-auto pr-1">
-                <section className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 pb-4">
-                    {userAddress?.map((address: any) => (
-                        <div
-                            key={address.id}
-                            className="relative group cursor-pointer"
-                            onClick={() => setSelectedAddress(address)}
-                        >
-                            <Label
-                                className={cn(
-                                    "flex flex-col gap-2 rounded-xl border-2 border-gray-200 bg-white p-4 hover:border-black transition-all cursor-pointer",
-                                    selectedAddress?.id === address.id && "border-black bg-gray-50/50 shadow-md"
-                                )}
-                            >
-                                <div className="flex justify-between items-start">
-                                    <div className="flex items-center gap-2">
-                                        <MapPin className="h-4 w-4 text-gray-500" />
-                                        <span className="font-black text-xs  tracking-wider">{address.name || "Address"}</span>
+        <>
 
-                                        {address.is_selected && (
-                                            <span className="rounded-full bg-black text-white px-2 py-0.5 text-[9px] font-bold  tracking-widest">
-                                                Default
-                                            </span>
+            <div className="w-full flex flex-col h-full overflow-hidden">
+                <div className="w-full flex-1 overflow-y-auto pr-1">
+                    <section className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 pb-4">
+                        {userAddress?.map((address: any) => {
+                            const recipient = address.recipientName || address.recipient_name || address.name || address.full_name;
+                            const fullAddr = address.full_address || address.address || address.street;
+                            const landmark = address.landmark;
+                            const city = address.city;
+                            const state = address.state_name || address.state;
+                            const pincode = address.pin_code || address.pincode || address.pin;
+                            const phone = address.recipientPhone || address.recipient_phone || address.phone || address.phone_number;
+
+                            const addressLine = [fullAddr, landmark].filter(Boolean).join(", ");
+                            const locationString = [city, state, pincode].filter(Boolean).join(", ");
+
+                            return (
+                                <div
+                                    key={address.id}
+                                    className="relative group cursor-pointer"
+                                    onClick={() => setSelectedAddress(address)}
+                                >
+                                    <Label
+                                        className={cn(
+                                            "flex flex-col gap-2 rounded-xl border-2 border-gray-200 bg-white p-4 hover:border-black transition-all cursor-pointer",
+                                            selectedAddress?.id === address.id && "border-black bg-gray-50/50 shadow-md"
                                         )}
-                                    </div>
+                                    >
+                                        <div className="flex justify-between items-start">
+                                            <div className="flex items-center gap-2">
+                                                <MapPin className="h-4 w-4 text-gray-500" />
+                                                <span className="font-bold text-xs uppercase tracking-wider">{address.name || "Address"}</span>
 
-                                    {selectedAddress?.id === address.id && (
-                                        <div className="h-5 w-5 rounded-full bg-black text-white flex items-center justify-center">
-                                            <Check className="h-3.5 w-3.5" />
+                                                {(address.is_selected || address.isdefault) && (
+                                                    <span className="rounded-full bg-black text-white px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest">
+                                                        Default
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            {selectedAddress?.id === address.id && (
+                                                <div className="h-5 w-5 rounded-full bg-black text-white flex items-center justify-center">
+                                                    <Check className="h-3.5 w-3.5" />
+                                                </div>
+                                            )}
                                         </div>
-                                    )}
+
+                                        <div className="text-xs text-gray-600 mt-1 space-y-0.5 font-medium">
+                                            {recipient && <div className="font-bold text-black">{recipient}</div>}
+                                            {addressLine && <div className="line-clamp-2 text-gray-800">{addressLine}</div>}
+                                            {locationString && <div className="text-gray-600">{locationString}</div>}
+                                            {phone && <div className="mt-1 font-semibold text-black">{phone}</div>}
+                                        </div>
+                                    </Label>
                                 </div>
-
-                                <div className="text-xs text-gray-600 mt-1 space-y-0.5 font-medium">
-                                    <div className="font-bold text-black ">{address.recipientName || address.name}</div>
-                                    <div className="line-clamp-2">{address.full_address}</div>
-                                    <div>
-                                        {address.city}, {address.state_name} {address.pin_code}
-                                    </div>
-                                    {address?.recipientPhone && <div className="mt-1 font-semibold text-black">{address.recipientPhone}</div>}
-                                </div>
-                            </Label>
-                        </div>
-                    ))}
-                </section>
-            </div>
-
-            {userAddress && userAddress.length > 0 && (
-                <div className="flex bg-white items-center justify-between border-t border-gray-100 pt-4 mt-auto">
-                    <div className="flex flex-col">
-                        <span className="text-[10px] font-black  tracking-widest text-gray-400">Total Payable</span>
-                        <span className="text-xl font-black text-black tracking-tight">₹{totalAmount}</span>
-                    </div>
-
-                    <Button
-                        className="px-8 py-3 bg-black text-white rounded-xl text-xs font-black  tracking-[0.2em] shadow-lg shadow-black/10 hover:bg-gray-800 transition-all active:scale-95 disabled:bg-gray-400"
-                        onClick={saveBeforePayment}
-                        disabled={isSubmittingOrder}
-                    >
-                        {isSubmittingOrder ? "Processing..." : `Pay ₹${totalAmount}`}
-                    </Button>
+                            );
+                        })}
+                    </section>
                 </div>
-            )}
-        </div>
+
+                {userAddress && userAddress.length > 0 && (
+                    <div className="flex bg-white items-center justify-between gap-3 border-t border-gray-100 pt-3 mt-auto shrink-0">
+                        <div className="flex flex-col shrink-0 min-w-max">
+                            <span className="text-[10px] font-bold tracking-wider text-gray-400">Total Payable</span>
+                            <span className="text-lg sm:text-xl font-bold text-black tracking-tight">₹{totalAmount}</span>
+                        </div>
+
+                        <Button
+                            className="px-4 sm:px-6 py-2.5 bg-black text-white rounded-xl text-xs font-bold tracking-wider shadow-lg shadow-black/10 hover:bg-gray-800 transition-all active:scale-95 disabled:bg-gray-400 shrink-0 flex items-center gap-2"
+                            onClick={saveBeforePayment}
+                            disabled={isSubmittingOrder}
+                        >
+                            {isSubmittingOrder ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                    <span>Payment Processing...</span>
+                                </>
+                            ) : (
+                                `Pay ₹${totalAmount}`
+                            )}
+                        </Button>
+                    </div>
+                )}
+            </div>
+        </>
     );
 }
 

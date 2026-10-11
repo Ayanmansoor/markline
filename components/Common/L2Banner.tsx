@@ -12,6 +12,7 @@ import 'swiper/css/pagination';
 // import required modules
 import { Autoplay, EffectFade, Pagination } from 'swiper/modules';
 import { L2DataProps } from '@/types/interfaces';
+import { getCloudflareImageUrl } from '@/lib/utils';
 
 function L2Banner({ data }: L2DataProps) {
     return (
@@ -29,7 +30,7 @@ function L2Banner({ data }: L2DataProps) {
                     data?.map((item, index) => (
                         <SwiperSlide className='h-full w-full relative ' key={index} >
                             <Link href="">
-                                <Image src={item.image_url} alt={item.name} height={1500} width={1900} className='w-full h-full object-cover object-bottom relative ' />
+                                <Image src={getCloudflareImageUrl(item.image_url)} alt={item.name} height={1500} width={1900} className='w-full h-full object-cover object-bottom relative ' />
                             </Link>
                         </SwiperSlide>
 

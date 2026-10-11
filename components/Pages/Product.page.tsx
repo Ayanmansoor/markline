@@ -169,20 +169,20 @@ function ProductPage({ initialProduct }: ProductPageProps) {
 
           <section>
             <h2 className="text-lg lg:text-xl xl:text-2xl font-semibold mb-4">
-              Buy {product?.title} Online in India
+              Buy {product?.name || product?.title || "Product"} Online in India
             </h2>
             <p className="text-gray-700 text-sm lg:text-base">
-              Experience comfort, style, and everyday usability with the {product?.title}.
-              Designed for Indian lifestyle and daily wear needs, this {product?.category} offers
+              Experience comfort, style, and everyday usability with the {product?.name || product?.title}.
+              Designed for Indian lifestyle and daily wear needs, this footwear offers
               a lightweight feel, cushioned support, and durable build—perfect for casual outings,
               office wear, travel, festive occasions, and daily routine. If you are looking for
-              comfortable, stylish, and long-lasting footwear, the {product?.title} is a perfect pick.
+              comfortable, stylish, and long-lasting footwear, the {product?.name || product?.title} is a perfect pick.
             </p>
           </section>
 
           <section>
             <h2 className="text-lg lg:text-xl xl:text-2xl font-semibold mb-4">
-              Who Should Buy the {product?.title}?
+              Who Should Buy the {product?.name || product?.title}?
             </h2>
             <ul className="list-disc list-inside text-gray-700 space-y-2 text-sm lg:text-base">
               <li><strong>Daily Wear Users:</strong> Perfect for regular use with soft cushioning and relaxed fit.</li>
@@ -194,7 +194,7 @@ function ProductPage({ initialProduct }: ProductPageProps) {
 
           <section>
             <h2 className="text-lg lg:text-xl xl:text-2xl font-semibold mb-4">
-              Key Features of {product?.title}
+              Key Features of {product?.name || product?.title}
             </h2>
             <ul className="list-disc list-inside text-gray-700 space-y-2 text-sm lg:text-base">
               <li><strong>Comfort First:</strong> Soft footbed, cushioned sole, and relaxed fit.</li>

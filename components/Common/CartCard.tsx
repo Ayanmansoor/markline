@@ -5,6 +5,7 @@ import { Colors, Sizes, newCartItem, useCartContext } from '@/Contexts/Cart.cont
 import { Trash2, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { calculateVariantPrice } from '@/lib/pricing';
+import { getCloudflareImageUrl } from '@/lib/utils';
 
 const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -45,7 +46,7 @@ function CartCard({ data }: CartCardProps) {
         };
     }, [data.variant]);
 
-    const primaryImage = data.variant?.image_url?.[0]?.image_url || '';
+    const primaryImage = getCloudflareImageUrl(data.variant?.image_url?.[0]?.image_url || '');
 
     return (
         <div className='group relative w-full bg-white border border-gray-300 rounded-2xl p-4 transition-all hover:shadow-lg hover:shadow-gray-100/50 flex flex-col sm:flex-row gap-5 items-start sm:items-center'>

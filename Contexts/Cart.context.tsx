@@ -10,7 +10,7 @@ import React, {
 import { toast } from 'sonner';
 import { mysupabase } from '@/Supabase/SupabaseConfig';
 import axios from 'axios';
-import { safeJsonParse } from '@/lib/utils';
+import { getCloudflareImageUrl, safeJsonParse } from '@/lib/utils';
 
 // --- Interfaces ---
 
@@ -115,7 +115,7 @@ function rowToCartItem(row: any): newCartItem {
       discounts: row.discounts || null,
       stock: 0,
       image_url: row.image_url
-        ? [{ url: row.image_url, image_url: row.image_url, name: '' }]
+        ? [{ url: getCloudflareImageUrl(row.image_url), image_url: getCloudflareImageUrl(row.image_url), name: '' }]
         : [],
       is_active: true,
       products_id: row.product_id,
@@ -398,9 +398,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   }): boolean => {
     return cart.some(
       (i) =>
-        i.variant.id === variantId &&
-        i.variant.selectedColor?.name === colorName &&
-        i.variant.selectedSize?.size === size
+        i?.variant?.id === variantId &&
+        i?.variant?.selectedColor?.name === colorName &&
+        i?.variant?.selectedSize?.size === size
     );
   };
 
@@ -415,9 +415,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   }): newCartItem | undefined {
     return cart.find(
       (item) =>
-        item.variant.id === variantId &&
-        item.variant.selectedColor?.name === colorName &&
-        item.variant.selectedSize?.size === size
+        item?.variant?.id === variantId &&
+        item?.variant?.selectedColor?.name === colorName &&
+        item?.variant?.selectedSize?.size === size
     );
   }
 

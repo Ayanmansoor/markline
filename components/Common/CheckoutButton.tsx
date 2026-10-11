@@ -88,8 +88,13 @@ function CheckOutButton({ children, appliedCoupon }: CheckOutButtonProps) {
         }
     }, [currentuser, currentTab])
 
-    function handleAddressCreated(address: any) {
-        setUserAddress([address])
+    function handleAddressCreated(newAddr: any) {
+        const createdRecord = Array.isArray(newAddr?.data)
+            ? newAddr.data[0]
+            : (newAddr?.data || newAddr);
+        if (createdRecord) {
+            setUserAddress((prev) => [createdRecord, ...(prev || []).filter((a: any) => a.id !== createdRecord.id)]);
+        }
     }
 
     return (
@@ -120,11 +125,11 @@ function CheckOutButton({ children, appliedCoupon }: CheckOutButtonProps) {
 
                             {currentuser?.email && Useraddress?.length === 0 && (
                                 <div className="w-full flex-1 overflow-y-auto">
-                                    <AddUserAddressForm handleperform={handleAddressCreated} />
+                                    <AddUserAddressForm handleperform={handleAddressCreated} hideHeader={true} className="border-none shadow-none p-1 md:p-3" />
                                 </div>
                             )}
                             {currentuser?.email && Useraddress?.length > 0 && (
-                                <CheckoutAddressSelect cartItems={cart} setConfirm={setcurrentTab} userAddress={Useraddress} appliedCoupon={appliedCoupon} currentUser={currentuser} />
+                                <CheckoutAddressSelect cartItems={cart} setConfirm={setcurrentTab} userAddress={Useraddress} appliedCoupon={appliedCoupon} currentUser={currentuser} closeDialog={() => setOpen(false)} />
                             )}
 
                         </TabsContent>
