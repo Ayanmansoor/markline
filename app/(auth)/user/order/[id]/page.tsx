@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation"
 import { useQuery } from "react-query"
 import { mysupabase } from "@/Supabase/SupabaseConfig"
 import { getAllTrendingProducts, getCurrentUserSingleOrder } from "@/Supabase/SupabaseApi"
+import { useAuth } from "@/Contexts/Auth.context"
 import { OrderStatus } from "@/components/Order/OrderStatus"
 import { ShipmentTrackingCard } from "@/components/Order/ShipmentTrackingCard"
 import { OrderProductRow } from "@/components/Order/OrderProductRow"
@@ -40,6 +41,7 @@ export default function OrderPage() {
     const router = useRouter()
     const orderid = Array.isArray(id) ? id[0] : id
 
+    const { user, loading: isAuthLoading } = useAuth()
     const [orderRecord, setOrderRecord] = useState<any>(null)
     const [legacyOrders, setLegacyOrders] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
@@ -48,10 +50,17 @@ export default function OrderPage() {
     const [refetchIndex, setRefetchIndex] = useState(0)
 
     useEffect(() => {
+        if (isAuthLoading) return;
+
+        if (!user) {
+            setLoading(false);
+            setError("Please log in to view this order");
+            return;
+        }
+
         async function fetchOrder() {
             setLoading(true)
             try {
-                const { data: { user } } = await mysupabase.auth.getUser()
                 if (user && orderid) {
                     const result: any = await getCurrentUserSingleOrder(user.id, orderid)
                     if (result?.order) {
@@ -71,7 +80,7 @@ export default function OrderPage() {
             }
         }
         fetchOrder()
-    }, [orderid, refetchIndex])
+    }, [user, isAuthLoading, orderid, refetchIndex])
 
     const { data: trending = [] } = useQuery({
         queryKey: ["trendingproducts"],

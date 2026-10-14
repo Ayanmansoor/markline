@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import Navbar from "@/components/Common/Navbar";
 import { Noto_Sans, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/Contexts/Auth.context";
 import { CartProvider } from "@/Contexts/Cart.context";
 import Provider from "./Provider";
 import Footer from "@/components/Common/Footer";
@@ -260,19 +261,21 @@ export default async function RootLayout({
         </noscript>
 
         <Provider>
-          <WishlistProvider>
-            <CartProvider>
-              <Header initialData={headerData || []} />
-              <Navbar />
-              {children}
-              <Subcribes />
-              <Footer />
-              <Toaster />
-              <FcmNotificationHandler />
-              <OrderConfirmed />
-              <FloatingWhatsApp />
-            </CartProvider>
-          </WishlistProvider>
+          <AuthProvider>
+            <WishlistProvider>
+              <CartProvider>
+                <Header initialData={headerData || []} />
+                <Navbar />
+                {children}
+                <Subcribes />
+                <Footer />
+                <Toaster />
+                <FcmNotificationHandler />
+                <OrderConfirmed />
+                <FloatingWhatsApp />
+              </CartProvider>
+            </WishlistProvider>
+          </AuthProvider>
         </Provider>
       </body>
     </html>

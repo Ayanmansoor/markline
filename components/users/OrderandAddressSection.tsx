@@ -4,13 +4,14 @@ import React, { useEffect, useState } from 'react'
 import OrderplacedSection from './OrderplacedSection'
 import AddressSection from './AddressSection'
 import { getCurrentUserOrders } from '@/Supabase/SupabaseApi'
-import { mysupabase } from '@/Supabase/SupabaseConfig'
+import { useAuth } from '@/Contexts/Auth.context'
 import { UserAddressProvider } from '@/Contexts/UserAddressProvider'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ShoppingBag, MapPin, Receipt, Navigation, Package } from 'lucide-react'
 import AddAdressSheet from './AddAdressSheet'
 
 function OrderandAddressSection() {
+    const { user, isAuthLoading } = useAuth()
     const [activeTab, setActiveTab] = useState<'orders' | 'address'>('orders')
     const [perform, setPerfom] = useState(false)
     const [orders, setOrders] = useState<any[]>([])
@@ -23,18 +24,20 @@ function OrderandAddressSection() {
 
     useEffect(() => {
         async function fetchData() {
-            setLoading(true)
-            const { data: { user } } = await mysupabase.auth.getUser();
-
-            if (user) {
-                const { orders, address }: any = await getCurrentUserOrders(user.id)
-                setOrders(orders || [])
-                setAddress(address || [])
+            if (isAuthLoading) return
+            if (!user) {
+                setLoading(false)
+                return
             }
+
+            setLoading(true)
+            const { orders, address }: any = await getCurrentUserOrders(user.id)
+            setOrders(orders || [])
+            setAddress(address || [])
             setLoading(false)
         }
         fetchData()
-    }, [perform])
+    }, [user, isAuthLoading, perform])
 
     return (
         <UserAddressProvider>

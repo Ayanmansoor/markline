@@ -5,7 +5,7 @@ import { getReviews } from '@/Supabase/SupabaseApi'
 import { ReviewProps } from '@/types/interfaces'
 import ReviewCard from './ReviewCard'
 import { Star, MessageSquarePlus, Loader2 } from 'lucide-react'
-import { mysupabase } from '@/Supabase/SupabaseConfig'
+import { useAuth } from '@/Contexts/Auth.context'
 import AddReviewForm from './AddReviewForm'
 
 interface ReviewSectionProps {
@@ -14,15 +14,7 @@ interface ReviewSectionProps {
 }
 
 function ReviewSection({ productId, productName }: ReviewSectionProps) {
-    const [user, setUser] = useState<any>(null);
-
-    useEffect(() => {
-        const checkUser = async () => {
-            const { data: { user } } = await mysupabase.auth.getUser();
-            setUser(user);
-        };
-        checkUser();
-    }, []);
+    const { user, isAuthLoading } = useAuth();
 
     const { data: reviews = [], isLoading, refetch } = useQuery({
         queryKey: ['reviews', productId],
@@ -73,7 +65,11 @@ function ReviewSection({ productId, productName }: ReviewSectionProps) {
                         </div>
                     </div>
 
-                    {user ? (
+                    {isAuthLoading ? (
+                        <div className="w-full py-4 bg-gray-50 rounded-xl flex items-center justify-center">
+                            <Loader2 size={16} className="animate-spin text-gray-400" />
+                        </div>
+                    ) : user ? (
                         <AddReviewForm 
                             productId={productId} 
                             userId={user.id} 

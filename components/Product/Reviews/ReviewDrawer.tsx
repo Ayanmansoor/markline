@@ -12,6 +12,7 @@ import { Review, RatingStats } from './data';
 import { mysupabase } from '@/Supabase/SupabaseConfig';
 import AddReviewForm from '../AddReviewForm';
 import { Plus } from 'lucide-react';
+import { useAuth } from '@/Contexts/Auth.context';
 
 interface ReviewDrawerProps {
     isOpen: boolean;
@@ -24,15 +25,7 @@ interface ReviewDrawerProps {
 }
 
 const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ isOpen, onClose, reviews, stats, productId, productName, onSuccess }) => {
-    const [user, setUser] = useState<any>(null);
-
-    useEffect(() => {
-        const checkUser = async () => {
-            const { data: { user } } = await mysupabase.auth.getUser();
-            setUser(user);
-        };
-        checkUser();
-    }, []);
+    const { user } = useAuth();
     return (
         <Sheet open={isOpen} onOpenChange={onClose}>
             <SheetContent side="right" className="w-full max-w-[320px] sm:max-w-[500px] p-0 flex flex-col gap-0 border-l-0 sm:border-l">

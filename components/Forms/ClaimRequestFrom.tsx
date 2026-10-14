@@ -156,7 +156,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, Upload, X, Loader2 } from "lucide-react"
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
-import { mysupabase } from "@/Supabase/SupabaseConfig"
+import { useAuth } from "@/Contexts/Auth.context"
 
 // Zod validation schema
 const claimFormSchema = z.object({
@@ -176,21 +176,13 @@ interface UploadedFile {
 }
 
 export default function ProductClaimForm() {
+  const { user, isAuthLoading } = useAuth()
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitSuccess, setSubmitSuccess] = useState(false)
   const [submitError, setSubmitError] = useState("")
   const [claimId, setClaimId] = useState<string>("")
   const { executeRecaptcha } = useGoogleReCaptcha()
-  const [user, setUser] = useState<any>(null)
-
-  useEffect(() => {
-    const getUser = async () => {
-      const { data } = await mysupabase.auth.getUser()
-      setUser(data.user)
-    }
-    getUser()
-  }, [])
   // React Hook Form setup
   const {
     register,
@@ -372,7 +364,11 @@ export default function ProductClaimForm() {
 
           <div className="w-full p-4">
 
-            {!isLoggedIn && (
+            {isAuthLoading ? (
+              <div className="flex items-center justify-center p-8">
+                <Loader2 className="h-6 w-6 animate-spin text-gray-500" />
+              </div>
+            ) : !isLoggedIn ? (
               <Alert className="mb-6 bg-yellow-50 border-yellow-200">
                 <AlertCircle className="h-4 w-4 text-yellow-600" />
                 <AlertDescription className="text-yellow-800 font-medium">
@@ -380,9 +376,9 @@ export default function ProductClaimForm() {
                   Please <a href="/login" className="underline font-semibold">login</a> to continue.
                 </AlertDescription>
               </Alert>
-            )}
+            ) : null}
 
-            <Card className={`${!isLoggedIn ? "opacity-50 pointer-events-none border-none" : ""}`}>
+            <Card className={`${(!isLoggedIn || isAuthLoading) ? "opacity-50 pointer-events-none border-none" : ""}`}>
               {/* your entire claim form UI unchanged */}
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

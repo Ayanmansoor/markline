@@ -5,9 +5,8 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { mysupabase } from "@/Supabase/SupabaseConfig";
+import { useAuth } from "@/Contexts/Auth.context";
 import { toast } from "sonner";
-import { UserInterface } from "@/types/interfaces";
 import {
   MapPin,
   User,
@@ -46,7 +45,7 @@ export default function AddUserAddressForm({
   hideHeader?: boolean;
   className?: string;
 }) {
-  const [UserObj, setUser] = useState<UserInterface>();
+  const { user } = useAuth();
   const [loadingPincode, setLoadingPincode] = useState(false);
   const [selectedLabelOption, setSelectedLabelOption] = useState<string | null>(null);
   const [showOtherLabel, setShowOtherLabel] = useState(false);
@@ -67,16 +66,6 @@ export default function AddUserAddressForm({
   });
 
   const pinCodeValue = watch("pin_code");
-
-  useEffect(() => {
-    async function getUser() {
-      const {
-        data: { user },
-      } = await mysupabase.auth.getUser();
-      if (user) setUser(user);
-    }
-    getUser();
-  }, []);
 
   useEffect(() => {
     if (!navigator.geolocation) return;
@@ -118,13 +107,13 @@ export default function AddUserAddressForm({
 
   async function onSubmit(data: FormInputs) {
     try {
-      if (!UserObj?.id) {
+      if (!user?.id) {
         toast.error("Please login to add an address");
         return;
       }
       const response = await axios.post("/api/create-address", {
         ...data,
-        user_id: UserObj.id,
+        user_id: user.id,
       });
       toast.success("Address secured in registry");
       reset();

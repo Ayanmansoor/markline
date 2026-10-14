@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 import CartSkeleton from '../Skeleton/CartSkeleton'
 import { useCartContext } from '@/Contexts/Cart.context'
+import { useAuth } from '@/Contexts/Auth.context'
 import Checkout from './Checkout'
 import { mysupabase } from '@/Supabase/SupabaseConfig'
 import axios from 'axios'
@@ -32,8 +33,8 @@ const calculateDiscountedPrice = (price: number, discountPercent: number) => {
 
 function CartSection() {
     const { cart, clearCart } = useCartContext()
+    const { user: currentUser } = useAuth()
     const [loading, setLoading] = useState(true)
-    const [currentUser, setCurrentUser] = useState<any>(null)
     const [couponCode, setCouponCode] = useState<string>('')
     const [appliedCoupon, setAppliedCoupon] = useState<{
         code: string;
@@ -52,20 +53,6 @@ function CartSection() {
             finalCartTotal: Math.round(totals.subtotal),
         };
     }, [cart]);
-
-    useEffect(() => {
-        async function getSupabaseUser() {
-            try {
-                const { data: { user } } = await mysupabase.auth.getUser();
-                if (user) {
-                    setCurrentUser(user);
-                }
-            } catch (err) {
-                console.error("Error fetching user:", err);
-            }
-        }
-        getSupabaseUser();
-    }, []);
 
     const handleApplyCoupon = async (codeToApply: string) => {
         if (!codeToApply.trim()) return;

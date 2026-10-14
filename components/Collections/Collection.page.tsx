@@ -89,6 +89,7 @@ const CollcetionPage: React.FC<CollcetionPageProps> = ({
       {collectionBanner && (
         <Hero
           bannerImages={collectionBanner}
+          css="h-[350px] sm:h-[450px]"
         />
       )}
 

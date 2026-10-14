@@ -2,28 +2,20 @@ import React, { useEffect, useState } from 'react'
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Loader2 } from 'lucide-react'
 
-
-import { AddressProps, BuyDailogProps, newBuyDailogProps, orderData, userinterfce } from '@/types/interfaces'
+import { AddressProps } from '@/types/interfaces'
 import { mysupabase } from '@/Supabase/SupabaseConfig'
-import { getSelectedAddress } from '@/Supabase/SupabaseApi'
-import SelectOrder from '../Common/SelectAddress'
-import { UserAddressProvider } from '@/Contexts/UserAddressProvider'
 import LoginForm from '../Common/FlowLoginForm'
-import BuyComponent from '../Product/BuyComponent'
 import { useCartContext } from '@/Contexts/Cart.context'
+import { useAuth } from '@/Contexts/Auth.context'
 import CheckoutAddressSelect from './CheckoutAddressSelect'
 import AddUserAddressForm from '../users/AddUserAddressform'
-
-
-
 
 interface CheckOutButtonProps {
     children: React.ReactNode;
@@ -37,14 +29,12 @@ interface CheckOutButtonProps {
 
 function CheckOutButton({ children, appliedCoupon }: CheckOutButtonProps) {
     const [currentTab, setcurrentTab] = useState('address')
-    const [currentuser, setUser] = useState<userinterfce>();
-    const [Useraddress, setUserAddress] = useState<AddressProps[]>([]);
+    const { user: currentuser, loading: isAuthLoading } = useAuth()
+    const [Useraddress, setUserAddress] = useState<AddressProps[]>([])
+    const [isAddressLoading, setIsAddressLoading] = useState(false)
 
     const { cart } = useCartContext()
-
-    const [open, setOpen] = useState(false);
-
-
+    const [open, setOpen] = useState(false)
 
     useEffect(() => {
         if (currentTab === "password") {
@@ -52,41 +42,34 @@ function CheckOutButton({ children, appliedCoupon }: CheckOutButtonProps) {
         }
     }, [currentTab]);
 
-
-
+    // Lazy load addresses only when the checkout modal is opened
     useEffect(() => {
-        async function getSupabaseUser() {
-            const {
-                data: { user },
-                error,
-            } = await mysupabase.auth.getUser();
+        let isMounted = true;
 
-            if (user) {
-                setUser(user);
+        async function fetchAddresses() {
+            if (!open || !currentuser?.id) return;
+            setIsAddressLoading(true);
+            try {
+                const { data: addresses, error } = await mysupabase
+                    .from("address")
+                    .select("*")
+                    .eq("user_id", currentuser.id);
+
+                if (isMounted) {
+                    setUserAddress(addresses ?? []);
+                }
+            } catch (err) {
+                console.error("Error fetching addresses:", err);
+            } finally {
+                if (isMounted) {
+                    setIsAddressLoading(false);
+                }
             }
-            // else{}
-        }
-        getSupabaseUser()
-    }, [])
-
-
-    useEffect(() => {
-        async function getSupabaseUser() {
-            const { data: addresses } = await mysupabase
-                .from("address")
-                .select("*")
-                .eq("user_id", currentuser?.id);
-
-            // Ensure addresses is always an array
-            setUserAddress(addresses ?? []);
-
-            console.log(addresses, "this is user address");
         }
 
-        if (currentuser?.id) {
-            getSupabaseUser();
-        }
-    }, [currentuser, currentTab])
+        fetchAddresses();
+        return () => { isMounted = false; };
+    }, [open, currentuser?.id, currentTab]);
 
     function handleAddressCreated(newAddr: any) {
         const createdRecord = Array.isArray(newAddr?.data)
@@ -109,31 +92,45 @@ function CheckOutButton({ children, appliedCoupon }: CheckOutButtonProps) {
                     </DialogHeader>
                     <Tabs defaultValue="address" className="w-full flex-1 flex flex-col min-h-0 overflow-hidden" value={currentTab} onValueChange={setcurrentTab}>
 
-
-
-
-
-                        {/* 2. ADDRESS TAB */}
+                        {/* ADDRESS TAB */}
                         <TabsContent value="address" className="w-full flex-1 flex flex-col min-h-0 overflow-hidden focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 outline-none">
 
-                            {/* If NOT Logged In → Show LoginForm */}
-                            {!currentuser?.email && (
+                            {/* 1. Auth is resolving */}
+                            {isAuthLoading && (
+                                <div className="w-full h-[260px] flex flex-col items-center justify-center gap-3 text-gray-400">
+                                    <Loader2 size={32} className="animate-spin text-black" />
+                                    <span className="text-xs font-semibold text-gray-500">Checking your account...</span>
+                                </div>
+                            )}
+
+                            {/* 2. User is definitely NOT logged in → Show LoginForm */}
+                            {!isAuthLoading && !currentuser?.email && (
                                 <div className="w-full flex-1 overflow-y-auto">
                                     <LoginForm />
                                 </div>
                             )}
 
-                            {currentuser?.email && Useraddress?.length === 0 && (
+                            {/* 3. User is logged in, but addresses are loading */}
+                            {!isAuthLoading && currentuser?.email && isAddressLoading && (
+                                <div className="w-full h-[260px] flex flex-col items-center justify-center gap-3 text-gray-400">
+                                    <Loader2 size={32} className="animate-spin text-black" />
+                                    <span className="text-xs font-semibold text-gray-500">Loading saved addresses...</span>
+                                </div>
+                            )}
+
+                            {/* 4. Logged in, addresses loaded, has 0 addresses → Show Add Address Form */}
+                            {!isAuthLoading && currentuser?.email && !isAddressLoading && Useraddress.length === 0 && (
                                 <div className="w-full flex-1 overflow-y-auto">
                                     <AddUserAddressForm handleperform={handleAddressCreated} hideHeader={true} className="border-none shadow-none p-1 md:p-3" />
                                 </div>
                             )}
-                            {currentuser?.email && Useraddress?.length > 0 && (
-                                <CheckoutAddressSelect cartItems={cart} setConfirm={setcurrentTab} userAddress={Useraddress} appliedCoupon={appliedCoupon} currentUser={currentuser} closeDialog={() => setOpen(false)} />
+
+                            {/* 5. Logged in, addresses loaded, has addresses → Show Select Address */}
+                            {!isAuthLoading && currentuser?.email && !isAddressLoading && Useraddress.length > 0 && (
+                                <CheckoutAddressSelect cartItems={cart} setConfirm={setcurrentTab} userAddress={Useraddress} appliedCoupon={appliedCoupon} currentUser={currentuser as any} closeDialog={() => setOpen(false)} />
                             )}
 
                         </TabsContent>
-
 
                         {/* Next Button */}
                         <TabsList className="w-full mt-4 flex justify-end gap-4 bg-transparent">

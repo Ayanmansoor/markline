@@ -1,39 +1,30 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { User } from "lucide-react";
 import Link from "next/link";
-import { mysupabase } from "@/Supabase/SupabaseConfig";
+import { useAuth } from "@/Contexts/Auth.context";
 import LoginModal from "./LoginModal";
 
 function NavUser() {
-  const [isUser, setUser] = useState<any>();
+  const { user, loading } = useAuth();
   const [isLoginOpen, setLoginOpen] = useState(false);
 
-  useEffect(() => {
-    async function checkUser() {
-      // getSession() reads from local JWT cache — instant, no network call
-      const { data: { session } } = await mysupabase.auth.getSession();
-      setUser(session?.user || null);
+  const handleClick = () => {
+    if (loading) return;
+    if (!user) {
+      setLoginOpen(true);
     }
-    checkUser();
-
-    // Listen for auth changes
-    const { data: { subscription } } = mysupabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user || null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
+  };
 
   return (
     <>
       <div className="flex items-center justify-start cursor-pointer hover:opacity-70 transition-opacity">
-        {isUser ? (
+        {user ? (
           <Link href="/user">
             <User height={23} width={23} className="text-primary" />
           </Link>
         ) : (
-          <button onClick={() => setLoginOpen(true)}>
+          <button onClick={handleClick} aria-label="Account">
             <User height={23} width={23} className="text-primary" />
           </button>
         )}

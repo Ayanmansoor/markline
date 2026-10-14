@@ -122,12 +122,14 @@ function Footer() {
               </div>
             </div>
 
-            <h2 className='text-p20 font-medium mb-4 border-b w-fit pr-5'>
-              Subcribe Us
-            </h2>
-            <form action='' onSubmit={handleSubmit(onSubmit)} className='flex items-start flex-col text-p18  justify-start gap-3'>
-              <input type="text" className='w-full relative h-atuo py-2 cursor-pointer px-2 border-b border-white bg-transparent placeholder:text-white placeholder:text-sm text-base' placeholder='Enter Your Email' {...register('email')} />
-            </form>
+            <div className='flex flex-col gap-1 mb-4'>
+              <h2 className='text-base font-semibold text-white'>Bulk Inquiry For Corporate Gifting:</h2>
+              <div className='flex flex-wrap items-center gap-2 text-sm font-medium text-white'>
+                <Link href='tel:+919702456322' className='hover:underline hover:text-red-300'>+91 9702456322</Link>
+              </div>
+            </div>
+
+
 
 
 
@@ -158,7 +160,7 @@ function Footer() {
 
 
 
-      <div className='container px-5   mx-auto h-auto relative  md:px-10  py-10 bg-secondary block sm:hidden   xl:px-20 '>\
+      <div className='container px-5   mx-auto h-auto relative  md:px-10  py-10 bg-secondary block sm:hidden   xl:px-20 '>
 
 
         <Accordion type="single" collapsible className=' text-third hover:no-underline'>
@@ -220,6 +222,12 @@ function Footer() {
             <Link href='tel:+919703456322' className='hover:underline'>+91 9703456322</Link>
             <span>/</span>
             <Link href='tel:+919769020660' className='hover:underline'>+91 9769020660</Link>
+          </div>
+        </div>
+        <div className='container mx-auto px-5 mb-4 text-center'>
+          <h3 className='text-sm font-semibold text-primary mb-1'>Bulk Inquiry For Corporate Gifting:</h3>
+          <div className='flex justify-center items-center gap-2 text-xs font-medium text-primary mb-2'>
+            <Link href='tel:+919702456322' className='hover:underline'>+91 9702456322</Link>
           </div>
         </div>
         <p className='text-p20 font-light text-third text-center text-primary '>Follow Us</p>

@@ -12,7 +12,7 @@ import UpdateLocalstorageForOrder from "@/lib/UpdateLocalStorageForOrder";
 import SendMail from "@/lib/SendMailHelper";
 import { toast } from "sonner";
 import { useCartContext } from "@/Contexts/Cart.context";
-import { mysupabase } from "@/Supabase/SupabaseConfig";
+import { useAuth } from "@/Contexts/Auth.context";
 
 
 function CheckoutAddressSelect({
@@ -35,8 +35,9 @@ function CheckoutAddressSelect({
     currentUser?: userinterfce | null;
     closeDialog?: () => void;
 }) {
+    const { user: authUser } = useAuth();
     const [selectedAddress, setSelectedAddress] = useState<AddressProps | null>(null);
-    const [currentuser, setUser] = useState<userinterfce | null>(currentUser || null);
+    const [currentuser, setUser] = useState<userinterfce | null>(currentUser || (authUser as any) || null);
     const { clearCart } = useCartContext();
     const [isSubmittingOrder, setIsSubmittingOrder] = useState(false);
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
@@ -47,20 +48,10 @@ function CheckoutAddressSelect({
     useEffect(() => {
         if (currentUser) {
             setUser(currentUser);
-        } else {
-            async function getSupabaseUser() {
-                try {
-                    const { data: { user } } = await mysupabase.auth.getUser();
-                    if (user) {
-                        setUser(user);
-                    }
-                } catch (err) {
-                    console.error("Error getting user in CheckoutAddressSelect:", err);
-                }
-            }
-            getSupabaseUser();
+        } else if (authUser) {
+            setUser(authUser as any);
         }
-    }, [currentUser]);
+    }, [currentUser, authUser]);
 
     useEffect(() => {
         if (userAddress && userAddress?.length > 0) {

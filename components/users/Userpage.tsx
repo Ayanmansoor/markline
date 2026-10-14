@@ -10,11 +10,13 @@ import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Loader2, Gem, User, Receipt, MapPin, LogOut } from 'lucide-react'
 import { UserAddressProvider } from '@/Contexts/UserAddressProvider'
+import { useAuth } from '@/Contexts/Auth.context'
 import { toast } from 'sonner'
 
 type TabType = 'profile' | 'orders' | 'address';
 
 function Userpage() {
+  const { user, loading: isAuthLoading } = useAuth()
   const [loading, setLoading] = useState(true)
   const [dataLoading, setDataLoading] = useState(true)
   const [authenticated, setAuthenticated] = useState(false)
@@ -38,30 +40,17 @@ function Userpage() {
   }, [perform])
 
   useEffect(() => {
-    let isMounted = true
-    async function checkUser() {
-      // getSession() is instant — reads from local JWT cache, NO network call
-      const { data: { session } } = await mysupabase.auth.getSession()
-      const user = session?.user
-
+    if (!isAuthLoading) {
       if (!user) {
-        if (isMounted) {
-          router.push('/?login=true')
-          setLoading(false)
-        }
-        return
-      }
-
-      if (isMounted) {
+        router.push('/?login=true')
+        setLoading(false)
+      } else {
         setCurrentUser(user)
         setAuthenticated(true)
         setLoading(false)
       }
     }
-
-    checkUser()
-    return () => { isMounted = false }
-  }, [router])
+  }, [user, isAuthLoading, router])
 
   // Lazy load tab data
   useEffect(() => {

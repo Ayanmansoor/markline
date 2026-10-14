@@ -9,15 +9,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Loader2 } from 'lucide-react';
 
 import BuyComponent from './BuyComponent'
-import { AddressProps, newBuyDailogProps, orderData, userinterfce } from '@/types/interfaces'
+import { AddressProps, newBuyDailogProps, orderData } from '@/types/interfaces'
 import { mysupabase } from '@/Supabase/SupabaseConfig'
 import SelectOrder from '../Common/SelectAddress'
 import LoginForm from '../Common/FlowLoginForm'
 import AddUserAddressForm from '../users/AddUserAddressform'
+import { useAuth } from '@/Contexts/Auth.context'
 
 function BuyDailog({ children, product, selectedVariant }: newBuyDailogProps) {
     const [currentTab, setcurrentTab] = useState('account')
-    const [currentuser, setUser] = useState<userinterfce>();
+    const { user: currentuser, loading: isAuthLoading } = useAuth()
     const [Useraddress, setUserAddress] = useState<AddressProps[]>([]);
     const [isAddressLoading, setIsAddressLoading] = useState(false);
 
@@ -35,67 +36,41 @@ function BuyDailog({ children, product, selectedVariant }: newBuyDailogProps) {
         }
     }, [currentTab]);
 
+    // When user logs in via the login modal, automatically open the Buy Dialog
     useEffect(() => {
-        async function getSupabaseUser() {
-            const {
-                data: { user },
-                error,
-            } = await mysupabase.auth.getUser();
-
-            if (user) {
-                setUser(user);
-                // Also close login modal if it's open and user becomes authenticated
-                setLoginOpen(false);
-            }
+        if (currentuser?.id && loginOpen) {
+            setLoginOpen(false);
+            setOpen(true);
         }
+    }, [currentuser?.id, loginOpen]);
 
-        getSupabaseUser();
-
-        // Listen to auth changes — only open buy dialog if user just logged in via the login modal
-        const { data: authListener } = mysupabase.auth.onAuthStateChange((event, session) => {
-            if (session?.user) {
-                setUser(session.user);
-                // Only open buy dialog on an actual sign-in action (not on initial page load session restore)
-                if (event === 'SIGNED_IN') {
-                    setLoginOpen(prev => {
-                        if (prev) setOpen(true); // open buy dialog only if login modal was open
-                        return false;
-                    });
-                } else {
-                    setLoginOpen(false);
-                }
-            } else {
-                setUser(undefined);
-            }
-        });
-
-        return () => {
-            authListener.subscription.unsubscribe();
-        };
-    }, [])
-
+    // Lazy load addresses only when the Buy Dialog is actually open
     useEffect(() => {
-        async function getSupabaseUser() {
-            if (!currentuser?.id) return;
+        let isMounted = true;
+        async function fetchAddresses() {
+            if (!open || !currentuser?.id) return;
             setIsAddressLoading(true);
             try {
                 const { data: addresses } = await mysupabase
                     .from("address")
                     .select("*")
-                    .eq("user_id", currentuser?.id);
+                    .eq("user_id", currentuser.id);
 
-                setUserAddress(addresses ?? []);
+                if (isMounted) {
+                    setUserAddress(addresses ?? []);
+                }
             } catch (err) {
                 console.error("Error fetching user addresses:", err);
             } finally {
-                setIsAddressLoading(false);
+                if (isMounted) {
+                    setIsAddressLoading(false);
+                }
             }
         }
 
-        if (currentuser?.id) {
-            getSupabaseUser();
-        }
-    }, [currentuser, currentTab])
+        fetchAddresses();
+        return () => { isMounted = false; };
+    }, [open, currentuser?.id, currentTab]);
 
     function handleAddressCreated(newAddr: any) {
         const createdRecord = Array.isArray(newAddr?.data)
@@ -107,8 +82,11 @@ function BuyDailog({ children, product, selectedVariant }: newBuyDailogProps) {
     }
 
     const handleTriggerClick = (e: React.MouseEvent) => {
-        // Prevent default form submission or navigation if children is a link/button
         e.preventDefault();
+
+        if (isAuthLoading) {
+            return;
+        }
 
         if (currentuser?.id) {
             setOpen(true);
@@ -142,7 +120,7 @@ function BuyDailog({ children, product, selectedVariant }: newBuyDailogProps) {
                         <TabsContent value="account" className="w-full flex-1 min-h-0 flex flex-col overflow-y-auto pr-1 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 outline-none">
                             <BuyComponent
                                 product={product}
-                                user={currentuser}
+                                user={(currentuser as any) || undefined}
                                 setConfirm={setcurrentTab}
                                 variant={selectedVariant}
                             />
@@ -161,7 +139,7 @@ function BuyDailog({ children, product, selectedVariant }: newBuyDailogProps) {
                                 ) : currentuser?.email && Useraddress?.length > 0 ? (
                                     <SelectOrder
                                         product={product}
-                                        user={currentuser}
+                                        user={(currentuser as any) || undefined}
                                         userAddress={Useraddress}
                                         setConfirm={setcurrentTab}
                                         variant={selectedVariant}
