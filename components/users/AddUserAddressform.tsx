@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useAuth } from "@/Contexts/Auth.context";
+import { mysupabase } from "@/Supabase/SupabaseConfig";
 import { toast } from "sonner";
 import {
   MapPin,
@@ -111,10 +112,14 @@ export default function AddUserAddressForm({
         toast.error("Please login to add an address");
         return;
       }
+      const { data: sessionData } = await mysupabase.auth.getSession();
+      const token = sessionData?.session?.access_token;
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
       const response = await axios.post("/api/create-address", {
         ...data,
         user_id: user.id,
-      });
+      }, { headers });
       toast.success("Address secured in registry");
       reset();
       setSelectedLabelOption(null);

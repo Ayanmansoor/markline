@@ -12,6 +12,7 @@ import { addressDailogprops } from '@/types/interfaces'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
+import { mysupabase } from '@/Supabase/SupabaseConfig'
 import {
     MapPin,
     User,
@@ -124,10 +125,14 @@ function UpdateAddress({ children, currentaddress, handleperform }: addressDailo
                 return;
             }
             const recaptchaToken = await executeRecaptcha()
+            const { data: sessionData } = await mysupabase.auth.getSession();
+            const token = sessionData?.session?.access_token;
+            const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
             const response = await axios.post(`/api/update-address`, {
                 ...data,
                 recaptchaToken
-            })
+            }, { headers })
             toast.success("Address updated in registry");
             setOpen(false)
             handleperform && handleperform(response.data)

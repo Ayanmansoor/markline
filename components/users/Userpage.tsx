@@ -5,6 +5,7 @@ import OrderplacedSection from './OrderplacedSection'
 import AddressSection from './AddressSection'
 import AddAdressSheet from './AddAdressSheet'
 import { mysupabase } from '@/Supabase/SupabaseConfig'
+import { getCurrentUserOrders } from '@/Supabase/SupabaseApi'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -24,7 +25,7 @@ import {
 type TabType = 'profile' | 'orders' | 'address';
 
 function Userpage() {
-  const { user, loading: isAuthLoading, logout } = useAuth()
+  const { user, session, loading: isAuthLoading, logout } = useAuth()
   const [loading, setLoading] = useState(true)
   const [dataLoading, setDataLoading] = useState(true)
   const [authenticated, setAuthenticated] = useState(false)
@@ -70,29 +71,69 @@ function Userpage() {
     async function fetchTabData() {
       if (!currentUser) return
 
+      // Helper to obtain fresh session token & proactively sync cookie
+      const getAuthHeader = async () => {
+        try {
+          const { data: sessionData } = await mysupabase.auth.getSession()
+          const token = sessionData?.session?.access_token || session?.access_token
+          if (token && typeof document !== 'undefined') {
+            document.cookie = `sb-access-token=${token}; path=/; max-age=604800; SameSite=Lax;`
+          }
+          return token ? { Authorization: `Bearer ${token}` } : {}
+        } catch {
+          return {}
+        }
+      }
+
       if (activeTab === 'orders' && !ordersFetched) {
         setDataLoading(true)
         try {
-          const res = await axios.get(`/api/user/orders?userId=${currentUser.id}`)
+          const headers = await getAuthHeader()
+          const res = await axios.get(`/api/user/orders?userId=${currentUser.id}`, { headers })
           if (isMounted) {
-            setOrders(res.data?.orders || [])
+            const fetchedOrders = res.data?.orders || (Array.isArray(res.data) ? res.data : [])
+            setOrders(fetchedOrders)
             setOrdersFetched(true)
           }
         } catch (err) {
-          console.error("Error loading orders:", err)
+          console.error("Error loading orders via API, attempting direct Supabase query:", err)
+          try {
+            const directData: any = await getCurrentUserOrders(currentUser.id)
+            if (isMounted && directData?.orders) {
+              setOrders(directData.orders || [])
+              setOrdersFetched(true)
+            }
+          } catch (fallbackErr) {
+            console.error("Direct orders fallback error:", fallbackErr)
+          }
         } finally {
           if (isMounted) setDataLoading(false)
         }
       } else if (activeTab === 'address' && !addressFetched) {
         setDataLoading(true)
         try {
-          const res = await axios.get(`/api/user/addresses?userId=${currentUser.id}`)
+          const headers = await getAuthHeader()
+          const res = await axios.get(`/api/user/addresses?userId=${currentUser.id}`, { headers })
           if (isMounted) {
-            setAddress(res.data?.addresses || [])
+            const fetchedAddresses = res.data?.addresses || (Array.isArray(res.data) ? res.data : [])
+            setAddress(fetchedAddresses)
             setAddressFetched(true)
           }
         } catch (err) {
-          console.error("Error loading addresses:", err)
+          console.error("Error loading addresses via API, attempting direct Supabase query:", err)
+          try {
+            const { data: directAddresses, error: directErr } = await mysupabase
+              .from("address")
+              .select("*")
+              .eq("user_id", currentUser.id)
+              .order("created_at", { ascending: false })
+            if (!directErr && isMounted) {
+              setAddress(directAddresses || [])
+              setAddressFetched(true)
+            }
+          } catch (fallbackErr) {
+            console.error("Direct address fallback error:", fallbackErr)
+          }
         } finally {
           if (isMounted) setDataLoading(false)
         }
@@ -101,7 +142,7 @@ function Userpage() {
 
     fetchTabData()
     return () => { isMounted = false }
-  }, [activeTab, currentUser, ordersFetched, addressFetched])
+  }, [activeTab, currentUser, ordersFetched, addressFetched, session])
 
   async function confirmLogout() {
     setIsLoggingOut(true)
@@ -221,7 +262,7 @@ function Userpage() {
                       <span className='text-sm font-medium'>Loading addresses...</span>
                     </div>
                   ) : address?.length > 0 ? (
-                    <AddressSection address={address} />
+                    <AddressSection address={address} handleperform={handleperform} />
                   ) : (
                     <div className='flex flex-col items-center justify-center py-20 text-gray-400'>
                       <MapPin size={48} className='mb-4 opacity-50' />

@@ -5,17 +5,20 @@ import UpdateAddress from './UpdateAddress';
 import { MdDeleteOutline } from "react-icons/md";
 import axios from 'axios';
 import { toast } from 'sonner';
+import { mysupabase } from '@/Supabase/SupabaseConfig';
 
 function AddressCard({ state_name, city, pin_code, name, full_address, index, id, user_id, is_selected, created_at, handleperform, landmark, recipientName, recipientPhone }: AddressProps) {
 
-
   async function deleteAddress() {
     try {
-      const response = await axios.post('/api/delete-address', { user_id, id })
-      toast.success("Address Removed from Registry")
-      handleperform && handleperform()
+      const { data: sessionData } = await mysupabase.auth.getSession();
+      const token = sessionData?.session?.access_token;
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      const response = await axios.post('/api/delete-address', { user_id, id }, { headers });
+      toast.success("Address Removed from Registry");
+      handleperform && handleperform();
     } catch (error) {
-      toast.error("Failed to remove address. Try again later.")
+      toast.error("Failed to remove address. Try again later.");
     }
   }
 
