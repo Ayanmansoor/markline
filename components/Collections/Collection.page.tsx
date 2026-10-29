@@ -134,7 +134,7 @@ const CollcetionPage: React.FC<CollcetionPageProps> = ({
                     collections={collec}
                     url={`collections/${selected}/`}
                     imageClass="  h-[400px] lg:h-[450px] w-full border  rounded-lg object-cover relative  transition-all duration-100"
-                    className="relative h-full  w-full  bg-gray-200 cursor-pointer group rounded-lg flex flex-col items-start justify-center gap-4 p-1 "
+                    className="relative h-full  w-full  bg-white border border-gray-200/80 shadow-xs cursor-pointer group rounded-lg flex flex-col items-start justify-center gap-4 p-1 "
                   />
                 ))
             ) : (

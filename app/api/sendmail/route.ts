@@ -1,5 +1,6 @@
 import { NextResponse, after } from "next/server";
 import { sendOrderConfirmationEmails } from "@/lib/email";
+import { mysupabase } from "@/Supabase/SupabaseConfig";
 
 export interface SendEmailPayload {
   email: string;
@@ -32,6 +33,7 @@ export async function POST(req: Request) {
       finalPrice,
     } = body;
 
+    // 1. Basic validation
     if (!email || !name || !orderId || !productNames || !quantity) {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -39,22 +41,48 @@ export async function POST(req: Request) {
       );
     }
 
-    // Schedule background email sending using Next.js after()
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: "Invalid recipient email format" },
+        { status: 400 }
+      );
+    }
+
+    // 2. Prevent open email relay: Verify order exists in the database
+    const { data: existingOrder, error: orderErr } = await mysupabase
+      .from("orders")
+      .select("id")
+      .eq("id", orderId)
+      .maybeSingle();
+
+    if (orderErr || !existingOrder) {
+      return NextResponse.json(
+        { error: "Order not found or invalid" },
+        { status: 400 }
+      );
+    }
+
+    // 3. Schedule background email sending using Next.js after()
     after(async () => {
       console.log(`[Background Email] Sending order confirmation emails for #${orderId} to ${email}`);
-      await sendOrderConfirmationEmails({
-        orderId,
-        userEmail: email,
-        userName: name,
-        userPhone: phone || "N/A",
-        productNames,
-        quantity,
-        grandTotal: finalPrice,
-        address,
-        city,
-        state,
-        pin,
-      });
+      try {
+        await sendOrderConfirmationEmails({
+          orderId,
+          userEmail: email,
+          userName: name,
+          userPhone: phone || "N/A",
+          productNames,
+          quantity,
+          grandTotal: finalPrice,
+          address,
+          city,
+          state,
+          pin,
+        });
+      } catch (sendErr) {
+        console.error(`[Background Email] Failed to send email for #${orderId}:`, sendErr);
+      }
     });
 
     // Return response immediately to client

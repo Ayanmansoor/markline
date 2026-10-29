@@ -54,40 +54,35 @@ export default function OrderConfirmed() {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="text-center">Order Confirmation</DialogTitle>
-        </DialogHeader>
+      <DialogContent className="max-w-[380px] p-6 bg-white rounded-2xl border border-zinc-200/80 shadow-2xl text-center">
+        <div className="flex flex-col items-center justify-center pt-2 pb-1 space-y-4">
+          {/* Subtle compact confirmation badge - no big bouncing icons */}
+          <div className="w-12 h-12 rounded-full bg-zinc-950 text-white flex items-center justify-center shadow-lg shadow-zinc-950/15">
+            <Check className="w-5 h-5" strokeWidth={2.5} />
+          </div>
 
-        <div className="flex flex-col items-center justify-center py-8">
-          {!showMessage ? (
-            <div className="relative">
-              {/* Checkmark with animation */}
-              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center animate-pulse">
-                <Check className="w-10 h-10 text-green-600 animate-bounce" strokeWidth={3} />
-              </div>
+          <div className="space-y-1.5">
+            <DialogTitle className="text-lg font-bold tracking-tight text-zinc-900">
+              Order Confirmed
+            </DialogTitle>
+            <p className="text-xs text-zinc-500 leading-relaxed max-w-[280px] mx-auto">
+              Thank you for your purchase. Your order has been placed and is being prepared for dispatch.
+            </p>
+          </div>
 
-              {/* Ripple effect */}
-              <div className="absolute inset-0 w-20 h-20 bg-green-200 rounded-full animate-ping opacity-20"></div>
-              <div className="absolute inset-2 w-16 h-16 bg-green-300 rounded-full animate-ping opacity-30 animation-delay-75"></div>
-            </div>
-          ) : (
-            <div className="text-center space-y-4 animate-fade-in">
-              <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto">
-                <Check className="w-10 h-10 text-white" strokeWidth={3} />
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-lg font-semibold text-green-700">Order Confirmed!</h3>
-                <p className="text-sm text-muted-foreground">
-                  Thank you for your purchase. Your order has been successfully placed and will be processed shortly.
-                </p>
-                <p className="text-xs text-muted-foreground"> Estimated delivery: 3-5 business days</p>
-              </div>
-            </div>
-          )}
+          <div className="w-full bg-zinc-50 border border-zinc-200/60 rounded-xl p-3 text-xs flex items-center justify-between">
+            <span className="text-zinc-500 font-medium">Estimated Delivery</span>
+            <span className="font-semibold text-zinc-900">3–5 Business Days</span>
+          </div>
+
+          <button
+            onClick={() => setIsOpen(false)}
+            className="w-full h-11 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs font-semibold tracking-wider uppercase transition-all"
+          >
+            Continue
+          </button>
         </div>
       </DialogContent>
     </Dialog>
-
   )
 }

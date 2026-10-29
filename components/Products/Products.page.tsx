@@ -307,8 +307,8 @@ const Productspage: React.FC<ProductsPageProps> = ({
           </Swiper>
         </section>
 
-        <section className="w-full min-h-[300px] mt-5 relative  gap-10  bg-gray-200  ">
-          <span className=" z-30 bg-gray-200 flex items-center border-b border-white w-full justify-between h-fit sticky top-14    py-5 px-5 lg:px-10 xl:px-20 2xl:px-40 ">
+        <section className="w-full min-h-[300px] mt-5 relative  gap-10  bg-gray-50  ">
+          <span className=" z-30 bg-gray-50 flex items-center border-b border-gray-200/80 w-full justify-between h-fit sticky top-14    py-5 px-5 lg:px-10 xl:px-20 2xl:px-40 ">
             <ProductFilter
               gender={productslug}
               collection={
@@ -338,7 +338,7 @@ const Productspage: React.FC<ProductsPageProps> = ({
               <GridRroduct
                 data={filterProducts ? filterProducts : allproducts.data}
                 url={"product"}
-                css=" grid-cols-2 md:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-200  gap-2 lg:gap-3"
+                css=" grid-cols-2 md:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-50  gap-2 lg:gap-3"
                 productsCardCss=" h-[180px] object-cover  sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
               />
             ) : (

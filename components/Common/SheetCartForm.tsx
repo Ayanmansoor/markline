@@ -241,7 +241,9 @@ function SheetCartForm({ setConfirm, setOrderID, closeSheet }: SheetCartFormProp
 
 
 
+        const targetOrderId = Array.isArray(orderedData) ? (orderedData[0] as any)?.id : (orderedData as any)?.id;
         const response = await axios.post('/api/create-order', {
+            orderId: targetOrderId,
             amount: total_final_amount * 100,
         });
         const res = await LoadRazorpay();

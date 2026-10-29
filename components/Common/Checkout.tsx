@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import CheckOutButton from './CheckoutButton';
-import { CreditCard, Tag, ArrowRight } from 'lucide-react';
+import { CreditCard, Tag, ArrowRight, Loader2 } from 'lucide-react';
 
 interface CheckoutProps {
     totalPrice: number;
@@ -48,20 +48,20 @@ function Checkout({
     return (
         <div className='flex flex-col gap-2 relative'>
             {/* Coupon Section */}
-            <div className="py-4  flex flex-col gap-3 bg-white rounded-xl  px-5 border border-gray-300 shadow-sm">
-                <span className="text-xs font-bold text-gray-500  tracking-wider flex items-center gap-1.5">
+            <div className="py-4 flex flex-col gap-3 bg-white rounded-2xl px-4 sm:px-5 border border-gray-300 shadow-sm overflow-hidden">
+                <span className="text-xs font-bold text-gray-500 tracking-wider flex items-center gap-1.5">
                     <Tag size={12} /> Coupon Code
                 </span>
 
                 {!appliedCoupon ? (
                     <div className="flex flex-col gap-2">
-                        <div className="flex gap-2">
+                        <div className="relative flex items-center w-full">
                             <input
                                 type="text"
                                 placeholder="Enter coupon code"
                                 value={couponCode || ''}
                                 onChange={(e) => setCouponCode?.(e.target.value.toUpperCase())}
-                                className="flex-1 py-2 px-4 border border-gray-200 rounded-lg text-sm font-semibold uppercase focus:outline-none focus:ring-1 focus:ring-black placeholder:text-gray-400 placeholder:normal-case"
+                                className="w-full pl-3.5 pr-20 sm:pr-24 py-2.5 bg-gray-50/60 border border-gray-200 rounded-xl text-xs sm:text-sm font-semibold uppercase focus:outline-none focus:ring-1.5 focus:ring-black focus:bg-white placeholder:text-gray-400 placeholder:normal-case transition-all disabled:opacity-60"
                                 disabled={isApplying}
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter') {
@@ -71,11 +71,19 @@ function Checkout({
                                 }}
                             />
                             <button
+                                type="button"
                                 onClick={() => onApplyCoupon?.(couponCode || '')}
                                 disabled={isApplying || !couponCode?.trim()}
-                                className="px-5 bg-black text-white text-xs font-bold  tracking-widest rounded-xl hover:bg-zinc-800 transition-all disabled:bg-gray-200 disabled:text-gray-400"
+                                className="absolute right-1 top-1 bottom-1 px-3.5 sm:px-4 bg-black text-white text-xs font-bold uppercase tracking-wider rounded-lg hover:bg-zinc-800 transition-all disabled:bg-gray-200 disabled:text-gray-400 cursor-pointer disabled:cursor-not-allowed flex items-center justify-center shrink-0"
                             >
-                                {isApplying ? 'Applying.' : 'Apply'}
+                                {isApplying ? (
+                                    <span className="flex items-center gap-1">
+                                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                        <span className="hidden sm:inline text-[10px]">Applying</span>
+                                    </span>
+                                ) : (
+                                    'Apply'
+                                )}
                             </button>
                         </div>
                         {couponError && (

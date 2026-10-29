@@ -213,8 +213,8 @@ const Occasions: React.FC<OccasionsProps> = ({ initialCollections, initialGroupO
 
 
 
-      <section className="w-full min-h-[300px] mt-1 relative  gap-10  bg-gray-200  ">
-        <span className=' flex items-center border-b border-white w-full justify-between h-fit sticky top-14 z-30 bg-gray-200   py-5 px-3 md:px-5 lg:px-10 xl:px-20 2xl:px-40      '>
+      <section className="w-full min-h-[300px] mt-1 relative  gap-10  bg-gray-50  ">
+        <span className=' flex items-center border-b border-gray-200/80 w-full justify-between h-fit sticky top-14 z-30 bg-gray-50   py-5 px-3 md:px-5 lg:px-10 xl:px-20 2xl:px-40      '>
           <ProductFilter
             gender={''}
             collection={[]}
@@ -240,7 +240,7 @@ const Occasions: React.FC<OccasionsProps> = ({ initialCollections, initialGroupO
             item.products?.length > 0 &&
             <GridRroduct data={item.products}
               url={'product'}
-              css='grid-cols-2 md:grid-cols-3 px-3 md:px-5 md:px-10 py-5 md:py-10  gap-3 md:gap-5 lg:grid-cols-4 bg-gray-200 lg:px-10 xl:px-20 2xl:px-40  '
+              css='grid-cols-2 md:grid-cols-3 px-3 md:px-5 md:px-10 py-5 md:py-10  gap-3 md:gap-5 lg:grid-cols-4 bg-gray-50 lg:px-10 xl:px-20 2xl:px-40  '
               productsCardCss=" h-[180px] object-cover  sm:h-[300px] md:h-[300px] xl:[300px] 2xl:h-[320px] 3xl:h-[350px]"
               key={index} />
 

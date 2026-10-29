@@ -542,7 +542,7 @@ export interface newAddToCardPopverProps {
   currentVariant: ProductVariant;
   selectedColors?: Colors
   onVariantChange: (variant: any) => void;
-  addToWhishlistCB: (color: Colors[], size: Sizes[]) => void;
+  addToWhishlistCB?: (color: Colors[], size: Sizes[]) => void;
 }
 export interface NewProductProps {
   id: number;

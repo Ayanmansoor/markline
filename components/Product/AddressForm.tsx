@@ -129,6 +129,7 @@ function AddressForm({ product, setConfirm, setOrderID, variant }: NewAddressFro
     async function onSubmit(data: OrderProps) {
         try {
             const response = await axios.post('/api/create-order', {
+                orderId: data?.id,
                 amount: final_price * 100,
             });
 

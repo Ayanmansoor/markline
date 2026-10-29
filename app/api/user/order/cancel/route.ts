@@ -3,6 +3,7 @@ import { after } from "next/server";
 import axios from "axios";
 import { mysupabase } from "@/Supabase/SupabaseConfig";
 import { sendCancellationEmails } from "@/lib/email";
+import { getAuthenticatedUser } from "@/lib/authHelper";
 
 const CMS_API_BASE_URL = process.env.CMS_API_BASE_URL || process.env.NEXT_PUBLIC_CMS_API_BASE_URL || 'http://192.168.0.107:3000';
 
@@ -15,6 +16,43 @@ export async function POST(req: NextRequest) {
             return NextResponse.json(
                 { success: false, error: "Order ID is required" },
                 { status: 400 }
+            );
+        }
+
+        // 1. Authenticate user from session cookie or Authorization header
+        const { user, error: authError } = await getAuthenticatedUser(req);
+        if (authError || !user) {
+            return NextResponse.json(
+                { success: false, error: "Unauthorized: Please log in to cancel an order" },
+                { status: 401 }
+            );
+        }
+
+        // 2. Prevent IDOR: Verify that the caller actually owns this order
+        const { data: orderRecord, error: orderCheckErr } = await mysupabase
+            .from("orders")
+            .select("id, user_id, fulfillment_status")
+            .eq("id", orderId)
+            .maybeSingle();
+
+        if (orderCheckErr || !orderRecord) {
+            return NextResponse.json(
+                { success: false, error: "Order not found" },
+                { status: 404 }
+            );
+        }
+
+        if (orderRecord.user_id && orderRecord.user_id !== user.id) {
+            return NextResponse.json(
+                { success: false, error: "Forbidden: You do not have permission to cancel this order" },
+                { status: 403 }
+            );
+        }
+
+        if (orderRecord.fulfillment_status === "CANCELLED") {
+            return NextResponse.json(
+                { success: true, message: "Order is already cancelled" },
+                { status: 200 }
             );
         }
 
@@ -98,21 +136,21 @@ export async function POST(req: NextRequest) {
                 // Fallback query to Supabase if email is missing or name is an address label ("Home"/"Office")
                 if ((!email || !name || name === "Home" || name === "Office" || name === "Work") && orderId) {
                     try {
-                        const { data: orderRecord } = await mysupabase
+                        const { data: fullOrder } = await mysupabase
                             .from("orders")
                             .select("*, address:address_id(*)")
                             .eq("id", orderId)
                             .maybeSingle();
 
-                        if (orderRecord) {
-                            const addr = orderRecord.address;
-                            email = email || addr?.email || orderRecord.email || orderRecord.customer_email || orderRecord.user_email;
-                            const realName = addr?.full_name || addr?.recipientName || addr?.recipient_name || orderRecord.customer_name;
+                        if (fullOrder) {
+                            const addr = fullOrder.address;
+                            email = email || addr?.email || fullOrder.email || fullOrder.customer_email || fullOrder.user_email;
+                            const realName = addr?.full_name || addr?.recipientName || addr?.recipient_name || fullOrder.customer_name;
                             if (!name || name === "Home" || name === "Office" || name === "Work") {
                                 name = realName || "Valued Customer";
                             }
                             phone = phone || addr?.phone_number || addr?.phone || addr?.recipientPhone;
-                            grandTotal = grandTotal || orderRecord.grand_total || orderRecord.total_amount;
+                            grandTotal = grandTotal || fullOrder.grand_total || fullOrder.total_amount;
                         }
                     } catch (dbErr) {
                         console.warn("[Background Email Fallback Error]:", dbErr);
@@ -164,5 +202,3 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextRequest) {
     return POST(req);
 }
-
-

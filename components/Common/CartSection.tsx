@@ -133,7 +133,17 @@ function CartSection() {
     }
 
     return (
-        <section className='max-w-[1440px] mx-auto px-5 lg:px-10 xl:px-20 py-10 lg:py-16'>
+        <section className='max-w-[1440px] mx-auto px-5 lg:px-10 xl:px-20 py-8 lg:py-16'>
+            <div className='mb-4'>
+                <Link
+                    href='/products'
+                    className="inline-flex items-center gap-2 text-xs md:text-sm font-bold tracking-widest text-primary hover:gap-3 transition-all group"
+                >
+                    <ArrowLeft size={16} className='group-hover:translate-x-[-2px] transition-transform' />
+                    Continue Shopping
+                </Link>
+            </div>
+
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -201,7 +211,7 @@ function CartSection() {
 
                     <Link
                         href='/products'
-                        className="flex items-center gap-2 text-sm font-bold  tracking-widest text-primary hover:gap-3 transition-all mt-4 w-fit group"
+                        className="hidden lg:flex items-center gap-2 text-sm font-bold tracking-widest text-primary hover:gap-3 transition-all mt-4 w-fit group"
                     >
                         <ArrowLeft size={18} className='group-hover:translate-x-[-2px] transition-transform' />
                         Continue Shopping

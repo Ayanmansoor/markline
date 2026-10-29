@@ -288,8 +288,8 @@ const GenderPage: React.FC<GenderPageProps> = ({
           </Swiper>
         </section>
 
-        <section className="w-full min-h-[300px] mt-2 relative  gap-10  bg-gray-200   ">
-          <span className=" z-20 bg-gray-200 flex items-center border-b border-white w-full justify-between h-fit sticky top-14  py-5 px-5 lg:px-10 xl:px-20 2xl:px-40">
+        <section className="w-full min-h-[300px] mt-2 relative  gap-10  bg-gray-50   ">
+          <span className=" z-20 bg-gray-50 flex items-center border-b border-gray-200/80 w-full justify-between h-fit sticky top-14  py-5 px-5 lg:px-10 xl:px-20 2xl:px-40">
             <ProductFilter
               gender={productslug}
               collection={productslug && genderCollection}
@@ -317,7 +317,7 @@ const GenderPage: React.FC<GenderPageProps> = ({
                     : getallproductbaseongender.data
                 }
                 url={"product"}
-                css=" gap-2 grid-cols-2 md:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-200 "
+                css=" gap-2 grid-cols-2 md:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-50 "
                 productsCardCss=" h-[200px] object-cover  sm:h-[300px] md:h-[300px] xl:[350px] 2xl:h-[400px] 3xl:h-[400px]"
               />
             ) : (

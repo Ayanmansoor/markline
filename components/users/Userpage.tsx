@@ -12,11 +12,19 @@ import { Loader2, Gem, User, Receipt, MapPin, LogOut } from 'lucide-react'
 import { UserAddressProvider } from '@/Contexts/UserAddressProvider'
 import { useAuth } from '@/Contexts/Auth.context'
 import { toast } from 'sonner'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 
 type TabType = 'profile' | 'orders' | 'address';
 
 function Userpage() {
-  const { user, loading: isAuthLoading } = useAuth()
+  const { user, loading: isAuthLoading, logout } = useAuth()
   const [loading, setLoading] = useState(true)
   const [dataLoading, setDataLoading] = useState(true)
   const [authenticated, setAuthenticated] = useState(false)
@@ -27,6 +35,8 @@ function Userpage() {
   const [perform, setPerfom] = useState(false)
   const [ordersFetched, setOrdersFetched] = useState(false)
   const [addressFetched, setAddressFetched] = useState(false)
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false)
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
   const router = useRouter()
 
   function handleperform() {
@@ -41,8 +51,9 @@ function Userpage() {
 
   useEffect(() => {
     if (!isAuthLoading) {
+      if (isLoggingOut) return // Prevent competing redirect if logout is in progress
       if (!user) {
-        router.push('/?login=true')
+        router.replace('/?login=true')
         setLoading(false)
       } else {
         setCurrentUser(user)
@@ -50,7 +61,7 @@ function Userpage() {
         setLoading(false)
       }
     }
-  }, [user, isAuthLoading, router])
+  }, [user, isAuthLoading, isLoggingOut, router])
 
   // Lazy load tab data
   useEffect(() => {
@@ -92,14 +103,29 @@ function Userpage() {
     return () => { isMounted = false }
   }, [activeTab, currentUser, ordersFetched, addressFetched])
 
-  async function handleLogout() {
-    const { error } = await mysupabase.auth.signOut();
-    if (error) {
-      toast.error("Error signing out");
-    } else {
-      toast.success("Logged out successfully");
-      router.push('/');
+  async function confirmLogout() {
+    setIsLoggingOut(true)
+    setShowLogoutDialog(false)
+    toast.success("Logged out successfully")
+
+    try {
+      await logout()
+      window.location.replace('/')
+    } catch (error) {
+      console.error("Logout error:", error)
+      window.location.replace('/')
     }
+  }
+
+  if (isLoggingOut) {
+    return (
+      <section className='w-full relative bg-white flex items-center justify-center h-[80vh]'>
+        <div className='flex flex-col items-center gap-3'>
+          <Loader2 className='w-6 h-6 animate-spin text-zinc-900' />
+          <p className='text-xs font-semibold tracking-wider uppercase text-zinc-500'>Logging out...</p>
+        </div>
+      </section>
+    )
   }
 
   if (loading) {
@@ -117,7 +143,7 @@ function Userpage() {
 
   return (
     <UserAddressProvider>
-      <div className='w-full min-h-[90vh] bg-[#f9fafb] flex justify-center py-10 px-4 md:px-10'>
+      <div className='w-full min-h-[90vh] bg-gray-50 flex justify-center py-10 px-4 md:px-10'>
         <div className='w-full max-w-7xl flex flex-col md:flex-row gap-8 items-start'>
 
           {/* Sidebar */}
@@ -148,8 +174,9 @@ function Userpage() {
               <hr className='hidden md:block my-2 border-gray-100' />
 
               <button
-                onClick={handleLogout}
-                className='flex shrink-0 snap-start items-center gap-2 md:gap-3 px-5 md:px-6 py-4 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors'
+                type='button'
+                onClick={() => setShowLogoutDialog(true)}
+                className='flex shrink-0 snap-start items-center gap-2 md:gap-3 px-5 md:px-6 py-4 text-sm font-medium text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors'
               >
                 <LogOut size={18} />
                 Logout
@@ -162,7 +189,7 @@ function Userpage() {
             <AnimatePresence mode='wait'>
               {activeTab === 'profile' && (
                 <motion.div key="profile" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
-                  <UserSection user={currentUser} />
+                  <UserSection user={currentUser} onLogout={() => setShowLogoutDialog(true)} />
                 </motion.div>
               )}
               {activeTab === 'orders' && (
@@ -207,6 +234,47 @@ function Userpage() {
           </main>
         </div>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      <Dialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+        <DialogContent className='max-w-[380px] p-6 rounded-2xl bg-white border border-zinc-200/80 shadow-2xl'>
+          <DialogHeader className='text-left space-y-1.5'>
+            <DialogTitle className='text-lg font-bold text-zinc-900 flex items-center gap-2'>
+              <LogOut size={16} className='text-zinc-500' />
+              Log Out
+            </DialogTitle>
+            <DialogDescription className='text-xs text-zinc-500 leading-relaxed'>
+              Are you sure you want to log out? You will need to verify your email again to access your account and orders.
+            </DialogDescription>
+          </DialogHeader>
+
+          <DialogFooter className='flex flex-col-reverse sm:flex-row gap-2 mt-5 sm:justify-end'>
+            <button
+              type='button'
+              disabled={isLoggingOut}
+              onClick={() => setShowLogoutDialog(false)}
+              className='w-full sm:w-auto h-10 px-4 rounded-xl border border-zinc-200 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 transition'
+            >
+              Cancel
+            </button>
+            <button
+              type='button'
+              disabled={isLoggingOut}
+              onClick={confirmLogout}
+              className='w-full sm:w-auto h-10 px-5 rounded-xl bg-zinc-900 text-xs font-semibold text-white hover:bg-zinc-800 transition flex items-center justify-center gap-2'
+            >
+              {isLoggingOut ? (
+                <>
+                  <Loader2 size={14} className='animate-spin' />
+                  Signing out...
+                </>
+              ) : (
+                "Log Out"
+              )}
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </UserAddressProvider>
   )
 }

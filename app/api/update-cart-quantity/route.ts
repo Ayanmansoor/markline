@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { mysupabase } from "@/Supabase/SupabaseConfig";
+import { getAuthenticatedUser } from "@/lib/authHelper";
 
 export async function POST(req: NextRequest) {
     try {
+        // 1. Authenticate user from session
+        const { user, error: authError } = await getAuthenticatedUser(req);
+        if (authError || !user) {
+            return NextResponse.json({ error: "Unauthorized: Please log in" }, { status: 401 });
+        }
+
         const {
             userId,
             variantId,
@@ -12,18 +19,25 @@ export async function POST(req: NextRequest) {
             quantity
         } = await req.json();
 
-        if (!userId || !productId || quantity === undefined) {
+        if (!productId || quantity === undefined) {
             return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
         }
 
-        // Prepare the query building
+        // 2. Prevent IDOR: Ensure caller only modifies their own cart
+        if (userId && userId !== user.id) {
+            return NextResponse.json({ error: "Forbidden: You cannot modify another user's cart" }, { status: 403 });
+        }
+
+        const targetUserId = user.id;
+
+        // Prepare the query building scoped to authenticated user
         let query = mysupabase
             .from("cart")
             .update({
                 quantity,
                 updated_at: new Date().toISOString()
             })
-            .eq("user_id", userId)
+            .eq("user_id", targetUserId)
             .eq("product_id", productId);
 
         if (variantId) {

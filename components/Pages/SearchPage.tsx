@@ -60,8 +60,8 @@ const SearchPage: React.FC<SearchPageProps> = ({ initialResults }) => {
   }, [searchParams]);
 
   return (
-    <section className="w-full relative min-h-screen    bg-gray-200">
-      <div className="flex  border-b border-gray-300 container  h-fit w-full gap-10 py-5  items-center justify-between">
+    <section className="w-full relative min-h-screen    bg-gray-50">
+      <div className="flex  border-b border-gray-200/80 container  h-fit w-full gap-10 py-5  items-center justify-between">
         <span className="bg-white p-1 rounded-sm cursor-pointer">
           <MdOutlineArrowBack
             className="text-[20px] cursor-pointer text-primary  "
@@ -95,7 +95,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ initialResults }) => {
           <GridRroduct
             data={results}
             url={"product"}
-            css=" grid-cols-2 sm:grid-cols-2 md:grid-cols-3   gap-2 md:gap-3 lg:grid-cols-4 2xl:grid-cols-4 bg-gray-200 "
+            css=" grid-cols-2 sm:grid-cols-2 md:grid-cols-3   gap-2 md:gap-3 lg:grid-cols-4 2xl:grid-cols-4 bg-gray-50 "
             productsCardCss=" h-[300px]  sm:h-[450px] md:h-[400px] xl:[400px] 2xl:h-[400px] 3xl:h-[400px]"
           />
         ) : (

@@ -27,11 +27,14 @@ const otpSchema = z.object({
 type EmailFormData = z.infer<typeof emailSchema>;
 type OtpFormData = z.infer<typeof otpSchema>;
 
-function LoginModal({ children, isOpen, setIsOpen }: {
-    children: React.ReactNode,
-    isOpen: boolean,
+interface LoginModalProps {
+    children?: React.ReactNode;
+    isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+    onSuccess?: () => void;
+}
+
+function LoginModal({ children, isOpen, setIsOpen, onSuccess }: LoginModalProps) {
     const [step, setStep] = useState<1 | 2>(1);
     const [email, setEmail] = useState("");
     const [isSending, setSending] = useState<boolean>(false);
@@ -41,7 +44,7 @@ function LoginModal({ children, isOpen, setIsOpen }: {
     const emailForm = useForm<EmailFormData>({
         resolver: zodResolver(emailSchema),
     });
-
+    
     const otpForm = useForm<OtpFormData>({
         resolver: zodResolver(otpSchema),
     });
@@ -99,6 +102,7 @@ function LoginModal({ children, isOpen, setIsOpen }: {
                 setEmail("");
                 otpForm.reset();
                 emailForm.reset();
+                onSuccess?.();
             }
         } catch (error: any) {
             console.error("Verification error:", error);
@@ -110,138 +114,134 @@ function LoginModal({ children, isOpen, setIsOpen }: {
 
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogContent className="max-w-[calc(100vw-32px)] sm:max-w-[450px] md:max-w-[850px] p-0 overflow-hidden border-none rounded-[2rem] shadow-2xl">
-                <div className="flex flex-col md:flex-row h-full min-h-[400px] md:min-h-[500px]">
+            <DialogContent className="max-w-[calc(100vw-32px)] sm:max-w-[450px] md:max-w-[800px] p-0 overflow-hidden border border-zinc-200/80 rounded-2xl shadow-2xl bg-white">
+                <div className="flex flex-col md:flex-row h-full min-h-[420px] md:min-h-[480px]">
 
                     {/* Visual Side (Hidden on Mobile) */}
-                    <section className="hidden md:block w-1/2 relative bg-gray-50 overflow-hidden">
+                    <section className="hidden md:block w-1/2 relative bg-zinc-100 overflow-hidden">
                         <Image
                             src="/markline-fashion.png"
                             alt="Markline Fashion"
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s]"
+                            className="w-full h-full object-cover"
                             fill
                             priority
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-10">
-                            <h3 className="text-white text-3xl font-black tracking-tighter mb-2  italic">Elite Couture</h3>
-                            <p className="text-gray-300 text-xs font-bold tracking-[0.3em] ">Private Shopping Access</p>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8">
+                            <h3 className="text-white text-2xl font-bold tracking-tight mb-1">Markline</h3>
+                            <p className="text-zinc-300 text-xs font-medium tracking-wider uppercase">Handcrafted Footwear</p>
                         </div>
                     </section>
 
                     {/* Form Side */}
-                    <section className="w-full md:w-1/2 bg-white p-8 lg:p-12 flex flex-col relative">
+                    <section className="w-full md:w-1/2 bg-white p-6 sm:p-8 md:p-10 flex flex-col justify-center relative">
                         <AnimatePresence mode="wait">
                             {step === 1 ? (
                                 <motion.div
                                     key="step1"
-                                    initial={{ opacity: 0, x: 20 }}
+                                    initial={{ opacity: 0, x: 15 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -20 }}
-                                    transition={{ duration: 0.4 }}
-                                    className="flex flex-col flex-grow h-full"
+                                    exit={{ opacity: 0, x: -15 }}
+                                    transition={{ duration: 0.25 }}
+                                    className="flex flex-col flex-grow justify-center"
                                 >
-                                    <div className="flex flex-col gap-2 mb-10">
-                                        <h2 className="text-3xl font-black text-primary  tracking-tighter leading-none">Authentication</h2>
-                                        <p className="text-sm text-gray-400 font-medium tracking-wide">Enter your email to receive a secure code</p>
+                                    <div className="flex flex-col gap-1.5 mb-8">
+                                        <h2 className="text-2xl font-bold text-zinc-900 tracking-tight">Sign In</h2>
+                                        <p className="text-xs text-zinc-500 font-normal">Enter your email to receive a secure login code</p>
                                     </div>
 
-                                    <form onSubmit={emailForm.handleSubmit(onSendOtp)} className="flex flex-col gap-8 flex-grow">
+                                    <form onSubmit={emailForm.handleSubmit(onSendOtp)} className="flex flex-col gap-6">
                                         {/* Email Field */}
-                                        <div className="flex flex-col gap-3 group">
-                                            <label className="text-[10px] font-black  tracking-[0.2em] text-gray-400 text-primary transition-colors">Identification</label>
+                                        <div className="flex flex-col gap-2">
+                                            <label className="text-xs font-semibold text-zinc-700">Email Address</label>
                                             <div className="relative">
-                                                <Mail className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-300 text-primary transition-colors" size={18} />
+                                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" size={16} />
                                                 <input
                                                     type="email"
-                                                    placeholder="MARKLINE@EMAIL.COM"
-                                                    className="w-full pl-8 pr-4 py-4 border-b border-gray-100 border-primary outline-none transition-all text-primary font-bold placeholder:font-bold placeholder:text-gray-400  tracking-widest text-sm"
+                                                    placeholder="you@email.com"
+                                                    className="w-full pl-9 pr-4 py-3 border border-zinc-200 rounded-xl outline-none focus:border-zinc-900 transition-colors text-zinc-900 font-medium placeholder:text-zinc-400 text-sm"
                                                     {...emailForm.register("email")}
                                                 />
                                             </div>
                                             {emailForm.formState.errors.email && (
-                                                <p className="text-[10px] font-bold text-red-500  tracking-wider">{emailForm.formState.errors.email.message}</p>
+                                                <p className="text-xs font-medium text-red-500">{emailForm.formState.errors.email.message}</p>
                                             )}
                                         </div>
 
-                                        <div className="mt-4 flex flex-col gap-6">
-                                            <button
-                                                disabled={isSending}
-                                                className="w-full bg-black text-white h-16 rounded-2xl font-black  tracking-[0.2em] text-xs hover:bg-zinc-800 disabled:bg-gray-100 disabled:text-gray-400 transition-all flex items-center justify-center gap-3 group"
-                                            >
-                                                {isSending ? (
-                                                    <>
-                                                        <Loader2 className="animate-spin" size={18} />
-                                                        Sending Code
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        Get Access Code
-                                                        <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                                                    </>
-                                                )}
-                                            </button>
-                                        </div>
+                                        <button
+                                            disabled={isSending}
+                                            className="w-full bg-zinc-900 text-white h-11 rounded-xl font-semibold tracking-wider uppercase text-xs hover:bg-zinc-800 disabled:bg-zinc-100 disabled:text-zinc-400 transition-all flex items-center justify-center gap-2"
+                                        >
+                                            {isSending ? (
+                                                <>
+                                                    <Loader2 className="animate-spin" size={16} />
+                                                    Sending Code
+                                                </>
+                                            ) : (
+                                                <>
+                                                    Get Login Code
+                                                    <ArrowRight size={15} />
+                                                </>
+                                            )}
+                                        </button>
                                     </form>
                                 </motion.div>
                             ) : (
                                 <motion.div
                                     key="step2"
-                                    initial={{ opacity: 0, x: 20 }}
+                                    initial={{ opacity: 0, x: 15 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -20 }}
-                                    transition={{ duration: 0.4 }}
-                                    className="flex flex-col flex-grow h-full"
+                                    exit={{ opacity: 0, x: -15 }}
+                                    transition={{ duration: 0.25 }}
+                                    className="flex flex-col flex-grow justify-center"
                                 >
                                     <button
                                         onClick={() => setStep(1)}
-                                        className="flex items-center gap-2 text-[10px] font-black  tracking-[0.2em] text-gray-300 hover:text-primary transition-colors mb-6 group/back"
+                                        className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-400 hover:text-zinc-900 transition-colors mb-6"
                                     >
-                                        <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+                                        <ArrowLeft size={14} />
                                         Back to Email
                                     </button>
 
-                                    <div className="flex flex-col gap-2 mb-10">
-                                        <h2 className="text-3xl font-black text-primary  tracking-tighter leading-none">verification</h2>
-                                        <p className="text-sm text-gray-400 font-medium tracking-wide">Enter the 6-digit code sent to <span className="text-primary font-bold">{email}</span></p>
+                                    <div className="flex flex-col gap-1.5 mb-8">
+                                        <h2 className="text-2xl font-bold text-zinc-900 tracking-tight">Enter Code</h2>
+                                        <p className="text-xs text-zinc-500 font-normal">Enter the 6-digit code sent to <span className="text-zinc-900 font-semibold">{email}</span></p>
                                     </div>
 
-                                    <form onSubmit={otpForm.handleSubmit(onVerifyOtp)} className="flex flex-col gap-8 flex-grow">
+                                    <form onSubmit={otpForm.handleSubmit(onVerifyOtp)} className="flex flex-col gap-6">
                                         {/* OTP Field */}
-                                        <div className="flex flex-col gap-3 group">
-                                            <label className="text-[10px] font-black  tracking-[0.2em] text-gray-400 text-primary transition-colors">Passcode</label>
+                                        <div className="flex flex-col gap-2">
+                                            <label className="text-xs font-semibold text-zinc-700">Verification Code</label>
                                             <div className="relative">
-                                                <KeyRound className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-300 text-primary transition-colors" size={18} />
+                                                <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" size={16} />
                                                 <input
                                                     type="text"
                                                     placeholder="000 000"
                                                     maxLength={6}
-                                                    className="w-full pl-8 pr-4 py-4 border-b border-gray-100 border-primary outline-none transition-all text-primary font-black placeholder:font-black placeholder:text-gray-400  tracking-[0.5em] text-2xl"
+                                                    className="w-full pl-9 pr-4 py-3 border border-zinc-200 rounded-xl outline-none focus:border-zinc-900 transition-colors text-zinc-900 font-bold placeholder:font-normal placeholder:text-zinc-400 tracking-[0.3em] text-lg text-center"
                                                     {...otpForm.register("otp")}
                                                 />
                                             </div>
                                             {otpForm.formState.errors.otp && (
-                                                <p className="text-[10px] font-bold text-red-500  tracking-wider">{otpForm.formState.errors.otp.message}</p>
+                                                <p className="text-xs font-medium text-red-500">{otpForm.formState.errors.otp.message}</p>
                                             )}
                                         </div>
 
-                                        <div className="mt-4 flex flex-col gap-6">
-                                            <button
-                                                disabled={isSending}
-                                                className="w-full bg-black text-white h-16 rounded-2xl font-black  tracking-[0.2em] text-xs hover:bg-zinc-800 disabled:bg-gray-100 disabled:text-gray-400 transition-all flex items-center justify-center gap-3 group"
-                                            >
-                                                {isSending ? (
-                                                    <>
-                                                        <Loader2 className="animate-spin" size={18} />
-                                                        Verifying
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        Sign In Now
-                                                        <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                                                    </>
-                                                )}
-                                            </button>
-                                        </div>
+                                        <button
+                                            disabled={isSending}
+                                            className="w-full bg-zinc-900 text-white h-11 rounded-xl font-semibold tracking-wider uppercase text-xs hover:bg-zinc-800 disabled:bg-zinc-100 disabled:text-zinc-400 transition-all flex items-center justify-center gap-2"
+                                        >
+                                            {isSending ? (
+                                                <>
+                                                    <Loader2 className="animate-spin" size={16} />
+                                                    Verifying
+                                                </>
+                                            ) : (
+                                                <>
+                                                    Verify & Sign In
+                                                    <ArrowRight size={15} />
+                                                </>
+                                            )}
+                                        </button>
                                     </form>
                                 </motion.div>
                             )}

@@ -1,48 +1,36 @@
-import React from 'react'
-
-import ContentLoader from 'react-content-loader';
+import React from 'react';
 import { Skeleton } from '../ui/skeleton';
 
-
 function ProductCardSkeleton() {
+  return (
+    <div className="w-full h-full flex flex-col justify-between bg-white rounded-2xl border border-gray-200/80 p-2 sm:p-2.5 shadow-xs animate-pulse">
+      {/* Product Image Skeleton */}
+      <div className="relative w-full aspect-[4/5] overflow-hidden rounded-xl bg-gray-100">
+        <Skeleton className="w-full h-full" />
+      </div>
 
-    return (
-   <>
-
-      {/* Product Card Skeleton */}
-      <div className="w-full max-w-sm bg-white rounded-xl overflow-hidden">
-        {/* Product Image Skeleton */}
-        <div className="relative w-full aspect-[4/3] bg-white flex items-center justify-center p-4">
-          <Skeleton className="w-full h-full rounded-lg" />
-        </div>
-
-        {/* Image Carousel Dots Skeleton (if applicable) */}
-        <div className="flex justify-center space-x-2 py-3">
-          <Skeleton className="w-2 h-2 rounded-full" />
-          <Skeleton className="w-2 h-2 rounded-full" />
-          <Skeleton className="w-2 h-2 rounded-full" />
-        </div>
-
-        {/* Product Details Skeleton */}
-        <div className="p-4 flex flex-col gap-3">
-          {/* Product Title Skeleton */}
-          <Skeleton className=" h-2 lg:h-6 w-full rounded-md" />
-          <Skeleton className="h-2 lg:h-6 w-3/4 rounded-md" />
-
-          {/* Price Skeleton */}
-          <Skeleton className=" h-2 md:h-4 lg:h-7 w-24 rounded-md mt-2" />
-
-          {/* Add to Cart Button Skeleton */}
-          <div className="flex items-center space-x-3 mt-4">
-            <Skeleton className="flex-grow h-2 lg:h-6 xl:h-12 rounded-lg" />
-            {/* Wishlist Icon Skeleton */}
-            <Skeleton className="w-12 h-2 lg:h-6 xl:h-12  rounded-lg" />
+      {/* Product Details Skeleton */}
+      <div className="flex flex-col flex-grow justify-between pt-2.5 sm:pt-3 px-1 sm:px-1.5 gap-2">
+        {/* Category & Color Swatches Skeleton */}
+        <div className="flex items-center justify-between gap-2 min-h-[18px]">
+          <Skeleton className="h-2.5 w-14 rounded" />
+          <div className="flex gap-1">
+            <Skeleton className="w-3.5 h-3.5 rounded-full" />
+            <Skeleton className="w-3.5 h-3.5 rounded-full" />
           </div>
         </div>
-      </div>
-      </>
-    )
 
+        {/* Title Skeleton */}
+        <Skeleton className="h-4 w-4/5 rounded" />
+
+        {/* Price & Add Button Skeleton */}
+        <div className="flex items-center justify-between gap-2 pt-0.5">
+          <Skeleton className="h-4 w-20 rounded" />
+          <Skeleton className="h-6 w-12 rounded-lg" />
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default ProductCardSkeleton
+export default ProductCardSkeleton;

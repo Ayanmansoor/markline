@@ -1,26 +1,36 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { getAuthenticatedUser } from "@/lib/authHelper";
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId, productId, selectedColorName, selectedSize, clearAll } = await req.json();
-
-    if (!userId) {
-      return NextResponse.json({ error: "userId is required" }, { status: 400 });
+    // 1. Authenticate user from session
+    const { user, error: authError } = await getAuthenticatedUser(req);
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized: Please log in" }, { status: 401 });
     }
 
-    // Initialize Supabase Client with Service Role Key to bypass RLS policies
+    const { userId, productId, selectedColorName, selectedSize, clearAll } = await req.json();
+
+    // 2. Prevent IDOR: Ensure caller can only manipulate their own cart
+    if (userId && userId !== user.id) {
+      return NextResponse.json({ error: "Forbidden: You cannot modify another user's cart" }, { status: 403 });
+    }
+
+    const targetUserId = user.id;
+
+    // Initialize Supabase Client
     const adminSupabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_KEY!
     );
 
     if (clearAll) {
-      console.log(`[Cart Delete API] Clearing entire cart for user: ${userId}`);
+      console.log(`[Cart Delete API] Clearing entire cart for user: ${targetUserId}`);
       const { error } = await adminSupabase
         .from("cart")
         .delete()
-        .eq("user_id", userId);
+        .eq("user_id", targetUserId);
 
       if (error) {
         console.error("[Cart Delete API] Error clearing cart:", error);
@@ -31,12 +41,12 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "productId is required for item deletion" }, { status: 400 });
       }
 
-      console.log(`[Cart Delete API] Deleting cart item for user ${userId}, product ${productId}, color ${selectedColorName}, size ${selectedSize}`);
+      console.log(`[Cart Delete API] Deleting cart item for user ${targetUserId}, product ${productId}, color ${selectedColorName}, size ${selectedSize}`);
       
       const { error } = await adminSupabase
         .from("cart")
         .delete()
-        .eq("user_id", userId)
+        .eq("user_id", targetUserId)
         .eq("product_id", productId)
         .eq("selected_color_name", selectedColorName || "")
         .eq("selected_size", selectedSize || "");

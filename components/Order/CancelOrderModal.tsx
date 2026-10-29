@@ -173,18 +173,18 @@ export function CancelOrderModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-            <DialogContent className="max-w-md p-6 bg-white rounded-2xl border border-gray-100 shadow-xl">
+            <DialogContent className="max-w-md p-6 bg-white rounded-2xl border border-zinc-200/80 shadow-2xl">
                 <DialogHeader className="space-y-2 text-left">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
-                            <AlertTriangle size={20} />
+                        <div className="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100/60">
+                            <AlertTriangle size={16} />
                         </div>
                         <div>
-                            <DialogTitle className="text-lg font-bold text-gray-900 tracking-tight">
+                            <DialogTitle className="text-lg font-bold text-zinc-900 tracking-tight">
                                 Cancel Order
                             </DialogTitle>
-                            <DialogDescription className="text-xs text-gray-500 font-medium mt-0.5">
-                                Order ID: <span className="font-mono font-bold text-gray-800">#Ord-{orderId.slice(0, 8).toUpperCase()}</span>
+                            <DialogDescription className="text-xs text-zinc-500 font-normal mt-0.5">
+                                Order ID: <span className="font-mono font-semibold text-zinc-800">#Ord-{orderId.slice(0, 8).toUpperCase()}</span>
                             </DialogDescription>
                         </div>
                     </div>
@@ -192,13 +192,13 @@ export function CancelOrderModal({
 
                 <div className="flex flex-col gap-4 py-2">
                     <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-bold text-gray-700">
+                        <label className="text-xs font-semibold text-zinc-700">
                             Reason for Cancellation *
                         </label>
                         <select
                             value={selectedReason}
                             onChange={(e) => setSelectedReason(e.target.value)}
-                            className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-xl text-xs font-medium text-gray-900 focus:outline-none focus:border-black transition-colors"
+                            className="w-full px-3.5 py-2.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-none focus:border-zinc-900 focus:bg-white transition-colors"
                         >
                             {CANCEL_REASONS.map((reason, idx) => (
                                 <option key={idx} value={reason}>
@@ -210,7 +210,7 @@ export function CancelOrderModal({
 
                     {selectedReason === "Other reason" && (
                         <div className="flex flex-col gap-1.5">
-                            <label className="text-xs font-bold text-gray-700">
+                            <label className="text-xs font-semibold text-zinc-700">
                                 Please specify details
                             </label>
                             <textarea
@@ -218,22 +218,22 @@ export function CancelOrderModal({
                                 value={customNote}
                                 onChange={(e) => setCustomNote(e.target.value)}
                                 placeholder="Enter cancellation details..."
-                                className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-xl text-xs font-medium text-gray-900 focus:outline-none focus:border-black transition-colors"
+                                className="w-full px-3.5 py-2.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-none focus:border-zinc-900 focus:bg-white transition-colors resize-none"
                             />
                         </div>
                     )}
 
-                    <div className="p-3 bg-amber-50/80 border border-amber-200 rounded-xl text-xs text-amber-800 font-medium leading-relaxed">
+                    <div className="p-3 bg-amber-50 border border-amber-200/70 rounded-xl text-xs text-amber-900 font-normal leading-relaxed">
                         Note: Once cancelled, this order cannot be restored. Any payments processed will be refunded according to our refund policy.
                     </div>
                 </div>
 
-                <div className="flex items-center justify-end gap-3 pt-2">
+                <div className="flex items-center justify-end gap-2.5 pt-2">
                     <button
                         type="button"
                         onClick={onClose}
                         disabled={isSubmitting}
-                        className="px-4 py-2 text-xs font-bold text-gray-600 hover:text-gray-900 transition-colors"
+                        className="h-10 px-4 rounded-xl border border-zinc-200 bg-white hover:bg-zinc-50 text-zinc-700 text-xs font-semibold uppercase tracking-wider transition-all"
                     >
                         Keep Order
                     </button>
@@ -241,7 +241,7 @@ export function CancelOrderModal({
                         type="button"
                         onClick={handleCancelOrder}
                         disabled={isSubmitting}
-                        className="px-5 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition-all shadow-sm flex items-center gap-2 active:scale-95 disabled:opacity-50"
+                        className="h-10 px-5 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold rounded-xl uppercase tracking-wider transition-all shadow-sm flex items-center gap-2 active:scale-[0.98] disabled:opacity-50"
                     >
                         {isSubmitting ? (
                             <>

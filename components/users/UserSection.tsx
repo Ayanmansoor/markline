@@ -17,7 +17,12 @@ interface userinterfce {
   }
 }
 
-function UserSection({ user }: { user?: userinterfce }) {
+interface UserSectionProps {
+  user?: userinterfce;
+  onLogout?: () => void;
+}
+
+function UserSection({ user, onLogout }: UserSectionProps) {
   const [currentuser, setUser] = useState<userinterfce | undefined>(user);
   const [loading, setLoading] = useState(!user);
   const router = useRouter();
@@ -39,15 +44,6 @@ function UserSection({ user }: { user?: userinterfce }) {
     }
   }, [user]);
 
-  async function handleLogout() {
-    const { error } = await mysupabase.auth.signOut();
-    if (error) {
-      toast.error("Error signing out");
-    } else {
-      toast.success("Logged out successfully");
-      router.push('/');
-    }
-  }
 
   if (loading) return <UserSkeleton />;
 
@@ -144,6 +140,24 @@ function UserSection({ user }: { user?: userinterfce }) {
             </div>
           </div>
         </div>
+
+        {/* Account Actions / Log Out Card */}
+        {onLogout && (
+          <div className='p-6 bg-red-50/50 rounded-2xl border border-red-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-2'>
+            <div>
+              <h4 className='text-sm font-bold text-red-900'>Log Out of Account</h4>
+              <p className='text-xs text-red-600/80 mt-0.5'>Securely sign out of your Markline session on this device.</p>
+            </div>
+            <button
+              type='button'
+              onClick={onLogout}
+              className='flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition-colors shadow-sm'
+            >
+              <LogOut size={15} />
+              Log Out
+            </button>
+          </div>
+        )}
       </div>
     </section>
   )

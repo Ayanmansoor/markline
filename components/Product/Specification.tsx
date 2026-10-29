@@ -13,7 +13,7 @@ function Specification({ product }: ProductsDataProps) {
 
 
     return (
-        <section className='w-full relative   h-auto grid  grid-cols-1 lg:grid-cols-2  gap-8 bg-secondary px-5 lg:px-10 xl:px-20 2xl:px-40 '>
+        <section className='w-full relative   h-auto grid  grid-cols-1 lg:grid-cols-2  gap-8 bg-gray-50 px-5 lg:px-10 xl:px-20 2xl:px-40 '>
             <div className='w-full lg:sticky lg:top-14 flex flex-col h-fit '>
                 <span className='w-fit relative px-5  py-1 border-t border-black text-primary bg-white text-base font-medium '>
                     Details

@@ -1,0 +1,38 @@
+/* Design: markline-luxury-commerce
+ * Source: Unified E-Commerce Design System
+ * Focus: High-Trust Fashion & Footwear
+ */
+
+:root {
+  /* Surface & Base */
+  --background: 0 0% 98%;           /* #FAFAFA */
+  --foreground: 222 47% 11%;         /* #0F172A */
+  --card: 0 0% 100%;                /* #FFFFFF */
+  --card-foreground: 222 47% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+
+  /* Brand / Primary */
+  --primary: 0 0% 6%;               /* #0F0F10 deep luxury black */
+  --primary-foreground: 0 0% 100%;  /* #FFFFFF */
+
+  /* Supporting / Secondary */
+  --secondary: 210 20% 96%;         /* #F1F5F9 */
+  --secondary-foreground: 222 47% 11%;
+
+  /* Muted & Borders */
+  --muted: 210 20% 96%;
+  --muted-foreground: 215 16% 47%;  /* #64748B */
+  --border: 214 32% 91%;            /* #E2E8F0 subtle divider */
+  --input: 214 32% 91%;
+  --ring: 0 0% 6%;
+
+  /* Accents & Status */
+  --accent: 210 20% 96%;
+  --accent-foreground: 222 47% 11%;
+  --destructive: 0 84% 60%;         /* #EF4444 */
+  --destructive-foreground: 0 0% 98%;
+
+  /* Radii scale */
+  --radius: 0.75rem;                /* 12px default */
+}

@@ -227,9 +227,9 @@ function CartSheet({ children }: {
             image: "https://res.cloudinary.com/demhgityh/image/upload/v1750353291/markline-checkout-logo_ukrvoi.png",
             handler: (response: RazorpayResponse) => orderSubmition(response, UserAddress, orderedData),
             prefill: {
-                name: UserAddress?.name || '',
+                name: UserAddress?.recipientName || UserAddress?.name || '',
                 email: currentuser?.email || '',
-                contact: currentuser?.phone || '',
+                contact: (UserAddress?.recipientPhone || (UserAddress as any)?.phone || currentuser?.phone || '').replace(/\D/g, '').slice(-10),
             },
             theme: {
                 color: "#084E10",

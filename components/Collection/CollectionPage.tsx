@@ -296,8 +296,8 @@ function CategoryL2page({
                 </Swiper>
             </section> */}
 
-      <section className="w-full min-h-[300px] mt-5 relative  gap-10  bg-gray-200  ">
-        <span className=" flex items-center border-b border-white w-full justify-between h-fit sticky top-14 z-30 bg-gray-200   py-5 px-2 lg:px-10 xl:px-20 2xl:px-40 ">
+      <section className="w-full min-h-[300px] mt-5 relative  gap-10  bg-gray-50  ">
+        <span className=" flex items-center border-b border-gray-200/80 w-full justify-between h-fit sticky top-14 z-30 bg-gray-50   py-5 px-2 lg:px-10 xl:px-20 2xl:px-40 ">
           <ProductFilter
             gender={gslug}
             collection={genderCollection.data}
@@ -319,12 +319,12 @@ function CategoryL2page({
               <ProductCardSkeleton />
             </div>
           ) : products?.length ? (
-            // <GridRroduct data={filterProducts ? filterProducts : products} url={'product'} css=' grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-200 ' productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[350px]' />
+            // <GridRroduct data={filterProducts ? filterProducts : products} url={'product'} css=' grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-50 ' productsCardCss=' h-[250px]  sm:h-[300px] md:h-[350px] lg:h-[350px]' />
 
             <GridRroduct
               data={filterProducts ? filterProducts : products}
               url={"product"}
-              css=" grid-cols-2 md:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-200  gap-2 lg:gap-3"
+              css=" grid-cols-2 md:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 bg-gray-50  gap-2 lg:gap-3"
               productsCardCss="  h-[250px] object-cover  sm:h-[350px] md:h-[350px] xl:[450px] 2xl:h-[450px] 3xl:h-[450px]"
             />
           ) : (

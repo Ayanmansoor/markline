@@ -4,6 +4,7 @@ import Navbar from "@/components/Common/Navbar";
 import { Noto_Sans, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/Contexts/Auth.context";
+import { UserAddressProvider } from "@/Contexts/UserAddressProvider";
 import { CartProvider } from "@/Contexts/Cart.context";
 import Provider from "./Provider";
 import Footer from "@/components/Common/Footer";
@@ -15,6 +16,7 @@ import OrderConfirmed from "@/components/Common/OrderConfirm";
 import { Toaster } from "@/components/ui/sonner";
 import Header from "@/components/Common/Header";
 import { mysupabase } from "@/Supabase/SupabaseConfig";
+import { getServerUserAddresses } from "@/lib/serverAddress";
 import Script from "next/script";
 import FloatingWhatsApp from "@/components/Common/FloatingWhatsApp";
 import FcmNotificationHandler from "@/components/Common/FcmNotificationHandler";
@@ -164,10 +166,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Fetch global header data server-side
-  const { data: headerData } = await mysupabase
-    .from("header")
-    .select("*");
+  // Fetch global header data & server user addresses in parallel
+  const [{ data: headerData }, initialAddresses] = await Promise.all([
+    mysupabase.from("header").select("*"),
+    getServerUserAddresses(),
+  ]);
 
   return (
     // <html lang="en">
@@ -230,7 +233,7 @@ export default async function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${noto.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${noto.variable} antialiased bg-gray-50 text-foreground min-h-screen`}
       >
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_TAGMANAGER || ""} />
         <Script
@@ -262,19 +265,21 @@ export default async function RootLayout({
 
         <Provider>
           <AuthProvider>
-            <WishlistProvider>
-              <CartProvider>
-                <Header initialData={headerData || []} />
-                <Navbar />
-                {children}
-                <Subcribes />
-                <Footer />
-                <Toaster />
-                <FcmNotificationHandler />
-                <OrderConfirmed />
-                <FloatingWhatsApp />
-              </CartProvider>
-            </WishlistProvider>
+            <UserAddressProvider initialAddresses={initialAddresses}>
+              <WishlistProvider>
+                <CartProvider>
+                  <Header initialData={headerData || []} />
+                  <Navbar />
+                  {children}
+                  <Subcribes />
+                  <Footer />
+                  <Toaster />
+                  <FcmNotificationHandler />
+                  <OrderConfirmed />
+                  <FloatingWhatsApp />
+                </CartProvider>
+              </WishlistProvider>
+            </UserAddressProvider>
           </AuthProvider>
         </Provider>
       </body>

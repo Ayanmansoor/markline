@@ -42,7 +42,7 @@ const TrendingPage: React.FC<TrendingPageProps> = ({ initialBanners, initialTren
 
 
     return (
-        <section className='realtive w-full bg-secondary h-auto'>
+        <section className='realtive w-full bg-gray-50 h-auto'>
             {
                 collectionBanner &&
                 <Hero bannerImages={collectionBanner} css='  h-auto lg:[300px] lg:max-h-auto max-h-[300px] xl:h-[400px] 2xl:h-[100vh]' />

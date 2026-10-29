@@ -685,6 +685,23 @@ const fetchGroupOfPRoductss = async () => {
 
 async function getAllProductsWithVariants() {
   try {
+    if (typeof window === "undefined") {
+      const { data, error } = await mysupabase
+        .from("product")
+        .select(`
+          *,
+          product_variants (
+            *,
+            discounts:discount_key (*)
+          )
+        `);
+      if (error) {
+        console.error("Supabase error fetching products on server:", error);
+        return { valid: false, data: [] };
+      }
+      return { valid: true, data: data || [] };
+    }
+
     const response = await axios.get("/api/main/getProducts");
     return response.data;
   } catch (error) {

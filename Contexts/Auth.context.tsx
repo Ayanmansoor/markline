@@ -40,12 +40,55 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = async () => {
+    // 1. Immediately clear user and session state (instant 0ms UI update)
+    setUser(null);
+    setSession(null);
+
+    // 2. Immediately clear all Supabase and session tokens from storage & cookies
+    if (typeof window !== 'undefined') {
+      try {
+        const localKeys = Object.keys(localStorage);
+        localKeys.forEach((key) => {
+          if (key.startsWith('sb-') || key.includes('supabase') || key.includes('user') || key.includes('auth')) {
+            localStorage.removeItem(key);
+          }
+        });
+
+        const sessionKeys = Object.keys(sessionStorage);
+        sessionKeys.forEach((key) => {
+          if (key.startsWith('sb-') || key.includes('supabase') || key.includes('user') || key.includes('auth')) {
+            sessionStorage.removeItem(key);
+          }
+        });
+
+        // Expire auth cookies
+        document.cookie = 'sb-access-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; max-age=0;';
+        document.cookie = 'sb-refresh-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; max-age=0;';
+      } catch (storageErr) {
+        console.error('Error clearing storage on logout:', storageErr);
+      }
+    }
+
+    // 3. Reset local Supabase client state with a fast 250ms timeout safety race (never hangs)
     try {
-      await mysupabase.auth.signOut();
-      setUser(null);
-      setSession(null);
-    } catch (err) {
-      console.error('Error signing out:', err);
+      await Promise.race([
+        mysupabase.auth.signOut({ scope: 'local' }),
+        new Promise((resolve) => setTimeout(resolve, 250)),
+      ]);
+    } catch (localErr) {
+      console.warn('Local signOut error:', localErr);
+    }
+
+    // 4. Background fire-and-forget notification to Supabase server (never blocks user)
+    mysupabase.auth.signOut().catch(() => {});
+  };
+
+  const syncAuthCookie = (token?: string | null) => {
+    if (typeof document === 'undefined') return;
+    if (token) {
+      document.cookie = `sb-access-token=${token}; path=/; max-age=604800; SameSite=Lax;`;
+    } else {
+      document.cookie = 'sb-access-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; max-age=0;';
     }
   };
 
@@ -58,9 +101,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (initialSession) {
         setSession(initialSession);
         setUser(initialSession.user);
+        syncAuthCookie(initialSession.access_token);
       } else {
         setSession(null);
         setUser(null);
+        syncAuthCookie(null);
       }
       setLoading(false);
     }).catch((err) => {
@@ -74,6 +119,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (!isMounted) return;
       setSession(newSession);
       setUser(newSession?.user ?? null);
+      syncAuthCookie(newSession?.access_token || null);
       setLoading(false);
     });
 

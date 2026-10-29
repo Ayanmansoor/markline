@@ -149,6 +149,7 @@ function CheckoutAddressSelect({
     const initiateRazorpayPayment = async (savedOrder: any) => {
         try {
             const { data } = await axios.post("/api/create-order", {
+                orderId: savedOrder?.id,
                 amount: totalAmount * 100,
             });
 
@@ -158,6 +159,14 @@ function CheckoutAddressSelect({
                 setIsSubmittingOrder(false);
                 return;
             }
+
+            const customerPhone = (
+                selectedAddress?.recipientPhone ||
+                (selectedAddress as any)?.phone ||
+                currentuser?.phone ||
+                currentuser?.user_metadata?.phone ||
+                ""
+            ).replace(/\D/g, '').slice(-10);
 
             const options = {
                 key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
@@ -169,8 +178,9 @@ function CheckoutAddressSelect({
                 image: "https://res.cloudinary.com/demhgityh/image/upload/v1750353291/markline-checkout-logo_ukrvoi.png",
                 handler: (response: any) => finalizeOrderPayment(response, currentuser, savedOrder),
                 prefill: {
-                    email: currentuser?.email,
-                    contact: currentuser?.phone || currentuser?.user_metadata?.phone || "",
+                    name: selectedAddress?.recipientName || selectedAddress?.name || (currentuser?.user_metadata as any)?.name || "",
+                    email: currentuser?.email || "",
+                    contact: customerPhone,
                 },
                 theme: {
                     color: "#000000",

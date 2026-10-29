@@ -167,83 +167,58 @@ function AddToCardPopver({ children, currentProduct, addToWhishlistCB, currentVa
     };
 
     return (
-        <Popover >
-            <PopoverTrigger className=' w-full md:w-fit relative hover:bg-primary hover:text-white h-full'>{children}</PopoverTrigger>
-            <PopoverContent className="flex flex-col gap-2 w-full max-w-[250px] md:max-w-[300px] relative h-auto">
-                <section className="w-full h-auto flex flex-col gap-4">
-                    {/* Colors Section */}
+        <Popover>
+            <PopoverTrigger asChild>
+                {children}
+            </PopoverTrigger>
+            <PopoverContent 
+                align="end" 
+                sideOffset={8}
+                className="w-64 p-3.5 bg-white border border-gray-200/90 rounded-2xl shadow-xl z-50 flex flex-col gap-3"
+            >
+                <div className="flex items-center justify-between border-b border-gray-100 pb-2">
+                    <span className="text-xs font-bold text-gray-900 tracking-tight">Select Size</span>
+                    {selectedColor?.name && (
+                        <span className="text-[11px] text-gray-500 font-medium capitalize">Color: {selectedColor.name}</span>
+                    )}
+                </div>
 
-                    {/* Color Selection */}
-                    {/* <div>
-                        <h4 className="text-sm font-semibold mb-1">Color</h4>
-                        <div className="flex gap-2 flex-wrap">
-                            {allColors.map((color) => (
-                                <span
-                                    key={color.name}
-                                    onClick={() => handleColorChange(color)}
-                                    className={cn(
-                                        ' p-1 rounded-full border-2 flex items-center justify-center ',
-                                        selectedColor?.name === color.name ? 'border-black' : 'border-transparent'
-                                    )}>
-                                    <button
-                                        className={` p-3 md:p-4 lg:p-5 rounded-full`}
-                                        style={{ backgroundColor: color.hex }}
-                                    />
-                                </span>
-                            ))}
-                        </div>
-                    </div> */}
-
-                    {/* Size Selection */}
-                    <div>
-                        <h4 className="text-sm font-semibold mb-1">Size</h4>
-                        <div className="flex gap-2 flex-wrap">
-                            {parsedSizes.map((size) => (
+                {/* Size Selection */}
+                <div className="flex flex-col gap-1.5">
+                    <div className="flex gap-1.5 flex-wrap">
+                        {parsedSizes.length > 0 ? (
+                            parsedSizes.map((size) => (
                                 <button
                                     key={size.size}
+                                    type="button"
                                     onClick={() => handleSizeChange(size)}
                                     className={cn(
-                                        ' px-2 md:px-3 py-0.5   text-sm lg:text-base md:py-1 border rounded',
-                                        selectedSize?.size === size.size ? 'border-black' : 'border-gray-300'
+                                        'px-2.5 py-1 text-xs font-medium rounded-lg border transition-all cursor-pointer',
+                                        selectedSize?.size === size.size 
+                                            ? 'border-gray-900 bg-gray-900 text-white shadow-xs' 
+                                            : 'border-gray-200 bg-gray-50 text-gray-700 hover:border-gray-400 hover:bg-white'
                                     )}
                                 >
                                     {size.size} {size.unit}
                                 </button>
-                            ))}
-                        </div>
+                            ))
+                        ) : (
+                            <span className="text-xs text-gray-500">Standard fit</span>
+                        )}
                     </div>
-                    {/* 
-                    <div className="flex items-center gap-2 w-full">
-                        <label htmlFor="quantity" className="text-primary font-medium text-sm">
-                            Quantity
-                        </label>
-                        <select
-                            id="quantity"
-                            className="w-full border text-sm h-[30px] px-2"
-                            value={quantity}
-                            onChange={(e) => setQuantity(Number(e.target.value))}
-                        >
-                            {[1, 2, 3, 4, 5].map((qty) => (
-                                <option key={qty} value={qty}>
-                                    {qty}
-                                </option>
-                            ))}
-                        </select>
-                    </div> */}
+                </div>
 
-                    {/* Add to Cart Button */}
-                    <button
-                        disabled={!selectedColor || !selectedSize}
-
-                        className="w-full py-2 text-sm font-medium border border-transparent bg-primary text-white hover:bg-white hover:text-primary hover:border-primary transition-all"
-                        onClick={handleAddToCart}
-                    >
-                        {isItemSelected ? "Added" : "Add To Cart"}
-                    </button>
-                </section>
+                {/* Add to Cart Button */}
+                <button
+                    disabled={!selectedSize}
+                    type="button"
+                    className="w-full py-2 text-xs font-semibold rounded-xl bg-gray-950 text-white hover:bg-black transition-all shadow-xs disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                    onClick={handleAddToCart}
+                >
+                    {isItemSelected ? "In Bag ✓" : "Add to Bag"}
+                </button>
             </PopoverContent>
         </Popover>
-
     )
 }
 

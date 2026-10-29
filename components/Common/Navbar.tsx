@@ -40,8 +40,8 @@ function Navbar() {
     }, []);
 
     return (
-        <nav className='sticky  w-full h-fit bg-transparent top-0 z-50 bg-white'>
-            <section className={`  py-3 flex items-center justify-between gap-1 text-third  bg-white px-5 lg:px-10 xl:px-20 2xl:px-40`}>
+        <nav className='sticky w-full h-fit top-0 z-50 bg-white border-b border-gray-200/80 shadow-xs'>
+            <section className='py-3 flex items-center justify-between gap-1 text-third bg-white px-5 lg:px-10 xl:px-20 2xl:px-40'>
 
 
                 <div className='flex items-center gap-5'>

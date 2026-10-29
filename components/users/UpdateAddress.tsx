@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import {
     Dialog,
     DialogContent,
+    DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
 import z from 'zod'
@@ -145,127 +146,177 @@ function UpdateAddress({ children, currentaddress, handleperform }: addressDailo
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>{children}</DialogTrigger>
-            <DialogContent className='w-full max-w-[600px] bg-transparent border-none shadow-none p-0 overflow-y-auto max-h-[90vh] shadow-2xl'>
-                <div className="w-full bg-white border border-gray-100 rounded-3xl p-6 md:p-8 shadow-2xl">
-                    <div className="flex flex-col gap-1 mb-8">
-                        <span className="text-[10px] font-black 
-                         tracking-[0.4em] text-gray-400">Postal Registry</span>
-                        <h2 className="text-2xl font-black text-black 
-                         tracking-tighter italic leading-none">
-                            Update Jurisdiction
-                        </h2>
+            <DialogContent className="w-full max-w-[560px] bg-white rounded-2xl border border-zinc-200/80 shadow-2xl p-6 md:p-7 max-h-[90vh] overflow-y-auto">
+                <div className="flex flex-col gap-1 mb-5 text-left">
+                    <span className="text-[10px] font-semibold  tracking-wider text-zinc-400">Delivery Address</span>
+                    <DialogTitle className="text-xl font-bold text-zinc-900 tracking-tight">
+                        Edit Address
+                    </DialogTitle>
+                </div>
+
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                    {/* Address Label Selector */}
+                    <div className="space-y-2">
+                        <label className="text-xs font-semibold text-zinc-700">Address Label *</label>
+                        <div className="flex flex-wrap gap-2.5">
+                            {["Home", "Work", "Other"].map((label) => (
+                                <button
+                                    type="button"
+                                    key={label}
+                                    onClick={() => {
+                                        setSelectedLabelOption(label);
+                                        if (label === "Other") {
+                                            setShowOtherLabel(true);
+                                            setValue("name", "");
+                                        } else {
+                                            setShowOtherLabel(false);
+                                            setValue("name", label);
+                                        }
+                                    }}
+                                    className={`flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-semibold transition-all ${
+                                        selectedLabelOption === label
+                                            ? "bg-zinc-900 border-zinc-900 text-white shadow-sm"
+                                            : "bg-zinc-50 border-zinc-200 text-zinc-700 hover:border-zinc-300"
+                                    }`}
+                                >
+                                    {labelIcons[label]}
+                                    {label}
+                                </button>
+                            ))}
+                        </div>
+                        {showOtherLabel && (
+                            <div className="relative mt-2">
+                                <input
+                                    className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-3.5 py-2 text-xs text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none transition-colors"
+                                    placeholder="Custom label (e.g. Studio, Vacation Home)..."
+                                    {...register("name")}
+                                />
+                                <CheckCircle2 size={14} className="absolute right-3.5 top-2.5 text-zinc-400" />
+                            </div>
+                        )}
+                        {errors.name && <p className="text-[11px] font-medium text-red-500 mt-1">{errors.name.message}</p>}
                     </div>
 
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                        {/* Address Label Selector */}
-                        <div className="space-y-3">
-                            <label className="text-[11px] font-bold 
-                             tracking-wider text-gray-500 ml-1">Address Identity *</label>
-                            <div className="flex flex-wrap gap-3">
-                                {["Home", "Work", "Other"].map((label) => (
-                                    <button
-                                        type="button"
-                                        key={label}
-                                        onClick={() => {
-                                            setSelectedLabelOption(label);
-                                            if (label === "Other") {
-                                                setShowOtherLabel(true);
-                                                setValue("name", "");
-                                            } else {
-                                                setShowOtherLabel(false);
-                                                setValue("name", label);
-                                            }
-                                        }}
-                                        className={`flex items-center gap-2 px-6 py-2.5 rounded-full border-2 transition-all font-bold text-xs 
-                                             tracking-widest
-                                            ${selectedLabelOption === label ? "bg-black border-black text-white" : "bg-gray-200 border-gray-100 text-black hover:border-gray-200"}`}
-                                    >
-                                        {labelIcons[label]}
-                                        {label}
-                                    </button>
-                                ))}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-semibold text-zinc-700">Recipient Name</label>
+                            <div className="relative">
+                                <input
+                                    {...register("recipientName")}
+                                    className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl pl-9 pr-3 py-2 text-xs text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none transition-colors"
+                                    placeholder="Full name"
+                                />
+                                <User size={14} className="absolute left-3 top-2.5 text-zinc-400" />
                             </div>
-                            {showOtherLabel && (
-                                <div className="relative mt-3 group">
-                                    <input
-                                        className="w-full bg-gray-100 border-2 border-gray-200 rounded-xl px-4 py-3 text-sm font-bold focus:bg-white focus:border-black outline-none transition-all"
-                                        placeholder="Custom Label..."
-                                        {...register("name")}
-                                    />
-                                    <CheckCircle2 size={16} className="absolute right-4 top-3.5 text-gray-300 group-focus-within:text-black" />
-                                </div>
+                            {errors.recipientName && <p className="text-[11px] font-medium text-red-500">{errors.recipientName.message}</p>}
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-semibold text-zinc-700">Phone Number</label>
+                            <div className="relative">
+                                <input
+                                    {...register("recipientPhone")}
+                                    className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl pl-9 pr-3 py-2 text-xs text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none transition-colors"
+                                    placeholder="10-digit mobile number"
+                                />
+                                <Phone size={14} className="absolute left-3 top-2.5 text-zinc-400" />
+                            </div>
+                            {errors.recipientPhone && <p className="text-[11px] font-medium text-red-500">{errors.recipientPhone.message}</p>}
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-semibold text-zinc-700">PIN Code</label>
+                            <div className="relative">
+                                <input
+                                    {...register("pin_code")}
+                                    className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl pl-9 pr-8 py-2 text-xs text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none transition-colors"
+                                    placeholder="6-digit PIN"
+                                />
+                                <Navigation size={14} className="absolute left-3 top-2.5 text-zinc-400" />
+                                {loadingPincode && <Loader2 size={14} className="absolute right-3 top-2.5 animate-spin text-zinc-500" />}
+                            </div>
+                            {errors.pin_code && <p className="text-[11px] font-medium text-red-500">{errors.pin_code.message}</p>}
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-semibold text-zinc-700">Landmark</label>
+                            <div className="relative">
+                                <input
+                                    {...register("landmark")}
+                                    className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl pl-9 pr-3 py-2 text-xs text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none transition-colors"
+                                    placeholder="Nearby landmark (optional)"
+                                />
+                                <Building2 size={14} className="absolute left-3 top-2.5 text-zinc-400" />
+                            </div>
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-semibold text-zinc-700">City</label>
+                            <div className="relative">
+                                <input
+                                    {...register("city")}
+                                    className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl pl-9 pr-3 py-2 text-xs text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none transition-colors"
+                                    placeholder="City"
+                                />
+                                <MapPin size={14} className="absolute left-3 top-2.5 text-zinc-400" />
+                            </div>
+                            {errors.city && <p className="text-[11px] font-medium text-red-500">{errors.city.message}</p>}
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-semibold text-zinc-700">State</label>
+                            <div className="relative">
+                                <input
+                                    {...register("state_name")}
+                                    className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl pl-9 pr-3 py-2 text-xs text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none transition-colors"
+                                    placeholder="State"
+                                />
+                                <MapPin size={14} className="absolute left-3 top-2.5 text-zinc-400" />
+                            </div>
+                            {errors.state_name && <p className="text-[11px] font-medium text-red-500">{errors.state_name.message}</p>}
+                        </div>
+
+                        <div className="col-span-1 md:col-span-2 space-y-1.5">
+                            <label className="text-xs font-semibold text-zinc-700">Full Address</label>
+                            <textarea
+                                {...register("full_address")}
+                                rows={2}
+                                className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-3.5 py-2 text-xs text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none transition-colors resize-none leading-relaxed"
+                                placeholder="Flat, House no., Building, Street name, Area"
+                            />
+                            {errors.full_address && <p className="text-[11px] font-medium text-red-500">{errors.full_address.message}</p>}
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 p-3.5 bg-zinc-50 rounded-xl border border-zinc-200/60">
+                        <input
+                            type="checkbox"
+                            id="default-check-u"
+                            className="w-4 h-4 accent-zinc-900 rounded cursor-pointer"
+                            {...register("is_selected")}
+                        />
+                        <label htmlFor="default-check-u" className="text-xs font-medium text-zinc-700 cursor-pointer select-none">
+                            Set as default address
+                        </label>
+                    </div>
+
+                    <div className="pt-2">
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="w-full h-11 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl font-semibold text-xs  tracking-wider transition-all flex items-center justify-center gap-2 disabled:bg-zinc-300 shadow-sm"
+                        >
+                            {isSubmitting ? (
+                                <>
+                                    <Loader2 size={16} className="animate-spin" />
+                                    <span>Saving Changes...</span>
+                                </>
+                            ) : (
+                                "Save Changes"
                             )}
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="space-y-1">
-                                <label className="text-[10px] font-bold 
-                                 text-gray-500 ml-1">Recipient Name</label>
-                                <div className="relative">
-                                    <input {...register("recipientName")} className="w-full bg-gray-100 border-2 border-gray-200 rounded-xl px-10 py-2.5 text-sm font-bold focus:bg-white focus:border-black outline-none" placeholder="RECIPIENT NAME" />
-                                    <User size={16} className="absolute left-3.5 top-3 text-gray-400" />
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label className="text-[10px] font-bold 
-                                 text-gray-500 ml-1">Contact Phone</label>
-                                <div className="relative">
-                                    <input {...register("recipientPhone")} className="w-full bg-gray-100 border-2 border-gray-200 rounded-xl px-10 py-2.5 text-sm font-bold focus:bg-white focus:border-black outline-none" placeholder="PHONE" />
-                                    <Phone size={16} className="absolute left-3.5 top-3 text-gray-400" />
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label className="text-[10px] font-bold 
-                                 text-gray-500 ml-1">PIN Code</label>
-                                <div className="relative">
-                                    <input {...register("pin_code")} className="w-full bg-gray-100 border-2 border-gray-200 rounded-xl px-10 py-2.5 text-sm font-bold focus:bg-white focus:border-black outline-none" placeholder="6-DIGIT PIN" />
-                                    <Navigation size={16} className="absolute left-3.5 top-3 text-gray-400" />
-                                    {loadingPincode && <Loader2 size={16} className="absolute right-3.5 top-3 animate-spin" />}
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label className="text-[10px] font-bold 
-                                 text-gray-500 ml-1">Landmark</label>
-                                <div className="relative">
-                                    <input {...register("landmark")} className="w-full bg-gray-100 border-2 border-gray-200 rounded-xl px-10 py-2.5 text-sm font-bold focus:bg-white focus:border-black outline-none" placeholder="LANDMARK" />
-                                    <Building2 size={16} className="absolute left-3.5 top-3 text-gray-400" />
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label className="text-[10px] font-bold 
-                                 text-gray-500 ml-1">City</label>
-                                <div className="relative">
-                                    <input {...register("city")} className="w-full bg-gray-100 border-2 border-gray-200 rounded-xl px-10 py-2.5 text-sm font-bold focus:bg-white focus:border-black outline-none" placeholder="AUTO-POPULATED" />
-                                    <MapPin size={16} className="absolute left-3.5 top-3 text-gray-400" />
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label className="text-[10px] font-bold 
-                                 text-gray-500 ml-1">State</label>
-                                <div className="relative">
-                                    <input {...register("state_name")} className="w-full bg-gray-100 border-2 border-gray-200 rounded-xl px-10 py-2.5 text-sm font-bold focus:bg-white focus:border-black outline-none" placeholder="AUTO-POPULATED" />
-                                    <MapPin size={16} className="absolute left-3.5 top-3 text-gray-400" />
-                                </div>
-                            </div>
-                            <div className="col-span-2 space-y-1">
-                                <label className="text-[10px] font-bold 
-                                 text-gray-500 ml-1">Full Address</label>
-                                <textarea {...register("full_address")} rows={2} className="w-full bg-gray-100 border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm font-bold focus:bg-white focus:border-black outline-none resize-none" placeholder="COMPLETE ADDRESS MANIFEST" />
-                            </div>
-                        </div>
-
-                        <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                            <input type="checkbox" id="default-check-u" className="w-4 h-4 accent-black" {...register("is_selected")} />
-                            <label htmlFor="default-check-u" className="text-[10px] font-bold text-gray-600 
-                             tracking-wider cursor-pointer">Set as primary jurisdiction</label>
-                        </div>
-
-                        <button disabled={isSubmitting} className="w-full bg-black text-white py-4 rounded-xl font-black text-xs 
-                         tracking-widest shadow-xl hover:-translate-y-1 transition-all flex items-center justify-center gap-3">
-                            {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : "UPDATE REGISTRY"}
                         </button>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </DialogContent>
         </Dialog>
     )

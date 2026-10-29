@@ -136,24 +136,23 @@ export default function AddUserAddressForm({
   };
 
   return (
-    <div className={cn("w-full bg-white border border-gray-100 rounded-3xl p-4  shadow-2xl shadow-gray-200/50", className)}>
+    <div className={cn("w-full bg-white rounded-2xl p-4 md:p-6", className)}>
       {!hideHeader && (
-        <div className="flex flex-col gap-1 mb-6">
-          <span className="text-[10px] font-black tracking-[0.4em] text-gray-400">Postal Registry</span>
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-black capitalize leading-none">
+        <div className="flex flex-col gap-1 mb-5">
+          <span className="text-[10px] font-semibold  tracking-wider text-zinc-400">Delivery Address</span>
+          <h2 className="text-xl font-bold text-zinc-900 tracking-tight">
             Add New Address
           </h2>
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Address Label Selector */}
-        <div className="space-y-1">
-          <label className="text-[11px] font-bold 
-           tracking-wider text-gray-500 ml-1">
-            Address Identity *
+        <div className="space-y-2">
+          <label className="text-xs font-semibold text-zinc-700">
+            Address Label *
           </label>
-          <div className="flex flex-wrap gap-3 mb-3">
+          <div className="flex flex-wrap gap-2.5">
             {["Home", "Work", "Other"].map((label) => (
               <button
                 type="button"
@@ -168,14 +167,10 @@ export default function AddUserAddressForm({
                     setValue("name", label);
                   }
                 }}
-                className={`
-                  flex items-center gap-2 px-2 py-1 rounded-full border-2 transition-all duration-300 font-bold text-xs 
-                   tracking-widest
-                  ${selectedLabelOption === label
-                    ? "bg-black border-black text-white shadow-lg shadow-black/20"
-                    : "bg-white border-gray-300 text-gray-400 hover:border-gray-200"
-                  }
-                `}
+                className={`flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-semibold transition-all ${selectedLabelOption === label
+                    ? "bg-zinc-900 border-zinc-900 text-white shadow-sm"
+                    : "bg-zinc-50 border-zinc-200 text-zinc-700 hover:border-zinc-300"
+                  }`}
               >
                 {labelIcons[label]}
                 {label}
@@ -296,24 +291,23 @@ export default function AddUserAddressForm({
         </div>
 
         {/* Default toggle */}
-        <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-2xl border border-gray-100/50">
+        <div className="flex items-center gap-3 p-3.5 bg-zinc-50 rounded-xl border border-zinc-200/60">
           <input
             type="checkbox"
             id="default-check"
-            className="w-5 h-5 accent-black rounded-lg cursor-pointer"
+            className="w-4 h-4 accent-zinc-900 rounded cursor-pointer"
             {...register("isdefault")}
           />
-          <label htmlFor="default-check" className="text-xs font-bold text-gray-700 cursor-pointer select-none">
+          <label htmlFor="default-check" className="text-xs font-medium text-zinc-700 cursor-pointer select-none">
             Set as default address
           </label>
         </div>
 
         <button
           disabled={isSubmitting}
-          className="w-full md:w-auto md:min-w-[200px] bg-black text-white px-8 py-4 rounded-xl font-bold text-xs 
-           tracking-wider shadow-xl shadow-black/20 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-3 disabled:bg-gray-400"
+          className="w-full h-11 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl font-semibold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 disabled:bg-zinc-300 shadow-sm"
         >
-          {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : "Save Address"}
+          {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : "Save Address"}
         </button>
       </form>
     </div>

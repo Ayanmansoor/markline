@@ -8,7 +8,7 @@ import ProductCard from '@/components/Common/ProductCard';
 export default function WishlistPage() {
     const { wishlist, removeFromWishlist } = useWishlists()
     return (
-        <div className="min-h-[70vh] bg-secondary py-10 px-5 lg:px-10 xl:px-20 2xl:px-40">
+        <div className="min-h-[70vh] bg-gray-50 py-10 px-5 lg:px-10 xl:px-20 2xl:px-40">
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-primary mb-8 border-b pb-4">
                 My Wishlist
             </h1>

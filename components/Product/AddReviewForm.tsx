@@ -110,132 +110,116 @@ function AddReviewForm({ productId, userId, productName, onSuccess, children }: 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="w-full max-w-[500px] bg-transparent max-h-[90vh] overflow-y-auto border-none shadow-none p-0 ">
-        <div className="w-full bg-white rounded-3xl p-4 md:p-8 shadow-2xl relative">
-          <button
-            onClick={() => setOpen(false)}
-            className="absolute right-6 top-6 text-gray-300 hover:text-black transition-colors"
-          >
-            <X size={20} />
-          </button>
+      <DialogContent className="w-full max-w-[500px] bg-white rounded-2xl border border-zinc-200/80 shadow-2xl p-6 md:p-8 max-h-[90vh] overflow-y-auto">
+        <div className="flex flex-col gap-1 mb-6 text-left">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Customer Review</span>
+          <DialogTitle className="text-xl font-bold text-zinc-900 tracking-tight">
+            Share Your Experience
+          </DialogTitle>
+          {productName && <p className="text-xs text-zinc-500 font-medium mt-0.5">{productName}</p>}
+        </div>
 
-          <div className="flex flex-col gap-1 mb-10">
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Public Manifesto</span>
-            <h2 className="text-2xl font-black text-black uppercase tracking-tighter  leading-none">
-              Document your Experience
-            </h2>
-            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mt-2">{productName}</p>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          {/* Rating Selection */}
+          <div className="space-y-2">
+            <label className="text-xs font-semibold text-zinc-700">Your Rating</label>
+            <div className="flex items-center gap-1.5">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  onMouseEnter={() => setHoverRating(star)}
+                  onMouseLeave={() => setHoverRating(0)}
+                  onClick={() => setValue('rating', star)}
+                  className="p-1 transition-transform active:scale-95"
+                >
+                  <Star
+                    size={22}
+                    className={`${(hoverRating || currentRating) >= star ? 'text-amber-400 fill-amber-400' : 'text-zinc-300'} transition-colors duration-150`}
+                  />
+                </button>
+              ))}
+            </div>
+            {errors.rating && <p className="text-[11px] font-medium text-red-500 mt-1">{errors.rating.message}</p>}
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-            {/* Rating Selection */}
-            <div className="space-y-4">
-              <label className="text-[10px] font-black uppercase tracking-widest text-black">Product Validation Score</label>
-              <div className="flex items-center gap-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <button
-                    key={star}
-                    type="button"
-                    onMouseEnter={() => setHoverRating(star)}
-                    onMouseLeave={() => setHoverRating(0)}
-                    onClick={() => setValue('rating', star)}
-                    className="transition-transform active:scale-90"
-                  >
-                    <Star
-                      size={28}
-                      className={`${(hoverRating || currentRating) >= star ? 'text-black fill-orange-500' : 'text-gray-500'} transition-colors duration-200`}
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
+          {/* Title */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold text-zinc-700">Review Title</label>
+            <input
+              {...register('title')}
+              placeholder="e.g. Exceptional fit and craftsmanship"
+              className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-colors outline-none placeholder:text-zinc-400"
+            />
+            {errors.title && <p className="text-[11px] font-medium text-red-500 mt-1">{errors.title.message}</p>}
+          </div>
 
-            {/* Title */}
-            <div className="space-y-2 group">
-              <label className="text-[10px] font-black uppercase tracking-widest text-black border-l-2 border-black pl-3 ml-1">Headline</label>
-              <input
-                {...register('title')}
-                placeholder="EPITOMIZED ELEGANCE..."
-                className="w-full bg-gray-50 border-2 border-gray-400 rounded-xl px-4 py-3 text-sm font-bold bg-white border-black transition-all outline-none uppercase placeholder:text-gray-400"
-              />
-              {errors.title && <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest mt-1 ml-1">{errors.title.message}</p>}
-            </div>
+          {/* Comment */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold text-zinc-700">Detailed Review</label>
+            <textarea
+              {...register('comment')}
+              rows={4}
+              placeholder="Describe the craftsmanship, comfort, fit and materials..."
+              className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-colors outline-none resize-none placeholder:text-zinc-400 leading-relaxed"
+            />
+            {errors.comment && <p className="text-[11px] font-medium text-red-500 mt-1">{errors.comment.message}</p>}
+          </div>
 
-            {/* Comment */}
-            <div className="space-y-2 group">
-              <label className="text-[10px] font-black uppercase tracking-widest text-black border-l-2 border-black pl-3 ml-1">Detailed Log</label>
-              <textarea
-                {...register('comment')}
-                rows={4}
-                placeholder="DESCRIBE THE CRAFTSMANSHIP, COMFORT AND DURABILITY..."
-                className="w-full bg-gray-50 border-2 border-gray-400 rounded-xl px-4 py-4 text-sm font-bold bg-white border-black transition-all outline-none resize-none uppercase placeholder:text-gray-400 leading-relaxed"
-              />
-              {errors.comment && <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest mt-1 ml-1">{errors.comment.message}</p>}
-            </div>
-
-            {/* Visual Documentation (Images) */}
-            <div className="space-y-4">
-              <label className="text-[10px] font-black uppercase tracking-widest text-black border-l-2 border-black pl-3 ml-1">Visual Evidence (max 5)</label>
-              <div className="flex flex-wrap gap-2">
-                {previews.map((preview, index) => (
-                  <div key={index} className="relative w-20 h-20 rounded-xl overflow-hidden bg-gray-100 group">
-                    <img src={preview} alt="preview" className="w-full h-full object-cover" />
-                    <button 
-                      type="button"
-                      onClick={() => removeFile(index)}
-                      className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-                ))}
-                {previews.length < 5 && (
+          {/* Visual Documentation (Images) */}
+          <div className="space-y-2">
+            <label className="text-xs font-semibold text-zinc-700">Photos <span className="text-zinc-400 font-normal">(optional, max 5)</span></label>
+            <div className="flex flex-wrap gap-2">
+              {previews.map((preview, index) => (
+                <div key={index} className="relative w-16 h-16 rounded-xl overflow-hidden bg-zinc-100 border border-zinc-200 group">
+                  <img src={preview} alt="preview" className="w-full h-full object-cover" />
                   <button 
                     type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="w-20 h-20 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-1 text-gray-400 hover:border-black hover:text-black transition-all"
+                    onClick={() => removeFile(index)}
+                    className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white"
                   >
-                    <ImagePlus size={20} />
-                    <span className="text-[8px] font-bold uppercase">Add</span>
+                    <Trash2 size={14} />
                   </button>
-                )}
-              </div>
-              <input 
-                ref={fileInputRef}
-                type="file"
-                multiple
-                accept="image/*"
-                className="hidden"
-                onChange={handleFileChange}
-              />
+                </div>
+              ))}
+              {previews.length < 5 && (
+                <button 
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-16 h-16 rounded-xl border border-dashed border-zinc-300 flex flex-col items-center justify-center gap-1 text-zinc-400 hover:border-zinc-900 hover:text-zinc-900 transition-all"
+                >
+                  <ImagePlus size={16} />
+                  <span className="text-[9px] font-medium uppercase">Add</span>
+                </button>
+              )}
             </div>
+            <input 
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+          </div>
 
-            <div className="pt-4 flex flex-col gap-4">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-black text-white py-4 rounded-xl font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-black/20 hover:-translate-y-1 active:translate-y-0 transition-all flex items-center justify-center gap-3 disabled:bg-gray-400"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 size={18} className="animate-spin" />
-                    <span>DOCUMENTING...</span>
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle2 size={18} />
-                    <span>SUBMIT MANIFESTO</span>
-                  </>
-                )}
-              </button>
-              <div className="flex items-center justify-center gap-2 text-gray-300">
-                <span className="w-4 h-[1px] bg-gray-200"></span>
-                <span className="text-[9px] font-black uppercase tracking-[0.2em]">Verified Registry Entry</span>
-                <span className="w-4 h-[1px] bg-gray-200"></span>
-              </div>
-            </div>
-          </form>
-        </div>
+          <div className="pt-2">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full h-11 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl font-semibold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 disabled:bg-zinc-300 shadow-sm"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" />
+                  <span>Submitting...</span>
+                </>
+              ) : (
+                <span>Submit Review</span>
+              )}
+            </button>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   )

@@ -1,47 +1,40 @@
 "use client";
-// import Image from "next/image";
 
-import React, { useState, useReducer, useEffect, useMemo } from "react";
-import { FaHeart } from "react-icons/fa6";
+import React, { useState, useEffect, useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/scrollbar";
 import Link from "next/link";
-import { Pagination, Scrollbar } from "swiper/modules";
+import { Pagination } from "swiper/modules";
 import {
-  ProductsDataProps,
   Colors,
-  ProductsProps,
-  Sizes,
   Images,
   newProductsProps,
   ProductVariant,
 } from "@/types/interfaces";
 import AddToCardPopver from "./AddToCardPopver";
-
+import ProductQuickViewDialog from "./ProductQuickViewDialog";
 import { useWishlists } from "@/Contexts/wishlist";
-import { Plus } from "lucide-react";
-import { calculateVariantPrice } from '@/lib/pricing';
+import { Heart, Plus } from "lucide-react";
+import { calculateVariantPrice } from "@/lib/pricing";
 import { getCloudflareImageUrl, safeJsonParse } from "@/lib/utils";
 
-function ProductCard({ product, url, className }: newProductsProps) {
+function ProductCard({ product, url = "product" }: newProductsProps) {
   const { addToWishlist, removeFromWishlist, wishlist, isProductInWishlist } =
     useWishlists();
 
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(
     product?.product_variants?.[0]
   );
-  const [Stringifycolor, setStringifyColor] = useState<Colors[]>([]);
-  const [StringifySize, setStringifySize] = useState<Sizes[]>([]);
-  const [StringifyImages, setStringifyImages] = useState<any[] | undefined>([]);
+  const [StringifyImages, setStringifyImages] = useState<Images[]>([]);
   const [selectedColor, setSelectedColor] = useState<Colors>();
-
-  const [isInWhishlist, setIsInwhishlist] = useState<boolean>(false);
+  const [isInWishlist, setIsInWishlist] = useState<boolean>(false);
 
   const priceDetails = useMemo(() => {
-    return calculateVariantPrice(selectedVariant || {}, selectedVariant?.discounts);
+    return calculateVariantPrice(
+      selectedVariant || {},
+      selectedVariant?.discounts
+    );
   }, [selectedVariant]);
 
   useEffect(() => {
@@ -59,10 +52,28 @@ function ProductCard({ product, url, className }: newProductsProps) {
       return;
     try {
       const parsedImages: Images[] = Array.isArray(selectedVariant?.image_url)
-        ? selectedVariant.image_url.map((item: any) => typeof item === "string" ? safeJsonParse(item) : item).filter(Boolean)
+        ? selectedVariant.image_url
+          .map((item: any) =>
+            typeof item === "string" ? safeJsonParse(item) : item
+          )
+          .filter(Boolean)
         : [];
 
       setStringifyImages(parsedImages);
+
+      // Initialize selected color from current variant if not set
+      if (selectedVariant?.colors) {
+        const variantColors: Colors[] = Array.isArray(selectedVariant.colors)
+          ? selectedVariant.colors
+            .map((c: any) => (typeof c === "string" ? safeJsonParse(c) : c))
+            .filter(Boolean)
+          : typeof selectedVariant.colors === "string"
+            ? safeJsonParse(selectedVariant.colors) || []
+            : [];
+        if (variantColors[0]) {
+          setSelectedColor(variantColors[0]);
+        }
+      }
     } catch (error) {
       console.error("Failed to parse variant data:", error);
     }
@@ -70,13 +81,14 @@ function ProductCard({ product, url, className }: newProductsProps) {
 
   useEffect(() => {
     const present = isProductInWishlist({ productId: product?.id });
-    setIsInwhishlist(present);
+    setIsInWishlist(present);
   }, [wishlist.length, product]);
 
   const toggleWishlist = (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent navigating to the product page when clicking the heart
+    e.preventDefault();
+    e.stopPropagation();
     if (!product?.id) return;
-    if (isInWhishlist) {
+    if (isInWishlist) {
       removeFromWishlist({ productId: product.id });
     } else {
       addToWishlist({
@@ -94,66 +106,47 @@ function ProductCard({ product, url, className }: newProductsProps) {
     }
   };
 
-  const { allColors, allSizes } = useMemo(() => {
+  const { allColors } = useMemo(() => {
     const colorMap = new Map<string, Colors>();
-    const sizeMap = new Map<string, Sizes>();
     product?.product_variants?.forEach((variant: ProductVariant) => {
       let colorArray: Colors[] = [];
-      let sizeArray: Sizes[] = [];
 
-      // normalize colors
       if (Array.isArray(variant.colors)) {
-        colorArray = variant.colors.map((item) =>
-          typeof item === "string" ? safeJsonParse(item) : item
-        ).filter(Boolean);
+        colorArray = variant.colors
+          .map((item) =>
+            typeof item === "string" ? safeJsonParse(item) : item
+          )
+          .filter(Boolean);
       } else if (typeof variant.colors === "string") {
         const parsed = safeJsonParse(variant.colors);
-        colorArray = Array.isArray(parsed) ? parsed : (parsed ? [parsed] : []);
+        colorArray = Array.isArray(parsed) ? parsed : parsed ? [parsed] : [];
       }
 
-      // normalize sizes
-      if (Array.isArray(variant.sizes)) {
-        sizeArray = variant.sizes.map((item) =>
-          typeof item === "string" ? safeJsonParse(item) : item
-        ).filter(Boolean);
-      } else if (typeof variant.sizes === "string") {
-        const parsed = safeJsonParse(variant.sizes);
-        sizeArray = Array.isArray(parsed) ? parsed : (parsed ? [parsed] : []);
-      }
-
-      // add unique colors
       colorArray.forEach((color) => {
         if (color?.name && !colorMap.has(color.name)) {
           colorMap.set(color.name, color);
-        }
-      });
-
-      // add unique sizes
-      sizeArray.forEach((size) => {
-        if (size?.size && !sizeMap.has(size.size)) {
-          sizeMap.set(size.size, size);
         }
       });
     });
 
     return {
       allColors: Array.from(colorMap.values()),
-      allSizes: Array.from(sizeMap.values()),
     };
   }, [product]);
 
   const handleColorChange = (color: Colors) => {
-    console.log(color, "this is colors");
     setSelectedColor(color);
 
     const matchedVariant = product?.product_variants?.find((variant) => {
       try {
         const variantColors: Colors[] = Array.isArray(variant.colors)
-          ? variant.colors.map((item) =>
-            typeof item === "string" ? safeJsonParse(item) : item
-          ).filter(Boolean)
+          ? variant.colors
+            .map((item) =>
+              typeof item === "string" ? safeJsonParse(item) : item
+            )
+            .filter(Boolean)
           : typeof variant.colors === "string"
-            ? (safeJsonParse(variant.colors) || [])
+            ? safeJsonParse(variant.colors) || []
             : [];
         return variantColors.some((c) => c?.name === color.name);
       } catch (error) {
@@ -163,144 +156,203 @@ function ProductCard({ product, url, className }: newProductsProps) {
     });
 
     if (matchedVariant) {
-      setSelectedVariant?.(matchedVariant);
+      setSelectedVariant(matchedVariant);
     }
   };
 
+  const productUrl = `/${url || "product"}/${product?.slug}`;
+  const primaryImgUrl = StringifyImages[0]?.image_url
+    ? getCloudflareImageUrl(StringifyImages[0].image_url)
+    : "";
+  const secondaryImgUrl = StringifyImages[1]?.image_url
+    ? getCloudflareImageUrl(StringifyImages[1].image_url)
+    : "";
+
   return (
-    <section className="max-w-full  relative h-full    justify-between flex items-start border-none flex-col  group ">
-      <span className=" h-auto relative w-full bg-[#ebeeef] group transition-all duration-500 ease-in cursor-pointer  ">
-        <Link href={`/${url}/${product?.slug}`}>
-          <Swiper
-            style={
-              {
-                "--swiper-pagination-color": "#0c0c0c",
-                "--swiper-pagination-bullet-inactive-color": "#0c0c0c",
-                "--swiper-pagination-bullet-inactive-opacity": "1",
-                "--swiper-pagination-bullet-size": "7px",
-                "--swiper-pagination-bullet-horizontal-gap": "6px",
-              } as React.CSSProperties & Record<string, string>
-            }
-            pagination={{
-              dynamicBullets: true,
-            }}
-            modules={[Pagination]}
-            className="mySwiper w-full relative h-full "
-          >
-            {StringifyImages &&
-              StringifyImages?.map((image, index: number) => (
-                <SwiperSlide
-                  className="w-full relative h-full border overflow-hidden group/slide"
-                  key={index}
-                >
+    <div className="group relative w-full h-full flex flex-col justify-between bg-white rounded-2xl border border-gray-200/80 p-2 sm:p-2.5 shadow-xs hover:shadow-lg hover:shadow-gray-200/50 hover:-translate-y-0.5 transition-all duration-300">
+      {/* 1. Media Container: Aspect ratio 4:5 with 100% full-height image filling */}
+      <div className="relative w-full aspect-[4/5] overflow-hidden rounded-xl bg-gray-100">
+        {/* Prominent Highlighted Discount Badge */}
+        {priceDetails.totalSavingsPercent > 0 && (
+          <span className="absolute top-2 left-2 z-20 bg-red-600 text-white font-extrabold text-[11px] sm:text-xs tracking-wide px-2 py-0.5 rounded shadow-sm pointer-events-none">
+            -{priceDetails.totalSavingsPercent.toFixed(0)}%
+          </span>
+        )}
+
+        {/* Floating Wishlist Button */}
+        <button
+          type="button"
+          onClick={toggleWishlist}
+          aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
+          className="absolute top-2 right-2 z-20 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/95 backdrop-blur-md border border-gray-200/80 shadow-xs flex items-center justify-center text-gray-500 hover:text-rose-600 hover:bg-white hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+        >
+          <Heart
+            className={`w-5 h-5 transition-colors duration-200 ${isInWishlist ? "fill-rose-500 text-rose-500" : "text-gray-600"
+              }`}
+          />
+        </button>
+
+        {/* "Choose Options" Button - hidden on mobile view, visible on desktop hover */}
+        <div className="hidden sm:block absolute bottom-3 left-1/2 -translate-x-1/2 z-20 w-fit pointer-events-auto opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+          <ProductQuickViewDialog product={product} currentVariant={selectedVariant} url={url}>
+            <button
+              type="button"
+              className="relative overflow-hidden rounded-full bg-white text-black shadow-lg transition-colors duration-300 group/btn hover:text-white cursor-pointer px-6 py-2 sm:px-6 sm:py-2.5 whitespace-nowrap active:scale-95"
+            >
+              {/* Smooth Left-to-Right background sweep */}
+              <span className="absolute inset-0 bg-black -translate-x-full group-hover/btn:translate-x-0 transition-transform duration-300 ease-out z-0 pointer-events-none" />
+              <span className="relative z-10 text-xs sm:text-sm font-bold tracking-wide pointer-events-none">
+                Choose Options
+              </span>
+            </button>
+          </ProductQuickViewDialog>
+        </div>
+
+        {/* Full Height Edge-to-Edge Image Display */}
+        <Link href={productUrl} className="block w-full h-full">
+          {StringifyImages.length > 1 ? (
+            <Swiper
+              style={
+                {
+                  "--swiper-pagination-color": "#ffffff",
+                  "--swiper-pagination-bullet-inactive-color": "#ffffff",
+                  "--swiper-pagination-bullet-inactive-opacity": "0.5",
+                  "--swiper-pagination-bullet-size": "4.5px",
+                  "--swiper-pagination-bullet-horizontal-gap": "3px",
+                } as React.CSSProperties & Record<string, string>
+              }
+              pagination={{
+                dynamicBullets: true,
+              }}
+              modules={[Pagination]}
+              className="w-full h-full [&_.swiper-pagination]:!bottom-2 [&_.swiper-pagination-bullet]:!drop-shadow"
+            >
+              {StringifyImages.map((image, index: number) => (
+                <SwiperSlide key={index} className="w-full h-full relative overflow-hidden">
                   <img
                     src={getCloudflareImageUrl(image?.image_url)}
-                    alt={`${image.name} - markline `}
-                    className={`w-full object-contain bg-transparent transition-opacity duration-500 ease-in-out sm:object-cover ${index === 0 && StringifyImages.length > 1
-                      ? "absolute top-0 left-0 opacity-100 group-hover/slide:opacity-0"
-                      : "relative hover:scale-[1.010]"
-                      } ${className ? className : "h-[260px] aspect-square sm:h-[300px] md:h-[250px] lg:h-[350px] xl:h-[400px]"}`}
-                    height={500}
-                    width={500}
+                    alt={`${image.name || product?.name || "Product"} - Markline`}
+                    className={`w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${index === 0 && secondaryImgUrl ? "sm:group-hover:opacity-0 transition-opacity duration-500" : ""
+                      }`}
                     loading="lazy"
                   />
-                  {index === 0 && StringifyImages.length > 1 && (
+                  {index === 0 && secondaryImgUrl && (
                     <img
-                      src={getCloudflareImageUrl(StringifyImages[1]?.image_url)}
-                      alt={`${StringifyImages[1].name || "hover"} - markline`}
-                      className={`w-full object-contain bg-transparent transition-opacity duration-500 ease-in-out sm:object-cover relative opacity-0 group-hover/slide:opacity-100 ${className ? className : "h-[260px] aspect-square sm:h-[300px] md:h-[250px] lg:h-[350px] xl:h-[400px]"
-                        }`}
-                      height={500}
-                      width={500}
+                      src={secondaryImgUrl}
+                      alt={`${product?.name || "Product"} - Markline`}
+                      className="hidden sm:block absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out pointer-events-none"
                       loading="lazy"
                     />
                   )}
                 </SwiperSlide>
               ))}
-          </Swiper>
-        </Link>
-        <button
-          onClick={toggleWishlist}
-          className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm shadow-sm border border-gray-100 p-2 md:p-2 rounded-full z-20 hover:scale-110 hover:bg-white transition-all duration-300 group/heart"
-        >
-          <FaHeart
-            className={`text-[12px] sm:text-[14px] md:text-[16px] flex items-center justify-center transition-colors duration-300 ${isInWhishlist ? "text-red-500" : "text-gray-500 group-hover/heart:text-red-400"
-              }`}
-          />
-        </button>
-      </span>
-
-
-
-
-      <Link
-        href={`/${url}/${product?.slug}`}
-        className="flex w-full items-start pt-2 justify-start min-h-[45px]   gap-0 "
-      >
-        <h2 className=" text-[11px] md:text-sm  xl:text-base 2xl:text-base font-medium !line-clamp-2 md:!line-clamp-3   flex items-center gap-1 capitalize text-primary">
-          {product?.name}
-        </h2>
-      </Link>
-      <div className="flex items-start w-full relative h-auto gap-2 md:py-2 py-0 pt-0 md:pt-3 justify-between">
-
-        <div className="flex flex-col items-start gap-0.5">
-          <div className="flex items-center gap-1.5 flex-wrap">
-            {priceDetails.totalSavingsPercent > 0 && (
-              <span className="text-sm md:text-sm font-semibold text-white bg-[#b32626] px-1.5 py-0.5 rounded shadow-sm">
-                Save {priceDetails.totalSavingsPercent.toFixed(0)}%
-              </span>
-            )}
-            <p className="text-sm sm:text-base md:text-base xl:text-lg font-bold text-[#b32626]">
-              ₹ {priceDetails.finalPrice.toLocaleString('en-IN')}
-            </p>
-          </div>
-          {priceDetails.totalSavingsPercent > 0 ? (
-            <span className="  text-base md:text-lg text-gray-500 line-through">
-              ₹ {priceDetails.mrp.toLocaleString('en-IN')}
-            </span>
+            </Swiper>
+          ) : primaryImgUrl ? (
+            <div className="w-full h-full relative overflow-hidden">
+              <img
+                src={primaryImgUrl}
+                alt={`${product?.name || "Product"} - Markline`}
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                loading="lazy"
+              />
+            </div>
           ) : (
-            <div className="h-[16px] md:h-[18px]"></div> /* spacer if no mrp */
+            <div className="w-full h-full flex items-center justify-center text-xs text-gray-400 bg-gray-100">
+              No Image
+            </div>
+          )}
+        </Link>
+      </div>
+
+      {/* 2. Product Details */}
+      <div className="flex flex-col flex-grow justify-between pt-2 px-1 sm:px-1.5 gap-.8 lg:gap-1.5">
+        {/* Category & Color Swatches Row */}
+        <div className="flex items-center justify-between gap-1.5 min-h-[18px]">
+          <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-gray-500 truncate">
+            {product?.gender || "Footwear"}
+          </span>
+
+          {allColors.length > 0 && (
+            <div
+              className="flex items-center gap-1.5 shrink-0"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
+              {allColors.slice(0, 4).map((color, idx) => (
+                <button
+                  key={color.name || idx}
+                  type="button"
+                  title={color.name}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleColorChange(color);
+                  }}
+                  className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border border-gray-300 transition-all cursor-pointer ${selectedColor?.name === color.name
+                    ? "ring-2 ring-gray-950 ring-offset-1 scale-110"
+                    : "hover:scale-105"
+                    }`}
+                  style={{ backgroundColor: color.hex }}
+                />
+              ))}
+              {allColors.length > 4 && (
+                <span className="text-[10px] text-gray-500 font-medium">
+                  +{allColors.length - 4}
+                </span>
+              )}
+            </div>
           )}
         </div>
 
-        <div className="w-fit flex gap-1.5 pt-0.5 shrink-0">
-          {allColors?.slice(0, 3).map((color, index) => (
-            <span
-              key={index}
-              onClick={(e) => {
-                e.preventDefault();
-                handleColorChange(color);
-              }}
-              className={` h-[20px] md:h-[30px] w-[20px] md:w-[30px] rounded-full border-2 p-1 cursor-pointer transition-all duration-200 ${selectedColor?.name == color.name
-                ? "border-gray-800 scale-110"
-                : "border-gray-300 hover:border-gray-400"
-                }`}
-              style={{
-                backgroundColor: color.hex,
-              }}
-            />
-          ))}
+        {/* Title */}
+        <Link href={productUrl} className="block group/title">
+          <h3 className="text-[11px] sm:text-sm lg:text-base font-semibold text-gray-900 group-hover/title:text-black line-clamp-2 leading-snug tracking-tight transition-colors pt-.5">
+            {product?.name}
+          </h3>
+        </Link>
+
+        {/* Highlighted Price & Bold Discount */}
+        <div className="flex items-center justify-between gap-2 pt-0.5">
+          <div className="flex items-baseline gap-1.5 flex-wrap">
+            <span className="text-lg sm:text-xl font-black text-gray-950 tracking-tight">
+              ₹{priceDetails.finalPrice.toLocaleString("en-IN")}
+            </span>
+            {priceDetails.totalSavingsPercent > 0 && (
+              <>
+                <span className="text-xs md:text-sm text-gray-400 line-through font-normal">
+                  ₹{priceDetails.mrp.toLocaleString("en-IN")}
+                </span>
+                <span className="text-xs md:text-sm font-extrabold text-red-600 tracking-tight">
+                  ({priceDetails.totalSavingsPercent.toFixed(0)}% OFF)
+                </span>
+              </>
+            )}
+          </div>
+
+          {/* Commented out add button per user request */}
+          {/* 
+            <AddToCardPopver
+              selectedColors={selectedColor}
+              currentVariant={selectedVariant}
+              currentProduct={product}
+              onVariantChange={(variant) => setSelectedVariant(variant)}
+            >
+              <button
+                type="button"
+                aria-label="Quick Add"
+                onClick={(e) => e.stopPropagation()}
+                className="text-sm font-semibold px-3.5 py-1.5 rounded-lg bg-black text-white transition-colors duration-200 flex items-center gap-1 cursor-pointer shrink-0"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add</span>
+              </button>
+            </AddToCardPopver>
+            */}
         </div>
       </div>
-      <section className="w-full relative h-auto  pb-3 py-0 md:py-2  md:flex-row  flex-col flex  items-start lg:items-center justify-end gap-2 px-1">
-        <div className="w-full relative flex  flex-col-reverse md:flex-row items-start md:items-center  justify-between   gap-2 pt-1">
-          {/* <AddToCardPopver
-            selectedColors={selectedColor}
-            currentVariant={selectedVariant}
-            currentProduct={product}
-            addToWhishlistCB={addTowishlistproduct}
-            onVariantChange={(variant) => setSelectedVariant(variant)}
-          >
-            <button className=" w-full md:w-fit px-3 md:px-4 2xl:px-4   bg-primary text-primary text-white relative h-full py-2 lg:py-2.5   flex items-center justify-center text-xs lg:text-xs   font-medium    group-border-gray-300">
-              ADD TO CART
-            </button>
-          </AddToCardPopver> */}
-
-
-
-        </div>
-      </section>
-    </section>
+    </div>
   );
 }
 

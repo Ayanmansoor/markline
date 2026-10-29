@@ -102,14 +102,14 @@ function ProductPage({ initialProduct }: ProductPageProps) {
   return (
     <>
 
-      <section className=' relative bg-secondary min-h-[700px]  pb-4 mt-1 '>
+      <section className=' relative bg-gray-50  min-h-[700px]  pb-4 mt-1 '>
 
         {
           isLoading ?
             <section className=' h-auto '>
               <ProductPageSkeleton />
             </section> : product ?
-              <div className='w-full mx-auto h-full  relative  flex flex-col justify-between  bg-secondary md:flex-row  px-5 lg:px-10 xl:px-20 2xl:px-40   '>
+              <div className='w-full mx-auto h-full  relative  flex flex-col justify-between   md:flex-row  px-5 lg:px-10 xl:px-20 2xl:px-40   '>
                 <div className='  md:max-h-fit   w-full  relative lg:sticky lg:top-5 p-1 md:h-full  md:w-[65%] lg:w-[65%] '>
                   <ProductMain variant={selectedVariant} />
                 </div>

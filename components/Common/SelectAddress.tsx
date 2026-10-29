@@ -103,6 +103,7 @@ function SelectOrder({ product, variant, user, setConfirm, userAddress, closeDia
     const initiateRazorpayPayment = async (savedOrder: any) => {
         try {
             const { data } = await axios.post("/api/create-order", {
+                orderId: savedOrder?.id,
                 amount: totalOrderAmount * 100,
             });
 
@@ -112,6 +113,14 @@ function SelectOrder({ product, variant, user, setConfirm, userAddress, closeDia
                 setIsSubmittingOrder(false);
                 return;
             }
+
+            const customerPhone = (
+                selectedAddress?.recipientPhone ||
+                (selectedAddress as any)?.phone ||
+                user?.phone ||
+                user?.user_metadata?.phone ||
+                ""
+            ).replace(/\D/g, '').slice(-10);
 
             const options = {
                 key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
@@ -123,8 +132,9 @@ function SelectOrder({ product, variant, user, setConfirm, userAddress, closeDia
                 image: "https://res.cloudinary.com/demhgityh/image/upload/v1750353291/markline-checkout-logo_ukrvoi.png",
                 handler: (response: any) => finalizeOrderPayment(response, user, savedOrder),
                 prefill: {
-                    email: user?.email,
-                    contact: user?.phone || user?.user_metadata?.phone || "",
+                    name: selectedAddress?.recipientName || selectedAddress?.name || (user?.user_metadata as any)?.name || "",
+                    email: user?.email || "",
+                    contact: customerPhone,
                 },
                 theme: {
                     color: "#000000",
