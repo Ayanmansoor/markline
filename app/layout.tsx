@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import Navbar from "@/components/Common/Navbar";
-import { Noto_Sans, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/Contexts/Auth.context";
 import { UserAddressProvider } from "@/Contexts/UserAddressProvider";
@@ -11,7 +10,6 @@ import Footer from "@/components/Common/Footer";
 import { WishlistProvider } from "@/Contexts/wishlist";
 import { GoogleTagManager } from "@next/third-parties/google";
 import Subcribes from "@/components/Common/Subcribes ";
-import Head from "next/head";
 import OrderConfirmed from "@/components/Common/OrderConfirm";
 import { Toaster } from "@/components/ui/sonner";
 import Header from "@/components/Common/Header";
@@ -20,6 +18,7 @@ import { getServerUserAddresses } from "@/lib/serverAddress";
 import Script from "next/script";
 import FloatingWhatsApp from "@/components/Common/FloatingWhatsApp";
 import FcmNotificationHandler from "@/components/Common/FcmNotificationHandler";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -31,16 +30,11 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
+const jakarta = localFont({
+  src: "./fonts/PlusJakartaSansVF.woff2",
   variable: "--font-jakarta",
-});
-
-const noto = Noto_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-noto",
+  weight: "200 800",
+  display: "swap",
 });
 export const metadata: Metadata = {
   title: "Women’s Wedges, Heels & Fashion Sandals Online in India | Markline",
@@ -233,7 +227,7 @@ export default async function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${noto.variable} antialiased bg-gray-50 text-foreground min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} antialiased bg-gray-50 text-foreground min-h-screen`}
       >
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_TAGMANAGER || ""} />
         <Script

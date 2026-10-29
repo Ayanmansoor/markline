@@ -35,7 +35,10 @@ export async function getServerUserAddresses(): Promise<AddressProps[]> {
     }
 
     return (addresses as AddressProps[]) || [];
-  } catch (err) {
+  } catch (err: any) {
+    if (err?.digest === "DYNAMIC_SERVER_USAGE" || err?.message?.includes("Dynamic server usage")) {
+      throw err;
+    }
     console.error("[getServerUserAddresses] Unexpected error during server fetch:", err);
     return [];
   }
